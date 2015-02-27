@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" id="ng-app" ng-app="sinisterModule" ng-strict-di>
+<head>
+<title>{{'applicationName' | translate}}</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/animations.css" rel="stylesheet">
+<link href="css/flags16.css" rel="stylesheet">
+<link href="css/sinister.css" rel="stylesheet">
+
+<!--[if lte IE 9]>
+		<script src="js/libraries/compatibility/respond.min.js"></script>
+		<script src="js/libraries/compatibility/html5shiv.min.js"></script>
+		<script src="js/libraries/compatibility/es5-shim.min.js"></script>
+		<script src="js/libraries/compatibility/dom.elements.js"></script>
+    <![endif]-->
+
+<!--[if lte IE 8]>
+		<script src="js/libraries/compatibility/excanvas.min.js"></script>
+    <![endif]-->
+
+</head>
+<body ng-controller="MainCtrl" style="background-color: #FAFAFA;" ng-cloak>
+
+	<div ng-controller="AccountCtrl">
+		<!-- LOGO, TITLE, LANGUAGE, USER -->
+		<div class="container top-10">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-md-4">
+							<img class="img-rounded" src="images/cnp_italy_small.gif" />
+						</div>
+						<div class="col-md-4 center">
+							<span class="application-title" translate="applicationName"></span>
+						</div>
+						<div class="col-md-4">
+							<div class="pull-right" ng-controller="LanguageCtrl">
+								<a class="btn btn-primary f16" ng-click="changeLanguage('en')" ng-class="{'active' : getLanguage() == 'en'}">
+									<span class="flag gb"></span>
+								</a>
+								<a class="btn btn-primary f16" ng-click="changeLanguage('es')" ng-class="{'active' : getLanguage() == 'es'}">
+									<span class="flag es"></span>
+								</a>
+								<a class="btn btn-primary f16" ng-click="changeLanguage('it')" ng-class="{'active' : getLanguage() == 'it'}">
+									<span class="flag it"></span>
+								</a>
+								<a class="btn btn-primary" ng-click="logout()">
+									<span class="glyphicon glyphicon-off"></span> {{'logout' | translate}}
+								</a>
+							</div>
+							<div class="clearfix"></div>
+							<div class="pull-right top-10">
+								<span class="user-info-label"><span class="glyphicon glyphicon-user"></span> {{userName != null ? userName : 'unknown' | translate}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- MENU AND CONTAINER -->
+		<div ng-if ="!isAuthorized" class="container bot-10">
+			<h3>User is not authorized for this application, please contact your administrator.</h3>
+		</div>	
+		<div ng-if ="isAuthorized" class="container bot-10">
+			<div class="row">
+				<div ng-controller="MenuCtrl" ng-init="setMenu('sinisters')" class="btn-group-vertical dropdown bot-10 col-md-2">
+					<div class="btn btn-primary">{{'menu' | translate}}</div>
+					<div class="btn-group" ng-if="canWrite">
+						<button id="dropdownMenu1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-class="{'btn-info active' : getMenu() == 'declaration'}">
+							<span class="glyphicon glyphicon-plus pull-left"></span> {{'declaration' | translate}} <span class="right-caret"></span>
+						</button>
+						<ul class="dropdown-menu rightMenu" role="menu" aria-labelledby="dropdownMenu1">
+							<li><a ng-click="setMenu('declaration')" tabindex="-1" ng-click="setMenu('declaration')" href="#/search-policy">{{'directOrPole' | translate}}</span></a></li>
+							<li><a ng-click="setMenu('declaration')" tabindex="-1" ng-click="setMenu('declaration')" href="#/newPolicyFront">{{'front' | translate}}</a></li>
+						</ul>
+					</div>
+					<a class="btn btn-default" href="#/search-sinister" ng-click="setMenu('sinisters')" ng-class="{'btn-info active' : getMenu() == 'sinisters'}">
+						<span class="glyphicon glyphicon-search pull-left"></span> {{'sinisters' | translate}}
+					</a>
+					<a class="btn btn-default" href="#/report" ng-click="setMenu('reports')" ng-class="{'btn-info active' : getMenu() == 'reports'}">
+						<span class="glyphicon glyphicon glyphicon-th-large pull-left"></span> {{'reports' | translate}}
+					</a>
+					<a class="btn btn-default" href="#/dashboard" ng-click="setMenu('dashboard')" ng-class="{'btn-info active' : getMenu() == 'dashboard'}">
+						<span class="glyphicon glyphicon glyphicon glyphicon-dashboard pull-left"></span> {{'dashboard' | translate}}
+					</a>
+					<div class="btn-group" ng-if="canWrite">
+						<button id="dropdownMenu1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-class="{'btn-info active' : getMenu() == 'administration'}">
+							<span class="glyphicon glyphicon-cog pull-left"></span> {{'administration' | translate}} <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+							<li><a ng-click="setMenu('administration')" tabindex="-1" href="#/administration/agreement">{{'agreements' | translate}}</a></li>
+							<li><a ng-click="setMenu('administration')" tabindex="-1" href="#/administration/warrantyType">{{'warranties' | translate}}</a></li>
+							<li><a ng-click="setMenu('administration')" tabindex="-1" href="#/administration/agreementWarrantyType">{{'AgreementWarrantyType' | translate}}</a></li>
+							<li class="divider"></li>
+							<li><a ng-click="setMenu('administration')" tabindex="-1" href="#/administration/corporateGroup">{{'corporateGroups' | translate}}</a></li>
+							<li><a ng-click="setMenu('administration')" tabindex="-1" href="#/administration/company">{{'companies' | translate}}</a></li>
+							<li class="disabled"><a ng-click="setMenu('administration')" tabindex="-1" href="#/administration/network">{{'networks' | translate}}</a></li>
+							<li class="divider"></li>
+							<li><a ng-click="setMenu('administration')" tabindex="-1" href="#/administration/province">{{'provinces' | translate}}</a></li>
+							<li><a ng-click="setMenu('administration')" tabindex="-1" href="#/administration/locality">{{'localites' | translate}}</a></li>
+							<li class="divider"></li>
+							<li><a ng-click="setMenu('administration')" tabindex="-1" href="#/administration/scheduler">{{'scheduler' | translate}}</a></li>
+							<li class="divider"></li>
+							<li><a ng-click="setMenu('administration')" tabindex="-1" href="#/administration/mailRecipient">{{'emails' | translate}}</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-10 view-container">
+					<div ng-view></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- FOOTER -->
+	<div class="container text-center margin-top-50">
+		<div class="panel panel-default panel-footer">
+			<div ng-include="'build-info.html'"></div>
+		</div>
+	</div>
+
+	<!-- ANGULAR LIBRARIES -->
+	<script src="js/libraries/angular/angular.min.js"></script>
+	<script src="js/libraries/angular/angular-route.min.js"></script>
+	<script src="js/libraries/angular/angular-animate.min.js"></script>
+	<script src="js/libraries/angular/ui-bootstrap.min.js"></script>
+	<script src="js/libraries/angular/ui-utils.min.js"></script>
+	<script src="js/libraries/angular/translate/angular-translate.min.js"></script>
+	<script src="js/libraries/angular/translate/angular-translate-loader-url.min.js"></script>
+	<script src="js/libraries/angular/tc-angular-chartjs.min.js"></script>
+	<script src="i18n/angular-locale_it-it.js"></script>
+
+	<!-- JQUERY, BOOTSTRAP AND CHART-->
+	<script src="js/libraries/jquery.min.js"></script>
+	<script src="js/libraries/bootstrap.min.js"></script>
+	<script src="js/libraries/chart.min.js"></script>
+
+	<!-- SINISTER LIBRARIES -->
+	<script src="js/common/config.js"></script>
+	<script src="js/common/filters.js"></script>
+	<script src="js/common/components.js"></script>
+	<script src="js/common/global.jsp"></script>
+	<script src="js/controllers/person-ctrl.js"></script>
+	<script src="js/controllers/sinister-search-fields-ctrl.js"></script>
+	<script src="js/controllers/sinister-ctrl.js"></script>
+	<script src="js/controllers/general-ctrl.js"></script>
+	<script src="js/controllers/payment-ctrl.js"></script>
+	<script src="js/controllers/recipient-ctrl.js"></script>
+	<script src="js/controllers/observation-ctrl.js"></script>
+	<script src="js/controllers/required-documentation-ctrl.js"></script>
+	<script src="js/controllers/search-sinister-ctrl.js"></script>
+	<script src="js/controllers/search-policy-ctrl.js"></script>
+	<script src="js/controllers/letters-ctrl.js"></script>
+	<script src="js/controllers/administration-ctrl.js"></script>
+	<script src="js/controllers/report-ctrl.js"></script>
+	<script src="js/controllers/dashboard-ctrl.js"></script>
+	<script src="js/controllers/actions-ctrl.js"></script>
+
+</body>
+</html>

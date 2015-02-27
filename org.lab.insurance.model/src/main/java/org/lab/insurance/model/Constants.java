@@ -4,4 +4,27 @@ public class Constants {
 
 	public static final String PERSISTENCE_UNIT_NAME = "com.cnp.ciis.model.jpa";
 
+	public static final String CONFIGURATION_BASE_CLASSPATH_FILE = "ciis.properties";
+
+	/** Nombre de la clave en el fichero de configuracion que indica la ruta del repositorio de ficheros de la aplicacion */
+	public static final String CONFIGURATION_KEY_REPOSITORY_BASE_PATH = "repository.path.base";
+
+	/**
+	 * Nombre de la clave en el fichero de configuracion que indica la ruta relativa al repositorio del directorio de plantillas de la
+	 * aplicacion
+	 */
+	public static final String CONFIGURATION_KEY_REPOSITORY_TEMPLATES_PATH = "repository.path.templates";
+
+	/**
+	 * Nombre de la clave en el fichero de configuracion que indica la ruta relativa al repositorio del directorio donde se guardan las
+	 * cartas generadas por la aplicacion
+	 */
+	public static final String CONFIGURATION_KEY_REPOSITORY_LETTERS_PATH = "repository.path.letters";
+
+	/**
+	 * Nombre de la clave en el fichero de configuracion que indica la ruta relativa al repositorio del directorio donde se guardan los
+	 * reports
+	 */
+	public static final String CONFIGURATION_KEY_REPOSITORY_REPORTS_PATH = "repository.path.reports";
+
 }

@@ -32,7 +32,7 @@ public class RestModule implements Module {
 		binder.bind(GsonMessageBodyHandler.class);
 		binder.bind(GsonExceptionHandler.class);
 		bindRestServices(binder);
-		binder.bind(RestPersistFilter.class);
+		// binder.bind(RestPersistFilter.class);
 	}
 
 	private void bindRestServices(final Binder binder) {

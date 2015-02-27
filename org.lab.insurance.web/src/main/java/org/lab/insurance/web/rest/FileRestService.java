@@ -29,6 +29,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.common.Message;
 import org.lab.insurance.model.jpa.common.AppFile;
 import org.slf4j.Logger;
@@ -47,13 +48,13 @@ public class FileRestService {
 	private Provider<EntityManager> entityManagerProvider;
 
 	@Inject
-	@Named("Constants.CONFIGURATION_KEY_REPOSITORY_BASE_PATH")
+	@Named(Constants.CONFIGURATION_KEY_REPOSITORY_BASE_PATH)
 	private String repositoryBasePath;
 	@Inject
-	@Named("Constants.CONFIGURATION_KEY_REPOSITORY_TEMPLATES_PATH")
+	@Named(Constants.CONFIGURATION_KEY_REPOSITORY_TEMPLATES_PATH)
 	private String repositoryTemplatePath;
 	@Inject
-	@Named("Constants.CONFIGURATION_KEY_REPOSITORY_LETTERS_PATH")
+	@Named(Constants.CONFIGURATION_KEY_REPOSITORY_LETTERS_PATH)
 	private String repositoryNotificationPath;
 
 	@GET
