@@ -1,7 +1,7 @@
 package org.lab.insurance.web.servlet;
 
 import org.jboss.resteasy.plugins.guice.ext.RequestScopeModule;
-import org.lab.insurance.engine.guice.CoreModule;
+import org.lab.insurance.engine.guice.InsuranceCoreModule;
 import org.lab.insurance.web.rest.AgreementRestService;
 import org.lab.insurance.web.rest.AppMailRecipientRestService;
 import org.lab.insurance.web.rest.CountryRestService;
@@ -27,7 +27,7 @@ public class RestModule implements Module {
 	@Override
 	public void configure(final Binder binder) {
 		LOG.debug("Configuring Guice Module");
-		binder.install(new CoreModule());
+		binder.install(new InsuranceCoreModule());
 		binder.install(new RequestScopeModule());
 		binder.bind(GsonMessageBodyHandler.class);
 		binder.bind(GsonExceptionHandler.class);

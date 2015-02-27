@@ -3,7 +3,6 @@ package org.lab.insurance.web.servlet;
 import javax.servlet.ServletContextListener;
 
 import org.jboss.resteasy.plugins.guice.GuiceResteasyBootstrapServletContextListener;
-import org.lab.insurance.core.jpa.LiquibaseSchemaChecker;
 import org.lab.insurance.core.scheduler.SchedulerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ public class GuiceServletListener extends GuiceResteasyBootstrapServletContextLi
 		LOG.debug("Inicializando servicios");
 		try {
 			injector.getInstance(PersistService.class).start();
-			injector.getInstance(LiquibaseSchemaChecker.class).checkSchema();
+			// injector.getInstance(LiquibaseSchemaChecker.class).checkSchema();
 			SchedulerService schedulerService = injector.getInstance(SchedulerService.class);
 			schedulerService.registerJobs();
 			schedulerService.getScheduler().start();

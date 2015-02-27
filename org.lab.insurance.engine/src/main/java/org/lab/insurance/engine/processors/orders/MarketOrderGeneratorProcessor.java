@@ -12,7 +12,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
-import org.lab.insurance.Constants;
+import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.jpa.insurance.MarketOrder;
 import org.lab.insurance.model.jpa.insurance.MarketOrderSource;
 import org.lab.insurance.model.jpa.insurance.MarketOrderType;

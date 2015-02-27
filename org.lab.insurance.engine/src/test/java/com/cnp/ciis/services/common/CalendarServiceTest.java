@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
-import org.lab.insurance.engine.guice.CoreModule;
+import org.lab.insurance.engine.guice.InsuranceCoreModule;
 import org.lab.insurance.model.jpa.common.Holiday;
 import org.lab.insurance.model.jpa.common.HolidayCalendar;
 import org.lab.insurance.services.common.CalendarService;
@@ -23,7 +23,7 @@ public class CalendarServiceTest {
 
 	@Test
 	public void test() {
-		Injector injector = Guice.createInjector(new CoreModule());
+		Injector injector = Guice.createInjector(new InsuranceCoreModule());
 		injector.getInstance(PersistService.class).start();
 		CalendarService calendarService = injector.getInstance(CalendarService.class);
 		EntityManager entityManager = injector.getProvider(EntityManager.class).get();

@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.lab.insurance.Constants;
+import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.services.common.StateMachineService;
 import org.slf4j.Logger;

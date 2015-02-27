@@ -13,7 +13,7 @@ import org.apache.commons.lang.Validate;
 import org.junit.Test;
 import org.lab.insurance.engine.ActionExecutionService;
 import org.lab.insurance.engine.actions.NewPolicyAction;
-import org.lab.insurance.engine.guice.CoreModule;
+import org.lab.insurance.engine.guice.InsuranceCoreModule;
 import org.lab.insurance.model.common.Message;
 import org.lab.insurance.model.jpa.Agreement;
 import org.lab.insurance.model.jpa.Person;
@@ -34,7 +34,7 @@ public class NewPolicyActionTest {
 
 	@Test
 	public void test() {
-		Injector injector = Guice.createInjector(new CoreModule());
+		Injector injector = Guice.createInjector(new InsuranceCoreModule());
 		injector.getInstance(PersistService.class).start();
 		Provider<EntityManager> entityManagerProvider = injector.getProvider(EntityManager.class);
 		ActionExecutionService service = injector.getInstance(ActionExecutionService.class);

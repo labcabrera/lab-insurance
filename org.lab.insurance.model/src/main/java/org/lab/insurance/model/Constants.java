@@ -27,4 +27,12 @@ public class Constants {
 	 */
 	public static final String CONFIGURATION_KEY_REPOSITORY_REPORTS_PATH = "repository.path.reports";
 
+	// TODO mover a otro lado
+	public static final class OrderStates {
+		public static final String INITIAL = "INITIAL";
+		public static final String PROCESSED = "PROCESSED";
+		public static final String VALUED = "VALUED";
+		public static final String ACCOUNTED = "ACCOUNTED";
+	}
+
 }

@@ -3,14 +3,14 @@ package org.lab.insurance.engine.guice;
 import java.util.Properties;
 
 import org.apache.bval.guice.ValidationModule;
-import org.lab.insurance.Constants;
 import org.lab.insurance.engine.camel.CamelModule;
+import org.lab.insurance.model.Constants;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.google.inject.persist.jpa.JpaPersistModule;
 
-public class CoreModule extends AbstractModule {
+public class InsuranceCoreModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
@@ -25,7 +25,7 @@ public class CoreModule extends AbstractModule {
 		try {
 			Properties properties = new Properties();
 			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-			properties.load(classLoader.getResourceAsStream(Constants.APP_PROPERTIES_NAME));
+			properties.load(classLoader.getResourceAsStream(Constants.CONFIGURATION_BASE_CLASSPATH_FILE));
 			return properties;
 		} catch (Exception ex) {
 			throw new RuntimeException("Error reading application properties", ex);
