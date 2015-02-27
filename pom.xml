@@ -20,10 +20,15 @@
 	<properties>
 		<insurance.version>0.0.1-SNAPSHOT</insurance.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<gson.version>2.2.4</gson.version>
+		<jsr311.version>1.1.1</jsr311.version>
+		<resteasy.version>3.0.8.Final</resteasy.version>
+		<quartz.version>2.2.1</quartz.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- Modules -->
 			<dependency>
 				<groupId>org.lab</groupId>
 				<artifactId>insurance.core</artifactId>
@@ -49,11 +54,45 @@
 				<artifactId>insurance.web</artifactId>
 				<version>${insurance.version}</version>
 			</dependency>
+			<!-- Guice and IoC -->
 			<dependency>
-				<groupId>org.apache.bval</groupId>
-				<artifactId>bval-guice</artifactId>
-				<version>0.5</version>
+				<groupId>javax.inject</groupId>
+				<artifactId>javax.inject</artifactId>
+				<version>1</version>
 			</dependency>
+			<dependency>
+				<groupId>com.google.inject</groupId>
+				<artifactId>guice</artifactId>
+				<version>3.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.inject.extensions</groupId>
+				<artifactId>guice-persist</artifactId>
+				<version>3.0</version>
+			</dependency>
+			<!-- Database -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>4.3.8.Final</version>
+			</dependency>
+			<dependency>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-core</artifactId>
+				<version>3.3.2</version>
+			</dependency>
+			<!-- Engine -->
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-guice</artifactId>
+				<version>2.14.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz</artifactId>
+				<version>${quartz.version}</version>
+			</dependency>
+			<!-- Validation -->
 			<dependency>
 				<groupId>org.apache.bval</groupId>
 				<artifactId>bval-guice</artifactId>
@@ -64,63 +103,7 @@
 				<artifactId>validation-api</artifactId>
 				<version>1.1.0.Final</version>
 			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-entitymanager</artifactId>
-				<version>4.3.8.Final</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.inject.extensions</groupId>
-				<artifactId>guice-persist</artifactId>
-				<version>3.0</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>1.7.10</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.derby</groupId>
-				<artifactId>derbyclient</artifactId>
-				<version>10.11.1.1</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>javax.inject</groupId>
-				<artifactId>javax.inject</artifactId>
-				<version>1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.camel</groupId>
-				<artifactId>camel-guice</artifactId>
-				<version>2.14.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.liquibase</groupId>
-				<artifactId>liquibase-core</artifactId>
-				<version>3.3.2</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.solr</groupId>
-				<artifactId>solr-core</artifactId>
-				<version>4.10.3</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>jdk.tools</artifactId>
-						<groupId>jdk.tools</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging</artifactId>
-				<version>1.2</version>
-			</dependency>
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.12</version>
-			</dependency>
+			<!-- Common -->
 			<dependency>
 				<groupId>com.googlecode.lambdaj</groupId>
 				<artifactId>lambdaj</artifactId>
@@ -136,6 +119,77 @@
 				<artifactId>joda-time</artifactId>
 				<version>2.7</version>
 			</dependency>
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>${gson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.3</version>
+			</dependency>
+			<!-- Indexing -->
+			<dependency>
+				<groupId>org.apache.solr</groupId>
+				<artifactId>solr-core</artifactId>
+				<version>4.10.3</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>jdk.tools</artifactId>
+						<groupId>jdk.tools</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<!-- Logging -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.10</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>1.7.10</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>1.2</version>
+			</dependency>
+			<!-- Web -->
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>jsr311-api</artifactId>
+				<version>${jsr311.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxrs</artifactId>
+				<version>${resteasy.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-multipart-provider</artifactId>
+				<version>${resteasy.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-guice</artifactId>
+				<version>${resteasy.version}</version>
+			</dependency>
+			<!-- Test -->
+			<dependency>
+				<groupId>org.apache.derby</groupId>
+				<artifactId>derbyclient</artifactId>
+				<version>10.11.1.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -145,7 +199,7 @@
 				<directory>src/main/resources/</directory>
 			</resource>
 		</resources>
-		<plugins>	
+		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
