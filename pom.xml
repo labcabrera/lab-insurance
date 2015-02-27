@@ -13,6 +13,7 @@
 		<module>org.lab.insurance.core</module>
 		<module>org.lab.insurance.engine</module>
 		<module>org.lab.insurance.model</module>
+		<module>org.lab.insurance.resources</module>
 		<module>org.lab.insurance.services</module>
 		<module>org.lab.insurance.web</module>
 	</modules>
