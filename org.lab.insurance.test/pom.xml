@@ -8,26 +8,14 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>insurance.engine</artifactId>
+	<artifactId>insurance.test</artifactId>
 	<packaging>jar</packaging>
-	<name>LAB Insurance Engine</name>
+	<name>LAB Insurance Test</name>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.lab</groupId>
-			<artifactId>insurance.core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.lab</groupId>
-			<artifactId>insurance.services</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.lab</groupId>
-			<artifactId>insurance.resources</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-guice</artifactId>
+			<artifactId>insurance.engine</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.derby</groupId>
