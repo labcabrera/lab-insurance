@@ -15,15 +15,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.lab</groupId>
-			<artifactId>insurance.model</artifactId>
+			<artifactId>insurance.core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.lab</groupId>
 			<artifactId>insurance.services</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
