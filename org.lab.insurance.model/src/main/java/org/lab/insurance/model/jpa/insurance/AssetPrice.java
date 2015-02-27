@@ -1,0 +1,107 @@
+package org.lab.insurance.model.jpa.insurance;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+/**
+ * Representa el valor de un fondo en un determinado dia.
+ */
+@Entity
+@Table(name = "I_ASSET_PRICE")
+@SuppressWarnings("serial")
+@NamedQueries({ @NamedQuery(name = "AssetPrice.selectByDate", query = "select e from AssetPrice e where e.priceDate = :date and e.asset = :asset") })
+public class AssetPrice implements Serializable {
+
+	@Id
+	@Column(name = "ID")
+	private String id;
+
+	@ManyToOne
+	@JoinColumn(name = "ASSET_ID", nullable = false)
+	private BaseAsset asset;
+
+	@Column(name = "PRICE_DATE")
+	@Temporal(TemporalType.DATE)
+	private Date priceDate;
+
+	@Column(name = "PRICE_IN_EUROS")
+	private BigDecimal priceInEuros;
+
+	@Column(name = "BUY_PRICE_IN_EUROS")
+	private BigDecimal buyPriceInEuros;
+
+	@Column(name = "SELL_PRICE_IN_EUROS")
+	private BigDecimal sellPriceInEuros;
+
+	@Column(name = "GENERATED")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date generated;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public BaseAsset getAsset() {
+		return asset;
+	}
+
+	public void setAsset(BaseAsset asset) {
+		this.asset = asset;
+	}
+
+	public Date getPriceDate() {
+		return priceDate;
+	}
+
+	public void setPriceDate(Date priceDate) {
+		this.priceDate = priceDate;
+	}
+
+	public BigDecimal getPriceInEuros() {
+		return priceInEuros;
+	}
+
+	public void setPriceInEuros(BigDecimal priceInEuros) {
+		this.priceInEuros = priceInEuros;
+	}
+
+	public BigDecimal getBuyPriceInEuros() {
+		return buyPriceInEuros;
+	}
+
+	public void setBuyPriceInEuros(BigDecimal buyPriceInEuros) {
+		this.buyPriceInEuros = buyPriceInEuros;
+	}
+
+	public BigDecimal getSellPriceInEuros() {
+		return sellPriceInEuros;
+	}
+
+	public void setSellPriceInEuros(BigDecimal sellPriceInEuros) {
+		this.sellPriceInEuros = sellPriceInEuros;
+	}
+
+	public Date getGenerated() {
+		return generated;
+	}
+
+	public void setGenerated(Date generated) {
+		this.generated = generated;
+	}
+}
