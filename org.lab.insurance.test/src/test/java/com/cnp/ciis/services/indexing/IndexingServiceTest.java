@@ -37,7 +37,7 @@ public class IndexingServiceTest {
 			}
 		};
 
-		IndexingService indexingService = new IndexingService("solr", "ciis");
+		IndexingService indexingService = new IndexingService("src/test/resources/solr", "ciis");
 		Collection<File> files = FileUtils.listFiles(new File("src/test/resources/data"), TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
 		for (File file : files) {
 			indexingService.addToIndex(file, fileIndexer);
