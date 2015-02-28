@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.lab.insurance.bootstrap.feeders.AgreementFeeder;
 import org.lab.insurance.bootstrap.feeders.BaseAssetFeeder;
 import org.lab.insurance.bootstrap.feeders.CountryFeeder;
 import org.lab.insurance.bootstrap.feeders.CurrencyFeeder;
@@ -24,7 +25,7 @@ import com.google.inject.persist.Transactional;
 public class InsuranceBootstrap implements Runnable {
 
 	private static final Class<?>[] RAW_FEEDERS = { CountryFeeder.class, CurrencyFeeder.class, HolidayCalendarFeeder.class, HolidayFeeder.class, BaseAssetFeeder.class,
-			GuaranteePriceFeeder.class };
+			AgreementFeeder.class, GuaranteePriceFeeder.class };
 	private static final Class<?>[] SERVICE_FEEDERS = { AssetPriceFeeder.class };
 	private static final Logger LOG = LoggerFactory.getLogger(InsuranceBootstrap.class);
 

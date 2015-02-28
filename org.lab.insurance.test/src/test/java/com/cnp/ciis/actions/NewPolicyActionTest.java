@@ -6,8 +6,6 @@ import java.util.Calendar;
 
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang.Validate;
 import org.junit.Test;
@@ -56,7 +54,7 @@ public class NewPolicyActionTest {
 
 	private Policy buildPolicy(EntityManager entityManager) {
 		Policy policy = new Policy();
-		policy.setAgreement(findOrCreateAgreement(entityManager));
+		policy.setAgreement(findAgreement("23000", entityManager));
 		policy.setEffective(Calendar.getInstance().getTime());
 		policy.setRelations(new ArrayList<PolicyEntityRelation>());
 		PolicyEntityRelation relationSuscriptor = new PolicyEntityRelation();
@@ -92,42 +90,17 @@ public class NewPolicyActionTest {
 		order.setType(OrderType.INITIAL_PAYMENT);
 		order.setGrossAmount(new BigDecimal("100000"));
 		order.setBuyDistribution(new ArrayList<OrderDistribution>());
-		order.getBuyDistribution().add(new OrderDistribution().withPercent(new BigDecimal("75")).withAsset(findOrCreateAsset("LU00012345", entityManager)));
-		order.getBuyDistribution().add(new OrderDistribution().withPercent(new BigDecimal("25")).withAsset(findOrCreateAsset("CNPEURO1", entityManager)));
+		order.getBuyDistribution().add(new OrderDistribution().withPercent(new BigDecimal("75")).withAsset(findAsset("TEST000001", entityManager)));
+		order.getBuyDistribution().add(new OrderDistribution().withPercent(new BigDecimal("25")).withAsset(findAsset("EURO1", entityManager)));
 		return order;
 
 	}
 
-	private Agreement findOrCreateAgreement(EntityManager entityManager) {
-		String code = "23000";
-		Agreement agreement = null;
-		TypedQuery<Agreement> query = entityManager.createNamedQuery("Agreement.selectByCode", Agreement.class);
-		try {
-			agreement = query.setParameter("code", code).getSingleResult();
-		} catch (NoResultException ex) {
-			entityManager.getTransaction().begin();
-			agreement = new Agreement();
-			agreement.setName(code);
-			agreement.setCode(code);
-			entityManager.persist(agreement);
-			entityManager.getTransaction().commit();
-		}
-		return agreement;
+	private Agreement findAgreement(String code, EntityManager entityManager) {
+		return entityManager.createNamedQuery("Agreement.selectByCode", Agreement.class).setParameter("code", code).getSingleResult();
 	}
 
-	private BaseAsset findOrCreateAsset(String isin, EntityManager entityManager) {
-		BaseAsset baseAsset = null;
-		TypedQuery<BaseAsset> query = entityManager.createNamedQuery("BaseAsset.selectByIsin", BaseAsset.class);
-		try {
-			baseAsset = query.setParameter("isin", isin).getSingleResult();
-		} catch (NoResultException ex) {
-			entityManager.getTransaction().begin();
-			baseAsset = new BaseAsset();
-			baseAsset.setIsin(isin);
-			baseAsset.setName(isin);
-			entityManager.persist(baseAsset);
-			entityManager.getTransaction().commit();
-		}
-		return baseAsset;
+	private BaseAsset findAsset(String isin, EntityManager entityManager) {
+		return entityManager.createNamedQuery("BaseAsset.selectByIsin", BaseAsset.class).setParameter("isin", isin).getSingleResult();
 	}
 }

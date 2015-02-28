@@ -26,8 +26,8 @@
 		</sift>
 	</appender>
 	-->
-	<logger name="com.cnp.sinister.italy" level="DEBUG" />
 	<logger name="org.quartz" level="WARN" />
+	<logger name="org.apache.camel" level="INFO" />
 	
 	<root>
 		<level value="DEBUG" />
