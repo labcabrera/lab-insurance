@@ -23,8 +23,9 @@ import com.google.inject.persist.Transactional;
 
 public class InsuranceBootstrap implements Runnable {
 
-	private static final Class<?>[] RAW_FEEDERS = { CountryFeeder.class, CurrencyFeeder.class, HolidayCalendarFeeder.class, HolidayFeeder.class, BaseAssetFeeder.class };
-	private static final Class<?>[] SERVICE_FEEDERS = { GuaranteePriceFeeder.class, AssetPriceFeeder.class };
+	private static final Class<?>[] RAW_FEEDERS = { CountryFeeder.class, CurrencyFeeder.class, HolidayCalendarFeeder.class, HolidayFeeder.class, BaseAssetFeeder.class,
+			GuaranteePriceFeeder.class };
+	private static final Class<?>[] SERVICE_FEEDERS = { AssetPriceFeeder.class };
 	private static final Logger LOG = LoggerFactory.getLogger(InsuranceBootstrap.class);
 
 	public static void main(String[] args) {
@@ -66,7 +67,7 @@ public class InsuranceBootstrap implements Runnable {
 	}
 
 	@Transactional
-	public void run(List<Runnable> runnables) {
+	protected void run(List<Runnable> runnables) {
 		for (Runnable runnable : runnables) {
 			LOG.debug("Running " + runnable.getClass().getName());
 			runnable.run();
