@@ -1,4 +1,4 @@
-package org.lab.insurance.bootstrap.feeders;
+package org.lab.insurance.bootstrap.mock;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import net.sf.flatpack.DataSet;
 
 import org.joda.time.DateTime;
+import org.lab.insurance.bootstrap.feeders.AbstractFeeder;
 import org.lab.insurance.model.jpa.insurance.AssetPrice;
 import org.lab.insurance.model.jpa.insurance.BaseAsset;
 import org.slf4j.Logger;

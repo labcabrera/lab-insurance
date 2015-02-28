@@ -5,11 +5,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.lab.insurance.bootstrap.feeders.AssetPriceFeeder;
 import org.lab.insurance.bootstrap.feeders.BaseAssetFeeder;
 import org.lab.insurance.bootstrap.feeders.CountryFeeder;
 import org.lab.insurance.bootstrap.feeders.CurrencyFeeder;
+import org.lab.insurance.bootstrap.feeders.GuaranteePriceFeeder;
 import org.lab.insurance.bootstrap.feeders.HolidayCalendarFeeder;
+import org.lab.insurance.bootstrap.mock.AssetPriceFeeder;
 import org.lab.insurance.engine.guice.InsuranceCoreModule;
 
 import com.google.inject.Guice;
@@ -19,7 +20,8 @@ import com.google.inject.persist.Transactional;
 
 public class InsuranceBootstrap implements Runnable {
 
-	private static final Class<?>[] FEEDERS = { CountryFeeder.class, CurrencyFeeder.class, HolidayCalendarFeeder.class, BaseAssetFeeder.class, AssetPriceFeeder.class };
+	private static final Class<?>[] FEEDERS = { CountryFeeder.class, CurrencyFeeder.class, HolidayCalendarFeeder.class, BaseAssetFeeder.class, GuaranteePriceFeeder.class,
+			AssetPriceFeeder.class };
 
 	public static void main(String[] args) {
 		Injector injector = Guice.createInjector(new InsuranceCoreModule());

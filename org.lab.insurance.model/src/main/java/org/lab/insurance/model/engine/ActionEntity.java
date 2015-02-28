@@ -1,5 +1,7 @@
 package org.lab.insurance.model.engine;
 
-public interface ActionEntity<T> {
+import java.io.Serializable;
+
+public interface ActionEntity<T> extends Serializable {
 
 }

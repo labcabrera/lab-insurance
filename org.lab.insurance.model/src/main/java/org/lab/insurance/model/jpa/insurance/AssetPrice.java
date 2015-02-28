@@ -24,7 +24,8 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "I_ASSET_PRICE")
 @SuppressWarnings("serial")
-@NamedQueries({ @NamedQuery(name = "AssetPrice.selectByDate", query = "select e from AssetPrice e where e.priceDate = :date and e.asset = :asset") })
+@NamedQueries({ @NamedQuery(name = "AssetPrice.selectByDate", query = "select e from AssetPrice e where e.priceDate = :date and e.asset = :asset"),
+		@NamedQuery(name = "AssetPrice.selectLastByIsin", query = "select e from AssetPrice e where e.asset.isin = :isin and e.priceDate <= :before order by e.priceDate desc") })
 public class AssetPrice implements Serializable {
 
 	@Id

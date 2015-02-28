@@ -4,8 +4,6 @@ import javax.persistence.EntityManager;
 
 import net.sf.flatpack.DataSet;
 
-import org.apache.commons.lang.StringUtils;
-import org.lab.insurance.model.jpa.common.Country;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

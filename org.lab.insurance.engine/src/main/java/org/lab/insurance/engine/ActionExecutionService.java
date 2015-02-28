@@ -8,6 +8,7 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.commons.lang.NotImplementedException;
 import org.lab.insurance.model.common.Message;
+import org.lab.insurance.model.engine.ActionDefinition;
 import org.lab.insurance.model.engine.ActionEntity;
 
 import com.google.inject.Singleton;
@@ -27,7 +28,7 @@ public class ActionExecutionService {
 	@SuppressWarnings("unchecked")
 	public <T> Message<T> execute(ActionEntity<T> actionEntity) {
 		ActionDefinition definition = actionEntity.getClass().getAnnotation(ActionDefinition.class);
-		String endpoint = definition.getEndpoint();
+		String endpoint = definition.endpoint();
 		ProducerTemplate producer = camelContext.createProducerTemplate();
 		Message<T> result = producer.requestBody(endpoint, actionEntity, Message.class);
 		try {

@@ -15,7 +15,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.lab</groupId>
-			<artifactId>insurance.model</artifactId>
+			<artifactId>insurance.core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.bval</groupId>

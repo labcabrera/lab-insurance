@@ -22,9 +22,6 @@ public class PolicyRouteBuilder extends RouteBuilder {
 				.bean(NewPolicyProcessor.class) //
 				.bean(PolicyMessageConverter.class);
 
-		// from("direct:new_policy_payment_processor") //
-		// .split().method(OrderSplitter.class, "splitInitialPayment").to("direct:order_process");
-
 		from("direct:order_process") //
 				.bean(OrderPrepareProcessor.class) //
 				.bean(OrderFeesProcessor.class) //
