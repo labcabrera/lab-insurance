@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.lab.insurance.model.HasAsset;
+import org.lab.insurance.model.HasIdentifier;
 
 /**
  * Entidad que nos proporciona el tipo garantizado en un intervalo de tiempo.
@@ -22,7 +24,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "I_ASSET_GUARANTEE")
 @SuppressWarnings("serial")
-public class AssetGuaranteePercent implements Serializable {
+public class AssetGuaranteePercent implements HasIdentifier<String>, HasAsset, Serializable {
 
 	@Id
 	@Column(name = "ID")
@@ -32,47 +34,50 @@ public class AssetGuaranteePercent implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
 	@JoinColumn(name = "ASSET_ID", nullable = false)
-	private BaseAsset baseAsset;
+	private BaseAsset asset;
 
 	@Column(name = "FROM_DATE", nullable = false)
-	private Date fromDate;
+	private Date from;
 
 	@Column(name = "TO_DATE", nullable = false)
-	private Date toDate;
+	private Date to;
 
 	@Column(name = "GUARANTEE_PERCENT", nullable = false)
 	private BigDecimal guaranteePercent;
 
+	@Override
 	public String getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(String id) {
 		this.id = id;
 	}
 
-	public BaseAsset getBaseAsset() {
-		return baseAsset;
+	@Override
+	public BaseAsset getAsset() {
+		return asset;
 	}
 
-	public void setBaseAsset(BaseAsset baseAsset) {
-		this.baseAsset = baseAsset;
+	public void setAsset(BaseAsset baseAsset) {
+		this.asset = baseAsset;
 	}
 
-	public Date getFromDate() {
-		return fromDate;
+	public Date getFrom() {
+		return from;
 	}
 
-	public void setFromDate(Date fromDate) {
-		this.fromDate = fromDate;
+	public void setFrom(Date fromDate) {
+		this.from = fromDate;
 	}
 
-	public Date getToDate() {
-		return toDate;
+	public Date getTo() {
+		return to;
 	}
 
-	public void setToDate(Date toDate) {
-		this.toDate = toDate;
+	public void setTo(Date toDate) {
+		this.to = toDate;
 	}
 
 	public BigDecimal getGuaranteePercent() {

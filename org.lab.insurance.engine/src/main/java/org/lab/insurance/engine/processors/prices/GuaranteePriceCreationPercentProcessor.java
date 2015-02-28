@@ -18,9 +18,9 @@ public class GuaranteePriceCreationPercentProcessor implements Processor {
 	public void process(Exchange exchange) throws Exception {
 		GuaranteePriceCreationAction action = exchange.getIn().getBody(GuaranteePriceCreationAction.class);
 		AssetGuaranteePercent entity = new AssetGuaranteePercent();
-		entity.setBaseAsset(action.getAsset());
-		entity.setFromDate(action.getFrom());
-		entity.setToDate(action.getTo());
+		entity.setAsset(action.getAsset());
+		entity.setFrom(action.getFrom());
+		entity.setTo(action.getTo());
 		entity.setGuaranteePercent(action.getPercent());
 		EntityManager entityManager = entityManagerProvider.get();
 		entityManager.persist(entity);

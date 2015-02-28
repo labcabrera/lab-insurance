@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.lab.insurance.model.HasBaseAsset;
+import org.lab.insurance.model.HasAsset;
 import org.lab.insurance.model.HasOrder;
 import org.lab.insurance.model.HasState;
 import org.lab.insurance.model.jpa.engine.State;
@@ -23,7 +23,7 @@ import org.lab.insurance.model.jpa.engine.State;
 @Entity
 @Table(name = "I_MARKET_ORDER")
 @SuppressWarnings("serial")
-public class MarketOrder implements Serializable, HasOrder, HasState<String>, HasBaseAsset {
+public class MarketOrder implements Serializable, HasOrder, HasState<String>, HasAsset {
 
 	@Id
 	@Column(name = "ID")

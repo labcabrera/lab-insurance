@@ -6,6 +6,7 @@ import org.lab.insurance.model.engine.ActionEntity;
 import org.lab.insurance.model.jpa.Policy;
 
 @ActionDefinition(endpoint = "direct:new_policy_action")
+@SuppressWarnings("serial")
 public class NewPolicyAction implements ActionEntity<Policy>, HasPolicy {
 
 	private Policy policy;

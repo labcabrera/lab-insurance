@@ -5,12 +5,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.lab.insurance.model.engine.ActionEntity;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "S_ACTION_EXECUTION")
@@ -19,6 +20,8 @@ public class ActionExecution implements Serializable {
 
 	@Id
 	@Column(name = "ID")
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 
 	@Column(name = "EXECUTION_DATE")
@@ -33,9 +36,18 @@ public class ActionExecution implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date cancelled;
 
-	private Class<? extends ActionEntity<?>> actionEntityClass;
+	@Column(name = "FAILURE")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date failure;
 
-	private String json;
+	@Column(name = "ACTION_ENTITY_CLASS", columnDefinition = "TEXT")
+	private String actionEntityClass;
+
+	@Column(name = "ACTION_ENTITY_JSON", columnDefinition = "TEXT")
+	private String actionEntityJson;
+
+	@Column(name = "RESULT_JSON", columnDefinition = "TEXT")
+	private String resultJson;
 
 	public String getId() {
 		return id;
@@ -69,19 +81,35 @@ public class ActionExecution implements Serializable {
 		this.cancelled = cancelled;
 	}
 
-	public Class<? extends ActionEntity<?>> getActionEntityClass() {
+	public String getActionEntityClass() {
 		return actionEntityClass;
 	}
 
-	public void setActionEntityClass(Class<? extends ActionEntity<?>> actionEntityClass) {
+	public void setActionEntityClass(String actionEntityClass) {
 		this.actionEntityClass = actionEntityClass;
 	}
 
-	public String getJson() {
-		return json;
+	public String getActionEntityJson() {
+		return actionEntityJson;
 	}
 
-	public void setJson(String json) {
-		this.json = json;
+	public void setActionEntityJson(String actionEntityJson) {
+		this.actionEntityJson = actionEntityJson;
+	}
+
+	public Date getFailure() {
+		return failure;
+	}
+
+	public void setFailure(Date failure) {
+		this.failure = failure;
+	}
+
+	public String getResultJson() {
+		return resultJson;
+	}
+
+	public void setResultJson(String resultJson) {
+		this.resultJson = resultJson;
 	}
 }
