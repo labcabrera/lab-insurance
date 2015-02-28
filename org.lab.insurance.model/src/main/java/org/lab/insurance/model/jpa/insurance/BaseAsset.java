@@ -1,14 +1,19 @@
 package org.lab.insurance.model.jpa.insurance;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -20,20 +25,32 @@ import org.hibernate.annotations.GenericGenerator;
 public class BaseAsset implements Serializable {
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ID", length = 36)
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 
-	@Column(name = "ISIN")
+	@Column(name = "ISIN", nullable = false, length = 16)
 	private String isin;
 
-	@Column(name = "NAME")
+	@Column(name = "NAME", nullable = false, length = 128)
 	private String name;
+
+	@Column(name = "TYPE")
+	@Enumerated(EnumType.STRING)
+	private AssetType type;
 
 	/** Numero de decimales con los que opera el fondo. */
 	@Column(name = "DECIMALS")
 	private Integer decimals;
+
+	@Column(name = "FROM_DATE", nullable = false)
+	@Temporal(TemporalType.DATE)
+	private Date fromDate;
+
+	@Column(name = "TO_DATE")
+	@Temporal(TemporalType.DATE)
+	private Date toDate;
 
 	public String getId() {
 		return id;
@@ -66,4 +83,29 @@ public class BaseAsset implements Serializable {
 	public void setDecimals(Integer decimals) {
 		this.decimals = decimals;
 	}
+
+	public AssetType getType() {
+		return type;
+	}
+
+	public void setType(AssetType type) {
+		this.type = type;
+	}
+
+	public Date getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public Date getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
+	}
+
 }

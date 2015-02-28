@@ -8,9 +8,9 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>insurance.test</artifactId>
+	<artifactId>insurance.bootstrap</artifactId>
 	<packaging>jar</packaging>
-	<name>LAB Insurance Test</name>
+	<name>LAB Insurance Bootstrap</name>
 
 	<dependencies>
 		<dependency>
@@ -18,22 +18,25 @@
 			<artifactId>insurance.engine</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.derby</groupId>
-			<artifactId>derbyclient</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>net.sf.flatpack</groupId>
+			<artifactId>flatpack</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
 	</dependencies>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources/</directory>
+			</resource>
+		</resources>
+	</build>
 
 </project>
