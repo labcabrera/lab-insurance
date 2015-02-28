@@ -7,22 +7,19 @@ import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.validation.ValidationException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.commons.lang3.time.DateUtils;
-import org.joda.time.DateTime;
 import org.lab.insurance.core.math.BigMath;
 import org.lab.insurance.model.engine.actions.prices.GuaranteePriceCreationAction;
 import org.lab.insurance.model.jpa.insurance.AssetPrice;
 import org.lab.insurance.model.jpa.insurance.BaseAsset;
+import org.lab.insurance.services.insurance.CotizationsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +29,8 @@ public class GuaranteePriceCreationProcessor implements Processor {
 
 	@Inject
 	private Provider<EntityManager> entityManagerProvider;
+	@Inject
+	private CotizationsService cotizationsService;
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
@@ -40,31 +39,9 @@ public class GuaranteePriceCreationProcessor implements Processor {
 	}
 
 	public void createPrices(BaseAsset asset, Date from, Date to, BigDecimal guarantee) {
-		LOG.info("Generando precios de {} al {}% [{},{}]", asset.getName(), guarantee, from != null ? ISO_DATE_FORMAT.format(from) : "", ISO_DATE_FORMAT.format(to));
-		AssetPrice lastPrice = findLastPrice(asset, to);
-		if (lastPrice == null && from == null) {
-			throw new ValidationException("La fecha de inicio es necesaria en la primera generacion de precios");
-		} else if (from != null && from.after(to)) {
-			throw new ValidationException("Fecha hasta es anterior a fecha desde!");
-		} else if (findPricesInRange(asset, from, to)) {
-			throw new ValidationException("Ya existen precios de " + asset.getName() + " en el rango [" + ISO_DATE_FORMAT.format(from) + ", " + ISO_DATE_FORMAT.format(to) + "]");
-		}
-		BigDecimal initialPrice;
-		if (lastPrice == null) {
-			initialPrice = BigDecimal.ONE;
-		} else {
-			Date lastDayPriceTruncated = new DateTime(lastPrice.getPriceDate()).plusDays(1).withTimeAtStartOfDay().toDate();
-			Date fromTruncated = new DateTime(from).withTimeAtStartOfDay().toDate();
-			if (from != null && lastDayPriceTruncated.compareTo(fromTruncated) != 0) {
-				String messageTemplate = "Error al cargar los precios del garantizado %s. Se ha indicado como fecha de inicio %s cuando el ultimo precio es de %s";
-				throw new ValidationException(String.format(messageTemplate, asset.getName(), ISO_DATE_FORMAT.format(from), ISO_DATE_FORMAT.format(lastPrice)));
-			}
-			initialPrice = lastPrice.getPriceInEuros();
-			from = new DateTime(lastPrice.getPriceDate()).plusDays(1).toDate();
-		}
-		// AssetPrice price = new AssetPrice(asset.getId(), from, current, null);
-		// price.setCreated(timestampProvider.getCurrentTime());
-		// entityManagerProvider.get().persist(price);
+		LOG.info("Creating guarantee prices for {} at {}% from {} to {}", asset.getName(), guarantee, from != null ? ISO_DATE_FORMAT.format(from) : "", ISO_DATE_FORMAT.format(to));
+		AssetPrice lastPrice = cotizationsService.findLastPrice(asset, to);
+		BigDecimal initialPrice = lastPrice == null ? BigDecimal.ONE : lastPrice.getPriceInEuros();
 		Date now = Calendar.getInstance().getTime();
 		GregorianCalendar check = new GregorianCalendar();
 		check.setTime(from);
@@ -89,32 +66,4 @@ public class GuaranteePriceCreationProcessor implements Processor {
 			count = count.add(BigDecimal.ONE);
 		}
 	}
-
-	/**
-	 * Obtiene el ultimo precio calculado para un fondo garantizado previo a una fecha.
-	 * 
-	 * @param o
-	 * @return
-	 */
-	private AssetPrice findLastPrice(BaseAsset asset, Date before) {
-		TypedQuery<AssetPrice> query = entityManagerProvider.get().createNamedQuery("AssetPrice.selectLastByIsin", AssetPrice.class);
-		query.setParameter("isin", asset.getIsin()).setParameter("before", before).setMaxResults(1);
-		List<AssetPrice> prices = query.getResultList();
-		return prices.isEmpty() ? null : prices.iterator().next();
-	}
-
-	/**
-	 * 
-	 * @param o
-	 * @param from
-	 * @param to
-	 * @return
-	 */
-	public boolean findPricesInRange(BaseAsset o, Date from, Date to) {
-		EntityManager entityManager = entityManagerProvider.get();
-		TypedQuery<Long> query = entityManager.createQuery("select count(1) from AssetPrice a where a.asset.isin = :isin and a.priceDate >= :from and a.priceDate <= :to",
-				Long.class);
-		return query.setParameter("isin", o.getId()).setParameter("from", from).setParameter("to", to).getSingleResult() != 0L;
-	}
-
 }

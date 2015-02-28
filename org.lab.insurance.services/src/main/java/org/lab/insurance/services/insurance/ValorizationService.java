@@ -35,7 +35,7 @@ public class ValorizationService {
 	}
 
 	private void valorizate(MarketOrder marketOrder) throws NoCotizationException {
-		AssetPrice price = cotizationsService.getPrice(marketOrder.getAsset(), marketOrder.getDates().getValueDate());
+		AssetPrice price = cotizationsService.findPriceAtDate(marketOrder.getAsset(), marketOrder.getDates().getValueDate());
 		marketOrder.setNav(price.getPriceInEuros());
 		if (marketOrder.getSource() == MarketOrderSource.UNITS) {
 			Validate.notNull(marketOrder.getUnits());
