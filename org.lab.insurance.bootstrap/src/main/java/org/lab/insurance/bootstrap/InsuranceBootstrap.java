@@ -10,8 +10,11 @@ import org.lab.insurance.bootstrap.feeders.CountryFeeder;
 import org.lab.insurance.bootstrap.feeders.CurrencyFeeder;
 import org.lab.insurance.bootstrap.feeders.GuaranteePriceFeeder;
 import org.lab.insurance.bootstrap.feeders.HolidayCalendarFeeder;
+import org.lab.insurance.bootstrap.feeders.HolidayFeeder;
 import org.lab.insurance.bootstrap.mock.AssetPriceFeeder;
 import org.lab.insurance.engine.guice.InsuranceCoreModule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -20,8 +23,9 @@ import com.google.inject.persist.Transactional;
 
 public class InsuranceBootstrap implements Runnable {
 
-	private static final Class<?>[] FEEDERS = { CountryFeeder.class, CurrencyFeeder.class, HolidayCalendarFeeder.class, BaseAssetFeeder.class, GuaranteePriceFeeder.class,
-			AssetPriceFeeder.class };
+	private static final Class<?>[] RAW_FEEDERS = { CountryFeeder.class, CurrencyFeeder.class, HolidayCalendarFeeder.class, HolidayFeeder.class, BaseAssetFeeder.class };
+	private static final Class<?>[] SERVICE_FEEDERS = { GuaranteePriceFeeder.class, AssetPriceFeeder.class };
+	private static final Logger LOG = LoggerFactory.getLogger(InsuranceBootstrap.class);
 
 	public static void main(String[] args) {
 		Injector injector = Guice.createInjector(new InsuranceCoreModule());
@@ -34,21 +38,37 @@ public class InsuranceBootstrap implements Runnable {
 		}
 	}
 
-	private final List<Runnable> runnableFeeders;
+	private final List<Runnable> runnableRawFeeders;
+	private final List<Runnable> runnableServiceFeeders;
 
 	@Inject
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public InsuranceBootstrap(Injector injector) {
-		runnableFeeders = new ArrayList<Runnable>();
-		for (Class feederClass : FEEDERS) {
-			runnableFeeders.add((Runnable) injector.getInstance(feederClass));
+		runnableRawFeeders = new ArrayList<Runnable>();
+		for (Class feederClass : RAW_FEEDERS) {
+			runnableRawFeeders.add((Runnable) injector.getInstance(feederClass));
+		}
+		runnableServiceFeeders = new ArrayList<Runnable>();
+		for (Class feederClass : SERVICE_FEEDERS) {
+			runnableServiceFeeders.add((Runnable) injector.getInstance(feederClass));
 		}
 	}
 
+	/**
+	 * Nota: tenemos servicios que solamente insertan las entidades a traves del entityManager y servicios que acceder
+	 * al actionExecutionService que controla que ya controla de forma autonoma las transacciones de modo que separamos
+	 * en dos grupos para hacer transaccional el primero.
+	 */
 	@Override
-	@Transactional
 	public void run() {
-		for (Runnable runnable : runnableFeeders) {
+		run(runnableRawFeeders);
+		run(runnableServiceFeeders);
+	}
+
+	@Transactional
+	public void run(List<Runnable> runnables) {
+		for (Runnable runnable : runnables) {
+			LOG.debug("Running " + runnable.getClass().getName());
 			runnable.run();
 		}
 	}

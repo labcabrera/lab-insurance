@@ -22,6 +22,9 @@ import org.slf4j.LoggerFactory;
 
 import ch.lambdaj.Lambda;
 
+/**
+ * Procesador encargado de persistir la informacion de una poliza y procesar el pago inicial.
+ */
 public class NewPolicyProcessor implements Processor {
 
 	private static final Logger LOG = LoggerFactory.getLogger(NewPolicyProcessor.class);

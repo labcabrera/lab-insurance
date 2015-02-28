@@ -9,6 +9,12 @@ import org.apache.camel.Processor;
 import org.lab.insurance.model.engine.actions.prices.GuaranteePriceCreationAction;
 import org.lab.insurance.model.jpa.insurance.AssetGuaranteePercent;
 
+/**
+ * Procesador encargado de generar una entidad de tipo {@link GuaranteePriceCreationAction} cada vez que se genera un
+ * precio a traves de la accion {@link GuaranteePriceCreationAction}.
+ * 
+ * @see GuaranteePriceCreationValidator
+ */
 public class GuaranteePriceCreationPercentProcessor implements Processor {
 
 	@Inject

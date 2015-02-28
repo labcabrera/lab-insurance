@@ -23,6 +23,11 @@ import org.lab.insurance.services.insurance.CotizationsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Procesador encargado de generar los precios de un tipo garantizado.
+ * 
+ * @see GuaranteePriceCreationValidator
+ */
 public class GuaranteePriceCreationProcessor implements Processor {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GuaranteePriceCreationProcessor.class);
@@ -35,10 +40,10 @@ public class GuaranteePriceCreationProcessor implements Processor {
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		GuaranteePriceCreationAction action = exchange.getIn().getBody(GuaranteePriceCreationAction.class);
-		createPrices(action.getAsset(), action.getFrom(), action.getTo(), action.getPercent());
-	}
-
-	public void createPrices(BaseAsset asset, Date from, Date to, BigDecimal guarantee) {
+		BaseAsset asset = action.getAsset();
+		Date from = action.getFrom();
+		Date to = action.getTo();
+		BigDecimal guarantee = action.getPercent();
 		LOG.info("Creating guarantee prices for {} at {}% from {} to {}", asset.getName(), guarantee, from != null ? ISO_DATE_FORMAT.format(from) : "", ISO_DATE_FORMAT.format(to));
 		AssetPrice lastPrice = cotizationsService.findLastPrice(asset, to);
 		BigDecimal initialPrice = lastPrice == null ? BigDecimal.ONE : lastPrice.getPriceInEuros();
