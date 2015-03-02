@@ -12,6 +12,7 @@ import org.lab.insurance.bootstrap.feeders.CurrencyFeeder;
 import org.lab.insurance.bootstrap.feeders.GuaranteePriceFeeder;
 import org.lab.insurance.bootstrap.feeders.HolidayCalendarFeeder;
 import org.lab.insurance.bootstrap.feeders.HolidayFeeder;
+import org.lab.insurance.bootstrap.feeders.StateDefinitionFeeder;
 import org.lab.insurance.bootstrap.mock.AssetPriceFeeder;
 import org.lab.insurance.engine.guice.InsuranceCoreModule;
 import org.slf4j.Logger;
@@ -25,7 +26,7 @@ import com.google.inject.persist.Transactional;
 public class InsuranceBootstrap implements Runnable {
 
 	private static final Class<?>[] RAW_FEEDERS = { CountryFeeder.class, CurrencyFeeder.class, HolidayCalendarFeeder.class, HolidayFeeder.class, BaseAssetFeeder.class,
-			AgreementFeeder.class, GuaranteePriceFeeder.class };
+			StateDefinitionFeeder.class, AgreementFeeder.class, GuaranteePriceFeeder.class };
 	private static final Class<?>[] SERVICE_FEEDERS = { AssetPriceFeeder.class };
 	private static final Logger LOG = LoggerFactory.getLogger(InsuranceBootstrap.class);
 

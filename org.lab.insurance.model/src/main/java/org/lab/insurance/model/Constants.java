@@ -27,12 +27,24 @@ public class Constants {
 	 */
 	public static final String CONFIGURATION_KEY_REPOSITORY_REPORTS_PATH = "repository.path.reports";
 
-	// TODO mover a otro lado
+	public static final class PolicyStates {
+		public static final String INITIAL = "POLICY_INITIAL";
+		public static final String PROCESSED = "POLICY_ACTIVE";
+		public static final String VALUED = "POLICY_CLOSED";
+	}
+
 	public static final class OrderStates {
-		public static final String INITIAL = "INITIAL";
-		public static final String PROCESSED = "PROCESSED";
-		public static final String VALUED = "VALUED";
-		public static final String ACCOUNTED = "ACCOUNTED";
+		public static final String INITIAL = "ORDER_INITIAL";
+		public static final String PROCESSED = "ORDER_PROCESSED";
+		public static final String VALUED = "ORDER_VALUED";
+		public static final String ACCOUNTED = "ORDER_ACCOUNTED";
+	}
+
+	public static final class MarketOrderStates {
+		public static final String INITIAL = "MARKET_ORDER_INITIAL";
+		public static final String PROCESSED = "MARKET_ORDER_PROCESSED";
+		public static final String VALUED = "MARKET_ORDER_VALUED";
+		public static final String ACCOUNTED = "MARKET_ORDER_ACCOUNTED";
 	}
 
 }

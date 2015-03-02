@@ -12,11 +12,13 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
+import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.HasPolicy;
 import org.lab.insurance.model.jpa.Policy;
 import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.jpa.insurance.OrderType;
 import org.lab.insurance.model.matchers.OrderTypeMatcher;
+import org.lab.insurance.services.common.StateMachineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +37,8 @@ public class NewPolicyProcessor implements Processor {
 	private Validator validator;
 	@Inject
 	private CamelContext camelContext;
+	@Inject
+	private StateMachineService stateMachineService;
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
@@ -51,6 +55,7 @@ public class NewPolicyProcessor implements Processor {
 		}
 		entityManager.persist(policy);
 		entityManager.flush();
+		stateMachineService.createTransition(policy, Constants.PolicyStates.INITIAL);
 		// Enviamos las ordenes a la cola de procesamiento (no veo la forma de hacerlo a traves del route)
 		ProducerTemplate producer = camelContext.createProducerTemplate();
 		for (Order order : Lambda.select(policy.getOrders(), new OrderTypeMatcher(OrderType.INITIAL_PAYMENT))) {

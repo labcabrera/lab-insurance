@@ -42,8 +42,16 @@ public class ActionExecutionService {
 		try {
 			Message<T> result = producer.requestBody(endpoint, actionEntity, Message.class);
 			producer.stop();
-			actionExecution.setResultJson(serializer.toJson(result));
 			actionExecution.setExecuted(timestampProvider.getCurrentDateTime());
+
+			// result.setPayload(null);
+			// Policy policy = (Policy) result.getPayload();
+			// policy.setOrders(null);
+			try {
+				actionExecution.setResultJson(serializer.toJson(result));
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 			entityManager.persist(actionExecution);
 			return result;
 		} catch (Exception ex) {

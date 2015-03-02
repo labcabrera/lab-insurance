@@ -3,9 +3,12 @@ package org.lab.insurance.model.jpa.engine;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.lab.insurance.model.jpa.converters.ClassConverter;
 
 @Entity
 @Table(name = "SYS_STATE_DEFINITION")
@@ -13,11 +16,15 @@ import javax.persistence.Table;
 public class StateDefinition implements Serializable {
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ID", length = 64)
 	private String id;
 
-	@Column(name = "NAME")
+	@Column(name = "NAME", length = 64, nullable = false)
 	private String name;
+
+	@Column(name = "ENTITY_CLASS", nullable = false, length = 516)
+	@Convert(converter = ClassConverter.class)
+	private Class<?> entityClass;
 
 	public String getId() {
 		return id;
@@ -33,5 +40,13 @@ public class StateDefinition implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Class<?> getEntityClass() {
+		return entityClass;
+	}
+
+	public void setEntityClass(Class<?> entityClass) {
+		this.entityClass = entityClass;
 	}
 }

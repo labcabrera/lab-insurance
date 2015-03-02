@@ -4,6 +4,8 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
 
+import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.StringUtils;
 import org.lab.insurance.model.HasState;
 import org.lab.insurance.model.jpa.engine.State;
 import org.lab.insurance.model.jpa.engine.StateDefinition;
@@ -18,19 +20,17 @@ public class StateMachineService {
 	public void createTransition(HasState<String> hasState, String stateDefinitionId) {
 		EntityManager entityManager = entityManagerProvider.get();
 		StateDefinition stateDefinition = entityManager.find(StateDefinition.class, stateDefinitionId);
-		if (stateDefinition == null) {
-			stateDefinition = new StateDefinition();
-			stateDefinition.setId(stateDefinitionId);
-			stateDefinition.setName(stateDefinitionId);
-			entityManager.persist(stateDefinition);
-			entityManager.flush();
-		}
+		Validate.notNull(stateDefinition);
+		Validate.isTrue(StringUtils.isNotBlank(hasState.getId()), "Missing entity identifier");
+		Validate.isTrue(stateDefinition.getEntityClass().equals(hasState.getClass()), "Invalid state class " + hasState.getClass().getName());
 		State state = new State();
 		state.setEntered(timestampProvider.getCurrentDate());
 		state.setStateDefinition(stateDefinition);
 		state.setHasStateId(hasState.getId());
 		hasState.setCurrentState(state);
+		entityManager.merge(hasState);
 		entityManager.persist(state);
 		entityManager.flush();
+
 	}
 }

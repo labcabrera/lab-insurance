@@ -1,9 +1,11 @@
 package org.lab.insurance.model.common;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Message<I> {
+@SuppressWarnings("serial")
+public class Message<I> implements Serializable {
 
 	public static final String SUCCESS = "200";
 	public static final String GENERIC_ERROR = "500";
@@ -14,6 +16,8 @@ public class Message<I> {
 	private List<MessageEntry> warnings;
 	private List<MessageEntry> info;
 
+	// TODO esto esta dando un problema con GSON y los genericos
+	@NotSerializable
 	private I payload;
 
 	public Message() {

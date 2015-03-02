@@ -17,6 +17,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.lab.insurance.model.HasState;
+import org.lab.insurance.model.jpa.engine.State;
 import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.validation.ValidPolicy;
 
@@ -25,7 +27,7 @@ import org.lab.insurance.model.validation.ValidPolicy;
 @SuppressWarnings("serial")
 // @Index(name = "IX_POLICY_NUMBER", unique = true, columnList = "number")
 @ValidPolicy
-public class Policy implements Serializable {
+public class Policy implements Serializable, HasState<String> {
 
 	@Id
 	@Column(name = "ID", length = 36)
@@ -49,10 +51,16 @@ public class Policy implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date effective;
 
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
+	@JoinColumn(name = "STATE_ID")
+	private State currentState;
+
+	@Override
 	public String getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -95,5 +103,15 @@ public class Policy implements Serializable {
 
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
+	}
+
+	@Override
+	public State getCurrentState() {
+		return currentState;
+	}
+
+	@Override
+	public void setCurrentState(State state) {
+		currentState = state;
 	}
 }

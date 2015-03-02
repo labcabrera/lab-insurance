@@ -89,7 +89,7 @@ public class MarketOrderGeneratorProcessor implements Processor {
 				marketOrder.setType(MarketOrderType.BUY);
 				marketOrder.setSource(MarketOrderSource.AMOUNT);
 				entityManager.persist(marketOrder);
-				stateMachineService.createTransition(marketOrder, Constants.OrderStates.INITIAL);
+				stateMachineService.createTransition(marketOrder, Constants.MarketOrderStates.INITIAL);
 			}
 		}
 	}

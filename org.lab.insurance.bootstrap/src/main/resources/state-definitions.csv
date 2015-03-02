@@ -1,0 +1,12 @@
+ID,NAME,CLASS
+"POLICY_INITIAL","Inicial","org.lab.insurance.model.jpa.Policy"
+"POLICY_ACTIVE","Activo","org.lab.insurance.model.jpa.Policy"
+"POLICY_CLOSED","Cerrado","org.lab.insurance.model.jpa.Policy"
+"ORDER_INITIAL","Inicial","org.lab.insurance.model.jpa.insurance.Order"
+"ORDER_PROCESSED","Procesada","org.lab.insurance.model.jpa.insurance.Order"
+"ORDER_VALUED","Valorizada","org.lab.insurance.model.jpa.insurance.Order"
+"ORDER_ACCOUNTED","Contabilizada","org.lab.insurance.model.jpa.insurance.Order"
+"MARKET_ORDER_INITIAL","Inicial","org.lab.insurance.model.jpa.insurance.MarketOrder"
+"MARKET_ORDER_PROCESSED","Procesada","org.lab.insurance.model.jpa.insurance.MarketOrder"
+"MARKET_ORDER_VALUED","Valorizada","org.lab.insurance.model.jpa.insurance.MarketOrder"
+"MARKET_ORDER_ACCOUNTED","Contabilizada","org.lab.insurance.model.jpa.insurance.MarketOrder"
