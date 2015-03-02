@@ -2,11 +2,13 @@ package org.lab.insurance.model.jpa;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -16,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.lab.insurance.model.HasIdentifier;
+import org.lab.insurance.model.HasName;
 import org.lab.insurance.model.jpa.common.Address;
 import org.lab.insurance.model.jpa.common.IdCard;
 
@@ -27,39 +31,40 @@ import org.lab.insurance.model.jpa.common.IdCard;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "DTYPE")
 @SuppressWarnings("serial")
-public abstract class AbstractLegalEntity implements Serializable {
+public abstract class AbstractLegalEntity implements Serializable, HasIdentifier<String>, HasName {
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ID", length = 36)
 	@GeneratedValue(generator = "system-uuid")
-	private String id;
+	protected String id;
 
-	@Column(name = "NAME")
-	private String name;
+	@Column(name = "NAME", length = 64, nullable = false)
+	protected String name;
 
 	/**
 	 * NOTA: es redundante con el DTYPE pero en muchas ocasiones nos facilita la vida.
 	 */
-	@Column(name = "TYPE")
+	@Column(name = "TYPE", length = 16, nullable = false)
 	@Enumerated(EnumType.STRING)
-	private AbstractLegalEntityType type;
+	protected AbstractLegalEntityType type;
 
-	@OneToOne
-	@JoinColumn(name = "ID_CARD_ID")
-	private IdCard idCard;
+	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinColumn(name = "ID_CARD_ID", nullable = false)
+	protected IdCard idCard;
 
-	@ManyToOne
-	@JoinColumn(name = "POSTAL_ADDRESS_ID")
-	private Address postalAddress;
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinColumn(name = "POSTAL_ADDRESS_ID", nullable = false)
+	protected Address postalAddress;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "FISCAL_ADDRESS_ID")
-	private Address fiscalAddress;
+	protected Address fiscalAddress;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "CONTACT_INFORMATION_ID")
-	private ContactInformation contactInformation;
+	protected ContactInformation contactInformation;
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -74,6 +79,48 @@ public abstract class AbstractLegalEntity implements Serializable {
 
 	public void setIdCard(IdCard idCard) {
 		this.idCard = idCard;
+	}
+
+	@Override
+	public String getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public AbstractLegalEntityType getType() {
+		return type;
+	}
+
+	public void setType(AbstractLegalEntityType type) {
+		this.type = type;
+	}
+
+	public Address getPostalAddress() {
+		return postalAddress;
+	}
+
+	public void setPostalAddress(Address postalAddress) {
+		this.postalAddress = postalAddress;
+	}
+
+	public Address getFiscalAddress() {
+		return fiscalAddress;
+	}
+
+	public void setFiscalAddress(Address fiscalAddress) {
+		this.fiscalAddress = fiscalAddress;
+	}
+
+	public ContactInformation getContactInformation() {
+		return contactInformation;
+	}
+
+	public void setContactInformation(ContactInformation contactInformation) {
+		this.contactInformation = contactInformation;
 	}
 
 	/**

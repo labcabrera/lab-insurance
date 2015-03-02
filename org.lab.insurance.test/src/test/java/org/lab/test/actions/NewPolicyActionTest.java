@@ -1,14 +1,17 @@
-package com.cnp.ciis.actions;
+package org.lab.test.actions;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
 
 import org.apache.commons.lang.Validate;
+import org.joda.time.DateTime;
 import org.junit.Test;
+import org.lab.insurance.engine.ActionExecutionRunner;
 import org.lab.insurance.engine.ActionExecutionService;
 import org.lab.insurance.engine.guice.InsuranceCoreModule;
 import org.lab.insurance.model.common.Message;
@@ -18,6 +21,9 @@ import org.lab.insurance.model.jpa.Person;
 import org.lab.insurance.model.jpa.Policy;
 import org.lab.insurance.model.jpa.PolicyEntityRelation;
 import org.lab.insurance.model.jpa.PolicyRelationType;
+import org.lab.insurance.model.jpa.common.Address;
+import org.lab.insurance.model.jpa.common.IdCard;
+import org.lab.insurance.model.jpa.common.IdCardType;
 import org.lab.insurance.model.jpa.insurance.BaseAsset;
 import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.jpa.insurance.OrderDates;
@@ -51,6 +57,12 @@ public class NewPolicyActionTest {
 			for (PolicyEntityRelation i : readed.getRelations()) {
 				System.out.println(i);
 			}
+
+			Date from = new DateTime(2015, 1, 1, 0, 0, 0, 0).toDate();
+			Date to = new DateTime(2015, 12, 31, 0, 0, 0, 0).toDate();
+			ActionExecutionRunner actionExecutionRunner = injector.getInstance(ActionExecutionRunner.class);
+			actionExecutionRunner.run(from, to);
+
 		} catch (RuntimeException ex) {
 			ex.printStackTrace();
 			throw ex;
@@ -85,6 +97,11 @@ public class NewPolicyActionTest {
 		person.setName("John");
 		person.setFirstSurname("Doe");
 		person.setSecondSurname("Smith");
+		person.setIdCard(new IdCard());
+		person.getIdCard().setNumber("70111222A");
+		person.getIdCard().setType(IdCardType.SPAIN_DNI);
+		person.setPostalAddress(new Address());
+		person.getPostalAddress().setRoadName("Random Street 3, 2ºA");
 		return person;
 	}
 

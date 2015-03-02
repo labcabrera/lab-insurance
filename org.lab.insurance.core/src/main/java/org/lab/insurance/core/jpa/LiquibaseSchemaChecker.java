@@ -14,6 +14,7 @@ import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import liquibase.resource.ResourceAccessor;
 
+import org.eclipse.persistence.sessions.server.ServerSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,9 +43,7 @@ public class LiquibaseSchemaChecker {
 	}
 
 	private Connection resolveConnection() {
-		// ServerSession sess = entityManagerProvider.get().unwrap(ServerSession.class);
-		// Connection connection = sess.getAccessor().getConnection();
-		return null;
+		ServerSession sess = entityManagerProvider.get().unwrap(ServerSession.class);
+		return sess.getAccessor().getConnection();
 	}
-
 }

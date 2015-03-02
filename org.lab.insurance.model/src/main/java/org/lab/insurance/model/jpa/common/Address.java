@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,7 +16,8 @@ import javax.persistence.Table;
 public class Address implements Serializable {
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ID", length = 36)
+	@GeneratedValue(generator = "system-uuid")
 	private String id;
 
 	@Column(name = "ROAD_NAME")

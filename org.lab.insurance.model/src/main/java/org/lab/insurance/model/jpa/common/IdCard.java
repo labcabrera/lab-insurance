@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -15,10 +16,11 @@ import javax.persistence.Table;
 public class IdCard implements Serializable {
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ID", length = 36)
+	@GeneratedValue(generator = "system-uuid")
 	private String id;
 
-	@Column(name = "NUMBER")
+	@Column(name = "NUMBER", length = 36, nullable = false)
 	private String number;
 
 	@Column(name = "TYPE")

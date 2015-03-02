@@ -10,4 +10,8 @@ import javax.persistence.Table;
 @DiscriminatorValue("L")
 public class LegalEntity extends AbstractLegalEntity {
 
+	public LegalEntity() {
+		type = AbstractLegalEntityType.LEGAL;
+	}
+
 }

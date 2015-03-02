@@ -8,19 +8,23 @@ import javax.persistence.EntityManager;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
-import org.apache.commons.lang.NotImplementedException;
+import org.apache.commons.lang.Validate;
 import org.lab.insurance.core.serialization.Serializer;
 import org.lab.insurance.model.common.Message;
 import org.lab.insurance.model.engine.ActionDefinition;
 import org.lab.insurance.model.engine.ActionEntity;
 import org.lab.insurance.model.jpa.engine.ActionExecution;
 import org.lab.insurance.services.common.TimestampProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 
 @Singleton
 public class ActionExecutionService {
+
+	private static final Logger LOG = LoggerFactory.getLogger(ActionExecutionService.class);
 
 	@Inject
 	private CamelContext camelContext;
@@ -34,7 +38,9 @@ public class ActionExecutionService {
 	@Transactional
 	@SuppressWarnings("unchecked")
 	public <T> Message<T> execute(ActionEntity<T> actionEntity) {
+		LOG.debug("Processing {} ({})", actionEntity, actionEntity.getClass().getName());
 		ActionDefinition definition = actionEntity.getClass().getAnnotation(ActionDefinition.class);
+		Validate.notNull(definition, String.format("Entity class %s has not ActionDefinition anotation", actionEntity.getClass().getName()));
 		String endpoint = definition.endpoint();
 		ProducerTemplate producer = camelContext.createProducerTemplate();
 		ActionExecution actionExecution = buildActionExecutionEntity(actionEntity);
@@ -43,18 +49,11 @@ public class ActionExecutionService {
 			Message<T> result = producer.requestBody(endpoint, actionEntity, Message.class);
 			producer.stop();
 			actionExecution.setExecuted(timestampProvider.getCurrentDateTime());
-
-			// result.setPayload(null);
-			// Policy policy = (Policy) result.getPayload();
-			// policy.setOrders(null);
-			try {
-				actionExecution.setResultJson(serializer.toJson(result));
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
+			actionExecution.setResultJson(serializer.toJson(result));
 			entityManager.persist(actionExecution);
 			return result;
 		} catch (Exception ex) {
+			LOG.error("Action execution error", ex);
 			entityManager.getTransaction().rollback();
 			entityManager.getTransaction().begin();
 			actionExecution.setFailure(timestampProvider.getCurrentDateTime());
@@ -67,13 +66,17 @@ public class ActionExecutionService {
 		}
 	}
 
-	public void programExecution(ActionEntity<?> actionEntity, Date when) {
-		throw new NotImplementedException();
+	@Transactional
+	public void schedule(ActionEntity<?> actionEntity, Date when) {
+		ActionExecution actionExecution = buildActionExecutionEntity(actionEntity);
+		actionExecution.setScheduled(when);
+		EntityManager entityManager = entityManagerProvider.get();
+		entityManager.persist(actionExecution);
 	}
 
 	private <T> ActionExecution buildActionExecutionEntity(ActionEntity<T> actionEntity) {
 		ActionExecution actionExecution = new ActionExecution();
-		actionExecution.setActionEntityClass(actionEntity.getClass().getName());
+		actionExecution.setActionEntityClass(actionEntity.getClass());
 		actionExecution.setActionEntityJson(serializer.toJson(actionEntity));
 		return actionExecution;
 	}

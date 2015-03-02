@@ -19,10 +19,10 @@ import org.lab.insurance.model.jpa.common.Address;
 @SuppressWarnings("serial")
 public class Person extends AbstractLegalEntity {
 
-	@Column(name = "FIRST_SURNAME")
+	@Column(name = "FIRST_SURNAME", nullable = false, length = 32)
 	private String firstSurname;
 
-	@Column(name = "SECOND_SURNAME")
+	@Column(name = "SECOND_SURNAME", length = 32)
 	private String secondSurname;
 
 	@Column(name = "BIRTH_DATE")
@@ -32,6 +32,10 @@ public class Person extends AbstractLegalEntity {
 	@ManyToOne
 	@JoinColumn(name = "BIRTH_ADDRESS_ID")
 	private Address birthAddress;
+
+	public Person() {
+		this.type = AbstractLegalEntityType.PERSON;
+	}
 
 	public String getFirstSurname() {
 		return firstSurname;

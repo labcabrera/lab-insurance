@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,13 +12,21 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.eclipse.persistence.annotations.Cache;
+import org.lab.insurance.model.jpa.converters.ClassConverter;
+
 @Entity
 @Table(name = "SYS_ACTION_EXECUTION")
 @SuppressWarnings("serial")
+@Cache(alwaysRefresh = true)
+// type=CacheType.NONE, // Cache nothing
+// expiry=0,
+// alwaysRefresh=true
+// )
 public class ActionExecution implements Serializable {
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ID", length = 36)
 	@GeneratedValue(generator = "system-uuid")
 	private String id;
 
@@ -38,14 +47,22 @@ public class ActionExecution implements Serializable {
 	private Date failure;
 
 	// TODO el columnDefinition depende del proveedor de base de datos. En algunos es de tipo TEXT, para derby es necesario el CLOB.
-	@Column(name = "ACTION_ENTITY_CLASS", columnDefinition = "CLOB")
-	private String actionEntityClass;
+	@Column(name = "ACTION_ENTITY_CLASS", nullable = false, length = 516)
+	@Convert(converter = ClassConverter.class)
+	private Class<?> actionEntityClass;
 
 	@Column(name = "ACTION_ENTITY_JSON", columnDefinition = "CLOB")
 	private String actionEntityJson;
 
 	@Column(name = "RESULT_JSON", columnDefinition = "CLOB")
 	private String resultJson;
+
+	/**
+	 * Indica la prioridad de la accion cuando hubiera varias acciones programadas para un mismo instante. Los valores mas bajos se ejecutan
+	 * antes que los mas altos.
+	 */
+	@Column(name = "PRIORITY")
+	private Integer priority;
 
 	public String getId() {
 		return id;
@@ -79,12 +96,20 @@ public class ActionExecution implements Serializable {
 		this.cancelled = cancelled;
 	}
 
-	public String getActionEntityClass() {
+	public Class<?> getActionEntityClass() {
 		return actionEntityClass;
 	}
 
-	public void setActionEntityClass(String actionEntityClass) {
+	public void setActionEntityClass(Class<?> actionEntityClass) {
 		this.actionEntityClass = actionEntityClass;
+	}
+
+	public Integer getPriority() {
+		return priority;
+	}
+
+	public void setPriority(Integer priority) {
+		this.priority = priority;
 	}
 
 	public String getActionEntityJson() {

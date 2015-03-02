@@ -15,6 +15,7 @@ public class GuaranteePriceCreationAction implements ActionEntity<BaseAsset> {
 	private BigDecimal percent;
 	private Date from;
 	private Date to;
+	private Date actionDate;
 
 	public BaseAsset getAsset() {
 		return asset;
@@ -46,5 +47,14 @@ public class GuaranteePriceCreationAction implements ActionEntity<BaseAsset> {
 
 	public void setTo(Date to) {
 		this.to = to;
+	}
+
+	@Override
+	public Date getActionDate() {
+		return actionDate;
+	}
+
+	public void setActionDate(Date actionDate) {
+		this.actionDate = actionDate;
 	}
 }
