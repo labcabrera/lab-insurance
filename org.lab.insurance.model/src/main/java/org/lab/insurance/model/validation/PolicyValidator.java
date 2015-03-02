@@ -29,6 +29,9 @@ public class PolicyValidator implements ConstraintValidator<ValidPolicy, Policy>
 			ctx.buildConstraintViolationWithTemplate("policy.validation.missingRelations").addConstraintViolation();
 			hasErrors = true;
 		}
+		for (Order order : policy.getOrders()) {
+			order.setPolicy(policy);
+		}
 		List<Order> initialPayments = Lambda.select(policy.getOrders(), new OrderTypeMatcher(OrderType.INITIAL_PAYMENT));
 		if (initialPayments.isEmpty()) {
 			ctx.buildConstraintViolationWithTemplate("policy.validation.missingInitialPayment").addConstraintViolation();
@@ -36,5 +39,4 @@ public class PolicyValidator implements ConstraintValidator<ValidPolicy, Policy>
 		}
 		return !hasErrors;
 	}
-
 }

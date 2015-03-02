@@ -42,7 +42,7 @@ public class Policy implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "policy", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private List<PolicyEntityRelation> relations;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "policy", cascade = { CascadeType.DETACH })
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "policy", cascade = { CascadeType.PERSIST })
 	private List<Order> orders;
 
 	@Column(name = "EFFECTIVE")

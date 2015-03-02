@@ -41,7 +41,7 @@ public class MarketOrderGeneratorProcessor implements Processor {
 	}
 
 	private void createSellMarketOrders(Order order, Mutable<BigDecimal> buyGrossAmount, Mutable<BigDecimal> buyNetAmount, EntityManager entityManager) {
-		if (order.getSellDistribution() != null) {
+		if (order.getSellDistribution() != null && !order.getSellDistribution().isEmpty()) {
 			buyGrossAmount.setValue(BigDecimal.ZERO);
 			buyNetAmount.setValue(BigDecimal.ZERO);
 			switch (order.getProcessInfo().getSellStrategy()) {

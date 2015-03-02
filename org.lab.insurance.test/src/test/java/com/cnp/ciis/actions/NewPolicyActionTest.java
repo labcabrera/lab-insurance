@@ -32,23 +32,28 @@ public class NewPolicyActionTest {
 
 	@Test
 	public void test() {
-		Injector injector = Guice.createInjector(new InsuranceCoreModule());
-		injector.getInstance(PersistService.class).start();
-		Provider<EntityManager> entityManagerProvider = injector.getProvider(EntityManager.class);
-		ActionExecutionService service = injector.getInstance(ActionExecutionService.class);
-		EntityManager entityManager = entityManagerProvider.get();
+		try {
+			Injector injector = Guice.createInjector(new InsuranceCoreModule());
+			injector.getInstance(PersistService.class).start();
+			Provider<EntityManager> entityManagerProvider = injector.getProvider(EntityManager.class);
+			ActionExecutionService service = injector.getInstance(ActionExecutionService.class);
+			EntityManager entityManager = entityManagerProvider.get();
 
-		NewPolicyAction action = new NewPolicyAction();
-		action.setPolicy(buildPolicy(entityManager));
-		Message<Policy> message = service.execute(action);
-		Validate.notNull(message.getPayload());
-		Validate.notNull(message.getPayload().getId());
-		Validate.isTrue(Message.SUCCESS.equals(message.getCode()));
+			NewPolicyAction action = new NewPolicyAction();
+			action.setPolicy(buildPolicy(entityManager));
+			Message<Policy> message = service.execute(action);
+			Validate.notNull(message.getPayload());
+			Validate.notNull(message.getPayload().getId());
+			Validate.isTrue(Message.SUCCESS.equals(message.getCode()));
 
-		Policy readed = entityManager.find(Policy.class, message.getPayload().getId());
-		Validate.notNull(readed);
-		for (PolicyEntityRelation i : readed.getRelations()) {
-			System.out.println(i);
+			Policy readed = entityManager.find(Policy.class, message.getPayload().getId());
+			Validate.notNull(readed);
+			for (PolicyEntityRelation i : readed.getRelations()) {
+				System.out.println(i);
+			}
+		} catch (RuntimeException ex) {
+			ex.printStackTrace();
+			throw ex;
 		}
 	}
 

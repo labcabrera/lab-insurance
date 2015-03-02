@@ -1,4 +1,4 @@
-package org.lab.insurance.core.serialization;
+package org.lab.insurance.model.common;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

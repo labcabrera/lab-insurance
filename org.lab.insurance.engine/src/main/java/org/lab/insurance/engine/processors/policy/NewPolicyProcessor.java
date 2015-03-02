@@ -45,6 +45,10 @@ public class NewPolicyProcessor implements Processor {
 			throw new RuntimeException("Validation errors");
 		}
 		EntityManager entityManager = entityManagerProvider.get();
+		// Actualizamos la referencia de las ordenes
+		for (Order order : policy.getOrders()) {
+			order.setPolicy(policy);
+		}
 		entityManager.persist(policy);
 		entityManager.flush();
 		// Enviamos las ordenes a la cola de procesamiento (no veo la forma de hacerlo a traves del route)

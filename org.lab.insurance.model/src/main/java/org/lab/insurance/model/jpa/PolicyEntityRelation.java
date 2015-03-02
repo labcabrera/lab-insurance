@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.lab.insurance.model.common.NotSerializable;
+
 @Entity
 @Table(name = "C_POLICY_ENTITY_RELATION")
 @SuppressWarnings("serial")
@@ -31,6 +33,7 @@ public class PolicyEntityRelation implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH }, optional = false)
 	@JoinColumn(name = "POLICY_ID", nullable = false)
+	@NotSerializable
 	private Policy policy;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = false)
