@@ -33,7 +33,7 @@ public class CotizationsService {
 	 */
 	public AssetPrice findPriceAtDate(BaseAsset asset, Date when) throws NoCotizationException {
 		EntityManager entityManager = entityManagerProvider.get();
-		TypedQuery<AssetPrice> query = entityManager.createNamedQuery("AssetPrice.selectByDateAndAsset", AssetPrice.class);
+		TypedQuery<AssetPrice> query = entityManager.createNamedQuery("AssetPrice.selectByDate", AssetPrice.class);
 		query.setParameter("asset", asset).setParameter("date", when);
 		try {
 			return query.getSingleResult();
@@ -58,8 +58,8 @@ public class CotizationsService {
 	}
 
 	/**
-	 * Obtiene el ultimo precio de un fondo anterior a una fecha dada. Devuelve <code>null</code> si no encuentra
-	 * precios anteriores a la fecha dada.
+	 * Obtiene el ultimo precio de un fondo anterior a una fecha dada. Devuelve <code>null</code> si no encuentra precios anteriores a la
+	 * fecha dada.
 	 * 
 	 * @param asset
 	 * @param notAfter
