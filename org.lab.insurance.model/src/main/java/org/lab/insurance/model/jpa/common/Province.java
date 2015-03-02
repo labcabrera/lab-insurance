@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "P_PROVINCE")
+@Table(name = "C_PROVINCE")
 @SuppressWarnings("serial")
 public class Province implements Serializable {
 

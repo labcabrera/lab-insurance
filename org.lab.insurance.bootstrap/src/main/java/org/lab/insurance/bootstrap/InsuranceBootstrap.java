@@ -33,8 +33,10 @@ public class InsuranceBootstrap implements Runnable {
 		Injector injector = Guice.createInjector(new InsuranceCoreModule());
 		PersistService persistService = injector.getInstance(PersistService.class);
 		persistService.start();
+		Long t0 = System.currentTimeMillis();
 		try {
 			injector.getInstance(InsuranceBootstrap.class).run();
+			LOG.debug("Boostrap completed in {} ms", System.currentTimeMillis() - t0);
 		} finally {
 			persistService.stop();
 		}
@@ -57,9 +59,9 @@ public class InsuranceBootstrap implements Runnable {
 	}
 
 	/**
-	 * Nota: tenemos servicios que solamente insertan las entidades a traves del entityManager y servicios que acceder
-	 * al actionExecutionService que controla que ya controla de forma autonoma las transacciones de modo que separamos
-	 * en dos grupos para hacer transaccional el primero.
+	 * Nota: tenemos servicios que solamente insertan las entidades a traves del entityManager y servicios que acceder al
+	 * actionExecutionService que controla que ya controla de forma autonoma las transacciones de modo que separamos en dos grupos para
+	 * hacer transaccional el primero.
 	 */
 	@Override
 	public void run() {

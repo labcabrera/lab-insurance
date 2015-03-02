@@ -16,7 +16,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "S_STATE")
+@Table(name = "SYS_STATE")
 @SuppressWarnings("serial")
 public class State implements Serializable {
 

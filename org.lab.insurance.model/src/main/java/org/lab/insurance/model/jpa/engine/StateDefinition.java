@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "S_STATE_DEFINITION")
+@Table(name = "SYS_STATE_DEFINITION")
 @SuppressWarnings("serial")
 public class StateDefinition implements Serializable {
 

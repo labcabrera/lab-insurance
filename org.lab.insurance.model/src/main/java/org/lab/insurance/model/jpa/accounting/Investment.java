@@ -23,7 +23,7 @@ import org.lab.insurance.model.jpa.insurance.BaseAsset;
  * comprarlo (en cuyo caso tenemos el mismo Portfolio pero con diferentes Investments).
  */
 @Entity
-@Table(name = "A_INVESTMENT")
+@Table(name = "I_INVESTMENT")
 @SuppressWarnings("serial")
 public class Investment implements Serializable, HasPortfolio, HasState<String> {
 

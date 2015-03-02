@@ -20,7 +20,7 @@ import org.lab.insurance.model.jpa.insurance.MarketOrder;
  * Representa un asiento contable entre dos Investments.
  */
 @Entity
-@Table(name = "A_PORTFOLIO_OPERATION")
+@Table(name = "I_PORTFOLIO_OPERATION")
 @SuppressWarnings("serial")
 public class PortfolioOperation implements Serializable {
 

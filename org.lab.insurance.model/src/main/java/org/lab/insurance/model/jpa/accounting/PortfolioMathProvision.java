@@ -13,7 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "A_PORTFOLIO_MATH_PROVISION")
+@Table(name = "I_PORTFOLIO_MATH_PROVISION")
 public class PortfolioMathProvision {
 
 	@Id

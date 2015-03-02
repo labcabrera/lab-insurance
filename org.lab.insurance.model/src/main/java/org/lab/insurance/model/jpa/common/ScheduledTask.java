@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import org.lab.insurance.model.Mergeable;
 
 @Entity
-@Table(name = "C_SCHEDULED_TASK")
+@Table(name = "SYS_SCHEDULED_TASK")
 public class ScheduledTask implements Mergeable<ScheduledTask> {
 
 	@Id
@@ -41,7 +41,7 @@ public class ScheduledTask implements Mergeable<ScheduledTask> {
 	@ElementCollection(fetch = FetchType.EAGER)
 	@MapKeyColumn(name = "PARAM_KEY", length = 516)
 	@Column(name = "PARAM_VALUE", length = 64)
-	@CollectionTable(name = "m_scheduled_task_param", joinColumns = @JoinColumn(name = "TASK_ID"))
+	@CollectionTable(name = "SYS_SCHEDULED_TASK_PARAM", joinColumns = @JoinColumn(name = "TASK_ID"))
 	private Map<String, String> params = new HashMap<String, String>();
 
 	public Long getId() {

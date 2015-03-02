@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import org.lab.insurance.model.HasAsset;
 import org.lab.insurance.model.HasOrder;
 import org.lab.insurance.model.HasState;
+import org.lab.insurance.model.common.NotSerializable;
 import org.lab.insurance.model.jpa.engine.State;
 
 @Entity
@@ -31,6 +32,7 @@ public class MarketOrder implements Serializable, HasOrder, HasState<String>, Ha
 
 	@ManyToOne
 	@JoinColumn(name = "ORDER_ID")
+	@NotSerializable
 	private Order order;
 
 	@Column(name = "TYPE", nullable = false)

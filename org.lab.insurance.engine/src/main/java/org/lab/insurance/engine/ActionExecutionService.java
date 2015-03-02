@@ -43,12 +43,15 @@ public class ActionExecutionService {
 			Message<T> result = producer.requestBody(endpoint, actionEntity, Message.class);
 			producer.stop();
 			actionExecution.setResultJson(serializer.toJson(result));
+			actionExecution.setExecuted(timestampProvider.getCurrentDateTime());
 			entityManager.persist(actionExecution);
 			return result;
 		} catch (Exception ex) {
 			entityManager.getTransaction().rollback();
 			entityManager.getTransaction().begin();
 			actionExecution.setFailure(timestampProvider.getCurrentDateTime());
+			// TODO add exception info
+			actionExecution.setResultJson(serializer.toJson(ex.getMessage()));
 			entityManager.persist(actionExecution);
 			entityManager.getTransaction().commit();
 			entityManager.getTransaction().begin();

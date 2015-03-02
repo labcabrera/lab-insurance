@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "A_MATH_PROVISION")
+@Table(name = "I_MATH_PROVISION")
 @SuppressWarnings("serial")
 public class MathProvision implements Serializable {
 

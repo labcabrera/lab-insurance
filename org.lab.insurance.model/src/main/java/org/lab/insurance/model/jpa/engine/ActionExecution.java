@@ -12,7 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "S_ACTION_EXECUTION")
+@Table(name = "SYS_ACTION_EXECUTION")
 @SuppressWarnings("serial")
 public class ActionExecution implements Serializable {
 
@@ -21,13 +21,13 @@ public class ActionExecution implements Serializable {
 	@GeneratedValue(generator = "system-uuid")
 	private String id;
 
-	@Column(name = "EXECUTION_DATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date executionDate;
-
 	@Column(name = "EXECUTED")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date executed;
+
+	@Column(name = "SCHEDULED")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date scheduled;
 
 	@Column(name = "CANCELLED")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -55,12 +55,12 @@ public class ActionExecution implements Serializable {
 		this.id = id;
 	}
 
-	public Date getExecutionDate() {
-		return executionDate;
+	public Date getScheduled() {
+		return scheduled;
 	}
 
-	public void setExecutionDate(Date executionDate) {
-		this.executionDate = executionDate;
+	public void setScheduled(Date scheduled) {
+		this.scheduled = scheduled;
 	}
 
 	public Date getExecuted() {

@@ -16,7 +16,7 @@ import javax.persistence.Table;
  * Representa una cartera de activos. Cada portfolio tiene una serie de {@link Investment} para cada uno de los fondos.
  */
 @Entity
-@Table(name = "A_PORTFOLIO")
+@Table(name = "I_PORTFOLIO")
 @SuppressWarnings("serial")
 public class Portfolio implements Serializable {
 
