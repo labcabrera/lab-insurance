@@ -1,5 +1,6 @@
 package org.lab.insurance.engine.processors.policy;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -8,12 +9,12 @@ import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.apache.camel.ProducerTemplate;
+import org.lab.insurance.engine.ActionExecutionService;
 import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.HasPolicy;
+import org.lab.insurance.model.engine.actions.orders.ProcessOrderAction;
 import org.lab.insurance.model.jpa.Policy;
 import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.jpa.insurance.OrderType;
@@ -36,9 +37,9 @@ public class NewPolicyProcessor implements Processor {
 	@Inject
 	private Validator validator;
 	@Inject
-	private CamelContext camelContext;
-	@Inject
 	private StateMachineService stateMachineService;
+	@Inject
+	private ActionExecutionService actionExecutionService;
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
@@ -56,11 +57,10 @@ public class NewPolicyProcessor implements Processor {
 		entityManager.persist(policy);
 		entityManager.flush();
 		stateMachineService.createTransition(policy, Constants.PolicyStates.INITIAL);
-		// Enviamos las ordenes a la cola de procesamiento (no veo la forma de hacerlo a traves del route)
-		ProducerTemplate producer = camelContext.createProducerTemplate();
 		for (Order order : Lambda.select(policy.getOrders(), new OrderTypeMatcher(OrderType.INITIAL_PAYMENT))) {
-			order.setPolicy(policy);
-			producer.requestBody("direct:order_process", order);
+			Date processDate = order.getDates().getEffective();
+			ProcessOrderAction action = new ProcessOrderAction().withOrderId(order.getId()).withActionDate(processDate);
+			actionExecutionService.schedule(action, processDate);
 		}
 	}
 }

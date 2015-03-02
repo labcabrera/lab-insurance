@@ -2,15 +2,17 @@ package org.lab.insurance.model.engine.actions.orders;
 
 import java.util.Date;
 
+import org.lab.insurance.model.HasOrder;
 import org.lab.insurance.model.engine.ActionEntity;
 import org.lab.insurance.model.jpa.insurance.Order;
 
 @SuppressWarnings("serial")
-public abstract class BaseOrderAction implements ActionEntity<Order> {
+public abstract class BaseOrderAction implements ActionEntity<Order>, HasOrder {
 
 	protected Order order;
 	protected Date actionDate;
 
+	@Override
 	public Order getOrder() {
 		return order;
 	}
@@ -28,17 +30,18 @@ public abstract class BaseOrderAction implements ActionEntity<Order> {
 		this.actionDate = actionDate;
 	}
 
-	public BaseOrderAction withOrderId(String orderId) {
+	@SuppressWarnings("unchecked")
+	public <T extends BaseOrderAction> T withOrderId(String orderId) {
 		if (order == null) {
 			order = new Order();
 		}
 		order.setId(orderId);
-		return this;
+		return (T) this;
 	}
 
-	public BaseOrderAction withActionDate(Date date) {
+	@SuppressWarnings("unchecked")
+	public <T extends BaseOrderAction> T withActionDate(Date date) {
 		this.actionDate = date;
-		return this;
+		return (T) this;
 	}
-
 }
