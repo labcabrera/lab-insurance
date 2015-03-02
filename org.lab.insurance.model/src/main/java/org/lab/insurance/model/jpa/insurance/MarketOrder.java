@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.lab.insurance.model.HasAsset;
 import org.lab.insurance.model.HasOrder;
 import org.lab.insurance.model.HasState;
@@ -28,7 +27,6 @@ public class MarketOrder implements Serializable, HasOrder, HasState<String>, Ha
 	@Id
 	@Column(name = "ID")
 	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 
 	@ManyToOne

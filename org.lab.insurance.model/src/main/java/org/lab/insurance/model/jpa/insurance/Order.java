@@ -20,7 +20,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.lab.insurance.model.HasPolicy;
 import org.lab.insurance.model.HasState;
 import org.lab.insurance.model.jpa.Policy;
@@ -37,7 +36,6 @@ public class Order implements Serializable, HasPolicy, HasState<String> {
 	@Id
 	@Column(name = "ID", length = 36)
 	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 
 	@Enumerated(EnumType.STRING)

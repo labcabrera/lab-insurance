@@ -10,8 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
 /**
  * Entidad que contiene informacion interna acerca de como se va a gestionar la orden (por ejemplo como se aplican los gastos, como se
  * realiza la venta de fondos, etc).
@@ -24,7 +22,6 @@ public class OrderProcessInfo implements Serializable {
 	@Id
 	@Column(name = "ID", length = 36)
 	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 
 	@Enumerated(EnumType.STRING)

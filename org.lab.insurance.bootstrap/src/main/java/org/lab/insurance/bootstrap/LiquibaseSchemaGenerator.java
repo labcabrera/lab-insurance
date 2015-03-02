@@ -1,4 +1,4 @@
-package org.lab.insurance.core.jpa;
+package org.lab.insurance.bootstrap;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +20,22 @@ import liquibase.resource.FileSystemResourceAccessor;
 import liquibase.snapshot.InvalidExampleException;
 
 import org.apache.commons.io.FileUtils;
+import org.eclipse.persistence.sessions.server.ServerSession;
+import org.lab.insurance.engine.guice.InsuranceCoreModule;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.persist.PersistService;
+
+/**
+ * Genera el XML de Liquibase a partir de un esquema de base de datos existente. Para ello podremos generar el esquema a traves del
+ * eclipselink utilizando la propiedad:
+ * 
+ * <pre>
+ * eclipselink.ddl-generation=drop-and-create-tables
+ * </pre>
+ * 
+ */
 public class LiquibaseSchemaGenerator {
 
 	private static final String master = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -31,9 +46,16 @@ public class LiquibaseSchemaGenerator {
 	public static final String DEFAULT_INITIAL_CHANGELOG = "dbchangelog/db.changelog-initial.xml";
 	public static final String DEFAULT_DIFF_CHANGELOG = "dbchangelog/db.changelog";
 
-	// public static void main(String[] args) {
-	// Injector injector = Guice.createInjector(new InsuranceCore)
-	// }
+	public static void main(String[] args) throws Exception {
+		Injector injector = Guice.createInjector(new InsuranceCoreModule());
+		PersistService persistService = injector.getInstance(PersistService.class);
+		persistService.start();
+		try {
+			injector.getInstance(LiquibaseSchemaGenerator.class).generateInitialSchema();
+		} finally {
+			persistService.stop();
+		}
+	}
 
 	@Inject
 	private Provider<EntityManager> entityManagerProvider;
@@ -54,17 +76,14 @@ public class LiquibaseSchemaGenerator {
 		String dataDir = null;
 		DiffOutputControl diffOutputControl = new DiffOutputControl();
 		CommandLineUtils.doGenerateChangeLog(changeLogFile, originalDatabase, catalogName, schemaName, snapshotTypes, author, context, dataDir, diffOutputControl);
-		// limpiamos el esquema generado
-		// File initialFile = new File(DEFAULT_SRC_FOLDER + DEFAULT_INITIAL_CHANGELOG);
-		// FileUtils.writeStringToFile(initialFile, changeXmlValues(FileUtils.readFileToString(initialFile)));
 		Liquibase liquibase = new Liquibase(DEFAULT_MASTER_CHANGELOG, new FileSystemResourceAccessor(DEFAULT_SRC_FOLDER), database);
 		liquibase.changeLogSync("initial");
 		database.close();
 	}
 
 	private Connection resolveConnection() {
-		// ServerSession sess = entityManagerProvider.get().unwrap(ServerSession.class);
-		// Connection connection = sess.getAccessor().getConnection();
-		return null;
+		ServerSession sess = entityManagerProvider.get().unwrap(ServerSession.class);
+		Connection connection = sess.getAccessor().getConnection();
+		return connection;
 	}
 }

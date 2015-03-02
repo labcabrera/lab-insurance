@@ -15,8 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
 @Table(name = "I_BASE_ASSET")
 @NamedQueries({ @NamedQuery(name = "BaseAsset.selectByIsin", query = "select e from BaseAsset e where e.isin= :isin") })
@@ -27,7 +25,6 @@ public class BaseAsset implements Serializable {
 	@Id
 	@Column(name = "ID", length = 36)
 	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 
 	@Column(name = "ISIN", nullable = false, length = 16)

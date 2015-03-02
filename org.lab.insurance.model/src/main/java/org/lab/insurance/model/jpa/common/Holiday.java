@@ -13,8 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "C_HOLIDAY")
@@ -25,10 +25,10 @@ public class Holiday {
 	@Id
 	@Column(name = "ID", length = 36)
 	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 
 	@Column(name = "HOLIDAY_DATE")
+	@Temporal(TemporalType.DATE)
 	private Date holidayDate;
 
 	@Column(name = "DATE")

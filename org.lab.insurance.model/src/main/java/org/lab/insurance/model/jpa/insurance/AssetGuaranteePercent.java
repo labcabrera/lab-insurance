@@ -13,8 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.lab.insurance.model.HasAsset;
 import org.lab.insurance.model.HasIdentifier;
 
@@ -29,7 +30,6 @@ public class AssetGuaranteePercent implements HasIdentifier<String>, HasAsset, S
 	@Id
 	@Column(name = "ID")
 	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
@@ -37,9 +37,11 @@ public class AssetGuaranteePercent implements HasIdentifier<String>, HasAsset, S
 	private BaseAsset asset;
 
 	@Column(name = "FROM_DATE", nullable = false)
+	@Temporal(TemporalType.DATE)
 	private Date from;
 
 	@Column(name = "TO_DATE", nullable = false)
+	@Temporal(TemporalType.DATE)
 	private Date to;
 
 	@Column(name = "GUARANTEE_PERCENT", nullable = false)

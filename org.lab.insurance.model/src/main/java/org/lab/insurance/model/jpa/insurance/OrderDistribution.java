@@ -12,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
 /**
  * Entidad que representa cada uno de los elementos que forman parte de la definicion de entradas o salidas de un movimiento.
  */
@@ -25,7 +23,6 @@ public class OrderDistribution implements Serializable {
 	@Id
 	@Column(name = "ID", length = 36)
 	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 
 	@ManyToOne(fetch = FetchType.LAZY)

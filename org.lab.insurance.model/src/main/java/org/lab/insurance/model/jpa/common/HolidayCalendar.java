@@ -12,8 +12,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
 @Table(name = "C_HOLIDAY_CALENDAR")
 @NamedQueries({ @NamedQuery(name = "HolidayCalendar.selectByName", query = "select e from HolidayCalendar e where e.name = :name") })
@@ -22,7 +20,6 @@ public class HolidayCalendar {
 	@Id
 	@Column(name = "ID", length = 36)
 	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 
 	@Column(name = "NAME", nullable = false, length = 128)

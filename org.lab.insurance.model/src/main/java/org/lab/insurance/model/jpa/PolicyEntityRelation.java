@@ -16,8 +16,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
 @Table(name = "C_POLICY_ENTITY_RELATION")
 @SuppressWarnings("serial")
@@ -26,7 +24,6 @@ public class PolicyEntityRelation implements Serializable {
 	@Id
 	@Column(name = "ID")
 	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 
 	@Column(name = "TYPE")

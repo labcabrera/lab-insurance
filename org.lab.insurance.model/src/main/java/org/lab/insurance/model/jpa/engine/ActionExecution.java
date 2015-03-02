@@ -11,8 +11,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
 @Table(name = "S_ACTION_EXECUTION")
 @SuppressWarnings("serial")
@@ -21,7 +19,6 @@ public class ActionExecution implements Serializable {
 	@Id
 	@Column(name = "ID")
 	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 
 	@Column(name = "EXECUTION_DATE")
@@ -40,13 +37,14 @@ public class ActionExecution implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date failure;
 
-	@Column(name = "ACTION_ENTITY_CLASS", columnDefinition = "TEXT")
+	// TODO el columnDefinition depende del proveedor de base de datos. En algunos es de tipo TEXT, para derby es necesario el CLOB.
+	@Column(name = "ACTION_ENTITY_CLASS", columnDefinition = "CLOB")
 	private String actionEntityClass;
 
-	@Column(name = "ACTION_ENTITY_JSON", columnDefinition = "TEXT")
+	@Column(name = "ACTION_ENTITY_JSON", columnDefinition = "CLOB")
 	private String actionEntityJson;
 
-	@Column(name = "RESULT_JSON", columnDefinition = "TEXT")
+	@Column(name = "RESULT_JSON", columnDefinition = "CLOB")
 	private String resultJson;
 
 	public String getId() {

@@ -16,7 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.lab.insurance.model.jpa.common.Address;
 import org.lab.insurance.model.jpa.common.IdCard;
 
@@ -33,7 +32,6 @@ public abstract class AbstractLegalEntity implements Serializable {
 	@Id
 	@Column(name = "ID")
 	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 
 	@Column(name = "NAME")

@@ -2,9 +2,9 @@ package org.lab.insurance.model;
 
 public class Constants {
 
-	public static final String PERSISTENCE_UNIT_NAME = "com.cnp.ciis.model.jpa";
+	public static final String PERSISTENCE_UNIT_NAME = "org.lab.insurance.model.jpa";
 
-	public static final String CONFIGURATION_BASE_CLASSPATH_FILE = "ciis.properties";
+	public static final String CONFIGURATION_BASE_CLASSPATH_FILE = "org.lab.insurance.properties";
 
 	/** Nombre de la clave en el fichero de configuracion que indica la ruta del repositorio de ficheros de la aplicacion */
 	public static final String CONFIGURATION_KEY_REPOSITORY_BASE_PATH = "repository.path.base";

@@ -14,8 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.validation.ValidPolicy;
 
@@ -29,7 +30,6 @@ public class Policy implements Serializable {
 	@Id
 	@Column(name = "ID", length = 36)
 	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 
 	@Column(name = "NUMBER")
@@ -45,6 +45,8 @@ public class Policy implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "policy", cascade = { CascadeType.DETACH })
 	private List<Order> orders;
 
+	@Column(name = "EFFECTIVE")
+	@Temporal(TemporalType.DATE)
 	private Date effective;
 
 	public String getId() {

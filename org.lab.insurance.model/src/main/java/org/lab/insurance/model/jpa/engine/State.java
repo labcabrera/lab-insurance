@@ -15,8 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
 @Table(name = "S_STATE")
 @SuppressWarnings("serial")
@@ -25,7 +23,6 @@ public class State implements Serializable {
 	@Id
 	@Column(name = "ID", length = 36)
 	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })

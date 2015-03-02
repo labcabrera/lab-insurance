@@ -1,0 +1,879 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="lab" id="1425292004607-1">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="A_INVESTMENT">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ASSET_ID" type="VARCHAR(36)"/>
+            <column name="CURRENT_STATE_ID" type="VARCHAR(36)"/>
+            <column name="PORTFOLIO_ID" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-2">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="A_MATH_PROVISION">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PORTFOLIO_MATH_PROVISION_ID" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-3">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="A_PORTFOLIO">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="TYPE" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-4">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="A_PORTFOLIO_MATH_PROVISION">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="GENERATED" type="date"/>
+            <column name="VALUE" type="DECIMAL(15)"/>
+            <column name="VALUE_DATE" type="date"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-5">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="A_PORTFOLIO_OPERATION">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AMOUNT" type="DECIMAL(15)"/>
+            <column name="UNITS" type="DECIMAL(15)"/>
+            <column name="VALUE_DATE" type="date"/>
+            <column name="ASSET_ID" type="VARCHAR(36)"/>
+            <column name="DEBE_INVESTMENT_ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="HABER_INVESTMENT_ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MARKET_ORDER_ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-6">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_ABSTRACT_LEGAL_ENTITY">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DTYPE" type="VARCHAR(31)"/>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="TYPE" type="VARCHAR(255)"/>
+            <column name="CONTACT_INFORMATION_ID" type="VARCHAR(255)"/>
+            <column name="FISCAL_ADDRESS_ID" type="VARCHAR(255)"/>
+            <column name="POSTAL_ADDRESS_ID" type="VARCHAR(255)"/>
+            <column name="ID_CARD_ID" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-7">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_ADDRESS">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROAD_NAME" type="VARCHAR(255)"/>
+            <column name="ROAD_NUMBER" type="VARCHAR(255)"/>
+            <column name="ZIP_CODE" type="VARCHAR(255)"/>
+            <column name="COUNTRY_ID" type="VARCHAR(255)"/>
+            <column name="LOCALITY_ID" type="VARCHAR(255)"/>
+            <column name="PROVINCE_ID" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-8">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_AGREEMENT">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CODE" type="VARCHAR(255)"/>
+            <column name="NAME" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-9">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_APP_FILE">
+            <column autoIncrement="true" name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="SQL150302112635500"/>
+            </column>
+            <column name="CONTENT_TYPE" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PATH" type="VARCHAR(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-10">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_APP_MAIL_RECIPIENT">
+            <column autoIncrement="true" name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="SQL150302112633320"/>
+            </column>
+            <column defaultValueNumeric="0" name="DISABLED" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MAIL_ADDRESS" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-11">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_CONTACT_INFORMATION">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CELL_PHONE_NUMBER" type="VARCHAR(255)"/>
+            <column name="EMAIL" type="VARCHAR(255)"/>
+            <column name="TELEPHONE_NUMBER" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-12">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_COUNTRY">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ISO3" type="VARCHAR(255)"/>
+            <column name="NAME" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-13">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_HOLIDAY">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="HOLIDAY_DATE" type="date"/>
+            <column name="DATE" type="VARCHAR(255)"/>
+            <column name="CALENDAR_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-14">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_HOLIDAY_CALENDAR">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="COUNTRY_ID" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-15">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_IDCARD">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NUMBER" type="VARCHAR(255)"/>
+            <column name="TYPE" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-16">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_LEGAL_ENTITY">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-17">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_LOCALITY">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="PROVINCE_ID" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-18">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_PERSON">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="BIRTH_DATE" type="date"/>
+            <column name="FIRST_SURNAME" type="VARCHAR(255)"/>
+            <column name="SECOND_SURNAME" type="VARCHAR(255)"/>
+            <column name="BIRTH_ADDRESS_ID" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-19">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_POLICY">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EFFECTIVE" type="date"/>
+            <column name="NUMBER" type="VARCHAR(255)"/>
+            <column name="AGREEMENT_ID" type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-20">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_POLICY_ENTITY_RELATION">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="END_DATE" type="date"/>
+            <column name="PERCENT" type="DECIMAL(15)"/>
+            <column name="START_DATE" type="date"/>
+            <column name="TYPE" type="INTEGER"/>
+            <column name="LEGAL_ENTITY_ID" type="VARCHAR(255)"/>
+            <column name="POLICY_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-21">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_SCHEDULED_TASK">
+            <column autoIncrement="true" name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="SQL150302112634650"/>
+            </column>
+            <column name="CLASSNAME" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CRON_EXP" type="VARCHAR(32)"/>
+            <column defaultValueNumeric="0" name="DISABLED" type="SMALLINT"/>
+            <column name="NAME" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-22">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="C_SEQUENCE">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-23">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="I_ASSET_GUARANTEE">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FROM_DATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="GUARANTEE_PERCENT" type="DECIMAL(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TO_DATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ASSET_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-24">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="I_ASSET_PRICE">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="BUY_PRICE_IN_EUROS" type="DECIMAL(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="GENERATED" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRICE_DATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRICE_IN_EUROS" type="DECIMAL(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SELL_PRICE_IN_EUROS" type="DECIMAL(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ASSET_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-25">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="I_BASE_ASSET">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DECIMALS" type="INTEGER"/>
+            <column name="FROM_DATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ISIN" type="VARCHAR(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TO_DATE" type="date"/>
+            <column name="TYPE" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-26">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="I_CURRENCY">
+            <column name="ID" type="VARCHAR(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-27">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="I_MARKET_ORDER">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="GROSS_AMOUNT" type="DECIMAL(15)"/>
+            <column name="NAV" type="DECIMAL(15)"/>
+            <column name="NET_AMOUNT" type="DECIMAL(15)"/>
+            <column name="SOURCE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UNITS" type="DECIMAL(15)"/>
+            <column name="ACCOUNTED" type="TIMESTAMP"/>
+            <column name="EFFECTIVE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PROCESSED" type="TIMESTAMP"/>
+            <column name="VALUE_DATE" type="date"/>
+            <column name="VALUED" type="TIMESTAMP"/>
+            <column name="ASSET_ID" type="VARCHAR(36)"/>
+            <column name="CURRENT_STATE_ID" type="VARCHAR(36)"/>
+            <column name="ORDER_ID" type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-28">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="I_ORDER">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="GROSS_AMOUNT" type="DECIMAL(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NET_AMOUNT" type="DECIMAL(15)"/>
+            <column name="TYPE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACCOUNTED" type="TIMESTAMP"/>
+            <column name="EFFECTIVE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PROCESSED" type="TIMESTAMP"/>
+            <column name="VALUE_DATE" type="date"/>
+            <column name="VALUED" type="TIMESTAMP"/>
+            <column name="CURRENT_STATE_ID" type="VARCHAR(36)"/>
+            <column name="POLICY_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PROCESSINFO_ID" type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-29">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="I_ORDER_DISTRIBUTION">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AMOUNT" type="DECIMAL(15)"/>
+            <column name="PERCENT" type="DECIMAL(15)"/>
+            <column name="ASSET_ID" type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-30">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="I_ORDER_DISTRIBUTION_BUY">
+            <column name="ORDER_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DISTRIBUTION_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-31">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="I_ORDER_DISTRIBUTION_SELL">
+            <column name="ORDER_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DISTRIBUTION_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-32">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="I_ORDER_PROCESS_INFO">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SELL_STRATEGY" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-33">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="M_SCHEDULED_TASK_PARAM">
+            <column name="TASK_ID" type="BIGINT"/>
+            <column name="PARAM_VALUE" type="VARCHAR(64)"/>
+            <column name="PARAM_KEY" type="VARCHAR(516)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-34">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="P_PROVINCE">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="COUNTRY_ID" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-35">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="SEQUENCE">
+            <column name="SEQ_NAME" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SEQ_COUNT" type="DECIMAL(15)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-36">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="S_ACTION_EXECUTION">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACTION_ENTITY_CLASS" type="CLOB(2147483647)"/>
+            <column name="ACTION_ENTITY_JSON" type="CLOB(2147483647)"/>
+            <column name="CANCELLED" type="TIMESTAMP"/>
+            <column name="EXECUTED" type="TIMESTAMP"/>
+            <column name="EXECUTION_DATE" type="TIMESTAMP"/>
+            <column name="FAILURE" type="TIMESTAMP"/>
+            <column name="RESULT_JSON" type="CLOB(2147483647)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-37">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="S_STATE">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ENTERED" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="HAS_STATE_ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STATE_DEFINITION_ID" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-38">
+        <createTable catalogName="ROOT" schemaName="ROOT" tableName="S_STATE_DEFINITION">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-39">
+        <addPrimaryKey catalogName="ROOT" columnNames="SEQ_NAME" constraintName="SQL150302112513110" schemaName="ROOT" tableName="SEQUENCE"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-40">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112633110" schemaName="ROOT" tableName="A_PORTFOLIO_OPERATION"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-41">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112633220" schemaName="ROOT" tableName="C_CONTACT_INFORMATION"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-42">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112633420" schemaName="ROOT" tableName="C_ABSTRACT_LEGAL_ENTITY"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-43">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112633520" schemaName="ROOT" tableName="C_PERSON"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-44">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112633620" schemaName="ROOT" tableName="C_HOLIDAY"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-45">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112633730" schemaName="ROOT" tableName="C_SEQUENCE"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-46">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112633920" schemaName="ROOT" tableName="I_ORDER_PROCESS_INFO"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-47">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112634040" schemaName="ROOT" tableName="C_AGREEMENT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-48">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112634150" schemaName="ROOT" tableName="A_PORTFOLIO_MATH_PROVISION"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-49">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112634240" schemaName="ROOT" tableName="C_LOCALITY"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-50">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112634340" schemaName="ROOT" tableName="C_IDCARD"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-51">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112634430" schemaName="ROOT" tableName="P_PROVINCE"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-52">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112634520" schemaName="ROOT" tableName="A_INVESTMENT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-53">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112634910" schemaName="ROOT" tableName="S_STATE_DEFINITION"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-54">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112635030" schemaName="ROOT" tableName="S_ACTION_EXECUTION"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-55">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112635190" schemaName="ROOT" tableName="I_ASSET_GUARANTEE"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-56">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112635380" schemaName="ROOT" tableName="A_PORTFOLIO"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-57">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112635690" schemaName="ROOT" tableName="S_STATE"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-58">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112635990" schemaName="ROOT" tableName="C_ADDRESS"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-59">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112636180" schemaName="ROOT" tableName="I_ORDER_DISTRIBUTION"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-60">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112636380" schemaName="ROOT" tableName="C_LEGAL_ENTITY"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-61">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112636480" schemaName="ROOT" tableName="I_ASSET_PRICE"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-62">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112636590" schemaName="ROOT" tableName="A_MATH_PROVISION"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-63">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112636710" schemaName="ROOT" tableName="I_MARKET_ORDER"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-64">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112636940" schemaName="ROOT" tableName="C_HOLIDAY_CALENDAR"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-65">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112637110" schemaName="ROOT" tableName="I_ORDER"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-66">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112637210" schemaName="ROOT" tableName="I_BASE_ASSET"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-67">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112637320" schemaName="ROOT" tableName="C_POLICY_ENTITY_RELATION"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-68">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112637450" schemaName="ROOT" tableName="C_COUNTRY"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-69">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112637590" schemaName="ROOT" tableName="I_CURRENCY"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-70">
+        <addPrimaryKey catalogName="ROOT" columnNames="ID" constraintName="SQL150302112637810" schemaName="ROOT" tableName="C_POLICY"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-71">
+        <addPrimaryKey catalogName="ROOT" columnNames="ORDER_ID, DISTRIBUTION_ID" constraintName="SQL150302112638380" schemaName="ROOT" tableName="I_ORDER_DISTRIBUTION_BUY"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-72">
+        <addPrimaryKey catalogName="ROOT" columnNames="ORDER_ID, DISTRIBUTION_ID" constraintName="SQL150302112638540" schemaName="ROOT" tableName="I_ORDER_DISTRIBUTION_SELL"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-73">
+        <addForeignKeyConstraint baseColumnNames="ASSET_ID" baseTableCatalogName="ROOT" baseTableName="A_INVESTMENT" baseTableSchemaName="ROOT" constraintName="AINVESTMENTASSETID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="I_BASE_ASSET" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-74">
+        <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableCatalogName="ROOT" baseTableName="C_ADDRESS" baseTableSchemaName="ROOT" constraintName="CADDRESSCOUNTRY_ID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_COUNTRY" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-75">
+        <addForeignKeyConstraint baseColumnNames="LOCALITY_ID" baseTableCatalogName="ROOT" baseTableName="C_ADDRESS" baseTableSchemaName="ROOT" constraintName="CADDRESSLOCALITYID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_LOCALITY" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-76">
+        <addForeignKeyConstraint baseColumnNames="PROVINCE_ID" baseTableCatalogName="ROOT" baseTableName="C_ADDRESS" baseTableSchemaName="ROOT" constraintName="CADDRESSPROVINCEID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="P_PROVINCE" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-77">
+        <addForeignKeyConstraint baseColumnNames="CONTACT_INFORMATION_ID" baseTableCatalogName="ROOT" baseTableName="C_ABSTRACT_LEGAL_ENTITY" baseTableSchemaName="ROOT" constraintName="CBSTRCCNTCTNFRMTND" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_CONTACT_INFORMATION" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-78">
+        <addForeignKeyConstraint baseColumnNames="FISCAL_ADDRESS_ID" baseTableCatalogName="ROOT" baseTableName="C_ABSTRACT_LEGAL_ENTITY" baseTableSchemaName="ROOT" constraintName="CBSTRCTLFSCLDDRSSD" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_ADDRESS" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-79">
+        <addForeignKeyConstraint baseColumnNames="ID_CARD_ID" baseTableCatalogName="ROOT" baseTableName="C_ABSTRACT_LEGAL_ENTITY" baseTableSchemaName="ROOT" constraintName="CBSTRCTLGLNTTDCRDD" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_IDCARD" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-80">
+        <addForeignKeyConstraint baseColumnNames="POSTAL_ADDRESS_ID" baseTableCatalogName="ROOT" baseTableName="C_ABSTRACT_LEGAL_ENTITY" baseTableSchemaName="ROOT" constraintName="CBSTRCTLPSTLDDRSSD" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_ADDRESS" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-81">
+        <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableCatalogName="ROOT" baseTableName="C_HOLIDAY_CALENDAR" baseTableSchemaName="ROOT" constraintName="CHLDYCLENDARCNTRYD" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_COUNTRY" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-82">
+        <addForeignKeyConstraint baseColumnNames="CALENDAR_ID" baseTableCatalogName="ROOT" baseTableName="C_HOLIDAY" baseTableSchemaName="ROOT" constraintName="CHOLIDAYCALENDARID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_HOLIDAY_CALENDAR" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-83">
+        <addForeignKeyConstraint baseColumnNames="PROVINCE_ID" baseTableCatalogName="ROOT" baseTableName="C_LOCALITY" baseTableSchemaName="ROOT" constraintName="CLCALITYPROVINCEID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="P_PROVINCE" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-84">
+        <addForeignKeyConstraint baseColumnNames="LEGAL_ENTITY_ID" baseTableCatalogName="ROOT" baseTableName="C_POLICY_ENTITY_RELATION" baseTableSchemaName="ROOT" constraintName="CPLCYNTTYRLGLNTTYD" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_ABSTRACT_LEGAL_ENTITY" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-85">
+        <addForeignKeyConstraint baseColumnNames="POLICY_ID" baseTableCatalogName="ROOT" baseTableName="C_POLICY_ENTITY_RELATION" baseTableSchemaName="ROOT" constraintName="CPLCYNTTYRLTNPLCYD" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_POLICY" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-86">
+        <addForeignKeyConstraint baseColumnNames="AGREEMENT_ID" baseTableCatalogName="ROOT" baseTableName="C_POLICY" baseTableSchemaName="ROOT" constraintName="CPOLICYAGREEMENTID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_AGREEMENT" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-87">
+        <addForeignKeyConstraint baseColumnNames="BIRTH_ADDRESS_ID" baseTableCatalogName="ROOT" baseTableName="C_PERSON" baseTableSchemaName="ROOT" constraintName="CPRSNBRTHADDRESSID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_ADDRESS" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-88">
+        <addForeignKeyConstraint baseColumnNames="ID" baseTableCatalogName="ROOT" baseTableName="C_LEGAL_ENTITY" baseTableSchemaName="ROOT" constraintName="C_LEGAL_ENTITY_ID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_ABSTRACT_LEGAL_ENTITY" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-89">
+        <addForeignKeyConstraint baseColumnNames="ID" baseTableCatalogName="ROOT" baseTableName="C_PERSON" baseTableSchemaName="ROOT" constraintName="FK_C_PERSON_ID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_ABSTRACT_LEGAL_ENTITY" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-90">
+        <addForeignKeyConstraint baseColumnNames="ASSET_ID" baseTableCatalogName="ROOT" baseTableName="I_ASSET_PRICE" baseTableSchemaName="ROOT" constraintName="IASSETPRICEASSETID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="I_BASE_ASSET" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-91">
+        <addForeignKeyConstraint baseColumnNames="POLICY_ID" baseTableCatalogName="ROOT" baseTableName="I_ORDER" baseTableSchemaName="ROOT" constraintName="I_ORDER_POLICY_ID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_POLICY" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-92">
+        <addForeignKeyConstraint baseColumnNames="ASSET_ID" baseTableCatalogName="ROOT" baseTableName="I_MARKET_ORDER" baseTableSchemaName="ROOT" constraintName="MARKETORDERASSETID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="I_BASE_ASSET" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-93">
+        <addForeignKeyConstraint baseColumnNames="ORDER_ID" baseTableCatalogName="ROOT" baseTableName="I_MARKET_ORDER" baseTableSchemaName="ROOT" constraintName="MARKETORDERORDERID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="I_ORDER" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-94">
+        <addForeignKeyConstraint baseColumnNames="CURRENT_STATE_ID" baseTableCatalogName="ROOT" baseTableName="I_MARKET_ORDER" baseTableSchemaName="ROOT" constraintName="MRKTRDRCRRNTSTTEID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="S_STATE" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-95">
+        <addForeignKeyConstraint baseColumnNames="TASK_ID" baseTableCatalogName="ROOT" baseTableName="M_SCHEDULED_TASK_PARAM" baseTableSchemaName="ROOT" constraintName="MSCHDLDTSKPRAMTSKD" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_SCHEDULED_TASK" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-96">
+        <addForeignKeyConstraint baseColumnNames="PORTFOLIO_MATH_PROVISION_ID" baseTableCatalogName="ROOT" baseTableName="A_MATH_PROVISION" baseTableSchemaName="ROOT" constraintName="MTHPPRTFLMTHPRVSND" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="A_PORTFOLIO_MATH_PROVISION" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-97">
+        <addForeignKeyConstraint baseColumnNames="PORTFOLIO_ID" baseTableCatalogName="ROOT" baseTableName="A_INVESTMENT" baseTableSchemaName="ROOT" constraintName="NVSTMENTPRTFOLIOID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="A_PORTFOLIO" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-98">
+        <addForeignKeyConstraint baseColumnNames="CURRENT_STATE_ID" baseTableCatalogName="ROOT" baseTableName="A_INVESTMENT" baseTableSchemaName="ROOT" constraintName="NVSTMNTCRRNTSTTEID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="S_STATE" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-99">
+        <addForeignKeyConstraint baseColumnNames="PROCESSINFO_ID" baseTableCatalogName="ROOT" baseTableName="I_ORDER" baseTableSchemaName="ROOT" constraintName="ORDERPROCESSINFOID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="I_ORDER_PROCESS_INFO" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-100">
+        <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableCatalogName="ROOT" baseTableName="P_PROVINCE" baseTableSchemaName="ROOT" constraintName="PPROVINCECOUNTRYID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="C_COUNTRY" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-101">
+        <addForeignKeyConstraint baseColumnNames="ASSET_ID" baseTableCatalogName="ROOT" baseTableName="A_PORTFOLIO_OPERATION" baseTableSchemaName="ROOT" constraintName="PRTFLOPERATIONSSTD" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="I_BASE_ASSET" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-102">
+        <addForeignKeyConstraint baseColumnNames="HABER_INVESTMENT_ID" baseTableCatalogName="ROOT" baseTableName="A_PORTFOLIO_OPERATION" baseTableSchemaName="ROOT" constraintName="PRTFLPRHBRNVSTMNTD" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="A_INVESTMENT" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-103">
+        <addForeignKeyConstraint baseColumnNames="DEBE_INVESTMENT_ID" baseTableCatalogName="ROOT" baseTableName="A_PORTFOLIO_OPERATION" baseTableSchemaName="ROOT" constraintName="PRTFLPRTDBNVSTMNTD" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="A_INVESTMENT" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-104">
+        <addForeignKeyConstraint baseColumnNames="MARKET_ORDER_ID" baseTableCatalogName="ROOT" baseTableName="A_PORTFOLIO_OPERATION" baseTableSchemaName="ROOT" constraintName="PRTFLPRTONMRKTRDRD" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="I_MARKET_ORDER" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-105">
+        <addForeignKeyConstraint baseColumnNames="CURRENT_STATE_ID" baseTableCatalogName="ROOT" baseTableName="I_ORDER" baseTableSchemaName="ROOT" constraintName="RDERCURRENTSTATEID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="S_STATE" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-106">
+        <addForeignKeyConstraint baseColumnNames="DISTRIBUTION_ID" baseTableCatalogName="ROOT" baseTableName="I_ORDER_DISTRIBUTION_BUY" baseTableSchemaName="ROOT" constraintName="RDRDSTRBTNDSTRBTND" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="I_ORDER_DISTRIBUTION" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-107">
+        <addForeignKeyConstraint baseColumnNames="ORDER_ID" baseTableCatalogName="ROOT" baseTableName="I_ORDER_DISTRIBUTION_BUY" baseTableSchemaName="ROOT" constraintName="RDRDSTRBTONBUYRDRD" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="I_ORDER" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-108">
+        <addForeignKeyConstraint baseColumnNames="ASSET_ID" baseTableCatalogName="ROOT" baseTableName="I_ORDER_DISTRIBUTION" baseTableSchemaName="ROOT" constraintName="RDRDSTRIBUTIONSSTD" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="I_BASE_ASSET" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-109">
+        <addForeignKeyConstraint baseColumnNames="ASSET_ID" baseTableCatalogName="ROOT" baseTableName="I_ASSET_GUARANTEE" baseTableSchemaName="ROOT" constraintName="SSETGUARANTEESSTID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="I_BASE_ASSET" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-110">
+        <addForeignKeyConstraint baseColumnNames="STATE_DEFINITION_ID" baseTableCatalogName="ROOT" baseTableName="S_STATE" baseTableSchemaName="ROOT" constraintName="SSTTSTTDFINITIONID" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableCatalogName="ROOT" referencedTableName="S_STATE_DEFINITION" referencedTableSchemaName="ROOT"/>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-111">
+        <createIndex catalogName="ROOT" indexName="SQL150302112638670" schemaName="ROOT" tableName="A_PORTFOLIO_OPERATION" unique="false">
+            <column name="DEBE_INVESTMENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-112">
+        <createIndex catalogName="ROOT" indexName="SQL150302112638770" schemaName="ROOT" tableName="A_PORTFOLIO_OPERATION" unique="false">
+            <column name="MARKET_ORDER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-113">
+        <createIndex catalogName="ROOT" indexName="SQL150302112638990" schemaName="ROOT" tableName="A_PORTFOLIO_OPERATION" unique="false">
+            <column name="HABER_INVESTMENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-114">
+        <createIndex catalogName="ROOT" indexName="SQL150302112639120" schemaName="ROOT" tableName="A_PORTFOLIO_OPERATION" unique="false">
+            <column name="ASSET_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-115">
+        <createIndex catalogName="ROOT" indexName="SQL150302112639190" schemaName="ROOT" tableName="C_ABSTRACT_LEGAL_ENTITY" unique="false">
+            <column name="POSTAL_ADDRESS_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-116">
+        <createIndex catalogName="ROOT" indexName="SQL150302112639280" schemaName="ROOT" tableName="C_ABSTRACT_LEGAL_ENTITY" unique="false">
+            <column name="FISCAL_ADDRESS_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-117">
+        <createIndex catalogName="ROOT" indexName="SQL150302112639400" schemaName="ROOT" tableName="C_ABSTRACT_LEGAL_ENTITY" unique="false">
+            <column name="CONTACT_INFORMATION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-118">
+        <createIndex catalogName="ROOT" indexName="SQL150302112639480" schemaName="ROOT" tableName="C_ABSTRACT_LEGAL_ENTITY" unique="false">
+            <column name="ID_CARD_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-119">
+        <createIndex catalogName="ROOT" indexName="SQL150302112639590" schemaName="ROOT" tableName="C_PERSON" unique="false">
+            <column name="BIRTH_ADDRESS_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-120">
+        <createIndex catalogName="ROOT" indexName="SQL150302112639710" schemaName="ROOT" tableName="C_HOLIDAY" unique="false">
+            <column name="CALENDAR_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-121">
+        <createIndex catalogName="ROOT" indexName="SQL150302112639860" schemaName="ROOT" tableName="C_LOCALITY" unique="false">
+            <column name="PROVINCE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-122">
+        <createIndex catalogName="ROOT" indexName="SQL150302112640050" schemaName="ROOT" tableName="P_PROVINCE" unique="false">
+            <column name="COUNTRY_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-123">
+        <createIndex catalogName="ROOT" indexName="SQL150302112640160" schemaName="ROOT" tableName="A_INVESTMENT" unique="false">
+            <column name="PORTFOLIO_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-124">
+        <createIndex catalogName="ROOT" indexName="SQL150302112640240" schemaName="ROOT" tableName="A_INVESTMENT" unique="false">
+            <column name="CURRENT_STATE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-125">
+        <createIndex catalogName="ROOT" indexName="SQL150302112640360" schemaName="ROOT" tableName="A_INVESTMENT" unique="false">
+            <column name="ASSET_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-126">
+        <createIndex catalogName="ROOT" indexName="SQL150302112640450" schemaName="ROOT" tableName="I_ASSET_GUARANTEE" unique="false">
+            <column name="ASSET_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-127">
+        <createIndex catalogName="ROOT" indexName="SQL150302112640550" schemaName="ROOT" tableName="S_STATE" unique="false">
+            <column name="STATE_DEFINITION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-128">
+        <createIndex catalogName="ROOT" indexName="SQL150302112640650" schemaName="ROOT" tableName="C_ADDRESS" unique="false">
+            <column name="COUNTRY_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-129">
+        <createIndex catalogName="ROOT" indexName="SQL150302112640740" schemaName="ROOT" tableName="C_ADDRESS" unique="false">
+            <column name="PROVINCE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-130">
+        <createIndex catalogName="ROOT" indexName="SQL150302112640880" schemaName="ROOT" tableName="C_ADDRESS" unique="false">
+            <column name="LOCALITY_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-131">
+        <createIndex catalogName="ROOT" indexName="SQL150302112640990" schemaName="ROOT" tableName="I_ORDER_DISTRIBUTION" unique="false">
+            <column name="ASSET_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-132">
+        <createIndex catalogName="ROOT" indexName="SQL150302112641110" schemaName="ROOT" tableName="I_ASSET_PRICE" unique="false">
+            <column name="ASSET_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-133">
+        <createIndex catalogName="ROOT" indexName="SQL150302112641190" schemaName="ROOT" tableName="A_MATH_PROVISION" unique="false">
+            <column name="PORTFOLIO_MATH_PROVISION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-134">
+        <createIndex catalogName="ROOT" indexName="SQL150302112641310" schemaName="ROOT" tableName="I_MARKET_ORDER" unique="false">
+            <column name="ASSET_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-135">
+        <createIndex catalogName="ROOT" indexName="SQL150302112641400" schemaName="ROOT" tableName="I_MARKET_ORDER" unique="false">
+            <column name="ORDER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-136">
+        <createIndex catalogName="ROOT" indexName="SQL150302112641470" schemaName="ROOT" tableName="I_MARKET_ORDER" unique="false">
+            <column name="CURRENT_STATE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-137">
+        <createIndex catalogName="ROOT" indexName="SQL150302112641560" schemaName="ROOT" tableName="C_HOLIDAY_CALENDAR" unique="false">
+            <column name="COUNTRY_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-138">
+        <createIndex catalogName="ROOT" indexName="SQL150302112641640" schemaName="ROOT" tableName="I_ORDER" unique="false">
+            <column name="CURRENT_STATE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-139">
+        <createIndex catalogName="ROOT" indexName="SQL150302112641730" schemaName="ROOT" tableName="I_ORDER" unique="false">
+            <column name="PROCESSINFO_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-140">
+        <createIndex catalogName="ROOT" indexName="SQL150302112641810" schemaName="ROOT" tableName="I_ORDER" unique="false">
+            <column name="POLICY_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-141">
+        <createIndex catalogName="ROOT" indexName="SQL150302112641960" schemaName="ROOT" tableName="C_POLICY_ENTITY_RELATION" unique="false">
+            <column name="LEGAL_ENTITY_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-142">
+        <createIndex catalogName="ROOT" indexName="SQL150302112642040" schemaName="ROOT" tableName="C_POLICY_ENTITY_RELATION" unique="false">
+            <column name="POLICY_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-143">
+        <createIndex catalogName="ROOT" indexName="SQL150302112642120" schemaName="ROOT" tableName="C_POLICY" unique="false">
+            <column name="AGREEMENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-144">
+        <createIndex catalogName="ROOT" indexName="SQL150302112642230" schemaName="ROOT" tableName="M_SCHEDULED_TASK_PARAM" unique="false">
+            <column name="TASK_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-145">
+        <createIndex catalogName="ROOT" indexName="SQL150302112642320" schemaName="ROOT" tableName="I_ORDER_DISTRIBUTION_BUY" unique="false">
+            <column name="DISTRIBUTION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="lab" id="1425292004607-146">
+        <createIndex catalogName="ROOT" indexName="SQL150302112642390" schemaName="ROOT" tableName="I_ORDER_DISTRIBUTION_BUY" unique="false">
+            <column name="ORDER_ID"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
