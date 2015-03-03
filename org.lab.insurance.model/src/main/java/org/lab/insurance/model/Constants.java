@@ -29,6 +29,7 @@ public class Constants {
 
 	public static final class PolicyStates {
 		public static final String INITIAL = "POLICY_INITIAL";
+		public static final String PAYED = "POLICY_PAYED";
 		public static final String PROCESSED = "POLICY_ACTIVE";
 		public static final String VALUED = "POLICY_CLOSED";
 	}

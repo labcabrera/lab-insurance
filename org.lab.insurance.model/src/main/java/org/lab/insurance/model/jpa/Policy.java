@@ -52,6 +52,14 @@ public class Policy implements Serializable, HasState<String> {
 	@Temporal(TemporalType.DATE)
 	private Date effective;
 
+	@Column(name = "START_DATE")
+	@Temporal(TemporalType.DATE)
+	private Date startDate;
+
+	@Column(name = "END_DATE")
+	@Temporal(TemporalType.DATE)
+	private Date endDate;
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
 	@JoinColumn(name = "STATE_ID")
 	private State currentState;
@@ -126,5 +134,21 @@ public class Policy implements Serializable, HasState<String> {
 
 	public void setPortfolioInfo(PolicyPorfolioInfo portfolioInfo) {
 		this.portfolioInfo = portfolioInfo;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 }
