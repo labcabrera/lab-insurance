@@ -1,5 +1,6 @@
 ID,NAME,CLASS
 "POLICY_INITIAL","Inicial","org.lab.insurance.model.jpa.Policy"
+"POLICY_PAYED","Pagado","org.lab.insurance.model.jpa.Policy"
 "POLICY_ACTIVE","Activo","org.lab.insurance.model.jpa.Policy"
 "POLICY_CLOSED","Cerrado","org.lab.insurance.model.jpa.Policy"
 "ORDER_INITIAL","Inicial","org.lab.insurance.model.jpa.insurance.Order"

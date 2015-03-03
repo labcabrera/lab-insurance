@@ -27,11 +27,19 @@ public class Constants {
 	 */
 	public static final String CONFIGURATION_KEY_REPOSITORY_REPORTS_PATH = "repository.path.reports";
 
+	/**
+	 * <ul>
+	 * <li>INITIAL: el contrato esta dado de alta pero no se ha recibido el pago.</li>
+	 * <li>PAYED: se ha recibido la confirmacion de todos los pagos iniciales pero aun no han sido valorizados.</li>
+	 * <li>ACTIVE: contrato en vigor.</li>
+	 * <li>CLOSED: contrato cerrado.</li>
+	 * </ul>
+	 */
 	public static final class PolicyStates {
 		public static final String INITIAL = "POLICY_INITIAL";
 		public static final String PAYED = "POLICY_PAYED";
-		public static final String PROCESSED = "POLICY_ACTIVE";
-		public static final String VALUED = "POLICY_CLOSED";
+		public static final String ACTIVE = "POLICY_ACTIVE";
+		public static final String CLOSED = "POLICY_CLOSED";
 	}
 
 	public static final class OrderStates {

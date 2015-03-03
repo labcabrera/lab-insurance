@@ -8,13 +8,15 @@ import java.util.Date;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.lab.insurance.engine.ActionExecutionRunner;
 import org.lab.insurance.engine.ActionExecutionService;
 import org.lab.insurance.engine.guice.InsuranceCoreModule;
+import org.lab.insurance.engine.model.orders.PaymentReception;
 import org.lab.insurance.engine.model.policy.NewPolicyAction;
+import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.common.Message;
 import org.lab.insurance.model.jpa.Agreement;
 import org.lab.insurance.model.jpa.Person;
@@ -45,21 +47,28 @@ public class NewPolicyActionTest {
 			Injector injector = Guice.createInjector(new InsuranceCoreModule());
 			injector.getInstance(PersistService.class).start();
 			Provider<EntityManager> entityManagerProvider = injector.getProvider(EntityManager.class);
-			ActionExecutionService service = injector.getInstance(ActionExecutionService.class);
+			ActionExecutionService actionExecutionService = injector.getInstance(ActionExecutionService.class);
 			EntityManager entityManager = entityManagerProvider.get();
 
+			// Accion de grabacion de la poliza
+			Date newPolicyDate = new DateTime(2015, 1, 20, 0, 0, 0, 0).toDate();
 			NewPolicyAction action = new NewPolicyAction();
 			action.setPolicy(buildPolicy(entityManager));
-			Message<Policy> message = service.execute(action);
+			action.setActionDate(newPolicyDate);
+			Message<Policy> message = actionExecutionService.execute(action);
 			Validate.notNull(message.getPayload());
 			Validate.notNull(message.getPayload().getId());
 			Validate.isTrue(Message.SUCCESS.equals(message.getCode()));
 
+			// Accion de recepcion del pago inicial
 			Policy readed = entityManager.find(Policy.class, message.getPayload().getId());
 			Validate.notNull(readed);
-			for (PolicyEntityRelation i : readed.getRelations()) {
-				System.out.println(i);
-			}
+			Validate.isTrue(readed.getCurrentState().getStateDefinition().getId().equals(Constants.PolicyStates.INITIAL));
+
+			Date paymentReceptionDate = new DateTime(2015, 1, 27, 0, 0, 0, 0).toDate();
+			Order initialPayment = readed.getOrders().iterator().next();
+			PaymentReception paymentReception = new PaymentReception().withActionDate(paymentReceptionDate).withOrderId(initialPayment.getId());
+			actionExecutionService.execute(paymentReception);
 
 			Date from = new DateTime(2015, 1, 1, 0, 0, 0, 0).toDate();
 			Date to = new DateTime(2015, 12, 31, 0, 0, 0, 0).toDate();
