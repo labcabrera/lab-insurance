@@ -14,7 +14,7 @@ import javax.validation.ValidationException;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.joda.time.DateTime;
-import org.lab.insurance.model.engine.actions.prices.GuaranteePriceCreationAction;
+import org.lab.insurance.engine.model.prices.GuaranteePriceCreationAction;
 import org.lab.insurance.model.jpa.insurance.AssetGuaranteePercent;
 import org.lab.insurance.model.jpa.insurance.AssetPrice;
 import org.lab.insurance.services.insurance.CotizationsService;
@@ -24,8 +24,7 @@ import org.lab.insurance.services.insurance.CotizationsService;
  * <ul>
  * <li>No hay colisiones en la tabla {@link AssetGuaranteePercent}.</li>
  * <li>No hay colisiones en la tabla de precios.</li>
- * <li>Si existe un {@link AssetGuaranteePercent} el nuevo valor debe empezar por el siguiente dia a la fecha de
- * finalizacion del registro.</li>
+ * <li>Si existe un {@link AssetGuaranteePercent} el nuevo valor debe empezar por el siguiente dia a la fecha de finalizacion del registro.</li>
  * <li>Si existen precios el nuevo valor debe empezar por el siguiente dia al ultimo precio generado.</li>
  * </ul>
  */

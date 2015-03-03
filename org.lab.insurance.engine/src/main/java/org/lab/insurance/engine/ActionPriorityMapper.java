@@ -1,9 +1,9 @@
 package org.lab.insurance.engine;
 
-import org.lab.insurance.model.engine.ActionEntity;
-import org.lab.insurance.model.engine.actions.orders.AccountOrderAction;
-import org.lab.insurance.model.engine.actions.orders.ProcessOrderAction;
-import org.lab.insurance.model.engine.actions.orders.ValorizateOrderAction;
+import org.lab.insurance.engine.model.ActionEntity;
+import org.lab.insurance.engine.model.orders.AccountOrderAction;
+import org.lab.insurance.engine.model.orders.ProcessOrderAction;
+import org.lab.insurance.engine.model.orders.ValorizateOrderAction;
 
 public class ActionPriorityMapper {
 

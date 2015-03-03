@@ -13,7 +13,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.lab.insurance.core.serialization.Serializer;
-import org.lab.insurance.model.engine.ActionEntity;
+import org.lab.insurance.engine.model.ActionEntity;
 import org.lab.insurance.model.jpa.engine.ActionExecution;
 import org.lab.insurance.services.common.TimestampProvider;
 import org.slf4j.Logger;

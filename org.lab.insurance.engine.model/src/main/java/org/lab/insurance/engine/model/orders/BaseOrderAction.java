@@ -1,9 +1,9 @@
-package org.lab.insurance.model.engine.actions.orders;
+package org.lab.insurance.engine.model.orders;
 
 import java.util.Date;
 
+import org.lab.insurance.engine.model.ActionEntity;
 import org.lab.insurance.model.HasOrder;
-import org.lab.insurance.model.engine.ActionEntity;
 import org.lab.insurance.model.jpa.insurance.Order;
 
 @SuppressWarnings("serial")

@@ -18,7 +18,7 @@ public class Message<I> implements Serializable {
 	private List<MessageEntry> info;
 
 	// TODO esto esta dando un problema con GSON y los genericos
-	@NotSerializable
+	@NonSerializable
 	private I payload;
 
 	public Message() {

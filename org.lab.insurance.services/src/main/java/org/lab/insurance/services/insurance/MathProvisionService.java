@@ -67,14 +67,18 @@ public class MathProvisionService {
 			mathProvision.setPortfolioMathProvision(mp);
 			mathProvision.setInvestment(investment);
 			mathProvision.setUnits(unitsIn.subtract(unitsOut));
-			if (cotizate) {
-				AssetPrice assetPrice = cotizationsService.findPriceAtDate(investment.getAsset(), date);
-				BigDecimal amount = assetPrice.getBuyPriceInEuros().multiply(mathProvision.getUnits()).setScale(2, RoundingMode.HALF_EVEN);
-				mathProvision.setAmount(amount);
-			} else {
-				mathProvision.setAmount(BigDecimal.ZERO);
+			if (BigMath.isNotZero(mathProvision.getUnits())) {
+				if (cotizate) {
+					AssetPrice assetPrice = cotizationsService.findPriceAtDate(investment.getAsset(), date);
+					BigDecimal amount = assetPrice.getBuyPriceInEuros().multiply(mathProvision.getUnits()).setScale(2, RoundingMode.HALF_EVEN);
+					mathProvision.setAmount(amount);
+				} else {
+					mathProvision.setAmount(BigDecimal.ZERO);
+				}
+				mathProvision.setCost(BigDecimal.ZERO);
+				mp.getMathProvisions().add(mathProvision);
+				totalAmount = totalAmount.add(mathProvision.getAmount());
 			}
-			mathProvision.setCost(BigDecimal.ZERO);
 		}
 		mp.setValue(totalAmount);
 		entityManager.persist(mp);

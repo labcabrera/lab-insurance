@@ -10,4 +10,8 @@ public class BigMath {
 		return value != null ? value : BigDecimal.ZERO;
 	}
 
+	public static boolean isNotZero(BigDecimal units) {
+		return units != null && units.compareTo(BigDecimal.ZERO) != 0;
+	}
+
 }

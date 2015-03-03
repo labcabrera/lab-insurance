@@ -10,7 +10,7 @@ import net.sf.flatpack.DataSet;
 
 import org.lab.insurance.bootstrap.mock.AssetPriceFeeder;
 import org.lab.insurance.engine.ActionExecutionService;
-import org.lab.insurance.model.engine.actions.prices.GuaranteePriceCreationAction;
+import org.lab.insurance.engine.model.prices.GuaranteePriceCreationAction;
 import org.lab.insurance.model.jpa.insurance.BaseAsset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

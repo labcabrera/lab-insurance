@@ -1,7 +1,7 @@
-package org.lab.insurance.model.engine.actions.orders;
+package org.lab.insurance.engine.model.orders;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.lab.insurance.model.engine.ActionDefinition;
+import org.lab.insurance.engine.model.ActionDefinition;
 
 @ActionDefinition(endpoint = "direct:order_valorizarion")
 @SuppressWarnings("serial")

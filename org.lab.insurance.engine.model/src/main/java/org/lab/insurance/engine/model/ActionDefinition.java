@@ -1,4 +1,4 @@
-package org.lab.insurance.model.engine;
+package org.lab.insurance.engine.model;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

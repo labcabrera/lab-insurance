@@ -1,10 +1,10 @@
-package org.lab.insurance.model.engine.actions.prices;
+package org.lab.insurance.engine.model.prices;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.lab.insurance.model.engine.ActionDefinition;
-import org.lab.insurance.model.engine.ActionEntity;
+import org.lab.insurance.engine.model.ActionDefinition;
+import org.lab.insurance.engine.model.ActionEntity;
 import org.lab.insurance.model.jpa.insurance.BaseAsset;
 
 @SuppressWarnings("serial")

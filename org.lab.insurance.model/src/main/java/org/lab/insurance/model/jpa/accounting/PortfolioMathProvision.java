@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -46,7 +47,7 @@ public class PortfolioMathProvision {
 	@Temporal(TemporalType.DATE)
 	private Date generated;
 
-	@OneToMany(mappedBy = "portfolioMathProvision")
+	@OneToMany(mappedBy = "portfolioMathProvision", cascade = { CascadeType.PERSIST })
 	private List<MathProvision> mathProvisions;
 
 	public String getId() {

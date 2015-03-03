@@ -22,7 +22,7 @@ import javax.persistence.Table;
 
 import org.lab.insurance.model.HasPolicy;
 import org.lab.insurance.model.HasState;
-import org.lab.insurance.model.common.NotSerializable;
+import org.lab.insurance.model.common.NonSerializable;
 import org.lab.insurance.model.jpa.Policy;
 import org.lab.insurance.model.jpa.engine.State;
 
@@ -45,7 +45,7 @@ public class Order implements Serializable, HasPolicy, HasState<String> {
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH }, optional = false)
 	@JoinColumn(name = "POLICY_ID", nullable = false)
-	@NotSerializable
+	@NonSerializable
 	private Policy policy;
 
 	@Embedded

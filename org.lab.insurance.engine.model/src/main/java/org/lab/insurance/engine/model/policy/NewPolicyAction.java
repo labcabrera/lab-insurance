@@ -1,10 +1,10 @@
-package org.lab.insurance.model.engine.actions.policy;
+package org.lab.insurance.engine.model.policy;
 
 import java.util.Date;
 
+import org.lab.insurance.engine.model.ActionDefinition;
+import org.lab.insurance.engine.model.ActionEntity;
 import org.lab.insurance.model.HasPolicy;
-import org.lab.insurance.model.engine.ActionDefinition;
-import org.lab.insurance.model.engine.ActionEntity;
 import org.lab.insurance.model.jpa.Policy;
 
 @ActionDefinition(endpoint = "direct:new_policy_action")

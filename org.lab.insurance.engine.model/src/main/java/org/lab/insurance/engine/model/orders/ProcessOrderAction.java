@@ -1,6 +1,6 @@
-package org.lab.insurance.model.engine.actions.orders;
+package org.lab.insurance.engine.model.orders;
 
-import org.lab.insurance.model.engine.ActionDefinition;
+import org.lab.insurance.engine.model.ActionDefinition;
 
 @ActionDefinition(endpoint = "direct:order_process")
 @SuppressWarnings("serial")

@@ -1,8 +1,8 @@
-package org.lab.insurance.model.exceptions;
+package org.lab.insurance.engine.model.exceptions;
 
 import java.util.Date;
 
-import org.lab.insurance.model.engine.ActionEntity;
+import org.lab.insurance.engine.model.ActionEntity;
 
 @SuppressWarnings("serial")
 public class CancelAndRexecuteException extends RuntimeException {

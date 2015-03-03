@@ -1,4 +1,4 @@
-package org.lab.test.actions;
+package org.lab.insurance.test.actions;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,8 +14,8 @@ import org.junit.Test;
 import org.lab.insurance.engine.ActionExecutionRunner;
 import org.lab.insurance.engine.ActionExecutionService;
 import org.lab.insurance.engine.guice.InsuranceCoreModule;
+import org.lab.insurance.engine.model.policy.NewPolicyAction;
 import org.lab.insurance.model.common.Message;
-import org.lab.insurance.model.engine.actions.policy.NewPolicyAction;
 import org.lab.insurance.model.jpa.Agreement;
 import org.lab.insurance.model.jpa.Person;
 import org.lab.insurance.model.jpa.Policy;
@@ -69,7 +69,8 @@ public class NewPolicyActionTest {
 			Date mpDate = new DateTime(2015, 5, 20, 0, 0, 0, 0).toDate();
 			MathProvisionService mpService = injector.getInstance(MathProvisionService.class);
 			PortfolioMathProvision mp = mpService.findAtDate(readed.getPortfolioInfo().getPortfolioPasivo(), mpDate, true);
-			System.out.println(mp);
+			System.out.println("MP: " + mp);
+			System.out.println("MP value: " + mp.getValue());
 
 		} catch (RuntimeException ex) {
 			ex.printStackTrace();

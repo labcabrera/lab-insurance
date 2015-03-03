@@ -44,13 +44,13 @@ public class AssetPrice implements Serializable, HasIdentifier<String>, HasAsset
 	@Temporal(TemporalType.DATE)
 	private Date priceDate;
 
-	@Column(name = "PRICE_IN_EUROS", nullable = false)
+	@Column(name = "PRICE_IN_EUROS", nullable = false, precision = 20, scale = 7)
 	private BigDecimal priceInEuros;
 
-	@Column(name = "BUY_PRICE_IN_EUROS", nullable = false)
+	@Column(name = "BUY_PRICE_IN_EUROS", nullable = false, precision = 20, scale = 7)
 	private BigDecimal buyPriceInEuros;
 
-	@Column(name = "SELL_PRICE_IN_EUROS", nullable = false)
+	@Column(name = "SELL_PRICE_IN_EUROS", nullable = false, precision = 20, scale = 7)
 	private BigDecimal sellPriceInEuros;
 
 	@Column(name = "GENERATED", nullable = false)
