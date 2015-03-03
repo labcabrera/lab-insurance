@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -54,6 +55,10 @@ public class Policy implements Serializable, HasState<String> {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
 	@JoinColumn(name = "STATE_ID")
 	private State currentState;
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST }, optional = false)
+	@JoinColumn(name = "PORTFOLIO_INFO_ID", nullable = false)
+	private PolicyPorfolioInfo portfolioInfo;
 
 	@Override
 	public String getId() {
@@ -113,5 +118,13 @@ public class Policy implements Serializable, HasState<String> {
 	@Override
 	public void setCurrentState(State state) {
 		currentState = state;
+	}
+
+	public PolicyPorfolioInfo getPortfolioInfo() {
+		return portfolioInfo;
+	}
+
+	public void setPortfolioInfo(PolicyPorfolioInfo portfolioInfo) {
+		this.portfolioInfo = portfolioInfo;
 	}
 }

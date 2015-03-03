@@ -9,6 +9,7 @@ public class Message<I> implements Serializable {
 
 	public static final String SUCCESS = "200";
 	public static final String GENERIC_ERROR = "500";
+	public static final String REEXECUTION_ERROR = "510";
 
 	private String code;
 	private String message;

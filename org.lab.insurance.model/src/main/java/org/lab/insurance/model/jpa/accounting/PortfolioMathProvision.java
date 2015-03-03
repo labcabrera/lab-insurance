@@ -6,7 +6,13 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -14,23 +20,29 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "I_PORTFOLIO_MATH_PROVISION")
+@NamedQueries({ @NamedQuery(name = "PortfolioMathProvision.selectByDate", query = "select e from PortfolioMathProvision e where e.portfolio = :portfolio and e.valueDate = :date") })
 public class PortfolioMathProvision {
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ID", length = 36)
+	@GeneratedValue(generator = "system-uuid")
 	private String id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "PORTFOLIO_ID", nullable = false)
+	private Portfolio portfolio;
 
 	/**
 	 * NOTA: este valor no deja de ser el agregado de los mathProvisions, pero por temas de rendimiento es beficioso tenerlo calculado.
 	 */
-	@Column(name = "VALUE")
+	@Column(name = "VALUE", nullable = false)
 	private BigDecimal value;
 
-	@Column(name = "VALUE_DATE")
+	@Column(name = "VALUE_DATE", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date valueDate;
 
-	@Column(name = "GENERATED")
+	@Column(name = "GENERATED", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date generated;
 
@@ -76,4 +88,13 @@ public class PortfolioMathProvision {
 	public void setMathProvisions(List<MathProvision> mathProvisions) {
 		this.mathProvisions = mathProvisions;
 	}
+
+	public Portfolio getPortfolio() {
+		return portfolio;
+	}
+
+	public void setPortfolio(Portfolio portfolio) {
+		this.portfolio = portfolio;
+	}
+
 }

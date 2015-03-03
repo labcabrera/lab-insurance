@@ -21,6 +21,7 @@ import org.lab.insurance.model.jpa.Person;
 import org.lab.insurance.model.jpa.Policy;
 import org.lab.insurance.model.jpa.PolicyEntityRelation;
 import org.lab.insurance.model.jpa.PolicyRelationType;
+import org.lab.insurance.model.jpa.accounting.PortfolioMathProvision;
 import org.lab.insurance.model.jpa.common.Address;
 import org.lab.insurance.model.jpa.common.IdCard;
 import org.lab.insurance.model.jpa.common.IdCardType;
@@ -29,6 +30,7 @@ import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.jpa.insurance.OrderDates;
 import org.lab.insurance.model.jpa.insurance.OrderDistribution;
 import org.lab.insurance.model.jpa.insurance.OrderType;
+import org.lab.insurance.services.insurance.MathProvisionService;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -36,6 +38,7 @@ import com.google.inject.persist.PersistService;
 
 public class NewPolicyActionTest {
 
+	// TODO cambio del funcionamiento para meter la recepcion del pago inicial
 	@Test
 	public void test() {
 		try {
@@ -62,6 +65,11 @@ public class NewPolicyActionTest {
 			Date to = new DateTime(2015, 12, 31, 0, 0, 0, 0).toDate();
 			ActionExecutionRunner actionExecutionRunner = injector.getInstance(ActionExecutionRunner.class);
 			actionExecutionRunner.run(from, to);
+
+			Date mpDate = new DateTime(2015, 5, 20, 0, 0, 0, 0).toDate();
+			MathProvisionService mpService = injector.getInstance(MathProvisionService.class);
+			PortfolioMathProvision mp = mpService.findAtDate(readed.getPortfolioInfo().getPortfolioPasivo(), mpDate, true);
+			System.out.println(mp);
 
 		} catch (RuntimeException ex) {
 			ex.printStackTrace();

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,13 +22,14 @@ import javax.persistence.Table;
 public class Portfolio implements Serializable {
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ID", length = 36)
+	@GeneratedValue(generator = "system-uuid")
 	private String id;
 
-	@Column(name = "NAME")
+	@Column(name = "NAME", length = 64)
 	private String name;
 
-	@Column(name = "TYPE")
+	@Column(name = "TYPE", length = 16)
 	@Enumerated(EnumType.STRING)
 	private PortfolioType type;
 

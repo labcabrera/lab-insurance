@@ -1,11 +1,8 @@
-package org.lab.insurance.model.jpa.insurance;
+package org.lab.insurance.model.jpa;
 
-import java.io.Serializable;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,30 +12,21 @@ import javax.persistence.Table;
 
 import org.lab.insurance.model.jpa.accounting.Portfolio;
 
-/**
- * Entidad que contiene informacion interna acerca de como se va a gestionar la orden (por ejemplo como se aplican los gastos, como se
- * realiza la venta de fondos, etc).
- */
 @Entity
-@Table(name = "I_ORDER_PROCESS_INFO")
-@SuppressWarnings("serial")
-public class OrderProcessInfo implements Serializable {
+@Table(name = "C_POLICY_PORTFOLIO_INFO")
+public class PolicyPorfolioInfo {
 
 	@Id
 	@Column(name = "ID", length = 36)
 	@GeneratedValue(generator = "system-uuid")
 	private String id;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "SELL_STRATEGY")
-	private SellStrategy sellStrategy;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PORTFOLIO_PASIVO_ID", nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinColumn(name = "PORTFOLIO_PASIVO_ID")
 	private Portfolio portfolioPasivo;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PORTFOLIO_ACTIVO_ID", nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinColumn(name = "PORTFOLIO_ACTIVO_ID")
 	private Portfolio portfolioActivo;
 
 	public String getId() {
@@ -47,14 +35,6 @@ public class OrderProcessInfo implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public SellStrategy getSellStrategy() {
-		return sellStrategy;
-	}
-
-	public void setSellStrategy(SellStrategy sellStrategy) {
-		this.sellStrategy = sellStrategy;
 	}
 
 	public Portfolio getPortfolioPasivo() {

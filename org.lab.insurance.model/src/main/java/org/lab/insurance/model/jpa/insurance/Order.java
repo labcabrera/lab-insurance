@@ -73,6 +73,7 @@ public class Order implements Serializable, HasPolicy, HasState<String> {
 	private State currentState;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinColumn(name = "ORDER_PROCESS_INFO")
 	private OrderProcessInfo processInfo;
 
 	@Override

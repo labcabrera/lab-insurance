@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.persistence.EntityManager;
 
 import org.apache.commons.lang.Validate;
 import org.lab.insurance.model.exceptions.NoCotizationException;
@@ -13,6 +15,7 @@ import org.lab.insurance.model.jpa.insurance.MarketOrderSource;
 import org.lab.insurance.model.jpa.insurance.MarketOrderType;
 import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.matchers.MarketOrderTypeMatcher;
+import org.lab.insurance.services.common.TimestampProvider;
 
 import ch.lambdaj.Lambda;
 
@@ -23,6 +26,10 @@ public class ValorizationService {
 
 	@Inject
 	private CotizationsService cotizationsService;
+	@Inject
+	private Provider<EntityManager> entityManagerProvider;
+	@Inject
+	private TimestampProvider timestampProvider;
 
 	public void valorizate(Order order) throws NoCotizationException {
 		for (MarketOrder i : Lambda.select(order.getMarketOrders(), new MarketOrderTypeMatcher(MarketOrderType.SELL))) {
@@ -32,6 +39,7 @@ public class ValorizationService {
 		for (MarketOrder i : Lambda.select(order.getMarketOrders(), new MarketOrderTypeMatcher(MarketOrderType.BUY))) {
 			valorizate(i);
 		}
+		order.getDates().setValued(timestampProvider.getCurrentDateTime());
 	}
 
 	private void valorizate(MarketOrder marketOrder) throws NoCotizationException {
@@ -49,5 +57,6 @@ public class ValorizationService {
 			BigDecimal units = amount.divide(price.getPriceInEuros(), decimals, RoundingMode.HALF_EVEN);
 			marketOrder.setUnits(units);
 		}
+		entityManagerProvider.get().merge(marketOrder);
 	}
 }

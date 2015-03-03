@@ -6,9 +6,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,10 +25,13 @@ import org.lab.insurance.model.jpa.insurance.MarketOrder;
 @Entity
 @Table(name = "I_PORTFOLIO_OPERATION")
 @SuppressWarnings("serial")
+@NamedQueries({ @NamedQuery(name = "PortfolioOperation.unitsIn", query = "select sum(e.units) from PortfolioOperation e where e.haber = :investment and e.valueDate <= :date"),
+		@NamedQuery(name = "PortfolioOperation.unitsOut", query = "select sum(e.units) from PortfolioOperation e where e.debe = :investment and e.valueDate <= :date") })
 public class PortfolioOperation implements Serializable {
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ID", length = 36)
+	@GeneratedValue(generator = "system-uuid")
 	private String id;
 
 	@ManyToOne(optional = false)

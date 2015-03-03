@@ -20,8 +20,14 @@ import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.jpa.insurance.OrderDates;
 import org.lab.insurance.model.jpa.insurance.OrderDistribution;
 import org.lab.insurance.services.common.StateMachineService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.inject.persist.Transactional;
 
 public class MarketOrderGeneratorProcessor implements Processor {
+
+	private static final Logger LOG = LoggerFactory.getLogger(MarketOrderGeneratorProcessor.class);
 
 	@Inject
 	private Provider<EntityManager> entityManagerProvider;
@@ -29,8 +35,10 @@ public class MarketOrderGeneratorProcessor implements Processor {
 	private StateMachineService stateMachineService;
 
 	@Override
+	@Transactional
 	public void process(Exchange exchange) throws Exception {
 		Order order = exchange.getIn().getBody(Order.class);
+		LOG.debug("Generando market orders de {}", order);
 		EntityManager entityManager = entityManagerProvider.get();
 		Mutable<BigDecimal> buyGrossAmount = new MutableObject<BigDecimal>();
 		Mutable<BigDecimal> buyNetAmount = new MutableObject<BigDecimal>();
@@ -89,6 +97,7 @@ public class MarketOrderGeneratorProcessor implements Processor {
 				marketOrder.setType(MarketOrderType.BUY);
 				marketOrder.setSource(MarketOrderSource.AMOUNT);
 				entityManager.persist(marketOrder);
+				order.getMarketOrders().add(marketOrder);
 				stateMachineService.createTransition(marketOrder, Constants.MarketOrderStates.INITIAL);
 			}
 		}
