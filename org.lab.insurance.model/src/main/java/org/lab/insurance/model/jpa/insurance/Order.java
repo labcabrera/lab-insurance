@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.HasPolicy;
 import org.lab.insurance.model.HasState;
 import org.lab.insurance.model.common.NonSerializable;
@@ -167,5 +168,12 @@ public class Order implements Serializable, HasPolicy, HasState<String> {
 
 	public void setProcessInfo(OrderProcessInfo processInfo) {
 		this.processInfo = processInfo;
+	}
+
+	public boolean isValued() {
+		String currentStateId = (currentState != null) ? currentState.getStateDefinition().getId() : null;
+		boolean checkDate = dates != null && dates.getValued() != null;
+		boolean checkState = currentStateId != null && (currentStateId.equals(Constants.OrderStates.VALUED) || currentStateId.equals(Constants.OrderStates.ACCOUNTED));
+		return checkDate && checkState;
 	}
 }
