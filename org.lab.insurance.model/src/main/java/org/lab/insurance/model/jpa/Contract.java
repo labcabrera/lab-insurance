@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.lab.insurance.model.HasActivationRange;
 import org.lab.insurance.model.HasState;
 import org.lab.insurance.model.jpa.engine.State;
 import org.lab.insurance.model.jpa.insurance.Order;
@@ -26,29 +27,22 @@ import org.lab.insurance.model.validation.ValidPolicy;
 @Entity
 @Table(name = "C_POLICY")
 @SuppressWarnings("serial")
-// @Index(name = "IX_POLICY_NUMBER", unique = true, columnList = "number")
 @ValidPolicy
-public class Policy implements Serializable, HasState<String> {
+public class Contract implements Serializable, HasState<String>, HasActivationRange {
 
 	@Id
 	@Column(name = "ID", length = 36)
 	@GeneratedValue(generator = "system-uuid")
 	private String id;
 
-	@Column(name = "NUMBER")
+	@Column(name = "NUMBER", nullable = false, length = 32)
 	private String number;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })
-	@JoinColumn(name = "AGREEMENT_ID")
+	@JoinColumn(name = "AGREEMENT_ID", nullable = false)
 	private Agreement agreement;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "policy", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	private List<PolicyEntityRelation> relations;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "policy", cascade = { CascadeType.PERSIST })
-	private List<Order> orders;
-
-	@Column(name = "EFFECTIVE")
+	@Column(name = "EFFECTIVE", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date effective;
 
@@ -60,13 +54,19 @@ public class Policy implements Serializable, HasState<String> {
 	@Temporal(TemporalType.DATE)
 	private Date endDate;
 
+	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST }, optional = false)
+	@JoinColumn(name = "PORTFOLIO_INFO_ID", nullable = false)
+	private PolicyPorfolioInfo portfolioInfo;
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
 	@JoinColumn(name = "STATE_ID")
 	private State currentState;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST }, optional = false)
-	@JoinColumn(name = "PORTFOLIO_INFO_ID", nullable = false)
-	private PolicyPorfolioInfo portfolioInfo;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contract", cascade = { CascadeType.PERSIST })
+	private List<PolicyEntityRelation> relations;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contract", cascade = { CascadeType.PERSIST })
+	private List<Order> orders;
 
 	@Override
 	public String getId() {
@@ -136,6 +136,7 @@ public class Policy implements Serializable, HasState<String> {
 		this.portfolioInfo = portfolioInfo;
 	}
 
+	@Override
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -144,6 +145,7 @@ public class Policy implements Serializable, HasState<String> {
 		this.startDate = startDate;
 	}
 
+	@Override
 	public Date getEndDate() {
 		return endDate;
 	}

@@ -16,31 +16,34 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.lab.insurance.model.HasActivationRange;
+import org.lab.insurance.model.HasContract;
+import org.lab.insurance.model.HasIdentifier;
 import org.lab.insurance.model.common.NonSerializable;
 
 @Entity
 @Table(name = "C_POLICY_ENTITY_RELATION")
 @SuppressWarnings("serial")
-public class PolicyEntityRelation implements Serializable {
+public class PolicyEntityRelation implements Serializable, HasIdentifier<String>, HasContract, HasActivationRange {
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ID", length = 36)
 	@GeneratedValue(generator = "system-uuid")
 	private String id;
 
-	@Column(name = "TYPE")
+	@Column(name = "TYPE", length = 16, nullable = false)
 	private PolicyRelationType type;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH }, optional = false)
-	@JoinColumn(name = "POLICY_ID", nullable = false)
+	@JoinColumn(name = "CONTRACT_ID", nullable = false)
 	@NonSerializable
-	private Policy policy;
+	private Contract contract;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = false)
-	@JoinColumn(name = "LEGAL_ENTITY_ID")
+	@JoinColumn(name = "LEGAL_ENTITY_ID", nullable = false)
 	private AbstractLegalEntity legalEntity;
 
-	@Column(name = "START_DATE")
+	@Column(name = "START_DATE", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date startDate;
 
@@ -48,13 +51,15 @@ public class PolicyEntityRelation implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date endDate;
 
-	@Column(name = "PERCENT")
+	@Column(name = "PERCENT", nullable = false)
 	private BigDecimal relationPercent;
 
+	@Override
 	public String getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -67,12 +72,13 @@ public class PolicyEntityRelation implements Serializable {
 		this.type = type;
 	}
 
-	public Policy getPolicy() {
-		return policy;
+	@Override
+	public Contract getContract() {
+		return contract;
 	}
 
-	public void setPolicy(Policy policy) {
-		this.policy = policy;
+	public void setContract(Contract contract) {
+		this.contract = contract;
 	}
 
 	public AbstractLegalEntity getLegalEntity() {
@@ -83,6 +89,7 @@ public class PolicyEntityRelation implements Serializable {
 		this.legalEntity = legalEntity;
 	}
 
+	@Override
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -91,6 +98,7 @@ public class PolicyEntityRelation implements Serializable {
 		this.startDate = startDate;
 	}
 
+	@Override
 	public Date getEndDate() {
 		return endDate;
 	}

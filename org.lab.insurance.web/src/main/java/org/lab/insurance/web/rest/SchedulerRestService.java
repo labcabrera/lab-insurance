@@ -18,7 +18,7 @@ import org.lab.insurance.core.scheduler.SchedulerService;
 import org.lab.insurance.model.common.Message;
 import org.lab.insurance.model.common.SearchParams;
 import org.lab.insurance.model.common.SearchResults;
-import org.lab.insurance.model.jpa.common.ScheduledTask;
+import org.lab.insurance.model.jpa.system.ScheduledTask;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.spi.MutableTrigger;
 import org.slf4j.Logger;
@@ -75,7 +75,7 @@ public class SchedulerRestService extends AbstractRestEntityService<ScheduledTas
 		try {
 			EntityManager entityManager = entityManagerProvider.get();
 			ScheduledTask current = entityManager.find(ScheduledTask.class, taskId);
-			current.setDisabled(true);
+			current.setEndDate(Calendar.getInstance().getTime());
 			entityManager.merge(current);
 			schedulerService.unregisterTask(current);
 			return new Message<ScheduledTask>(Message.SUCCESS).withPayload(current).withMessage("scheduler.task.pause.ok");
@@ -92,7 +92,7 @@ public class SchedulerRestService extends AbstractRestEntityService<ScheduledTas
 		try {
 			EntityManager entityManager = entityManagerProvider.get();
 			ScheduledTask current = entityManager.find(ScheduledTask.class, taskId);
-			current.setDisabled(false);
+			current.setEndDate(null);
 			entityManager.merge(current);
 			schedulerService.registerTask(current);
 			return new Message<ScheduledTask>(Message.SUCCESS).withPayload(current).withMessage("scheduler.task.resume.ok");

@@ -16,15 +16,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.lab.insurance.model.Constants;
-import org.lab.insurance.model.HasPolicy;
+import org.lab.insurance.model.HasContract;
 import org.lab.insurance.model.HasState;
 import org.lab.insurance.model.common.NonSerializable;
-import org.lab.insurance.model.jpa.Policy;
+import org.lab.insurance.model.jpa.Contract;
 import org.lab.insurance.model.jpa.engine.State;
 
 /**
@@ -33,7 +35,8 @@ import org.lab.insurance.model.jpa.engine.State;
 @Entity
 @Table(name = "I_ORDER")
 @SuppressWarnings("serial")
-public class Order implements Serializable, HasPolicy, HasState<String> {
+@NamedQueries({ @NamedQuery(name = "Order.selectByContractInStates", query = "select e from Order e where e.contract = :contract and e.currentState.stateDefinition.id in :stateIds order by e.dates.valueDate") })
+public class Order implements Serializable, HasContract, HasState<String> {
 
 	@Id
 	@Column(name = "ID", length = 36)
@@ -45,9 +48,9 @@ public class Order implements Serializable, HasPolicy, HasState<String> {
 	private OrderType type;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH }, optional = false)
-	@JoinColumn(name = "POLICY_ID", nullable = false)
+	@JoinColumn(name = "CONTRACT_ID", nullable = false)
 	@NonSerializable
-	private Policy policy;
+	private Contract contract;
 
 	@Embedded
 	private OrderDates dates;
@@ -96,12 +99,12 @@ public class Order implements Serializable, HasPolicy, HasState<String> {
 	}
 
 	@Override
-	public Policy getPolicy() {
-		return policy;
+	public Contract getContract() {
+		return contract;
 	}
 
-	public void setPolicy(Policy policy) {
-		this.policy = policy;
+	public void setContract(Contract policy) {
+		this.contract = policy;
 	}
 
 	public OrderDates getDates() {

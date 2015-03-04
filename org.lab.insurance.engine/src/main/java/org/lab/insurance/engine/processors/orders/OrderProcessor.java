@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.lab.insurance.model.Constants;
-import org.lab.insurance.model.jpa.Policy;
+import org.lab.insurance.model.jpa.Contract;
 import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.jpa.insurance.OrderProcessInfo;
 import org.lab.insurance.services.common.StateMachineService;
@@ -39,7 +39,7 @@ public class OrderProcessor implements Processor {
 
 	private void resolveOrderPortfolios(Order order) {
 		if (order.getProcessInfo() == null) {
-			Policy policy = order.getPolicy();
+			Contract policy = order.getContract();
 			order.setProcessInfo(new OrderProcessInfo());
 			order.getProcessInfo().setPortfolioActivo(policy.getPortfolioInfo().getPortfolioActivo());
 			order.getProcessInfo().setPortfolioPasivo(policy.getPortfolioInfo().getPortfolioPasivo());

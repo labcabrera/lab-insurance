@@ -1,5 +1,6 @@
-package org.lab.insurance.model.jpa.common;
+package org.lab.insurance.model.jpa.system;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,22 +10,26 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.lab.insurance.model.HasActivationRange;
+import org.lab.insurance.model.HasIdentifier;
+import org.lab.insurance.model.HasName;
 import org.lab.insurance.model.Mergeable;
 
 @Entity
 @Table(name = "SYS_SCHEDULED_TASK")
-public class ScheduledTask implements Mergeable<ScheduledTask> {
+public class ScheduledTask implements HasIdentifier<String>, HasName, Mergeable<ScheduledTask>, HasActivationRange {
 
 	@Id
-	@Column(name = "ID")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@Column(name = "ID", length = 36)
+	@GeneratedValue(generator = "system-uuid")
+	private String id;
 
 	@Column(name = "NAME", length = 32, nullable = false)
 	private String name;
@@ -35,8 +40,13 @@ public class ScheduledTask implements Mergeable<ScheduledTask> {
 	@Column(name = "CRON_EXP", length = 32)
 	private String cronExpression;
 
-	@Column(name = "DISABLED")
-	private Boolean disabled;
+	@Column(name = "START_DATE")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date startDate;
+
+	@Column(name = "END_DATE")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date endDate;
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@MapKeyColumn(name = "PARAM_KEY", length = 516)
@@ -44,14 +54,17 @@ public class ScheduledTask implements Mergeable<ScheduledTask> {
 	@CollectionTable(name = "SYS_SCHEDULED_TASK_PARAM", joinColumns = @JoinColumn(name = "TASK_ID"))
 	private Map<String, String> params = new HashMap<String, String>();
 
-	public Long getId() {
+	@Override
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	@Override
+	public void setId(String id) {
 		this.id = id;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -76,12 +89,22 @@ public class ScheduledTask implements Mergeable<ScheduledTask> {
 		this.cronExpression = cronExpression;
 	}
 
-	public Boolean getDisabled() {
-		return disabled;
+	@Override
+	public Date getStartDate() {
+		return startDate;
 	}
 
-	public void setDisabled(Boolean disabled) {
-		this.disabled = disabled;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	@Override
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	public Map<String, String> getParams() {
@@ -106,7 +129,8 @@ public class ScheduledTask implements Mergeable<ScheduledTask> {
 		this.name = t.name;
 		this.cronExpression = t.cronExpression;
 		this.className = t.className;
-		this.disabled = t.disabled;
+		this.startDate = t.startDate;
+		this.endDate = t.endDate;
 	}
 
 }

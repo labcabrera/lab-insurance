@@ -10,7 +10,7 @@ import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import org.lab.insurance.model.jpa.common.ScheduledTask;
+import org.lab.insurance.model.jpa.system.ScheduledTask;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.Job;
 import org.quartz.JobBuilder;

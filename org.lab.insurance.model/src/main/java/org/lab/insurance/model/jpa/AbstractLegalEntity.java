@@ -6,8 +6,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -40,13 +38,6 @@ public abstract class AbstractLegalEntity implements Serializable, HasIdentifier
 
 	@Column(name = "NAME", length = 64, nullable = false)
 	protected String name;
-
-	/**
-	 * NOTA: es redundante con el DTYPE pero en muchas ocasiones nos facilita la vida.
-	 */
-	@Column(name = "TYPE", length = 16, nullable = false)
-	@Enumerated(EnumType.STRING)
-	protected AbstractLegalEntityType type;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "ID_CARD_ID", nullable = false)
@@ -89,14 +80,6 @@ public abstract class AbstractLegalEntity implements Serializable, HasIdentifier
 	@Override
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public AbstractLegalEntityType getType() {
-		return type;
-	}
-
-	public void setType(AbstractLegalEntityType type) {
-		this.type = type;
 	}
 
 	public Address getPostalAddress() {

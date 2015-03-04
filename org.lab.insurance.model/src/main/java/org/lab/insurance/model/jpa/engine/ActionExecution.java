@@ -19,10 +19,6 @@ import org.lab.insurance.model.jpa.converters.ClassConverter;
 @Table(name = "SYS_ACTION_EXECUTION")
 @SuppressWarnings("serial")
 @Cache(alwaysRefresh = true)
-// type=CacheType.NONE, // Cache nothing
-// expiry=0,
-// alwaysRefresh=true
-// )
 public class ActionExecution implements Serializable {
 
 	@Id

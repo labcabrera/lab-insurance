@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.lab.insurance.model.common.Message;
 import org.lab.insurance.model.common.SearchParams;
 import org.lab.insurance.model.common.SearchResults;
-import org.lab.insurance.model.jpa.common.AppMailRecipient;
+import org.lab.insurance.model.jpa.system.AppMailRecipient;
 
 import com.google.inject.persist.Transactional;
 
@@ -55,9 +55,6 @@ public class AppMailRecipientRestService extends AbstractRestEntityService<AppMa
 	}
 
 	private void validate(AppMailRecipient entity, Message<AppMailRecipient> message) {
-		if (entity.getDisabled() == null) {
-			entity.setDisabled(false);
-		}
 		if (StringUtils.isEmpty(entity.getMailAddress())) {
 			message.addError("mail.recipient.missing.mailAddress");
 		}

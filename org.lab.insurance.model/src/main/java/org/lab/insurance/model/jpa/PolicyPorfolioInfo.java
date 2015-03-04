@@ -22,11 +22,11 @@ public class PolicyPorfolioInfo {
 	private String id;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinColumn(name = "PORTFOLIO_PASIVO_ID")
+	@JoinColumn(name = "PORTFOLIO_PASIVO_ID", nullable = false)
 	private Portfolio portfolioPasivo;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinColumn(name = "PORTFOLIO_ACTIVO_ID")
+	@JoinColumn(name = "PORTFOLIO_ACTIVO_ID", nullable = false)
 	private Portfolio portfolioActivo;
 
 	public String getId() {

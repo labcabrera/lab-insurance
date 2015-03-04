@@ -11,8 +11,8 @@ import javax.validation.Validator;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.lab.insurance.model.Constants;
-import org.lab.insurance.model.HasPolicy;
-import org.lab.insurance.model.jpa.Policy;
+import org.lab.insurance.model.HasContract;
+import org.lab.insurance.model.jpa.Contract;
 import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.services.common.StateMachineService;
 import org.slf4j.Logger;
@@ -21,9 +21,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Procesador encargado de persistir la informacion de una poliza y procesar el pago inicial.
  */
-public class NewPolicyProcessor implements Processor {
+public class NewContractProcessor implements Processor {
 
-	private static final Logger LOG = LoggerFactory.getLogger(NewPolicyProcessor.class);
+	private static final Logger LOG = LoggerFactory.getLogger(NewContractProcessor.class);
 
 	@Inject
 	private Provider<EntityManager> entityManagerProvider;
@@ -35,18 +35,18 @@ public class NewPolicyProcessor implements Processor {
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		LOG.info("Processing new policy");
-		Policy policy = exchange.getIn().getBody(HasPolicy.class).getPolicy();
-		Set<ConstraintViolation<Policy>> validationResults = validator.validate(policy);
+		Contract contract = exchange.getIn().getBody(HasContract.class).getContract();
+		Set<ConstraintViolation<Contract>> validationResults = validator.validate(contract);
 		if (!validationResults.isEmpty()) {
 			throw new RuntimeException("Validation errors");
 		}
 		EntityManager entityManager = entityManagerProvider.get();
 		// Actualizamos la referencia de las ordenes
-		for (Order order : policy.getOrders()) {
-			order.setPolicy(policy);
+		for (Order order : contract.getOrders()) {
+			order.setContract(contract);
 		}
-		entityManager.persist(policy);
+		entityManager.persist(contract);
 		entityManager.flush();
-		stateMachineService.createTransition(policy, Constants.PolicyStates.INITIAL);
+		stateMachineService.createTransition(contract, Constants.PolicyStates.INITIAL);
 	}
 }

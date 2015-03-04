@@ -7,13 +7,13 @@ import javax.persistence.TypedQuery;
 import org.junit.Test;
 import org.lab.insurance.core.serialization.Serializer;
 import org.lab.insurance.engine.guice.InsuranceCoreModule;
-import org.lab.insurance.model.jpa.Policy;
+import org.lab.insurance.model.jpa.Contract;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.persist.PersistService;
 
-public class TestPolicySerializer {
+public class TestContractSerializer {
 
 	@Test
 	public void test() {
@@ -22,9 +22,9 @@ public class TestPolicySerializer {
 		Provider<EntityManager> entityManagerProvider = injector.getProvider(EntityManager.class);
 		Serializer serializer = injector.getInstance(Serializer.class);
 		EntityManager entityManager = entityManagerProvider.get();
-		TypedQuery<Policy> query = entityManager.createQuery("select e from Policy e", Policy.class);
+		TypedQuery<Contract> query = entityManager.createQuery("select e from Policy e", Contract.class);
 		query.setMaxResults(10);
-		for (Policy i : query.getResultList()) {
+		for (Contract i : query.getResultList()) {
 			System.out.println(serializer.toJson(i));
 		}
 	}

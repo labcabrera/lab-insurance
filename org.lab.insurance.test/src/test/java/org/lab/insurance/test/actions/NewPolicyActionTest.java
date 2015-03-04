@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import org.apache.commons.lang3.Validate;
 import org.joda.time.DateTime;
 import org.junit.Test;
+import org.lab.insurance.core.math.BigMath;
 import org.lab.insurance.engine.ActionExecutionRunner;
 import org.lab.insurance.engine.ActionExecutionService;
 import org.lab.insurance.engine.guice.InsuranceCoreModule;
@@ -19,8 +20,8 @@ import org.lab.insurance.engine.model.policy.NewPolicyAction;
 import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.common.Message;
 import org.lab.insurance.model.jpa.Agreement;
+import org.lab.insurance.model.jpa.Contract;
 import org.lab.insurance.model.jpa.Person;
-import org.lab.insurance.model.jpa.Policy;
 import org.lab.insurance.model.jpa.PolicyEntityRelation;
 import org.lab.insurance.model.jpa.PolicyRelationType;
 import org.lab.insurance.model.jpa.accounting.PortfolioMathProvision;
@@ -53,15 +54,16 @@ public class NewPolicyActionTest {
 			// Accion de grabacion de la poliza
 			Date newPolicyDate = new DateTime(2015, 1, 20, 0, 0, 0, 0).toDate();
 			NewPolicyAction action = new NewPolicyAction();
-			action.setPolicy(buildPolicy(entityManager));
+			action.setContract(buildPolicy(entityManager));
 			action.setActionDate(newPolicyDate);
-			Message<Policy> message = actionExecutionService.execute(action);
+			Message<Contract> message = actionExecutionService.execute(action);
 			Validate.notNull(message.getPayload());
 			Validate.notNull(message.getPayload().getId());
 			Validate.isTrue(Message.SUCCESS.equals(message.getCode()));
 
 			// Accion de recepcion del pago inicial
-			Policy readed = entityManager.find(Policy.class, message.getPayload().getId());
+			entityManager.clear();
+			Contract readed = entityManager.find(Contract.class, message.getPayload().getId());
 			Validate.notNull(readed);
 			Validate.isTrue(readed.getCurrentState().getStateDefinition().getId().equals(Constants.PolicyStates.INITIAL));
 
@@ -87,23 +89,24 @@ public class NewPolicyActionTest {
 		}
 	}
 
-	private Policy buildPolicy(EntityManager entityManager) {
-		Policy policy = new Policy();
+	private Contract buildPolicy(EntityManager entityManager) {
+		Contract policy = new Contract();
 		policy.setAgreement(findAgreement("23000", entityManager));
 		policy.setEffective(Calendar.getInstance().getTime());
 		policy.setRelations(new ArrayList<PolicyEntityRelation>());
 		PolicyEntityRelation relationSuscriptor = new PolicyEntityRelation();
 		relationSuscriptor.setStartDate(policy.getEffective());
 		relationSuscriptor.setLegalEntity(buildSuscriptor());
-		relationSuscriptor.setPolicy(policy);
+		relationSuscriptor.setContract(policy);
 		relationSuscriptor.setType(PolicyRelationType.SUSCRIPTOR);
+		relationSuscriptor.setRelationPercent(BigMath.HUNDRED);
 		policy.getRelations().add(relationSuscriptor);
 		PolicyEntityRelation relationRecipient = new PolicyEntityRelation();
 		relationRecipient.setStartDate(policy.getEffective());
 		relationRecipient.setLegalEntity(buildSuscriptor());
-		relationRecipient.setPolicy(policy);
+		relationRecipient.setContract(policy);
 		relationRecipient.setType(PolicyRelationType.RECIPIENT);
-		relationRecipient.setRelationPercent(new BigDecimal("100"));
+		relationRecipient.setRelationPercent(BigMath.HUNDRED);
 		policy.getRelations().add(relationRecipient);
 		policy.setOrders(new ArrayList<Order>());
 		policy.getOrders().add(buildInitialPayment(entityManager));

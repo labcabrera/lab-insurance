@@ -4,23 +4,23 @@ import java.util.Date;
 
 import org.lab.insurance.engine.model.ActionDefinition;
 import org.lab.insurance.engine.model.ActionEntity;
-import org.lab.insurance.model.HasPolicy;
-import org.lab.insurance.model.jpa.Policy;
+import org.lab.insurance.model.HasContract;
+import org.lab.insurance.model.jpa.Contract;
 
 @ActionDefinition(endpoint = "direct:new_policy_action")
 @SuppressWarnings("serial")
-public class NewPolicyAction implements ActionEntity<Policy>, HasPolicy {
+public class NewPolicyAction implements ActionEntity<Contract>, HasContract {
 
-	private Policy policy;
+	private Contract contract;
 	private Date actionDate;
 
 	@Override
-	public Policy getPolicy() {
-		return policy;
+	public Contract getContract() {
+		return contract;
 	}
 
-	public void setPolicy(Policy policy) {
-		this.policy = policy;
+	public void setContract(Contract contract) {
+		this.contract = contract;
 	}
 
 	@Override

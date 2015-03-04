@@ -16,6 +16,7 @@ public class AgreementFeeder extends AbstractEntityFeeder<Agreement> {
 		Agreement entity = new Agreement();
 		entity.setCode(dataSet.getString("CODE"));
 		entity.setName(dataSet.getString("NAME"));
+		entity.setStartDate(parseDate(dataSet.getString("START_DATE")));
 		return entity;
 	}
 

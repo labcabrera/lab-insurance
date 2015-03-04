@@ -33,10 +33,6 @@ public class Person extends AbstractLegalEntity {
 	@JoinColumn(name = "BIRTH_ADDRESS_ID")
 	private Address birthAddress;
 
-	public Person() {
-		this.type = AbstractLegalEntityType.PERSON;
-	}
-
 	public String getFirstSurname() {
 		return firstSurname;
 	}

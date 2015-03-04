@@ -51,7 +51,7 @@ public class GuaranteePriceCreationProcessor implements Processor {
 		GregorianCalendar check = new GregorianCalendar();
 		check.setTime(from);
 		BigDecimal totalDays = check.isLeapYear(check.get(Calendar.YEAR)) ? new BigDecimal(366) : new BigDecimal(365);
-		BigDecimal elemento = BigDecimal.ONE.add(guarantee.divide(BigMath.CIEN));
+		BigDecimal elemento = BigDecimal.ONE.add(guarantee.divide(BigMath.HUNDRED));
 		BigDecimal count = BigDecimal.ONE;
 		BigDecimal partial;
 		while (from.compareTo(to) <= 0) {
