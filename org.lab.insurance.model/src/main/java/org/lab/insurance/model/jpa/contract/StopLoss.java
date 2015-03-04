@@ -1,13 +1,13 @@
-package org.lab.insurance.model.jpa;
+package org.lab.insurance.model.jpa.contract;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "C_LEGAL_ENTITY")
+@DiscriminatorValue("SL")
+@Table(name = "C_STOP_LOSS")
 @SuppressWarnings("serial")
-@DiscriminatorValue("L")
-public class LegalEntity extends AbstractLegalEntity {
+public class StopLoss extends FinancialService {
 
 }

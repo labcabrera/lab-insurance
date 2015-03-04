@@ -3,11 +3,13 @@ package org.lab.insurance.model.jpa.insurance;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -19,10 +21,12 @@ import org.lab.insurance.model.HasOrder;
 import org.lab.insurance.model.HasState;
 import org.lab.insurance.model.common.NonSerializable;
 import org.lab.insurance.model.jpa.engine.State;
+import org.lab.insurance.model.validation.ValidMarketOrder;
 
 @Entity
 @Table(name = "I_MARKET_ORDER")
 @SuppressWarnings("serial")
+@ValidMarketOrder
 public class MarketOrder implements Serializable, HasOrder, HasState<String>, HasAsset {
 
 	@Id
@@ -30,39 +34,39 @@ public class MarketOrder implements Serializable, HasOrder, HasState<String>, Ha
 	@GeneratedValue(generator = "system-uuid")
 	private String id;
 
-	@ManyToOne
-	@JoinColumn(name = "ORDER_ID")
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH, optional = false)
+	@JoinColumn(name = "ORDER_ID", nullable = false)
 	@NonSerializable
 	private Order order;
 
-	@Column(name = "TYPE", nullable = false)
+	@Column(name = "TYPE", length = 3, nullable = false)
 	@Enumerated(EnumType.STRING)
 	private MarketOrderType type;
 
-	@Column(name = "SOURCE", nullable = false)
+	@Column(name = "SOURCE", length = 8, nullable = false)
 	@Enumerated(EnumType.STRING)
 	private MarketOrderSource source;
 
-	@ManyToOne
-	@JoinColumn(name = "ASSET_ID")
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH, optional = false)
+	@JoinColumn(name = "ASSET_ID", nullable = false)
 	private BaseAsset asset;
 
-	@Embedded
+	@Embedded()
 	private OrderDates dates;
 
-	@Column(name = "UNITS")
+	@Column(name = "UNITS", precision = 20, scale = 7)
 	private BigDecimal units;
 
-	@Column(name = "GROSS_AMOUNT")
+	@Column(name = "GROSS_AMOUNT", precision = 20, scale = 7)
 	private BigDecimal grossAmount;
 
-	@Column(name = "NET_AMOUNT")
+	@Column(name = "NET_AMOUNT", precision = 20, scale = 7)
 	private BigDecimal netAmount;
 
-	@Column(name = "NAV")
+	@Column(name = "NAV", precision = 20, scale = 7)
 	private BigDecimal nav;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CURRENT_STATE_ID")
 	private State currentState;
 

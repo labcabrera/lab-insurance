@@ -9,6 +9,9 @@ public enum AssetType {
 	GUARANTEE,
 
 	/** Cesta */
-	INTERNAL_FUND
+	INTERNAL_FUND,
+
+	/** Liquido */
+	CASH
 
 }

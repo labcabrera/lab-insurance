@@ -33,14 +33,20 @@ public class AccountingService {
 	@Transactional
 	public List<PortfolioOperation> account(Order order) {
 		List<PortfolioOperation> list = new ArrayList<PortfolioOperation>();
-		Portfolio orderActivo = order.getProcessInfo().getPortfolioActivo();
-		Portfolio orderPasivo = order.getProcessInfo().getPortfolioPasivo();
+		Portfolio orderPassive = order.getProcessInfo().getPortfolioPassive();
+		Portfolio orderActive = order.getProcessInfo().getPortfolioActive();
+		if (orderPassive == null) {
+			orderPassive = order.getContract().getPortfolioInfo().getPortfolioPassive();
+		}
+		if (orderActive == null) {
+			orderActive = order.getContract().getPortfolioInfo().getPortfolioActive();
+		}
 		for (MarketOrder marketOrder : order.getMarketOrders()) {
 			BaseAsset asset = marketOrder.getAsset();
 			Date valueDate = order.getDates().getValueDate();
 			BigDecimal units = marketOrder.getUnits();
-			Portfolio portfolioDebe = marketOrder.getType() == MarketOrderType.BUY ? orderActivo : orderPasivo;
-			Portfolio portfolioHaber = marketOrder.getType() == MarketOrderType.BUY ? orderPasivo : orderActivo;
+			Portfolio portfolioDebe = marketOrder.getType() == MarketOrderType.BUY ? orderActive : orderPassive;
+			Portfolio portfolioHaber = marketOrder.getType() == MarketOrderType.BUY ? orderPassive : orderActive;
 			Investment debe = portfolioService.findOrCreateActiveInvestment(portfolioDebe, asset, valueDate);
 			Investment haber = portfolioService.findOrCreateActiveInvestment(portfolioHaber, asset, valueDate);
 			list.add(accountUnits(debe, haber, asset, units, valueDate, marketOrder));
@@ -54,7 +60,9 @@ public class AccountingService {
 		PortfolioOperation operation = new PortfolioOperation();
 		operation.setDebe(from);
 		operation.setHaber(to);
+		operation.setAsset(asset);
 		operation.setUnits(units);
+		operation.setAmount(BigDecimal.ZERO);
 		operation.setValueDate(valueDate);
 		operation.setMarketOrder(marketOrder);
 		EntityManager entityManager = entityManagerProvider.get();

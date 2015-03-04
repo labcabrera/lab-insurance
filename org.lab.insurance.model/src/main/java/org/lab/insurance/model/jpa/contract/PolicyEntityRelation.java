@@ -1,4 +1,4 @@
-package org.lab.insurance.model.jpa;
+package org.lab.insurance.model.jpa.contract;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -20,9 +20,10 @@ import org.lab.insurance.model.HasActivationRange;
 import org.lab.insurance.model.HasContract;
 import org.lab.insurance.model.HasIdentifier;
 import org.lab.insurance.model.common.NonSerializable;
+import org.lab.insurance.model.jpa.common.AbstractLegalEntity;
 
 @Entity
-@Table(name = "C_POLICY_ENTITY_RELATION")
+@Table(name = "C_CONTRACT_ENTITY_RELATION")
 @SuppressWarnings("serial")
 public class PolicyEntityRelation implements Serializable, HasIdentifier<String>, HasContract, HasActivationRange {
 
@@ -32,7 +33,7 @@ public class PolicyEntityRelation implements Serializable, HasIdentifier<String>
 	private String id;
 
 	@Column(name = "TYPE", length = 16, nullable = false)
-	private PolicyRelationType type;
+	private ContractRelationType type;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH }, optional = false)
 	@JoinColumn(name = "CONTRACT_ID", nullable = false)
@@ -64,11 +65,11 @@ public class PolicyEntityRelation implements Serializable, HasIdentifier<String>
 		this.id = id;
 	}
 
-	public PolicyRelationType getType() {
+	public ContractRelationType getType() {
 		return type;
 	}
 
-	public void setType(PolicyRelationType type) {
+	public void setType(ContractRelationType type) {
 		this.type = type;
 	}
 

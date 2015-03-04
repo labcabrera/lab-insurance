@@ -33,12 +33,12 @@ public class BaseAsset implements Serializable {
 	@Column(name = "NAME", nullable = false, length = 128)
 	private String name;
 
-	@Column(name = "TYPE")
+	@Column(name = "TYPE", nullable = false, length = 16)
 	@Enumerated(EnumType.STRING)
 	private AssetType type;
 
 	/** Numero de decimales con los que opera el fondo. */
-	@Column(name = "DECIMALS")
+	@Column(name = "DECIMALS", nullable = false)
 	private Integer decimals;
 
 	@Column(name = "FROM_DATE", nullable = false)

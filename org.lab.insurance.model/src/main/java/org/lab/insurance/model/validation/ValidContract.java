@@ -14,10 +14,10 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@Constraint(validatedBy = OrderValidator.class)
-public @interface ValidOrder {
+@Constraint(validatedBy = ContractValidator.class)
+public @interface ValidContract {
 
-	String message() default "order.validation.invalid";
+	String message() default "policy.validation.invalid";
 
 	Class<?>[] groups() default {};
 

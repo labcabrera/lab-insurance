@@ -19,15 +19,15 @@ import org.lab.insurance.engine.model.orders.PaymentReception;
 import org.lab.insurance.engine.model.policy.NewPolicyAction;
 import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.common.Message;
-import org.lab.insurance.model.jpa.Agreement;
-import org.lab.insurance.model.jpa.Contract;
-import org.lab.insurance.model.jpa.Person;
-import org.lab.insurance.model.jpa.PolicyEntityRelation;
-import org.lab.insurance.model.jpa.PolicyRelationType;
 import org.lab.insurance.model.jpa.accounting.PortfolioMathProvision;
 import org.lab.insurance.model.jpa.common.Address;
 import org.lab.insurance.model.jpa.common.IdCard;
 import org.lab.insurance.model.jpa.common.IdCardType;
+import org.lab.insurance.model.jpa.common.Person;
+import org.lab.insurance.model.jpa.contract.Agreement;
+import org.lab.insurance.model.jpa.contract.Contract;
+import org.lab.insurance.model.jpa.contract.ContractRelationType;
+import org.lab.insurance.model.jpa.contract.PolicyEntityRelation;
 import org.lab.insurance.model.jpa.insurance.BaseAsset;
 import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.jpa.insurance.OrderDates;
@@ -79,7 +79,7 @@ public class NewPolicyActionTest {
 
 			Date mpDate = new DateTime(2015, 5, 20, 0, 0, 0, 0).toDate();
 			MathProvisionService mpService = injector.getInstance(MathProvisionService.class);
-			PortfolioMathProvision mp = mpService.findAtDate(readed.getPortfolioInfo().getPortfolioPasivo(), mpDate, true);
+			PortfolioMathProvision mp = mpService.findAtDate(readed.getPortfolioInfo().getPortfolioPassive(), mpDate, true);
 			System.out.println("MP: " + mp);
 			System.out.println("MP value: " + mp.getValue());
 
@@ -98,14 +98,14 @@ public class NewPolicyActionTest {
 		relationSuscriptor.setStartDate(policy.getEffective());
 		relationSuscriptor.setLegalEntity(buildSuscriptor());
 		relationSuscriptor.setContract(policy);
-		relationSuscriptor.setType(PolicyRelationType.SUSCRIPTOR);
+		relationSuscriptor.setType(ContractRelationType.SUSCRIPTOR);
 		relationSuscriptor.setRelationPercent(BigMath.HUNDRED);
 		policy.getRelations().add(relationSuscriptor);
 		PolicyEntityRelation relationRecipient = new PolicyEntityRelation();
 		relationRecipient.setStartDate(policy.getEffective());
 		relationRecipient.setLegalEntity(buildSuscriptor());
 		relationRecipient.setContract(policy);
-		relationRecipient.setType(PolicyRelationType.RECIPIENT);
+		relationRecipient.setType(ContractRelationType.RECIPIENT);
 		relationRecipient.setRelationPercent(BigMath.HUNDRED);
 		policy.getRelations().add(relationRecipient);
 		policy.setOrders(new ArrayList<Order>());

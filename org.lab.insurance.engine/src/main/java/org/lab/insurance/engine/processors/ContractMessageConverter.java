@@ -4,7 +4,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.lab.insurance.model.HasContract;
 import org.lab.insurance.model.common.Message;
-import org.lab.insurance.model.jpa.Contract;
+import org.lab.insurance.model.jpa.contract.Contract;
 
 public class ContractMessageConverter implements Processor {
 

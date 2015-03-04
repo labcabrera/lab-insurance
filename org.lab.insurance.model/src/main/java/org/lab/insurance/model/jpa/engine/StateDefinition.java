@@ -49,4 +49,9 @@ public class StateDefinition implements Serializable {
 	public void setEntityClass(Class<?> entityClass) {
 		this.entityClass = entityClass;
 	}
+
+	@Override
+	public String toString() {
+		return id != null ? id : super.toString();
+	}
 }

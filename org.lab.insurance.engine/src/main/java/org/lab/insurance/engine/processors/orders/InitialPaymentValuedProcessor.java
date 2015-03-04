@@ -5,7 +5,7 @@ import javax.inject.Inject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.lab.insurance.model.Constants;
-import org.lab.insurance.model.jpa.Contract;
+import org.lab.insurance.model.jpa.contract.Contract;
 import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.jpa.insurance.OrderType;
 import org.lab.insurance.model.matchers.OrderTypeMatcher;

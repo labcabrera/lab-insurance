@@ -2,7 +2,7 @@ package org.lab.insurance.bootstrap.feeders;
 
 import net.sf.flatpack.DataSet;
 
-import org.lab.insurance.model.jpa.Agreement;
+import org.lab.insurance.model.jpa.contract.Agreement;
 
 public class AgreementFeeder extends AbstractEntityFeeder<Agreement> {
 

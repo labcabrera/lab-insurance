@@ -1,4 +1,4 @@
-package org.lab.insurance.model.jpa;
+package org.lab.insurance.model.jpa.common;
 
 import java.io.Serializable;
 
@@ -18,8 +18,6 @@ import javax.persistence.Table;
 
 import org.lab.insurance.model.HasIdentifier;
 import org.lab.insurance.model.HasName;
-import org.lab.insurance.model.jpa.common.Address;
-import org.lab.insurance.model.jpa.common.IdCard;
 
 /**
  * Clase base de entidades fisicas y juridicas.

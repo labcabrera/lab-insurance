@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
+import javax.validation.ConstraintViolationException;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
@@ -70,16 +71,11 @@ public class ActionExecutionService {
 			result.setCode(Message.REEXECUTION_ERROR);
 			result.setMessage(ex.getMessage());
 			return result;
+		} catch (ConstraintViolationException ex) {
+			handleActionExecutionGenericError(actionExecution, ex, entityManager);
+			throw new RuntimeException(ex);
 		} catch (Exception ex) {
-			LOG.error("Action execution error", ex);
-			entityManager.getTransaction().rollback();
-			entityManager.getTransaction().begin();
-			actionExecution.setFailure(timestampProvider.getCurrentDateTime());
-			// TODO add exception info
-			actionExecution.setResultJson(serializer.toJson(ex.getMessage()));
-			entityManager.persist(actionExecution);
-			entityManager.getTransaction().commit();
-			entityManager.getTransaction().begin();
+			handleActionExecutionGenericError(actionExecution, ex, entityManager);
 			throw new RuntimeException(ex);
 		}
 	}
@@ -92,6 +88,19 @@ public class ActionExecutionService {
 		actionExecution.setPriority(priority);
 		EntityManager entityManager = entityManagerProvider.get();
 		entityManager.persist(actionExecution);
+	}
+
+	private void handleActionExecutionGenericError(ActionExecution actionExecution, Exception ex, EntityManager entityManager) {
+		LOG.error("Action execution error", ex);
+		entityManager.getTransaction().rollback();
+		entityManager.getTransaction().begin();
+		actionExecution.setFailure(timestampProvider.getCurrentDateTime());
+		// TODO add exception info
+		actionExecution.setResultJson(serializer.toJson(ex.getMessage()));
+		entityManager.persist(actionExecution);
+		entityManager.getTransaction().commit();
+		entityManager.getTransaction().begin();
+		throw new RuntimeException(ex);
 	}
 
 	private <T> ActionExecution buildActionExecutionEntity(ActionEntity<T> actionEntity) {

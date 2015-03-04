@@ -1,4 +1,4 @@
-package org.lab.insurance.model.jpa;
+package org.lab.insurance.model.jpa.contract;
 
 import java.io.Serializable;
 import java.util.Date;

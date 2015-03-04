@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -34,31 +35,31 @@ public class PortfolioOperation implements Serializable {
 	@GeneratedValue(generator = "system-uuid")
 	private String id;
 
-	@ManyToOne(optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "DEBE_INVESTMENT_ID", nullable = false)
 	private Investment debe;
 
-	@ManyToOne(optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "HABER_INVESTMENT_ID", nullable = false)
 	private Investment haber;
 
-	@ManyToOne
-	@JoinColumn(name = "ASSET_ID")
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "ASSET_ID", nullable = false)
 	private BaseAsset asset;
 
-	@Column(name = "VALUE_DATE")
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "MARKET_ORDER_ID", nullable = false)
+	private MarketOrder marketOrder;
+
+	@Column(name = "VALUE_DATE", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date valueDate;
 
-	@Column(name = "UNITS")
+	@Column(name = "UNITS", nullable = false, precision = 20, scale = 7)
 	private BigDecimal units;
 
-	@Column(name = "AMOUNT")
+	@Column(name = "AMOUNT", nullable = false, precision = 20, scale = 7)
 	private BigDecimal amount;
-
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "MARKET_ORDER_ID", nullable = false)
-	private MarketOrder marketOrder;
 
 	public String getId() {
 		return id;

@@ -6,7 +6,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.commons.lang3.StringUtils;
 import org.lab.insurance.model.HasContract;
-import org.lab.insurance.model.jpa.Contract;
+import org.lab.insurance.model.jpa.contract.Contract;
 import org.lab.insurance.services.common.Sequencer;
 
 /**

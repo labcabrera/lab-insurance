@@ -26,13 +26,13 @@ public class OrderDistribution implements Serializable {
 	private String id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ASSET_ID")
+	@JoinColumn(name = "ASSET_ID", nullable = false)
 	private BaseAsset asset;
 
-	@Column(name = "AMOUNT")
+	@Column(name = "AMOUNT", precision = 20, scale = 7)
 	private BigDecimal amount;
 
-	@Column(name = "PERCENT")
+	@Column(name = "PERCENT", precision = 20, scale = 7)
 	private BigDecimal percent;
 
 	public String getId() {

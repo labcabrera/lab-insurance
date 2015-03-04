@@ -11,6 +11,6 @@ package org.lab.insurance.model.jpa.accounting;
  */
 public enum PortfolioType {
 
-	ACTIVO, PASIVO, BANK, VOID
+	ACTIVE, PASSIVE, BANK, VOID, FEES
 
 }

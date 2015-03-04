@@ -30,13 +30,13 @@ public class MathProvision implements Serializable {
 	@JoinColumn(name = "INVESTMENT_ID", nullable = false)
 	private Investment investment;
 
-	@Column(name = "UNITS", nullable = false)
+	@Column(name = "UNITS", nullable = false, precision = 20, scale = 7)
 	private BigDecimal units;
 
-	@Column(name = "AMOUNT", nullable = false)
+	@Column(name = "AMOUNT", nullable = false, precision = 20, scale = 7)
 	private BigDecimal amount;
 
-	@Column(name = "COST", nullable = false)
+	@Column(name = "COST", nullable = false, precision = 20, scale = 7)
 	private BigDecimal cost;
 
 	public String getId() {

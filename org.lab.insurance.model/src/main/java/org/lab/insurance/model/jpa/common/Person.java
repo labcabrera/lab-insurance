@@ -1,4 +1,4 @@
-package org.lab.insurance.model.jpa;
+package org.lab.insurance.model.jpa.common;
 
 import java.util.Date;
 
@@ -10,8 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.lab.insurance.model.jpa.common.Address;
 
 @Entity
 @DiscriminatorValue("P")

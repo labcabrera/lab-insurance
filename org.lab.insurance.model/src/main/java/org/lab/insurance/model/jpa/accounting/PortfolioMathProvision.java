@@ -36,7 +36,7 @@ public class PortfolioMathProvision {
 	/**
 	 * NOTA: este valor no deja de ser el agregado de los mathProvisions, pero por temas de rendimiento es beficioso tenerlo calculado.
 	 */
-	@Column(name = "VALUE", nullable = false)
+	@Column(name = "VALUE", nullable = false, precision = 20, scale = 7)
 	private BigDecimal value;
 
 	@Column(name = "VALUE_DATE", nullable = false)

@@ -7,7 +7,7 @@ import javax.persistence.TypedQuery;
 import org.junit.Test;
 import org.lab.insurance.core.serialization.Serializer;
 import org.lab.insurance.engine.guice.InsuranceCoreModule;
-import org.lab.insurance.model.jpa.Contract;
+import org.lab.insurance.model.jpa.contract.Contract;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

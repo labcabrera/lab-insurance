@@ -5,17 +5,17 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.lab.insurance.model.jpa.Contract;
+import org.lab.insurance.model.jpa.contract.Contract;
 import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.jpa.insurance.OrderType;
 import org.lab.insurance.model.matchers.OrderTypeMatcher;
 
 import ch.lambdaj.Lambda;
 
-public class PolicyValidator implements ConstraintValidator<ValidPolicy, Contract> {
+public class ContractValidator implements ConstraintValidator<ValidContract, Contract> {
 
 	@Override
-	public void initialize(ValidPolicy validPolicy) {
+	public void initialize(ValidContract validPolicy) {
 	}
 
 	@Override

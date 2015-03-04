@@ -33,13 +33,21 @@ public class OrderProcessInfo implements Serializable {
 	@Column(name = "SELL_STRATEGY")
 	private SellStrategy sellStrategy;
 
+	/**
+	 * En caso de que este valor sea distinto de nulo nos permite sobreescribir el modo en el que se contabiliza la operacion en el pasivo.
+	 * Si es nulo obtendra el valor del contrato.
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PORTFOLIO_PASIVO_ID", nullable = false)
-	private Portfolio portfolioPasivo;
+	@JoinColumn(name = "PORTFOLIO_PASSIVE_ID")
+	private Portfolio portfolioPassive;
 
+	/**
+	 * En caso de que este valor sea distinto de nulo nos permite sobreescribir el modo en el que se contabiliza la operacion en el activo.
+	 * Si es nulo obtendra el valor del contrato.
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PORTFOLIO_ACTIVO_ID", nullable = false)
-	private Portfolio portfolioActivo;
+	@JoinColumn(name = "PORTFOLIO_ACTIVE_ID")
+	private Portfolio portfolioActive;
 
 	public String getId() {
 		return id;
@@ -57,19 +65,20 @@ public class OrderProcessInfo implements Serializable {
 		this.sellStrategy = sellStrategy;
 	}
 
-	public Portfolio getPortfolioPasivo() {
-		return portfolioPasivo;
+	public Portfolio getPortfolioPassive() {
+		return portfolioPassive;
 	}
 
-	public void setPortfolioPasivo(Portfolio portfolioPasivo) {
-		this.portfolioPasivo = portfolioPasivo;
+	public void setPortfolioPassive(Portfolio portfolioPassive) {
+		this.portfolioPassive = portfolioPassive;
 	}
 
-	public Portfolio getPortfolioActivo() {
-		return portfolioActivo;
+	public Portfolio getPortfolioActive() {
+		return portfolioActive;
 	}
 
-	public void setPortfolioActivo(Portfolio portfolioActivo) {
-		this.portfolioActivo = portfolioActivo;
+	public void setPortfolioActive(Portfolio portfolioActive) {
+		this.portfolioActive = portfolioActive;
 	}
+
 }

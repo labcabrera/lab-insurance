@@ -1,4 +1,4 @@
-package org.lab.insurance.model.jpa;
+package org.lab.insurance.model.jpa.contract;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -22,12 +22,12 @@ import org.lab.insurance.model.HasActivationRange;
 import org.lab.insurance.model.HasState;
 import org.lab.insurance.model.jpa.engine.State;
 import org.lab.insurance.model.jpa.insurance.Order;
-import org.lab.insurance.model.validation.ValidPolicy;
+import org.lab.insurance.model.validation.ValidContract;
 
 @Entity
-@Table(name = "C_POLICY")
+@Table(name = "C_CONTRACT")
 @SuppressWarnings("serial")
-@ValidPolicy
+@ValidContract
 public class Contract implements Serializable, HasState<String>, HasActivationRange {
 
 	@Id
@@ -56,7 +56,7 @@ public class Contract implements Serializable, HasState<String>, HasActivationRa
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST }, optional = false)
 	@JoinColumn(name = "PORTFOLIO_INFO_ID", nullable = false)
-	private PolicyPorfolioInfo portfolioInfo;
+	private ContractPorfolioInfo portfolioInfo;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
 	@JoinColumn(name = "STATE_ID")
@@ -128,11 +128,11 @@ public class Contract implements Serializable, HasState<String>, HasActivationRa
 		currentState = state;
 	}
 
-	public PolicyPorfolioInfo getPortfolioInfo() {
+	public ContractPorfolioInfo getPortfolioInfo() {
 		return portfolioInfo;
 	}
 
-	public void setPortfolioInfo(PolicyPorfolioInfo portfolioInfo) {
+	public void setPortfolioInfo(ContractPorfolioInfo portfolioInfo) {
 		this.portfolioInfo = portfolioInfo;
 	}
 

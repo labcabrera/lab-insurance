@@ -44,7 +44,7 @@ public class AssetGuaranteePercent implements HasIdentifier<String>, HasAsset, S
 	@Temporal(TemporalType.DATE)
 	private Date to;
 
-	@Column(name = "GUARANTEE_PERCENT", nullable = false)
+	@Column(name = "GUARANTEE_PERCENT", nullable = false, precision = 20, scale = 7)
 	private BigDecimal guaranteePercent;
 
 	@Override

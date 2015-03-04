@@ -67,4 +67,9 @@ public class State implements Serializable {
 	public void setHasStateId(String hasStateId) {
 		this.hasStateId = hasStateId;
 	}
+
+	@Override
+	public String toString() {
+		return stateDefinition != null ? stateDefinition.toString() : super.toString();
+	}
 }

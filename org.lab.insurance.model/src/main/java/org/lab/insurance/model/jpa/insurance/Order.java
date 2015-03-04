@@ -26,8 +26,9 @@ import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.HasContract;
 import org.lab.insurance.model.HasState;
 import org.lab.insurance.model.common.NonSerializable;
-import org.lab.insurance.model.jpa.Contract;
+import org.lab.insurance.model.jpa.contract.Contract;
 import org.lab.insurance.model.jpa.engine.State;
+import org.lab.insurance.model.validation.ValidOrder;
 
 /**
  * Representa un movimiento u operacion de entrada/salida de fondos en un contrato.
@@ -36,6 +37,7 @@ import org.lab.insurance.model.jpa.engine.State;
 @Table(name = "I_ORDER")
 @SuppressWarnings("serial")
 @NamedQueries({ @NamedQuery(name = "Order.selectByContractInStates", query = "select e from Order e where e.contract = :contract and e.currentState.stateDefinition.id in :stateIds order by e.dates.valueDate") })
+@ValidOrder
 public class Order implements Serializable, HasContract, HasState<String> {
 
 	@Id
@@ -44,7 +46,7 @@ public class Order implements Serializable, HasContract, HasState<String> {
 	private String id;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "TYPE", nullable = false)
+	@Column(name = "TYPE", nullable = false, length = 32)
 	private OrderType type;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH }, optional = false)
@@ -52,33 +54,33 @@ public class Order implements Serializable, HasContract, HasState<String> {
 	@NonSerializable
 	private Contract contract;
 
-	@Embedded
-	private OrderDates dates;
-
-	@Column(name = "GROSS_AMOUNT", nullable = false)
-	private BigDecimal grossAmount;
-
-	@Column(name = "NET_AMOUNT")
-	private BigDecimal netAmount;
-
-	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
-	@JoinTable(name = "I_ORDER_DISTRIBUTION_BUY", joinColumns = { @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID") }, inverseJoinColumns = @JoinColumn(name = "DISTRIBUTION_ID", referencedColumnName = "ID"))
-	private List<OrderDistribution> buyDistribution;
-
-	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
-	@JoinTable(name = "I_ORDER_DISTRIBUTION_SELL", joinColumns = { @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID") }, inverseJoinColumns = @JoinColumn(name = "DISTRIBUTION_ID", referencedColumnName = "ID"))
-	private List<OrderDistribution> sellDistribution;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	private List<MarketOrder> marketOrders;
-
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
 	@JoinColumn(name = "CURRENT_STATE_ID")
 	private State currentState;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "ORDER_PROCESS_INFO")
 	private OrderProcessInfo processInfo;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
+	@JoinTable(name = "I_ORDER_DISTRIBUTION_SELL", joinColumns = { @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID") }, inverseJoinColumns = @JoinColumn(name = "DISTRIBUTION_ID", referencedColumnName = "ID"))
+	private List<OrderDistribution> sellDistribution;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
+	@JoinTable(name = "I_ORDER_DISTRIBUTION_BUY", joinColumns = { @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID") }, inverseJoinColumns = @JoinColumn(name = "DISTRIBUTION_ID", referencedColumnName = "ID"))
+	private List<OrderDistribution> buyDistribution;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	private List<MarketOrder> marketOrders;
+
+	@Embedded
+	private OrderDates dates;
+
+	@Column(name = "GROSS_AMOUNT", nullable = false, precision = 20, scale = 7)
+	private BigDecimal grossAmount;
+
+	@Column(name = "NET_AMOUNT", precision = 20, scale = 7)
+	private BigDecimal netAmount;
 
 	@Override
 	public String getId() {

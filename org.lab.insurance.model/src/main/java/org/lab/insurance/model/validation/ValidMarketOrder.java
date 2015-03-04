@@ -14,10 +14,10 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@Constraint(validatedBy = OrderValidator.class)
-public @interface ValidOrder {
+@Constraint(validatedBy = MarketOrderValidator.class)
+public @interface ValidMarketOrder {
 
-	String message() default "order.validation.invalid";
+	String message() default "marketOrder.validation.invalid";
 
 	Class<?>[] groups() default {};
 

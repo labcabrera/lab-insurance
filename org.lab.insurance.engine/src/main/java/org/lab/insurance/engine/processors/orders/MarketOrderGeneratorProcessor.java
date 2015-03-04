@@ -20,6 +20,7 @@ import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.jpa.insurance.OrderDates;
 import org.lab.insurance.model.jpa.insurance.OrderDistribution;
 import org.lab.insurance.services.common.StateMachineService;
+import org.lab.insurance.services.common.TimestampProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +34,8 @@ public class MarketOrderGeneratorProcessor implements Processor {
 	private Provider<EntityManager> entityManagerProvider;
 	@Inject
 	private StateMachineService stateMachineService;
+	@Inject
+	private TimestampProvider timestampProvider;
 
 	@Override
 	@Transactional
@@ -94,11 +97,12 @@ public class MarketOrderGeneratorProcessor implements Processor {
 				marketOrder.setDates(new OrderDates());
 				marketOrder.getDates().setEffective(order.getDates().getEffective());
 				marketOrder.getDates().setValueDate(order.getDates().getValueDate());
+				marketOrder.getDates().setProcessed(timestampProvider.getCurrentDateTime());
 				marketOrder.setType(MarketOrderType.BUY);
 				marketOrder.setSource(MarketOrderSource.AMOUNT);
 				entityManager.persist(marketOrder);
 				order.getMarketOrders().add(marketOrder);
-				stateMachineService.createTransition(marketOrder, Constants.MarketOrderStates.INITIAL);
+				stateMachineService.createTransition(marketOrder, Constants.MarketOrderStates.PROCESSED);
 			}
 		}
 	}

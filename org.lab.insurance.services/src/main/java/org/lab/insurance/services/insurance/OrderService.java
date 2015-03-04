@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import org.lab.insurance.model.Constants;
-import org.lab.insurance.model.jpa.Contract;
+import org.lab.insurance.model.jpa.contract.Contract;
 import org.lab.insurance.model.jpa.insurance.Order;
 
 public class OrderService {
