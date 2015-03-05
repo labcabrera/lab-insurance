@@ -5,8 +5,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -30,6 +33,14 @@ public class Agreement implements Serializable, HasName, HasCode, HasActivationR
 	@Column(name = "ID", length = 36)
 	@GeneratedValue(generator = "system-uuid")
 	private String id;
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "SERVICE_INFO_ID", nullable = false)
+	private AgreementServiceInfo serviceInfo;
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "VALIDATION_INFO_ID", nullable = false)
+	private AgreementValidationInfo validationInfo;
 
 	@Column(name = "NAME", length = 64, nullable = false)
 	private String name;
@@ -87,5 +98,21 @@ public class Agreement implements Serializable, HasName, HasCode, HasActivationR
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	public AgreementServiceInfo getServiceInfo() {
+		return serviceInfo;
+	}
+
+	public void setServiceInfo(AgreementServiceInfo serviceInfo) {
+		this.serviceInfo = serviceInfo;
+	}
+
+	public AgreementValidationInfo getValidationInfo() {
+		return validationInfo;
+	}
+
+	public void setValidationInfo(AgreementValidationInfo validationInfo) {
+		this.validationInfo = validationInfo;
 	}
 }

@@ -61,6 +61,9 @@ public class PortfolioOperation implements Serializable {
 	@Column(name = "AMOUNT", nullable = false, precision = 20, scale = 7)
 	private BigDecimal amount;
 
+	@Column(name = "DESCRIPTION", length = 516)
+	private String description;
+
 	public String getId() {
 		return id;
 	}

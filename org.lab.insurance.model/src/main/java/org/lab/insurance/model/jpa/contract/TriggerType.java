@@ -23,16 +23,21 @@ public enum TriggerType {
 	/**
 	 * Se ejecuta un determinado dia del año. Si ese dia no es laborable se utiliza el siguiente dia laborable.
 	 */
-	FIXED_LABORAL_DAT_YEARLY_FORWARD,
+	FIXED_LABORAL_DAY_YEARLY_FORWARD,
 
 	/**
 	 * Se ejecuta un determinado dia del año. Si ese dia no es laborable se utiliza el dia laborable anterior.
 	 */
-	FIXED_LABORAL_DAT_YEARLY_BACKWARD,
+	FIXED_LABORAL_DAY_YEARLY_BACKWARD,
 
 	/**
 	 * Ultimo dia laborable de cada mes
 	 */
-	LAST_LABORAL_DAY_OF_MONTH
+	LAST_LABORAL_DAY_OF_MONTH,
+
+	/**
+	 * No se realizan activaciones de este servicio.
+	 */
+	NONE
 
 }

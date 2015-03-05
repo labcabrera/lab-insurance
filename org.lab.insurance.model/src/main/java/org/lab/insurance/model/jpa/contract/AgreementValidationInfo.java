@@ -8,8 +8,6 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,37 +20,25 @@ import javax.persistence.Table;
 import org.lab.insurance.model.HasIdentifier;
 import org.lab.insurance.model.HasName;
 
-/**
- * Representa una condicion de activacion de un proceso. Bien sea una expresion cron, un proceso que se ejecuta el dia X de cada mes o un
- * proceso anual.
- */
 @Entity
-@Table(name = "C_TRIGGER_DEFINITION")
-@NamedQueries({ @NamedQuery(name = "TriggerDefinition.selectByName", query = "select e from TriggerDefinition e where e.name = :name") })
+@Table(name = "C_AGREEMENT_VALIDATION_INFO")
 @SuppressWarnings("serial")
-public class TriggerDefinition implements Serializable, HasIdentifier<String>, HasName {
-
-	public static final String KEY_DAY = "K_DAY";
-	public static final String KEY_MONTH = "K_MONTH";
-	public static final String KEY_CRON = "K_CRON";
+@NamedQueries({ @NamedQuery(name = "AgreementValidationInfo.selectByName", query = "select e from AgreementValidationInfo e where e.name = :name") })
+public class AgreementValidationInfo implements Serializable, HasIdentifier<String>, HasName {
 
 	@Id
 	@Column(name = "ID", length = 36)
 	@GeneratedValue(generator = "system-uuid")
 	private String id;
 
+	@Column(name = "NAME", length = 64, nullable = false)
+	private String name;
+
 	@ElementCollection(fetch = FetchType.EAGER)
 	@MapKeyColumn(name = "PARAM_KEY", length = 516)
 	@Column(name = "PARAM_VALUE", length = 64)
-	@CollectionTable(name = "C_TRIGGER_PARAM", joinColumns = @JoinColumn(name = "TRIGGER_ID"))
+	@CollectionTable(name = "C_AGREEMENT_VALIDATION_PARAM", joinColumns = @JoinColumn(name = "AGREEMENT_VALIDATION_ID"))
 	private Map<String, String> values = new HashMap<String, String>();
-
-	@Column(name = "TYPE", length = 32)
-	@Enumerated(EnumType.STRING)
-	private TriggerType type;
-
-	@Column(name = "NAME", length = 64, nullable = false)
-	private String name;
 
 	@Override
 	public String getId() {
@@ -64,12 +50,13 @@ public class TriggerDefinition implements Serializable, HasIdentifier<String>, H
 		this.id = id;
 	}
 
-	public TriggerType getType() {
-		return type;
+	@Override
+	public String getName() {
+		return name;
 	}
 
-	public void setType(TriggerType type) {
-		this.type = type;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Map<String, String> getValues() {
@@ -78,14 +65,5 @@ public class TriggerDefinition implements Serializable, HasIdentifier<String>, H
 
 	public void setValues(Map<String, String> values) {
 		this.values = values;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 }

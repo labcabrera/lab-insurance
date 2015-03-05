@@ -26,7 +26,7 @@ public class TriggerFeeder extends AbstractEntityFeeder<TriggerDefinition> {
 	@SuppressWarnings("unchecked")
 	protected TriggerDefinition buildEntity(DataSet dataSet) {
 		TriggerDefinition entity = new TriggerDefinition();
-		entity.setId(dataSet.getString("ID"));
+		entity.setName(dataSet.getString("NAME"));
 		entity.setType(TriggerType.valueOf(dataSet.getString("TYPE")));
 		String paramsJson = dataSet.getString("PARAMS_JSON");
 		if (StringUtils.isNotBlank(paramsJson)) {
