@@ -22,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.HasContract;
 import org.lab.insurance.model.HasState;
@@ -105,6 +106,7 @@ public class Order implements Serializable, HasContract, HasState<String> {
 		return contract;
 	}
 
+	@Override
 	public void setContract(Contract policy) {
 		this.contract = policy;
 	}
@@ -180,5 +182,18 @@ public class Order implements Serializable, HasContract, HasState<String> {
 		boolean checkDate = dates != null && dates.getValued() != null;
 		boolean checkState = currentStateId != null && (currentStateId.equals(Constants.OrderStates.VALUED) || currentStateId.equals(Constants.OrderStates.ACCOUNTED));
 		return checkDate && checkState;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(type != null ? "Order" : type);
+		sb.append("/");
+		sb.append(contract != null ? contract.getNumber() : "<null>");
+		sb.append("/");
+		sb.append(dates != null && dates.getEffective() != null ? DateFormatUtils.ISO_DATE_FORMAT.format(dates.getEffective()) : "<null>");
+		sb.append("/");
+		sb.append(dates != null && dates.getValueDate() != null ? DateFormatUtils.ISO_DATE_FORMAT.format(dates.getValueDate()) : "<null>");
+		return sb.toString();
 	}
 }

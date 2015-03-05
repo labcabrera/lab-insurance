@@ -51,11 +51,11 @@ public class ActionExecutionService {
 		ProducerTemplate producer = camelContext.createProducerTemplate();
 		ActionExecution actionExecution = buildActionExecutionEntity(actionEntity);
 		EntityManager entityManager = entityManagerProvider.get();
+		Message<T> result = null;
 		try {
-			Message<T> result = producer.requestBody(endpoint, actionEntity, Message.class);
+			result = producer.requestBody(endpoint, actionEntity, Message.class);
 			producer.stop();
 			updateActionExecutionSuccess(actionExecution, result, entityManager);
-			return result;
 		} catch (CancelAndRexecuteException ex) {
 			LOG.error("Cancel and re-execution error", ex);
 			entityManager.getTransaction().rollback();
@@ -66,10 +66,9 @@ public class ActionExecutionService {
 			entityManager.getTransaction().commit();
 			entityManager.getTransaction().begin();
 			schedule(ex.getActionEntity(), ex.getScheduled());
-			Message<T> result = new Message<T>();
+			result = new Message<T>();
 			result.setCode(Message.REEXECUTION_ERROR);
 			result.setMessage(ex.getMessage());
-			return result;
 		} catch (ConstraintViolationException ex) {
 			handleActionExecutionGenericError(actionExecution, ex, entityManager);
 			throw new RuntimeException(ex);
@@ -77,13 +76,14 @@ public class ActionExecutionService {
 			handleActionExecutionGenericError(actionExecution, ex, entityManager);
 			throw new RuntimeException(ex);
 		}
+		return result;
 	}
 
 	@Transactional
 	public void schedule(ActionEntity<?> actionEntity, Date when) {
 		Validate.notNull(actionEntity, "Missing action entity");
 		Validate.notNull(when, "Missing schedule date");
-		LOG.debug("Scheduling {} > {}", actionEntity.getClass().getSimpleName(), DateFormatUtils.ISO_DATE_FORMAT.format(when));
+		LOG.debug("Scheduling {} to date {}", actionEntity.getClass().getSimpleName(), DateFormatUtils.ISO_DATE_FORMAT.format(when));
 		Integer priority = actionPriorityMapper.getPriority(actionEntity);
 		ActionExecution actionExecution = buildActionExecutionEntity(actionEntity);
 		actionExecution.setScheduled(when);
