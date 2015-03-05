@@ -37,7 +37,7 @@ public class InitialPaymentReceptionProcessor implements Processor {
 		boolean checkStarted = checkContractStarted(contract);
 		if (checkStarted) {
 			contract.setStartDate(timestampProvider.getCurrentDate());
-			stateMachineService.createTransition(contract, Constants.PolicyStates.PAYED);
+			stateMachineService.createTransition(contract, Constants.ContractStates.PAYED);
 			EntityManager entityManager = entityManagerProvider.get();
 			entityManager.merge(contract);
 		}

@@ -47,6 +47,6 @@ public class NewContractProcessor implements Processor {
 		}
 		entityManager.persist(contract);
 		entityManager.flush();
-		stateMachineService.createTransition(contract, Constants.PolicyStates.INITIAL);
+		stateMachineService.createTransition(contract, Constants.ContractStates.INITIAL);
 	}
 }

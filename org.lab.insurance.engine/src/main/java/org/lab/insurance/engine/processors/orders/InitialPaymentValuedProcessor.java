@@ -2,14 +2,14 @@ package org.lab.insurance.engine.processors.orders;
 
 import javax.inject.Inject;
 
+import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.lab.insurance.model.Constants;
+import org.apache.camel.ProducerTemplate;
 import org.lab.insurance.model.jpa.contract.Contract;
 import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.jpa.insurance.OrderType;
 import org.lab.insurance.model.matchers.OrderTypeMatcher;
-import org.lab.insurance.services.common.StateMachineService;
 
 import ch.lambdaj.Lambda;
 
@@ -19,21 +19,22 @@ import ch.lambdaj.Lambda;
 public class InitialPaymentValuedProcessor implements Processor {
 
 	@Inject
-	private StateMachineService stateMachineService;
+	private CamelContext camelContext;
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		Order order = exchange.getIn().getBody(Order.class);
-		Contract policy = order.getContract();
+		Contract contract = order.getContract();
 		boolean allInitialPaymentValued = true;
-		for (Order i : Lambda.select(policy.getOrders(), new OrderTypeMatcher(OrderType.INITIAL_PAYMENT))) {
+		for (Order i : Lambda.select(contract.getOrders(), new OrderTypeMatcher(OrderType.INITIAL_PAYMENT))) {
 			if (!i.isValued()) {
 				allInitialPaymentValued = false;
 				break;
 			}
 		}
 		if (allInitialPaymentValued) {
-			stateMachineService.createTransition(policy, Constants.PolicyStates.ACTIVE);
+			ProducerTemplate producer = camelContext.createProducerTemplate();
+			producer.requestBody("direct:contract_start", contract);
 		}
 	}
 }

@@ -35,11 +35,11 @@ public class Constants {
 	 * <li>CLOSED: contrato cerrado.</li>
 	 * </ul>
 	 */
-	public static final class PolicyStates {
-		public static final String INITIAL = "POLICY_INITIAL";
-		public static final String PAYED = "POLICY_PAYED";
-		public static final String ACTIVE = "POLICY_ACTIVE";
-		public static final String CLOSED = "POLICY_CLOSED";
+	public static final class ContractStates {
+		public static final String INITIAL = "CONTRACT_INITIAL";
+		public static final String PAYED = "CONTRACT_PAYED";
+		public static final String ACTIVE = "CONTRACT_ACTIVE";
+		public static final String CLOSED = "CONTRACT_CLOSED";
 	}
 
 	public static final class OrderStates {

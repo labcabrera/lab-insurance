@@ -16,7 +16,7 @@ import org.lab.insurance.engine.ActionExecutionRunner;
 import org.lab.insurance.engine.ActionExecutionService;
 import org.lab.insurance.engine.guice.InsuranceCoreModule;
 import org.lab.insurance.engine.model.orders.PaymentReception;
-import org.lab.insurance.engine.model.policy.NewPolicyAction;
+import org.lab.insurance.engine.model.policy.NewContractAction;
 import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.common.Message;
 import org.lab.insurance.model.jpa.accounting.PortfolioMathProvision;
@@ -53,7 +53,7 @@ public class NewPolicyActionTest {
 
 			// Accion de grabacion de la poliza
 			Date newPolicyDate = new DateTime(2015, 1, 20, 0, 0, 0, 0).toDate();
-			NewPolicyAction action = new NewPolicyAction();
+			NewContractAction action = new NewContractAction();
 			action.setContract(buildPolicy(entityManager));
 			action.setActionDate(newPolicyDate);
 			Message<Contract> message = actionExecutionService.execute(action);
@@ -65,7 +65,7 @@ public class NewPolicyActionTest {
 			entityManager.clear();
 			Contract readed = entityManager.find(Contract.class, message.getPayload().getId());
 			Validate.notNull(readed);
-			Validate.isTrue(readed.getCurrentState().getStateDefinition().getId().equals(Constants.PolicyStates.INITIAL));
+			Validate.isTrue(readed.getCurrentState().getStateDefinition().getId().equals(Constants.ContractStates.INITIAL));
 
 			Date paymentReceptionDate = new DateTime(2015, 1, 27, 0, 0, 0, 0).toDate();
 			Order initialPayment = readed.getOrders().iterator().next();

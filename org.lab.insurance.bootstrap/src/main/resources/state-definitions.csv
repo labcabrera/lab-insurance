@@ -1,8 +1,8 @@
 ID,NAME,CLASS
-"POLICY_INITIAL","Inicial","org.lab.insurance.model.jpa.contract.Contract"
-"POLICY_PAYED","Pagado","org.lab.insurance.model.jpa.contract.Contract"
-"POLICY_ACTIVE","Activo","org.lab.insurance.model.jpa.contract.Contract"
-"POLICY_CLOSED","Cerrado","org.lab.insurance.model.jpa.contract.Contract"
+"CONTRACT_INITIAL","Inicial","org.lab.insurance.model.jpa.contract.Contract"
+"CONTRACT_PAYED","Pagado","org.lab.insurance.model.jpa.contract.Contract"
+"CONTRACT_ACTIVE","Activo","org.lab.insurance.model.jpa.contract.Contract"
+"CONTRACT_CLOSED","Cerrado","org.lab.insurance.model.jpa.contract.Contract"
 "ORDER_INITIAL","Inicial","org.lab.insurance.model.jpa.insurance.Order"
 "ORDER_PROCESSED","Procesada","org.lab.insurance.model.jpa.insurance.Order"
 "ORDER_VALUED","Valorizada","org.lab.insurance.model.jpa.insurance.Order"

@@ -7,9 +7,9 @@ import org.lab.insurance.engine.model.ActionEntity;
 import org.lab.insurance.model.HasContract;
 import org.lab.insurance.model.jpa.contract.Contract;
 
-@ActionDefinition(endpoint = "direct:new_policy_action")
+@ActionDefinition(endpoint = "direct:new_contract_action")
 @SuppressWarnings("serial")
-public class NewPolicyAction implements ActionEntity<Contract>, HasContract {
+public class NewContractAction implements ActionEntity<Contract>, HasContract {
 
 	private Contract contract;
 	private Date actionDate;
