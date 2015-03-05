@@ -13,13 +13,12 @@ import org.junit.Test;
 import org.lab.insurance.engine.guice.InsuranceCoreModule;
 import org.lab.insurance.model.jpa.common.Holiday;
 import org.lab.insurance.model.jpa.common.HolidayCalendar;
-import org.lab.insurance.services.common.CalendarService;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.persist.PersistService;
 
-public class CalendarServiceTest {
+public class TestCalendarService {
 
 	@Test
 	public void test() {

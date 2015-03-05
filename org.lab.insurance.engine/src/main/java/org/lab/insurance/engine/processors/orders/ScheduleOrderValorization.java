@@ -23,9 +23,7 @@ public class ScheduleOrderValorization implements Processor {
 	public void process(Exchange exchange) throws Exception {
 		Order order = exchange.getIn().getBody(Order.class);
 		LOG.debug("Scheduling valorization for order {}", order);
-		ValorizateOrderAction action = new ValorizateOrderAction();
-		action.setOrder(new Order());
-		action.getOrder().setId(order.getId());
+		ValorizateOrderAction action = new ValorizateOrderAction().withOrderId(order.getId());
 		Date when = order.getDates().getValueDate();
 		actionExecutionService.schedule(action, when);
 	}

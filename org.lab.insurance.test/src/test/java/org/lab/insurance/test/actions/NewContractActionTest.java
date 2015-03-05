@@ -8,16 +8,14 @@ import java.util.Date;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
 
-import org.apache.commons.lang3.Validate;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.lab.insurance.core.math.BigMath;
-import org.lab.insurance.engine.ActionExecutionRunner;
 import org.lab.insurance.engine.ActionExecutionService;
+import org.lab.insurance.engine.DailyActionExecutionRunner;
 import org.lab.insurance.engine.guice.InsuranceCoreModule;
 import org.lab.insurance.engine.model.contract.NewContractAction;
 import org.lab.insurance.engine.model.orders.PaymentReception;
-import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.common.Message;
 import org.lab.insurance.model.jpa.accounting.PortfolioMathProvision;
 import org.lab.insurance.model.jpa.common.Address;
@@ -33,13 +31,14 @@ import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.jpa.insurance.OrderDates;
 import org.lab.insurance.model.jpa.insurance.OrderDistribution;
 import org.lab.insurance.model.jpa.insurance.OrderType;
+import org.lab.insurance.services.common.TimestampProvider;
 import org.lab.insurance.services.insurance.MathProvisionService;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.persist.PersistService;
 
-public class NewPolicyActionTest {
+public class NewContractActionTest {
 
 	// TODO cambio del funcionamiento para meter la recepcion del pago inicial
 	@Test
@@ -49,33 +48,30 @@ public class NewPolicyActionTest {
 			injector.getInstance(PersistService.class).start();
 			Provider<EntityManager> entityManagerProvider = injector.getProvider(EntityManager.class);
 			ActionExecutionService actionExecutionService = injector.getInstance(ActionExecutionService.class);
+			TimestampProvider timestampProvider = injector.getInstance(TimestampProvider.class);
 			EntityManager entityManager = entityManagerProvider.get();
 
 			// Accion de grabacion de la poliza
-			Date newPolicyDate = new DateTime(2015, 1, 20, 0, 0, 0, 0).toDate();
-			NewContractAction action = new NewContractAction();
-			action.setContract(buildPolicy(entityManager));
-			action.setActionDate(newPolicyDate);
-			Message<Contract> message = actionExecutionService.execute(action);
-			Validate.notNull(message.getPayload());
-			Validate.notNull(message.getPayload().getId());
-			Validate.isTrue(Message.SUCCESS.equals(message.getCode()));
+			Date newContractDate = new DateTime(2015, 1, 20, 0, 0, 0, 0).toDate();
+			NewContractAction newContractAction = new NewContractAction();
+			newContractAction.setContract(buildPolicy(entityManager));
+			newContractAction.setActionDate(newContractDate);
+			timestampProvider.setDate(newContractDate);
+			Message<Contract> newContractResult = actionExecutionService.execute(newContractAction);
+			String contractId = newContractResult.getPayload().getId();
 
 			// Accion de recepcion del pago inicial
-			entityManager.clear();
-			Contract readed = entityManager.find(Contract.class, message.getPayload().getId());
-			Validate.notNull(readed);
-			Validate.isTrue(readed.getCurrentState().getStateDefinition().getId().equals(Constants.ContractStates.INITIAL));
-
+			Contract readed = entityManager.find(Contract.class, contractId);
 			Date paymentReceptionDate = new DateTime(2015, 1, 27, 0, 0, 0, 0).toDate();
 			Order initialPayment = readed.getOrders().iterator().next();
-			PaymentReception paymentReception = new PaymentReception().withActionDate(paymentReceptionDate).withOrderId(initialPayment.getId());
-			actionExecutionService.execute(paymentReception);
+			PaymentReception paymentReceptionAction = new PaymentReception().withActionDate(paymentReceptionDate).withOrderId(initialPayment.getId());
+			actionExecutionService.schedule(paymentReceptionAction, paymentReceptionDate);
 
 			Date from = new DateTime(2015, 1, 1, 0, 0, 0, 0).toDate();
 			Date to = new DateTime(2015, 12, 31, 0, 0, 0, 0).toDate();
-			ActionExecutionRunner actionExecutionRunner = injector.getInstance(ActionExecutionRunner.class);
-			actionExecutionRunner.run(from, to);
+			DailyActionExecutionRunner actionRunner = injector.getInstance(DailyActionExecutionRunner.class);
+			// ActionExecutionRunner actionExecutionRunner = injector.getInstance(ActionExecutionRunner.class);
+			actionRunner.run(from, to);
 
 			Date mpDate = new DateTime(2015, 5, 20, 0, 0, 0, 0).toDate();
 			MathProvisionService mpService = injector.getInstance(MathProvisionService.class);

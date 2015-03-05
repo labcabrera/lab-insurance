@@ -12,6 +12,7 @@ import org.lab.insurance.engine.processors.orders.OrderProcessor;
 import org.lab.insurance.engine.processors.orders.OrderResolverProcessor;
 import org.lab.insurance.engine.processors.orders.OrderValorizationProcessor;
 import org.lab.insurance.engine.processors.orders.OrderValueDateProcessor;
+import org.lab.insurance.engine.processors.orders.PaymentReceptionDateProcessor;
 import org.lab.insurance.engine.processors.orders.ScheduleOrderAccount;
 import org.lab.insurance.engine.processors.orders.ScheduleOrderValorization;
 import org.lab.insurance.model.jpa.insurance.OrderType;
@@ -58,6 +59,7 @@ public class OrderRouteBuilder extends RouteBuilder {
 		 */
 		from("direct:payment_reception") //
 				.bean(OrderResolverProcessor.class) //
+				.bean(PaymentReceptionDateProcessor.class) //
 				.choice() //
 				.when(OrderTypePredicate.withType(OrderType.INITIAL_PAYMENT)).bean(InitialPaymentReceptionProcessor.class) //
 				.end() //

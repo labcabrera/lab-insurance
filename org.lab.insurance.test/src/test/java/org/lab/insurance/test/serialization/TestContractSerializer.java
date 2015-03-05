@@ -22,7 +22,7 @@ public class TestContractSerializer {
 		Provider<EntityManager> entityManagerProvider = injector.getProvider(EntityManager.class);
 		Serializer serializer = injector.getInstance(Serializer.class);
 		EntityManager entityManager = entityManagerProvider.get();
-		TypedQuery<Contract> query = entityManager.createQuery("select e from Policy e", Contract.class);
+		TypedQuery<Contract> query = entityManager.createQuery("select e from Contract e", Contract.class);
 		query.setMaxResults(10);
 		for (Contract i : query.getResultList()) {
 			System.out.println(serializer.toJson(i));

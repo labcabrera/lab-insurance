@@ -11,6 +11,7 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.lab.insurance.core.serialization.Serializer;
 import org.lab.insurance.engine.model.ActionDefinition;
 import org.lab.insurance.engine.model.ActionEntity;
@@ -80,6 +81,9 @@ public class ActionExecutionService {
 
 	@Transactional
 	public void schedule(ActionEntity<?> actionEntity, Date when) {
+		Validate.notNull(actionEntity, "Missing action entity");
+		Validate.notNull(when, "Missing schedule date");
+		LOG.debug("Scheduling {} > {}", actionEntity.getClass().getSimpleName(), DateFormatUtils.ISO_DATE_FORMAT.format(when));
 		Integer priority = actionPriorityMapper.getPriority(actionEntity);
 		ActionExecution actionExecution = buildActionExecutionEntity(actionEntity);
 		actionExecution.setScheduled(when);
