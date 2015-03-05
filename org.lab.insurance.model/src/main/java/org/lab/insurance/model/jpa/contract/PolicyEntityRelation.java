@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
 import org.lab.insurance.model.HasActivationRange;
 import org.lab.insurance.model.HasContract;
 import org.lab.insurance.model.HasIdentifier;
-import org.lab.insurance.model.common.NonSerializable;
+import org.lab.insurance.model.common.NotSerializable;
 import org.lab.insurance.model.jpa.common.AbstractLegalEntity;
 
 @Entity
@@ -37,7 +37,7 @@ public class PolicyEntityRelation implements Serializable, HasIdentifier<String>
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH }, optional = false)
 	@JoinColumn(name = "CONTRACT_ID", nullable = false)
-	@NonSerializable
+	@NotSerializable
 	private Contract contract;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = false)

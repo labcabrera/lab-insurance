@@ -2,10 +2,10 @@ package org.lab.insurance.engine.processors.orders;
 
 import javax.inject.Inject;
 
-import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.apache.camel.ProducerTemplate;
+import org.lab.insurance.engine.ActionExecutionService;
+import org.lab.insurance.engine.model.contract.ContractStartAction;
 import org.lab.insurance.model.jpa.contract.Contract;
 import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.jpa.insurance.OrderType;
@@ -19,7 +19,7 @@ import ch.lambdaj.Lambda;
 public class InitialPaymentValuedProcessor implements Processor {
 
 	@Inject
-	private CamelContext camelContext;
+	private ActionExecutionService actionExecutionService;
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
@@ -33,8 +33,11 @@ public class InitialPaymentValuedProcessor implements Processor {
 			}
 		}
 		if (allInitialPaymentValued) {
-			ProducerTemplate producer = camelContext.createProducerTemplate();
-			producer.requestBody("direct:contract_start", contract);
+			ContractStartAction action = new ContractStartAction();
+			action.setContract(new Contract());
+			action.getContract().setId(contract.getId());
+			action.setActionDate(order.getDates().getValued());
+			actionExecutionService.execute(action);
 		}
 	}
 }

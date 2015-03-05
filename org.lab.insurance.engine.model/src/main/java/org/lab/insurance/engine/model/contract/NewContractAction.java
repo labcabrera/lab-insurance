@@ -1,4 +1,4 @@
-package org.lab.insurance.engine.model.policy;
+package org.lab.insurance.engine.model.contract;
 
 import java.util.Date;
 

@@ -53,9 +53,7 @@ public class ActionExecutionService {
 		try {
 			Message<T> result = producer.requestBody(endpoint, actionEntity, Message.class);
 			producer.stop();
-			actionExecution.setExecuted(timestampProvider.getCurrentDateTime());
-			actionExecution.setResultJson(serializer.toJson(result));
-			entityManager.persist(actionExecution);
+			updateActionExecutionSuccess(actionExecution, result, entityManager);
 			return result;
 		} catch (CancelAndRexecuteException ex) {
 			LOG.error("Cancel and re-execution error", ex);
@@ -87,6 +85,17 @@ public class ActionExecutionService {
 		actionExecution.setScheduled(when);
 		actionExecution.setPriority(priority);
 		EntityManager entityManager = entityManagerProvider.get();
+		entityManager.persist(actionExecution);
+	}
+
+	private void updateActionExecutionSuccess(ActionExecution actionExecution, Object result, EntityManager entityManager) {
+		actionExecution.setExecuted(timestampProvider.getCurrentDateTime());
+		try {
+			actionExecution.setResultJson(serializer.toJson(result));
+		} catch (Exception ex) {
+			// TODO revisar problemas con la serializacion a JSON
+			LOG.error("Serialization error: " + ex.getMessage());
+		}
 		entityManager.persist(actionExecution);
 	}
 

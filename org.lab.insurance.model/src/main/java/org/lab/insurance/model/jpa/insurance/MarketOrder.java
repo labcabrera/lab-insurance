@@ -19,7 +19,7 @@ import javax.persistence.Table;
 import org.lab.insurance.model.HasAsset;
 import org.lab.insurance.model.HasOrder;
 import org.lab.insurance.model.HasState;
-import org.lab.insurance.model.common.NonSerializable;
+import org.lab.insurance.model.common.NotSerializable;
 import org.lab.insurance.model.jpa.engine.State;
 import org.lab.insurance.model.validation.ValidMarketOrder;
 
@@ -36,7 +36,7 @@ public class MarketOrder implements Serializable, HasOrder, HasState<String>, Ha
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH, optional = false)
 	@JoinColumn(name = "ORDER_ID", nullable = false)
-	@NonSerializable
+	@NotSerializable
 	private Order order;
 
 	@Column(name = "TYPE", length = 3, nullable = false)

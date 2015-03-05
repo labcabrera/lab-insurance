@@ -6,4 +6,6 @@ public interface HasContract {
 
 	Contract getContract();
 
+	void setContract(Contract contract);
+
 }

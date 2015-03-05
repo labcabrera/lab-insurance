@@ -1,10 +1,11 @@
-package org.lab.insurance.engine.processors.policy;
+package org.lab.insurance.engine.processors.contract;
 
 import javax.inject.Inject;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.lab.insurance.model.Constants;
+import org.lab.insurance.model.HasContract;
 import org.lab.insurance.model.jpa.contract.Contract;
 import org.lab.insurance.services.common.StateMachineService;
 
@@ -15,7 +16,8 @@ public class ContractStartProcessor implements Processor {
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
-		Contract contract = exchange.getIn().getBody(Contract.class);
+		HasContract hasContract = exchange.getIn().getBody(HasContract.class);
+		Contract contract = hasContract.getContract();
 		stateMachineService.createTransition(contract, Constants.ContractStates.ACTIVE);
 	}
 }

@@ -1,4 +1,4 @@
-package org.lab.insurance.engine.processors.policy;
+package org.lab.insurance.engine.processors.contract;
 
 import javax.inject.Inject;
 

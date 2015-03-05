@@ -4,6 +4,6 @@ import org.lab.insurance.engine.model.ActionDefinition;
 
 @ActionDefinition(endpoint = "direct:order_process")
 @SuppressWarnings("serial")
-public class ProcessOrderAction extends BaseOrderAction {
+public class ProcessOrderAction extends OrderBaseAction {
 
 }

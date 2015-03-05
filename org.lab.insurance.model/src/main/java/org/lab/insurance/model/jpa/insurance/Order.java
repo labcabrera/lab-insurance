@@ -25,7 +25,7 @@ import javax.persistence.Table;
 import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.HasContract;
 import org.lab.insurance.model.HasState;
-import org.lab.insurance.model.common.NonSerializable;
+import org.lab.insurance.model.common.NotSerializable;
 import org.lab.insurance.model.jpa.contract.Contract;
 import org.lab.insurance.model.jpa.engine.State;
 import org.lab.insurance.model.validation.ValidOrder;
@@ -51,7 +51,7 @@ public class Order implements Serializable, HasContract, HasState<String> {
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH }, optional = false)
 	@JoinColumn(name = "CONTRACT_ID", nullable = false)
-	@NonSerializable
+	@NotSerializable
 	private Contract contract;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })

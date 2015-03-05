@@ -2,10 +2,12 @@ package org.lab.insurance.engine.camel.routing;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.lab.insurance.engine.processors.ContractMessageConverter;
-import org.lab.insurance.engine.processors.policy.ContractStartProcessor;
-import org.lab.insurance.engine.processors.policy.InitializeContractNumber;
-import org.lab.insurance.engine.processors.policy.InitializeContractPortfolios;
-import org.lab.insurance.engine.processors.policy.NewContractProcessor;
+import org.lab.insurance.engine.processors.contract.ContractResolverProcessor;
+import org.lab.insurance.engine.processors.contract.ContractStartProcessor;
+import org.lab.insurance.engine.processors.contract.InitializeContractNumber;
+import org.lab.insurance.engine.processors.contract.InitializeContractPortfolios;
+import org.lab.insurance.engine.processors.contract.NewContractProcessor;
+import org.lab.insurance.engine.processors.orders.ScheduleFeesOrder;
 
 public class ContractRouteBuilder extends RouteBuilder {
 
@@ -21,6 +23,8 @@ public class ContractRouteBuilder extends RouteBuilder {
 				.bean(ContractMessageConverter.class);
 
 		from("direct:contract_start") //
-				.bean(ContractStartProcessor.class);
+				.bean(ContractResolverProcessor.class) //
+				.bean(ContractStartProcessor.class) //
+				.bean(ScheduleFeesOrder.class);
 	}
 }

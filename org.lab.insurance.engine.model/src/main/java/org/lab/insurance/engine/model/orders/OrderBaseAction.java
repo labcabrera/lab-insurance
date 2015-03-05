@@ -7,7 +7,7 @@ import org.lab.insurance.model.HasOrder;
 import org.lab.insurance.model.jpa.insurance.Order;
 
 @SuppressWarnings("serial")
-public abstract class BaseOrderAction implements ActionEntity<Order>, HasOrder {
+public abstract class OrderBaseAction implements ActionEntity<Order>, HasOrder {
 
 	protected Order order;
 	protected Date actionDate;
@@ -31,7 +31,7 @@ public abstract class BaseOrderAction implements ActionEntity<Order>, HasOrder {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends BaseOrderAction> T withOrderId(String orderId) {
+	public <T extends OrderBaseAction> T withOrderId(String orderId) {
 		if (order == null) {
 			order = new Order();
 		}
@@ -40,7 +40,7 @@ public abstract class BaseOrderAction implements ActionEntity<Order>, HasOrder {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends BaseOrderAction> T withActionDate(Date date) {
+	public <T extends OrderBaseAction> T withActionDate(Date date) {
 		this.actionDate = date;
 		return (T) this;
 	}

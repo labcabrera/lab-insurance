@@ -20,6 +20,7 @@ import javax.persistence.TemporalType;
 
 import org.lab.insurance.model.HasActivationRange;
 import org.lab.insurance.model.HasState;
+import org.lab.insurance.model.common.NotSerializable;
 import org.lab.insurance.model.jpa.engine.State;
 import org.lab.insurance.model.jpa.insurance.Order;
 import org.lab.insurance.model.validation.ValidContract;
@@ -40,6 +41,7 @@ public class Contract implements Serializable, HasState<String>, HasActivationRa
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })
 	@JoinColumn(name = "AGREEMENT_ID", nullable = false)
+	@NotSerializable
 	private Agreement agreement;
 
 	@Column(name = "EFFECTIVE", nullable = false)
@@ -56,6 +58,7 @@ public class Contract implements Serializable, HasState<String>, HasActivationRa
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST }, optional = false)
 	@JoinColumn(name = "PORTFOLIO_INFO_ID", nullable = false)
+	@NotSerializable
 	private ContractPorfolioInfo portfolioInfo;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
@@ -66,6 +69,7 @@ public class Contract implements Serializable, HasState<String>, HasActivationRa
 	private List<PolicyEntityRelation> relations;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contract", cascade = { CascadeType.PERSIST })
+	@NotSerializable
 	private List<Order> orders;
 
 	@Override

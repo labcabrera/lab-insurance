@@ -5,7 +5,7 @@ import org.lab.insurance.engine.model.ActionDefinition;
 
 @ActionDefinition(endpoint = "direct:order_valorizarion")
 @SuppressWarnings("serial")
-public class ValorizateOrderAction extends BaseOrderAction {
+public class ValorizateOrderAction extends OrderBaseAction {
 
 	@Override
 	public String toString() {

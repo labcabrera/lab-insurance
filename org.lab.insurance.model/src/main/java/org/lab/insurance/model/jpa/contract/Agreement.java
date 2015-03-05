@@ -19,6 +19,7 @@ import javax.persistence.TemporalType;
 import org.lab.insurance.model.HasActivationRange;
 import org.lab.insurance.model.HasCode;
 import org.lab.insurance.model.HasName;
+import org.lab.insurance.model.common.NotSerializable;
 
 /**
  * Representa un acuerdo marco.
@@ -36,10 +37,12 @@ public class Agreement implements Serializable, HasName, HasCode, HasActivationR
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "SERVICE_INFO_ID", nullable = false)
+	@NotSerializable
 	private AgreementServiceInfo serviceInfo;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "VALIDATION_INFO_ID", nullable = false)
+	@NotSerializable
 	private AgreementValidationInfo validationInfo;
 
 	@Column(name = "NAME", length = 64, nullable = false)
