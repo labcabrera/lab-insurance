@@ -16,12 +16,20 @@ public class ContractRouteBuilder extends RouteBuilder {
 
 		onException(Exception.class).bean(ContractMessageConverter.class);
 
+		/**
+		 * Endpoint que procesa la accion de dar de alta un contrato. En ese momento el contrato no esta activo (lo estara cuando se procese
+		 * la el pago inicial).
+		 */
 		from("direct:new_contract_action") //
 				.bean(InitializeContractNumber.class) //
 				.bean(InitializeContractPortfolios.class) //
 				.bean(NewContractProcessor.class) //
 				.bean(ContractMessageConverter.class);
 
+		/**
+		 * Endpoint que procesa el evento de entrada en vigor de un contrato (se inicializan los servicios financieros, se programan los
+		 * gastos, etc).
+		 */
 		from("direct:contract_start") //
 				.bean(ContractResolverProcessor.class) //
 				.bean(ContractStartProcessor.class) //

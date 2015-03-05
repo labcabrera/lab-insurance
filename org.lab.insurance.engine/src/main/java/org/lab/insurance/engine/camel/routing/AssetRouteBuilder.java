@@ -10,6 +10,9 @@ public class AssetRouteBuilder extends RouteBuilder {
 	@Override
 	public void configure() throws Exception {
 
+		/**
+		 * Endpoint que procesa la generacion de precios de un fondo garantizado a partir de un porcentaje en un rango dado.
+		 */
 		from("direct:guarantee_price_creation"). //
 				bean(GuaranteePriceCreationValidator.class).//
 				bean(GuaranteePriceCreationPercentProcessor.class).//

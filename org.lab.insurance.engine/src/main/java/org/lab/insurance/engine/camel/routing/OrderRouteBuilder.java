@@ -21,6 +21,9 @@ public class OrderRouteBuilder extends RouteBuilder {
 	@Override
 	public void configure() throws Exception {
 
+		/**
+		 * Accion de procesar una orden.
+		 */
 		from("direct:order_process") //
 				.bean(OrderResolverProcessor.class) //
 				.bean(OrderFeesProcessor.class) //
@@ -30,6 +33,9 @@ public class OrderRouteBuilder extends RouteBuilder {
 				.bean(ScheduleOrderValorization.class) //
 				.bean(MergeEntityProcessor.class);
 
+		/**
+		 * Accion de valorizar una orden.
+		 */
 		from("direct:order_valorizarion") //
 				.bean(OrderResolverProcessor.class) //
 				.bean(OrderValorizationProcessor.class) //
@@ -39,11 +45,17 @@ public class OrderRouteBuilder extends RouteBuilder {
 				.end() //
 				.bean(MergeEntityProcessor.class);
 
+		/**
+		 * Accion de generar la contabilidad de una orden.
+		 */
 		from("direct:order_accounting") //
 				.bean(OrderResolverProcessor.class) //
 				.bean(OrderAccountProcessor.class) //
 				.bean(MergeEntityProcessor.class);
 
+		/**
+		 * Accion de procesar la recepcion de un pago.
+		 */
 		from("direct:payment_reception") //
 				.bean(OrderResolverProcessor.class) //
 				.choice() //
