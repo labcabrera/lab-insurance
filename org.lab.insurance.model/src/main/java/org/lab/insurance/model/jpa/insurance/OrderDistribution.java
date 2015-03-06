@@ -35,6 +35,13 @@ public class OrderDistribution implements Serializable {
 	@Column(name = "PERCENT", precision = 20, scale = 7)
 	private BigDecimal percent;
 
+	public OrderDistribution() {
+	}
+
+	public OrderDistribution(BaseAsset asset) {
+		this.asset = asset;
+	}
+
 	public String getId() {
 		return id;
 	}

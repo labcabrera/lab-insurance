@@ -64,5 +64,9 @@ public class OrderRouteBuilder extends RouteBuilder {
 				.when(OrderTypePredicate.withType(OrderType.INITIAL_PAYMENT)).bean(InitialPaymentReceptionProcessor.class) //
 				.end() //
 				.to("direct:order_process");
+
+		// TODO cambiar
+		from("direct:switch_persist") //
+				.bean(OrderProcessor.class);
 	}
 }

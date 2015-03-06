@@ -16,6 +16,7 @@ import org.lab.insurance.engine.DailyActionExecutionRunner;
 import org.lab.insurance.engine.guice.InsuranceCoreModule;
 import org.lab.insurance.engine.model.contract.NewContractAction;
 import org.lab.insurance.engine.model.orders.PaymentReception;
+import org.lab.insurance.engine.model.orders.SwitchAction;
 import org.lab.insurance.model.common.Message;
 import org.lab.insurance.model.jpa.contract.Contract;
 import org.lab.insurance.model.jpa.contract.ContractRelationType;
@@ -38,9 +39,12 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.persist.PersistService;
 
+/**
+ * Test que simula la contratacion de la poliza el ciclo de vida basico durante un año.
+ *
+ */
 public class NewContractActionTest {
 
-	// TODO cambio del funcionamiento para meter la recepcion del pago inicial
 	@Test
 	public void test() {
 		try {
@@ -60,12 +64,18 @@ public class NewContractActionTest {
 			Message<Contract> newContractResult = actionExecutionService.execute(newContractAction);
 			String contractId = newContractResult.getPayload().getId();
 
-			// Accion de recepcion del pago inicial
+			// Programamos la accion de recepcion del pago inicial
 			Contract readed = entityManager.find(Contract.class, contractId);
 			Date paymentReceptionDate = new DateTime(2015, 1, 27, 0, 0, 0, 0).toDate();
 			Order initialPayment = readed.getOrders().iterator().next();
 			PaymentReception paymentReceptionAction = new PaymentReception().withActionDate(paymentReceptionDate).withOrderId(initialPayment.getId());
 			actionExecutionService.schedule(paymentReceptionAction, paymentReceptionDate);
+
+			// Programamos un switch por importe
+			SwitchAction switchAction = new SwitchAction();
+			Date switchEffective = new DateTime(2015, 5, 15, 0, 0, 0, 0).toDate();
+			switchAction.setOrder(buildSwitchOrderByAmount(readed, switchEffective, entityManager));
+			actionExecutionService.schedule(switchAction, switchEffective);
 
 			Date from = new DateTime(2015, 1, 1, 0, 0, 0, 0).toDate();
 			Date to = new DateTime(2015, 12, 31, 0, 0, 0, 0).toDate();
@@ -123,16 +133,35 @@ public class NewContractActionTest {
 	}
 
 	private Order buildInitialPayment(EntityManager entityManager) {
+		BaseAsset assetTEST000001 = findAsset("TEST000001", entityManager);
+		BaseAsset assetEURO1 = findAsset("EURO1", entityManager);
 		Order order = new Order();
 		order.setDates(new OrderDates());
 		order.getDates().setEffective(Calendar.getInstance().getTime());
 		order.setType(OrderType.INITIAL_PAYMENT);
-		order.setGrossAmount(new BigDecimal("100000"));
+		order.setGrossAmount(new BigDecimal("1000000"));
 		order.setBuyDistribution(new ArrayList<OrderDistribution>());
-		order.getBuyDistribution().add(new OrderDistribution().withPercent(new BigDecimal("75")).withAsset(findAsset("TEST000001", entityManager)));
-		order.getBuyDistribution().add(new OrderDistribution().withPercent(new BigDecimal("25")).withAsset(findAsset("EURO1", entityManager)));
+		order.getBuyDistribution().add(new OrderDistribution().withPercent(new BigDecimal("75")).withAsset(assetTEST000001));
+		order.getBuyDistribution().add(new OrderDistribution().withPercent(new BigDecimal("25")).withAsset(assetEURO1));
 		return order;
+	}
 
+	private Order buildSwitchOrderByAmount(Contract contract, Date effective, EntityManager entityManager) {
+		BaseAsset assetTEST000001 = findAsset("TEST000001", entityManager);
+		BaseAsset assetTEST000002 = findAsset("TEST000002", entityManager);
+		BaseAsset assetEURO1 = findAsset("EURO1", entityManager);
+		Order order = new Order();
+		order.setContract(new Contract());
+		order.getContract().setId(contract.getId());
+		order.setGrossAmount(new BigDecimal("10000"));
+		order.setSellDistribution(new ArrayList<OrderDistribution>());
+		order.getSellDistribution().add(new OrderDistribution(assetTEST000001).withPercent(new BigDecimal("50")));
+		order.getSellDistribution().add(new OrderDistribution(assetEURO1).withPercent(new BigDecimal("50")));
+		order.setBuyDistribution(new ArrayList<OrderDistribution>());
+		order.getBuyDistribution().add(new OrderDistribution(assetTEST000002).withPercent(new BigDecimal("100")));
+		order.setDates(new OrderDates());
+		order.getDates().setEffective(effective);
+		return order;
 	}
 
 	private Agreement findAgreement(String code, EntityManager entityManager) {
