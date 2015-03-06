@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import org.lab.insurance.model.jpa.converters.ClassConverter;
 
 @Entity
-@Table(name = "ENG_STATE_DEFINITION")
+@Table(name = "EGN_STATE_DEFINITION")
 @SuppressWarnings("serial")
 public class StateDefinition implements Serializable {
 

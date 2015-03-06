@@ -30,7 +30,7 @@ public class Person extends AbstractLegalEntity {
 	 * Lista de representantes de la persona (generalmente en personas en regimen de dependencia).
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "CTR_PERSON_REPRESENTANT", joinColumns = { @JoinColumn(name = "PERSON_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "REPRESENTANT_ID", referencedColumnName = "ID") })
+	@JoinTable(name = "LGE_PERSON_REPRESENTANT", joinColumns = { @JoinColumn(name = "PERSON_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "REPRESENTANT_ID", referencedColumnName = "ID") })
 	private List<Person> representants;
 
 	/**
