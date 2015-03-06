@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Entity
 @DiscriminatorValue("RS")
-@Table(name = "C_REGULAR_SURRENDER")
+@Table(name = "CTR_FS_REGULAR_SURRENDER")
 @SuppressWarnings("serial")
 public class RegularSurrender extends FinancialService {
 

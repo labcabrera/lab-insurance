@@ -16,7 +16,7 @@ import net.sf.flatpack.Parser;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.format.DateTimeFormat;
-import org.lab.insurance.model.jpa.common.Country;
+import org.lab.insurance.model.jpa.geo.Country;
 import org.lab.insurance.model.jpa.insurance.BaseAsset;
 
 public abstract class AbstractFeeder implements Runnable {

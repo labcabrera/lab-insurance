@@ -52,10 +52,11 @@ public class AssetPriceFeeder extends AbstractFeeder {
 			AssetPrice price = new AssetPrice();
 			price.setAsset(asset);
 			price.setPriceDate(dtFrom.toDate());
-			price.setBuyPriceInEuros(currentPrice);
-			price.setSellPriceInEuros(currentPrice);
-			price.setPriceInEuros(currentPrice);
+			price.setBuyPrice(currentPrice);
+			price.setSellPrice(currentPrice);
+			price.setPrice(currentPrice);
 			price.setGenerated(now);
+			price.setCurrency(asset.getCurrency());
 			entityManager.persist(price);
 			currentPrice = currentPrice.add(variation);
 			dtFrom = dtFrom.plusDays(1);

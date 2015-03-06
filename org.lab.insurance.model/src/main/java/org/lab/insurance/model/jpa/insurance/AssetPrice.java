@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -23,7 +24,7 @@ import org.lab.insurance.model.HasIdentifier;
  * Representa el valor de un fondo en un determinado dia.
  */
 @Entity
-@Table(name = "I_ASSET_PRICE")
+@Table(name = "INS_ASSET_PRICE")
 @SuppressWarnings("serial")
 @NamedQueries({
 		@NamedQuery(name = "AssetPrice.selectByDate", query = "select e from AssetPrice e where e.priceDate = :date and e.asset = :asset"),
@@ -36,22 +37,26 @@ public class AssetPrice implements Serializable, HasIdentifier<String>, HasAsset
 	@GeneratedValue(generator = "system-uuid")
 	private String id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ASSET_ID", nullable = false)
 	private BaseAsset asset;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CURRENCY_ID", nullable = false)
+	private Currency currency;
 
 	@Column(name = "PRICE_DATE", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date priceDate;
 
-	@Column(name = "PRICE_IN_EUROS", nullable = false, precision = 20, scale = 7)
-	private BigDecimal priceInEuros;
+	@Column(name = "PRICE", nullable = false, precision = 20, scale = 7)
+	private BigDecimal price;
 
-	@Column(name = "BUY_PRICE_IN_EUROS", nullable = false, precision = 20, scale = 7)
-	private BigDecimal buyPriceInEuros;
+	@Column(name = "BUY_PRICE", nullable = false, precision = 20, scale = 7)
+	private BigDecimal buyPrice;
 
-	@Column(name = "SELL_PRICE_IN_EUROS", nullable = false, precision = 20, scale = 7)
-	private BigDecimal sellPriceInEuros;
+	@Column(name = "SELL_PRICE", nullable = false, precision = 20, scale = 7)
+	private BigDecimal sellPrice;
 
 	@Column(name = "GENERATED", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -84,28 +89,28 @@ public class AssetPrice implements Serializable, HasIdentifier<String>, HasAsset
 		this.priceDate = priceDate;
 	}
 
-	public BigDecimal getPriceInEuros() {
-		return priceInEuros;
+	public BigDecimal getPrice() {
+		return price;
 	}
 
-	public void setPriceInEuros(BigDecimal priceInEuros) {
-		this.priceInEuros = priceInEuros;
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 
-	public BigDecimal getBuyPriceInEuros() {
-		return buyPriceInEuros;
+	public BigDecimal getBuyPrice() {
+		return buyPrice;
 	}
 
-	public void setBuyPriceInEuros(BigDecimal buyPriceInEuros) {
-		this.buyPriceInEuros = buyPriceInEuros;
+	public void setBuyPrice(BigDecimal buyPrice) {
+		this.buyPrice = buyPrice;
 	}
 
-	public BigDecimal getSellPriceInEuros() {
-		return sellPriceInEuros;
+	public BigDecimal getSellPrice() {
+		return sellPrice;
 	}
 
-	public void setSellPriceInEuros(BigDecimal sellPriceInEuros) {
-		this.sellPriceInEuros = sellPriceInEuros;
+	public void setSellPrice(BigDecimal sellPrice) {
+		this.sellPrice = sellPrice;
 	}
 
 	public Date getGenerated() {
@@ -114,5 +119,13 @@ public class AssetPrice implements Serializable, HasIdentifier<String>, HasAsset
 
 	public void setGenerated(Date generated) {
 		this.generated = generated;
+	}
+
+	public Currency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
 	}
 }

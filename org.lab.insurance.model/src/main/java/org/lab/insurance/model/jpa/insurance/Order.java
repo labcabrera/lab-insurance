@@ -35,7 +35,7 @@ import org.lab.insurance.model.validation.ValidOrder;
  * Representa un movimiento u operacion de entrada/salida de fondos en un contrato.
  */
 @Entity
-@Table(name = "I_ORDER")
+@Table(name = "INS_ORDER")
 @SuppressWarnings("serial")
 @NamedQueries({ @NamedQuery(name = "Order.selectByContractInStates", query = "select e from Order e where e.contract = :contract and e.currentState.stateDefinition.id in :stateIds order by e.dates.valueDate") })
 @ValidOrder
@@ -64,11 +64,11 @@ public class Order implements Serializable, HasContract, HasState<String> {
 	private OrderProcessInfo processInfo;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
-	@JoinTable(name = "I_ORDER_DISTRIBUTION_SELL", joinColumns = { @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID") }, inverseJoinColumns = @JoinColumn(name = "DISTRIBUTION_ID", referencedColumnName = "ID"))
+	@JoinTable(name = "INS_ORDER_DISTRIBUTION_SELL", joinColumns = { @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID") }, inverseJoinColumns = @JoinColumn(name = "DISTRIBUTION_ID", referencedColumnName = "ID"))
 	private List<OrderDistribution> sellDistribution;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
-	@JoinTable(name = "I_ORDER_DISTRIBUTION_BUY", joinColumns = { @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID") }, inverseJoinColumns = @JoinColumn(name = "DISTRIBUTION_ID", referencedColumnName = "ID"))
+	@JoinTable(name = "INS_ORDER_DISTRIBUTION_BUY", joinColumns = { @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID") }, inverseJoinColumns = @JoinColumn(name = "DISTRIBUTION_ID", referencedColumnName = "ID"))
 	private List<OrderDistribution> buyDistribution;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.MERGE })

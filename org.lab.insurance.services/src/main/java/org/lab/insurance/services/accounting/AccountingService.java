@@ -9,13 +9,13 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import org.lab.insurance.model.Constants;
-import org.lab.insurance.model.jpa.accounting.Investment;
-import org.lab.insurance.model.jpa.accounting.Portfolio;
-import org.lab.insurance.model.jpa.accounting.PortfolioOperation;
 import org.lab.insurance.model.jpa.insurance.BaseAsset;
 import org.lab.insurance.model.jpa.insurance.MarketOrder;
 import org.lab.insurance.model.jpa.insurance.MarketOrderType;
 import org.lab.insurance.model.jpa.insurance.Order;
+import org.lab.insurance.model.jpa.portfolio.Investment;
+import org.lab.insurance.model.jpa.portfolio.Portfolio;
+import org.lab.insurance.model.jpa.portfolio.PortfolioOperation;
 import org.lab.insurance.services.common.StateMachineService;
 
 import com.google.inject.Provider;

@@ -23,10 +23,11 @@ import org.lab.insurance.model.HasState;
 import org.lab.insurance.model.common.NotSerializable;
 import org.lab.insurance.model.jpa.engine.State;
 import org.lab.insurance.model.jpa.insurance.Order;
+import org.lab.insurance.model.jpa.product.Agreement;
 import org.lab.insurance.model.validation.ValidContract;
 
 @Entity
-@Table(name = "C_CONTRACT")
+@Table(name = "CTR_CONTRACT")
 @SuppressWarnings("serial")
 @ValidContract
 public class Contract implements Serializable, HasState<String>, HasActivationRange {
@@ -36,25 +37,10 @@ public class Contract implements Serializable, HasState<String>, HasActivationRa
 	@GeneratedValue(generator = "system-uuid")
 	private String id;
 
-	@Column(name = "NUMBER", nullable = false, length = 32)
-	private String number;
-
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })
 	@JoinColumn(name = "AGREEMENT_ID", nullable = false)
 	@NotSerializable
 	private Agreement agreement;
-
-	@Column(name = "EFFECTIVE", nullable = false)
-	@Temporal(TemporalType.DATE)
-	private Date effective;
-
-	@Column(name = "START_DATE")
-	@Temporal(TemporalType.DATE)
-	private Date startDate;
-
-	@Column(name = "END_DATE")
-	@Temporal(TemporalType.DATE)
-	private Date endDate;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST }, optional = false)
 	@JoinColumn(name = "PORTFOLIO_INFO_ID", nullable = false)
@@ -71,6 +57,25 @@ public class Contract implements Serializable, HasState<String>, HasActivationRa
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contract", cascade = { CascadeType.PERSIST })
 	@NotSerializable
 	private List<Order> orders;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contract", cascade = { CascadeType.PERSIST })
+	@NotSerializable
+	private List<ContractLetter> letters;
+
+	@Column(name = "NUMBER", nullable = false, length = 32)
+	private String number;
+
+	@Column(name = "EFFECTIVE", nullable = false)
+	@Temporal(TemporalType.DATE)
+	private Date effective;
+
+	@Column(name = "START_DATE")
+	@Temporal(TemporalType.DATE)
+	private Date startDate;
+
+	@Column(name = "END_DATE")
+	@Temporal(TemporalType.DATE)
+	private Date endDate;
 
 	@Override
 	public String getId() {
@@ -157,4 +162,13 @@ public class Contract implements Serializable, HasState<String>, HasActivationRa
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+
+	public List<ContractLetter> getLetters() {
+		return letters;
+	}
+
+	public void setLetters(List<ContractLetter> letters) {
+		this.letters = letters;
+	}
+
 }

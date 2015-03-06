@@ -20,10 +20,10 @@ import org.lab.insurance.model.HasActivationRange;
 import org.lab.insurance.model.HasContract;
 import org.lab.insurance.model.HasIdentifier;
 import org.lab.insurance.model.common.NotSerializable;
-import org.lab.insurance.model.jpa.common.AbstractLegalEntity;
+import org.lab.insurance.model.jpa.legalentity.AbstractLegalEntity;
 
 @Entity
-@Table(name = "C_CONTRACT_ENTITY_RELATION")
+@Table(name = "CTR_CONTRACT_ENTITY_RELATION")
 @SuppressWarnings("serial")
 public class PolicyEntityRelation implements Serializable, HasIdentifier<String>, HasContract, HasActivationRange {
 
@@ -78,6 +78,7 @@ public class PolicyEntityRelation implements Serializable, HasIdentifier<String>
 		return contract;
 	}
 
+	@Override
 	public void setContract(Contract contract) {
 		this.contract = contract;
 	}

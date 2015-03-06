@@ -8,10 +8,10 @@ import javax.inject.Provider;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import org.lab.insurance.model.jpa.accounting.Investment;
-import org.lab.insurance.model.jpa.accounting.Portfolio;
-import org.lab.insurance.model.jpa.accounting.PortfolioType;
 import org.lab.insurance.model.jpa.insurance.BaseAsset;
+import org.lab.insurance.model.jpa.portfolio.Investment;
+import org.lab.insurance.model.jpa.portfolio.Portfolio;
+import org.lab.insurance.model.jpa.portfolio.PortfolioType;
 
 import com.google.inject.persist.Transactional;
 

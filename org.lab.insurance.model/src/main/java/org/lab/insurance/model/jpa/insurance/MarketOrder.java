@@ -24,7 +24,7 @@ import org.lab.insurance.model.jpa.engine.State;
 import org.lab.insurance.model.validation.ValidMarketOrder;
 
 @Entity
-@Table(name = "I_MARKET_ORDER")
+@Table(name = "INS_MARKET_ORDER")
 @SuppressWarnings("serial")
 @ValidMarketOrder
 public class MarketOrder implements Serializable, HasOrder, HasState<String>, HasAsset {
@@ -39,6 +39,10 @@ public class MarketOrder implements Serializable, HasOrder, HasState<String>, Ha
 	@NotSerializable
 	private Order order;
 
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH, optional = false)
+	@JoinColumn(name = "ASSET_ID", nullable = false)
+	private BaseAsset asset;
+
 	@Column(name = "TYPE", length = 3, nullable = false)
 	@Enumerated(EnumType.STRING)
 	private MarketOrderType type;
@@ -47,11 +51,11 @@ public class MarketOrder implements Serializable, HasOrder, HasState<String>, Ha
 	@Enumerated(EnumType.STRING)
 	private MarketOrderSource source;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH, optional = false)
-	@JoinColumn(name = "ASSET_ID", nullable = false)
-	private BaseAsset asset;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CURRENT_STATE_ID")
+	private State currentState;
 
-	@Embedded()
+	@Embedded
 	private OrderDates dates;
 
 	@Column(name = "UNITS", precision = 20, scale = 7)
@@ -65,10 +69,6 @@ public class MarketOrder implements Serializable, HasOrder, HasState<String>, Ha
 
 	@Column(name = "NAV", precision = 20, scale = 7)
 	private BigDecimal nav;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CURRENT_STATE_ID")
-	private State currentState;
 
 	@Override
 	public String getId() {

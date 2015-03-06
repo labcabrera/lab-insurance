@@ -17,7 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "C_HOLIDAY")
+@Table(name = "COM_HOLIDAY")
 @NamedQueries({ @NamedQuery(name = "Holiday.countByDate", query = "select count(e) from Holiday e where e.holidayDate = :value"),
 		@NamedQuery(name = "Holiday.countByDateInCalendars", query = "select count(e) from Holiday e where e.holidayDate = :value and e.calendar in :calendars") })
 public class Holiday {

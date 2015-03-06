@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Entity
 @DiscriminatorValue("SL")
-@Table(name = "C_STOP_LOSS")
+@Table(name = "CTR_FS_STOP_LOSS")
 @SuppressWarnings("serial")
 public class StopLoss extends FinancialService {
 

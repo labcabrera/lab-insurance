@@ -16,7 +16,7 @@ import org.eclipse.persistence.annotations.Cache;
 import org.lab.insurance.model.jpa.converters.ClassConverter;
 
 @Entity
-@Table(name = "SYS_ACTION_EXECUTION")
+@Table(name = "ENG_ACTION_EXECUTION")
 @SuppressWarnings("serial")
 @Cache(alwaysRefresh = true)
 public class ActionExecution implements Serializable {

@@ -17,7 +17,7 @@ import org.lab.insurance.model.HasIdentifier;
 import org.lab.insurance.model.jpa.insurance.BaseAsset;
 
 @Entity
-@Table(name = "C_FINANCIAL_SERVICE_DISTRIBUTION")
+@Table(name = "CTR_FINANCIAL_SERVICE_DISTRIBUTION")
 @SuppressWarnings("serial")
 public class FinancialServiceDistribution implements Serializable, HasIdentifier<String>, HasAsset {
 

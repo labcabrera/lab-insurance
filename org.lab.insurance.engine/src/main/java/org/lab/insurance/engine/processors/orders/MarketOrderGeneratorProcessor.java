@@ -62,6 +62,8 @@ public class MarketOrderGeneratorProcessor implements Processor {
 				break;
 			case SELL_BY_MATH_PROVISION_PERCENT:
 				break;
+			default:
+				break;
 			}
 		} else {
 			buyGrossAmount.setValue(order.getGrossAmount());

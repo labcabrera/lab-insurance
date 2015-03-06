@@ -15,7 +15,7 @@ import org.lab.insurance.model.common.Message;
 import org.lab.insurance.model.common.SearchOrder;
 import org.lab.insurance.model.common.SearchParams;
 import org.lab.insurance.model.common.SearchResults;
-import org.lab.insurance.model.jpa.contract.Agreement;
+import org.lab.insurance.model.jpa.product.Agreement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

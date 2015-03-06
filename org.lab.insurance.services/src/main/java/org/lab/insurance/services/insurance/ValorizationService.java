@@ -44,17 +44,17 @@ public class ValorizationService {
 
 	private void valorizate(MarketOrder marketOrder) throws NoCotizationException {
 		AssetPrice price = cotizationsService.findPriceAtDate(marketOrder.getAsset(), marketOrder.getDates().getValueDate());
-		marketOrder.setNav(price.getPriceInEuros());
+		marketOrder.setNav(price.getPrice());
 		if (marketOrder.getSource() == MarketOrderSource.UNITS) {
 			Validate.notNull(marketOrder.getUnits());
 			BigDecimal units = marketOrder.getUnits();
-			BigDecimal amount = price.getPriceInEuros().multiply(units);
+			BigDecimal amount = price.getPrice().multiply(units);
 			marketOrder.setNetAmount(amount);
 		} else {
 			Validate.notNull(marketOrder.getNetAmount());
 			BigDecimal amount = marketOrder.getNetAmount();
 			Integer decimals = marketOrder.getAsset().getDecimals() != null ? marketOrder.getAsset().getDecimals() : 5;
-			BigDecimal units = amount.divide(price.getPriceInEuros(), decimals, RoundingMode.HALF_EVEN);
+			BigDecimal units = amount.divide(price.getPrice(), decimals, RoundingMode.HALF_EVEN);
 			marketOrder.setUnits(units);
 		}
 		entityManagerProvider.get().merge(marketOrder);

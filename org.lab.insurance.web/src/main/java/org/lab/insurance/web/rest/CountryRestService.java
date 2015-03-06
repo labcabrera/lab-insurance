@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import org.lab.insurance.core.serialization.Serializer;
 import org.lab.insurance.model.common.SearchParams;
 import org.lab.insurance.model.common.SearchResults;
-import org.lab.insurance.model.jpa.common.Country;
+import org.lab.insurance.model.jpa.geo.Country;
 
 @Path("/country")
 @Consumes({ "application/json; charset=UTF-8" })

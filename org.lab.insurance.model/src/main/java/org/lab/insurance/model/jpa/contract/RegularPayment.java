@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Entity
 @DiscriminatorValue("RP")
-@Table(name = "C_REGULAR_PAYMENT")
+@Table(name = "CTR_FS_REGULAR_PAYMENT")
 @SuppressWarnings("serial")
 public class RegularPayment extends FinancialService {
 

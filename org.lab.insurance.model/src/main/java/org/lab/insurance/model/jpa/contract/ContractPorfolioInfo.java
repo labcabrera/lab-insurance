@@ -13,10 +13,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.lab.insurance.model.HasIdentifier;
-import org.lab.insurance.model.jpa.accounting.Portfolio;
+import org.lab.insurance.model.jpa.portfolio.Portfolio;
 
 @Entity
-@Table(name = "C_CONTRACT_PORTFOLIO_INFO")
+@Table(name = "CTR_CONTRACT_PORTFOLIO_INFO")
 @SuppressWarnings("serial")
 public class ContractPorfolioInfo implements Serializable, HasIdentifier<String> {
 

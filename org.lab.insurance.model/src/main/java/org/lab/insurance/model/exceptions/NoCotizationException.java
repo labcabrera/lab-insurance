@@ -4,6 +4,9 @@ import java.util.Date;
 
 import org.lab.insurance.model.jpa.insurance.BaseAsset;
 
+/**
+ * Excepcion que representa la ausencia de un fondo en una determinada fecha.
+ */
 @SuppressWarnings("serial")
 public class NoCotizationException extends RuntimeException {
 

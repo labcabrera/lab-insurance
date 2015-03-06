@@ -7,9 +7,9 @@ import javax.persistence.TypedQuery;
 
 import net.sf.flatpack.DataSet;
 
-import org.lab.insurance.model.jpa.contract.Agreement;
-import org.lab.insurance.model.jpa.contract.AgreementServiceInfo;
-import org.lab.insurance.model.jpa.contract.AgreementValidationInfo;
+import org.lab.insurance.model.jpa.product.Agreement;
+import org.lab.insurance.model.jpa.product.AgreementServiceInfo;
+import org.lab.insurance.model.jpa.product.AgreementValidationInfo;
 
 public class AgreementFeeder extends AbstractEntityFeeder<Agreement> {
 

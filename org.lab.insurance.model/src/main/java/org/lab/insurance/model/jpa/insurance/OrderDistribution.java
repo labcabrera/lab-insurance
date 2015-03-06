@@ -16,7 +16,7 @@ import javax.persistence.Table;
  * Entidad que representa cada uno de los elementos que forman parte de la definicion de entradas o salidas de un movimiento.
  */
 @Entity
-@Table(name = "I_ORDER_DISTRIBUTION")
+@Table(name = "INS_ORDER_DISTRIBUTION")
 @SuppressWarnings("serial")
 public class OrderDistribution implements Serializable {
 

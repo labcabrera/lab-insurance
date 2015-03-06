@@ -10,8 +10,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.lab.insurance.engine.guice.InsuranceCoreModule;
-import org.lab.insurance.model.jpa.contract.TriggerDefinition;
-import org.lab.insurance.model.jpa.contract.TriggerType;
+import org.lab.insurance.model.jpa.system.TriggerDefinition;
+import org.lab.insurance.model.jpa.system.TriggerType;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

@@ -15,11 +15,11 @@ import javax.persistence.TypedQuery;
 import org.joda.time.DateTime;
 import org.lab.insurance.core.math.BigMath;
 import org.lab.insurance.model.exceptions.NoCotizationException;
-import org.lab.insurance.model.jpa.accounting.Investment;
-import org.lab.insurance.model.jpa.accounting.MathProvision;
-import org.lab.insurance.model.jpa.accounting.Portfolio;
-import org.lab.insurance.model.jpa.accounting.PortfolioMathProvision;
 import org.lab.insurance.model.jpa.insurance.AssetPrice;
+import org.lab.insurance.model.jpa.portfolio.Investment;
+import org.lab.insurance.model.jpa.portfolio.MathProvision;
+import org.lab.insurance.model.jpa.portfolio.Portfolio;
+import org.lab.insurance.model.jpa.portfolio.PortfolioMathProvision;
 import org.lab.insurance.services.accounting.PortfolioService;
 import org.lab.insurance.services.common.TimestampProvider;
 
@@ -70,7 +70,7 @@ public class MathProvisionService {
 			if (BigMath.isNotZero(mathProvision.getUnits())) {
 				if (cotizate) {
 					AssetPrice assetPrice = cotizationsService.findPriceAtDate(investment.getAsset(), date);
-					BigDecimal amount = assetPrice.getBuyPriceInEuros().multiply(mathProvision.getUnits()).setScale(2, RoundingMode.HALF_EVEN);
+					BigDecimal amount = assetPrice.getBuyPrice().multiply(mathProvision.getUnits()).setScale(2, RoundingMode.HALF_EVEN);
 					mathProvision.setAmount(amount);
 				} else {
 					mathProvision.setAmount(BigDecimal.ZERO);

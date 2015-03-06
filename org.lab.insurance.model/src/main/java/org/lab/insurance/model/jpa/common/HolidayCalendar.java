@@ -12,8 +12,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.lab.insurance.model.jpa.geo.Country;
+
 @Entity
-@Table(name = "C_HOLIDAY_CALENDAR")
+@Table(name = "COM_HOLIDAY_CALENDAR")
 @NamedQueries({ @NamedQuery(name = "HolidayCalendar.selectByName", query = "select e from HolidayCalendar e where e.name = :name") })
 public class HolidayCalendar {
 

@@ -21,9 +21,10 @@ import javax.persistence.Table;
 import org.lab.insurance.model.HasContract;
 import org.lab.insurance.model.HasIdentifier;
 import org.lab.insurance.model.jpa.insurance.OrderDistribution;
+import org.lab.insurance.model.jpa.system.TriggerDefinition;
 
 @Entity
-@Table(name = "C_FINANCIAL_SERVICE")
+@Table(name = "CTR_FINANCIAL_SERVICE")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "DTYPE")
 @SuppressWarnings("serial")
@@ -43,11 +44,11 @@ public abstract class FinancialService implements Serializable, HasIdentifier<St
 	private TriggerDefinition trigger;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
-	@JoinTable(name = "I_FINANCIAL_SERVICE_SOURCE", joinColumns = { @JoinColumn(name = "FINANCIAL_SERVICE_ID", referencedColumnName = "ID") }, inverseJoinColumns = @JoinColumn(name = "DISTRIBUTION_ID", referencedColumnName = "ID"))
+	@JoinTable(name = "CTR_FINANCIAL_SERVICE_SOURCE", joinColumns = { @JoinColumn(name = "FINANCIAL_SERVICE_ID", referencedColumnName = "ID") }, inverseJoinColumns = @JoinColumn(name = "DISTRIBUTION_ID", referencedColumnName = "ID"))
 	private List<OrderDistribution> sourceDistribution;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
-	@JoinTable(name = "I_FINANCIAL_SERVICE_TARGET", joinColumns = { @JoinColumn(name = "FINANCIAL_SERVICE_ID", referencedColumnName = "ID") }, inverseJoinColumns = @JoinColumn(name = "DISTRIBUTION_ID", referencedColumnName = "ID"))
+	@JoinTable(name = "CTR_FINANCIAL_SERVICE_TARGET", joinColumns = { @JoinColumn(name = "FINANCIAL_SERVICE_ID", referencedColumnName = "ID") }, inverseJoinColumns = @JoinColumn(name = "DISTRIBUTION_ID", referencedColumnName = "ID"))
 	private List<OrderDistribution> targetDistribution;
 
 	@Override
@@ -65,6 +66,7 @@ public abstract class FinancialService implements Serializable, HasIdentifier<St
 		return contract;
 	}
 
+	@Override
 	public void setContract(Contract contract) {
 		this.contract = contract;
 	}

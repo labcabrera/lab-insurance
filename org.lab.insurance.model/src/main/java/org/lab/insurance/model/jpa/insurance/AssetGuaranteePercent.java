@@ -23,7 +23,7 @@ import org.lab.insurance.model.HasIdentifier;
  * Entidad que nos proporciona el tipo garantizado en un intervalo de tiempo.
  */
 @Entity
-@Table(name = "I_ASSET_GUARANTEE")
+@Table(name = "INS_ASSET_GUARANTEE")
 @SuppressWarnings("serial")
 public class AssetGuaranteePercent implements HasIdentifier<String>, HasAsset, Serializable {
 

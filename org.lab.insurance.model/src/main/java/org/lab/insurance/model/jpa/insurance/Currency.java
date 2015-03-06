@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "I_CURRENCY")
+@Table(name = "INS_CURRENCY")
 @SuppressWarnings("serial")
 public class Currency implements Serializable {
 

@@ -5,10 +5,10 @@ import javax.inject.Inject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.lab.insurance.model.HasContract;
-import org.lab.insurance.model.jpa.accounting.Portfolio;
-import org.lab.insurance.model.jpa.accounting.PortfolioType;
 import org.lab.insurance.model.jpa.contract.Contract;
 import org.lab.insurance.model.jpa.contract.ContractPorfolioInfo;
+import org.lab.insurance.model.jpa.portfolio.Portfolio;
+import org.lab.insurance.model.jpa.portfolio.PortfolioType;
 import org.lab.insurance.services.accounting.PortfolioService;
 
 public class InitializeContractPortfolios implements Processor {

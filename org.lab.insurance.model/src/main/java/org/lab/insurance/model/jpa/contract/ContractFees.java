@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Entity
 @DiscriminatorValue("CF")
-@Table(name = "C_CONTRACT_FEES")
+@Table(name = "CTR_FS_CONTRACT_FEES")
 @SuppressWarnings("serial")
 public class ContractFees extends FinancialService {
 

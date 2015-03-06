@@ -13,14 +13,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.lab.insurance.model.jpa.accounting.Portfolio;
+import org.lab.insurance.model.jpa.portfolio.Portfolio;
 
 /**
  * Entidad que contiene informacion interna acerca de como se va a gestionar la orden (por ejemplo como se aplican los gastos, como se
  * realiza la venta de fondos, etc).
  */
 @Entity
-@Table(name = "I_ORDER_PROCESS_INFO")
+@Table(name = "INS_ORDER_PROCESS_INFO")
 @SuppressWarnings("serial")
 public class OrderProcessInfo implements Serializable {
 
@@ -31,7 +31,11 @@ public class OrderProcessInfo implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "SELL_STRATEGY")
-	private SellStrategy sellStrategy;
+	private OrderSellStrategy sellStrategy;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "BUY_STRATEGY")
+	private OrderBuyStrategy buyStrategy;
 
 	/**
 	 * En caso de que este valor sea distinto de nulo nos permite sobreescribir el modo en el que se contabiliza la operacion en el pasivo.
@@ -57,11 +61,11 @@ public class OrderProcessInfo implements Serializable {
 		this.id = id;
 	}
 
-	public SellStrategy getSellStrategy() {
+	public OrderSellStrategy getSellStrategy() {
 		return sellStrategy;
 	}
 
-	public void setSellStrategy(SellStrategy sellStrategy) {
+	public void setSellStrategy(OrderSellStrategy sellStrategy) {
 		this.sellStrategy = sellStrategy;
 	}
 

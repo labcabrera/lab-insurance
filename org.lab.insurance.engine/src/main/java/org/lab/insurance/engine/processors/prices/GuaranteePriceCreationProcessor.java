@@ -19,6 +19,7 @@ import org.lab.insurance.core.math.BigMath;
 import org.lab.insurance.engine.model.prices.GuaranteePriceCreationAction;
 import org.lab.insurance.model.jpa.insurance.AssetPrice;
 import org.lab.insurance.model.jpa.insurance.BaseAsset;
+import org.lab.insurance.model.jpa.insurance.Currency;
 import org.lab.insurance.services.insurance.CotizationsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,8 @@ public class GuaranteePriceCreationProcessor implements Processor {
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
+		EntityManager entityManager = entityManagerProvider.get();
+		Currency currency = resolveGuaranteeCurrency();
 		GuaranteePriceCreationAction action = exchange.getIn().getBody(GuaranteePriceCreationAction.class);
 		BaseAsset asset = action.getAsset();
 		Date from = action.getFrom();
@@ -46,7 +49,7 @@ public class GuaranteePriceCreationProcessor implements Processor {
 		BigDecimal guarantee = action.getPercent();
 		LOG.info("Creating guarantee prices for {} at {}% from {} to {}", asset.getName(), guarantee, from != null ? ISO_DATE_FORMAT.format(from) : "", ISO_DATE_FORMAT.format(to));
 		AssetPrice lastPrice = cotizationsService.findLastPrice(asset, to);
-		BigDecimal initialPrice = lastPrice == null ? BigDecimal.ONE : lastPrice.getPriceInEuros();
+		BigDecimal initialPrice = lastPrice == null ? BigDecimal.ONE : lastPrice.getPrice();
 		Date now = Calendar.getInstance().getTime();
 		GregorianCalendar check = new GregorianCalendar();
 		check.setTime(from);
@@ -62,13 +65,24 @@ public class GuaranteePriceCreationProcessor implements Processor {
 			AssetPrice price = new AssetPrice();
 			price.setAsset(asset);
 			price.setGenerated(now);
-			price.setBuyPriceInEuros(partial);
-			price.setSellPriceInEuros(partial);
-			price.setPriceInEuros(partial);
+			price.setBuyPrice(partial);
+			price.setSellPrice(partial);
+			price.setPrice(partial);
 			price.setPriceDate(from);
-			entityManagerProvider.get().persist(price);
+			price.setCurrency(currency);
+			entityManager.persist(price);
 			from = DateUtils.addDays(from, 1);
 			count = count.add(BigDecimal.ONE);
 		}
+	}
+
+	/**
+	 * NOTA: los precios del el garantizado carecen de divisa (no deja de ser una serie de numeros calculados segun la formula de
+	 * revalorizacion) ya que no aunque el modelo obliga a establecerla de modo que la fijamos a EURO.
+	 * 
+	 * @return
+	 */
+	private Currency resolveGuaranteeCurrency() {
+		return entityManagerProvider.get().find(Currency.class, "EUR");
 	}
 }

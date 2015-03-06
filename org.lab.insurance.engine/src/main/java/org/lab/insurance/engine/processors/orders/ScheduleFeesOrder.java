@@ -10,7 +10,7 @@ import org.lab.insurance.engine.ActionExecutionService;
 import org.lab.insurance.engine.model.contract.ContractStartAction;
 import org.lab.insurance.engine.processors.financial.ExecuteFeesAction;
 import org.lab.insurance.model.jpa.contract.Contract;
-import org.lab.insurance.model.jpa.contract.TriggerDefinition;
+import org.lab.insurance.model.jpa.system.TriggerDefinition;
 import org.lab.insurance.services.common.TriggerActivationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
