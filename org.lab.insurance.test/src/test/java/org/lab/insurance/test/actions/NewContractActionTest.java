@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.lab.insurance.core.math.BigMath;
 import org.lab.insurance.engine.ActionExecutionService;
 import org.lab.insurance.engine.DailyActionExecutionRunner;
@@ -43,6 +44,7 @@ import com.google.inject.persist.PersistService;
  * Test que simula la contratacion de la poliza el ciclo de vida basico durante un año.
  *
  */
+@Ignore
 public class NewContractActionTest {
 
 	@Test

@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 
 import org.joda.time.DateTime;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.lab.insurance.engine.guice.InsuranceCoreModule;
 import org.lab.insurance.model.jpa.common.Holiday;
@@ -18,6 +19,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.persist.PersistService;
 
+@Ignore
 public class TestCalendarService {
 
 	@Test
