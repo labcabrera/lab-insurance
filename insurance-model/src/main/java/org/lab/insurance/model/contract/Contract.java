@@ -1,174 +1,48 @@
 package org.lab.insurance.model.contract;
 
-import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
-import org.lab.insurance.model.HasActivationRange;
-import org.lab.insurance.model.HasState;
-import org.lab.insurance.model.common.internal.NotSerializable;
 import org.lab.insurance.model.engine.State;
 import org.lab.insurance.model.insurance.Order;
 import org.lab.insurance.model.product.Agreement;
-import org.lab.insurance.model.validation.ValidContract;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Reference;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.Data;
+
+@Data
+@Document
 @Entity
-@Table(name = "CTR_CONTRACT")
-@SuppressWarnings("serial")
-@ValidContract
-public class Contract implements Serializable, HasState<String>, HasActivationRange {
+public class Contract {
 
 	@Id
-	@Column(name = "ID", length = 36)
-	@GeneratedValue(generator = "system-uuid")
 	private String id;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })
-	@JoinColumn(name = "AGREEMENT_ID", nullable = false)
-	@NotSerializable
-	private Agreement agreement;
-
-	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST }, optional = false)
-	@JoinColumn(name = "PORTFOLIO_INFO_ID", nullable = false)
-	@NotSerializable
-	private ContractPorfolioInfo portfolioInfo;
-
-	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
-	@JoinColumn(name = "STATE_ID")
-	private State currentState;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contract", cascade = { CascadeType.PERSIST })
-	private List<PolicyEntityRelation> relations;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contract", cascade = { CascadeType.PERSIST })
-	@NotSerializable
-	private List<Order> orders;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contract", cascade = { CascadeType.PERSIST })
-	@NotSerializable
-	private List<ContractLetter> letters;
-
-	@Column(name = "NUMBER", nullable = false, length = 32)
+	@NotNull
 	private String number;
 
-	@Column(name = "EFFECTIVE", nullable = false)
-	@Temporal(TemporalType.DATE)
-	private Date effective;
+	@NotNull
+	@Reference
+	private Agreement agreement;
 
-	@Column(name = "START_DATE")
-	@Temporal(TemporalType.DATE)
-	private Date startDate;
+	private ContractPorfolioInfo portfolioInfo;
 
-	@Column(name = "END_DATE")
-	@Temporal(TemporalType.DATE)
-	private Date endDate;
+	private State currentState;
 
-	@Override
-	public String getId() {
-		return id;
-	}
+	private List<PolicyEntityRelation> relations;
 
-	@Override
-	public void setId(String id) {
-		this.id = id;
-	}
+	private List<FinancialService> financialServices;
 
-	public String getNumber() {
-		return number;
-	}
+	@Reference
+	private List<Order> orders;
 
-	public void setNumber(String number) {
-		this.number = number;
-	}
+	private ContractDates dates;
 
-	public Agreement getAgreement() {
-		return agreement;
-	}
-
-	public void setAgreement(Agreement agreement) {
-		this.agreement = agreement;
-	}
-
-	public List<PolicyEntityRelation> getRelations() {
-		return relations;
-	}
-
-	public void setRelations(List<PolicyEntityRelation> relations) {
-		this.relations = relations;
-	}
-
-	public Date getEffective() {
-		return effective;
-	}
-
-	public void setEffective(Date effective) {
-		this.effective = effective;
-	}
-
-	public List<Order> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
-	}
-
-	@Override
-	public State getCurrentState() {
-		return currentState;
-	}
-
-	@Override
-	public void setCurrentState(State state) {
-		currentState = state;
-	}
-
-	public ContractPorfolioInfo getPortfolioInfo() {
-		return portfolioInfo;
-	}
-
-	public void setPortfolioInfo(ContractPorfolioInfo portfolioInfo) {
-		this.portfolioInfo = portfolioInfo;
-	}
-
-	@Override
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	@Override
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public List<ContractLetter> getLetters() {
-		return letters;
-	}
-
-	public void setLetters(List<ContractLetter> letters) {
-		this.letters = letters;
-	}
+	@Reference
+	private List<ContractLetter> letters;
 
 }
