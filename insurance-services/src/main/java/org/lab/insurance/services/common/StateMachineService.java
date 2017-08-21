@@ -4,8 +4,8 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
 
-import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.lab.insurance.model.HasState;
 import org.lab.insurance.model.jpa.engine.State;
 import org.lab.insurance.model.jpa.engine.StateDefinition;
@@ -22,7 +22,8 @@ public class StateMachineService {
 		StateDefinition stateDefinition = entityManager.find(StateDefinition.class, stateDefinitionId);
 		Validate.notNull(stateDefinition);
 		Validate.isTrue(StringUtils.isNotBlank(hasState.getId()), "Missing entity identifier");
-		Validate.isTrue(stateDefinition.getEntityClass().equals(hasState.getClass()), "Invalid state class " + hasState.getClass().getName());
+		Validate.isTrue(stateDefinition.getEntityClass().equals(hasState.getClass()),
+				"Invalid state class " + hasState.getClass().getName());
 		State state = new State();
 		state.setEntered(timestampProvider.getCurrentDate());
 		state.setStateDefinition(stateDefinition);

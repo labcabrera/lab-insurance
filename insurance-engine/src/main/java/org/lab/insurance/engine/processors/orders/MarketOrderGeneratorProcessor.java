@@ -7,6 +7,7 @@ import java.util.Iterator;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -23,8 +24,6 @@ import org.lab.insurance.services.common.StateMachineService;
 import org.lab.insurance.services.common.TimestampProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.inject.persist.Transactional;
 
 public class MarketOrderGeneratorProcessor implements Processor {
 

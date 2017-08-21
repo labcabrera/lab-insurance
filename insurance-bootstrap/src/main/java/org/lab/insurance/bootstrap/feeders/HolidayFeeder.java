@@ -1,10 +1,10 @@
 package org.lab.insurance.bootstrap.feeders;
 
-import net.sf.flatpack.DataSet;
-
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.lab.insurance.model.jpa.common.Holiday;
 import org.lab.insurance.model.jpa.common.HolidayCalendar;
+
+import net.sf.flatpack.DataSet;
 
 public class HolidayFeeder extends AbstractEntityFeeder<Holiday> {
 
@@ -25,7 +25,8 @@ public class HolidayFeeder extends AbstractEntityFeeder<Holiday> {
 	private HolidayCalendar loadCalendarByName(String name) {
 		HolidayCalendar result = null;
 		if (StringUtils.isNotEmpty(name)) {
-			result = entityManagerProvider.get().createNamedQuery("HolidayCalendar.selectByName", HolidayCalendar.class).setParameter("name", name).getSingleResult();
+			result = entityManagerProvider.get().createNamedQuery("HolidayCalendar.selectByName", HolidayCalendar.class)
+					.setParameter("name", name).getSingleResult();
 		}
 		return result;
 	}

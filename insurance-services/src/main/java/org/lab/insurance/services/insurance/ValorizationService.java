@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.lab.insurance.model.exceptions.NoCotizationException;
 import org.lab.insurance.model.jpa.insurance.AssetPrice;
 import org.lab.insurance.model.jpa.insurance.MarketOrder;
@@ -43,14 +43,16 @@ public class ValorizationService {
 	}
 
 	private void valorizate(MarketOrder marketOrder) throws NoCotizationException {
-		AssetPrice price = cotizationsService.findPriceAtDate(marketOrder.getAsset(), marketOrder.getDates().getValueDate());
+		AssetPrice price = cotizationsService.findPriceAtDate(marketOrder.getAsset(),
+				marketOrder.getDates().getValueDate());
 		marketOrder.setNav(price.getPrice());
 		if (marketOrder.getSource() == MarketOrderSource.UNITS) {
 			Validate.notNull(marketOrder.getUnits());
 			BigDecimal units = marketOrder.getUnits();
 			BigDecimal amount = price.getPrice().multiply(units);
 			marketOrder.setNetAmount(amount);
-		} else {
+		}
+		else {
 			Validate.notNull(marketOrder.getNetAmount());
 			BigDecimal amount = marketOrder.getNetAmount();
 			Integer decimals = marketOrder.getAsset().getDecimals() != null ? marketOrder.getAsset().getDecimals() : 5;

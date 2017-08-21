@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.jpa.insurance.BaseAsset;
@@ -19,7 +20,6 @@ import org.lab.insurance.model.jpa.portfolio.PortfolioOperation;
 import org.lab.insurance.services.common.StateMachineService;
 
 import com.google.inject.Provider;
-import com.google.inject.persist.Transactional;
 
 public class AccountingService {
 

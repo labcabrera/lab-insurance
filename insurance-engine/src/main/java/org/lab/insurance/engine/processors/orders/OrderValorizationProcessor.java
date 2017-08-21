@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.lab.insurance.engine.model.ActionEntity;
 import org.lab.insurance.engine.model.exceptions.CancelAndRexecuteException;
 import org.lab.insurance.engine.model.orders.ValorizateOrderAction;
@@ -41,11 +41,13 @@ public class OrderValorizationProcessor implements Processor {
 		try {
 			valorizationService.valorizate(order);
 			stateMachineService.createTransition(order, Constants.OrderStates.VALUED);
-		} catch (NoCotizationException ex) {
+		}
+		catch (NoCotizationException ex) {
 			// Si no existen precios preprogramamos la valorizacion para el dia siguiente
 			Date now = timestampProvider.getCurrentDate();
 			Date reexecutionDate = calendarService.getNextLaboralDay(now, 1);
-			ActionEntity<?> actionEntity = new ValorizateOrderAction().withOrderId(order.getId()).withActionDate(reexecutionDate);
+			ActionEntity<?> actionEntity = new ValorizateOrderAction().withOrderId(order.getId())
+					.withActionDate(reexecutionDate);
 			throw new CancelAndRexecuteException(actionEntity, reexecutionDate, ex.getMessage(), ex);
 		}
 	}

@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.lab.insurance.engine.ActionExecutionService;
 import org.lab.insurance.engine.model.ActionEntity;
 import org.lab.insurance.engine.model.orders.AccountOrderAction;
@@ -35,6 +35,7 @@ public class ScheduleOrderAccount implements Processor {
 	private void validateOrder(Order order) {
 		Validate.notNull(order.getDates().getValued(), "order.validation.missingValuedDate");
 		Validate.isTrue(order.getDates().getAccounted() == null, "order.validation.accountedDateMustBeNull");
-		Validate.isTrue(order.getCurrentState().getStateDefinition().getId().equals(Constants.OrderStates.VALUED), "order.validation.expectedStateValued");
+		Validate.isTrue(order.getCurrentState().getStateDefinition().getId().equals(Constants.OrderStates.VALUED),
+				"order.validation.expectedStateValued");
 	}
 }

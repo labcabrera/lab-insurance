@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
-import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.joda.time.DateTime;
 import org.lab.insurance.services.common.TimestampProvider;
 import org.slf4j.Logger;

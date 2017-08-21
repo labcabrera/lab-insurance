@@ -1,0 +1,5 @@
+# lab-insurance
+
+image:https://travis-ci.org/labcabrera/lab-insurance.svg?branch=master["Build Status", link="https://travis-ci.org/labcabrera/lab-insurance"]
+
+Insurance showcase engine (under refactor)

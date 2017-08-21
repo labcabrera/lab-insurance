@@ -10,14 +10,14 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
 
-import net.sf.flatpack.DataSet;
-import net.sf.flatpack.DefaultParserFactory;
-import net.sf.flatpack.Parser;
-
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.format.DateTimeFormat;
 import org.lab.insurance.model.jpa.geo.Country;
 import org.lab.insurance.model.jpa.insurance.BaseAsset;
+
+import net.sf.flatpack.DataSet;
+import net.sf.flatpack.DefaultParserFactory;
+import net.sf.flatpack.Parser;
 
 public abstract class AbstractFeeder implements Runnable {
 
@@ -32,12 +32,14 @@ public abstract class AbstractFeeder implements Runnable {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		InputStream source = classLoader.getResourceAsStream(resourceName);
 		Reader reader = new InputStreamReader(source, Charset.forName("UTF8"));
-		Parser parser = DefaultParserFactory.getInstance().newDelimitedParser(reader, DELIMITER_CHAR, DELIMITER_CHAR_STRING);
+		Parser parser = DefaultParserFactory.getInstance().newDelimitedParser(reader, DELIMITER_CHAR,
+				DELIMITER_CHAR_STRING);
 		return parser.parse();
 	}
 
 	protected Date parseDate(String value) {
-		return StringUtils.isBlank(value) ? null : DateTimeFormat.forPattern(DATE_PATTERN).parseDateTime(value).toDate();
+		return StringUtils.isBlank(value) ? null
+				: DateTimeFormat.forPattern(DATE_PATTERN).parseDateTime(value).toDate();
 	}
 
 	protected Country loadCountryFromIso2(String iso2) {
@@ -51,7 +53,8 @@ public abstract class AbstractFeeder implements Runnable {
 	protected BaseAsset loadBaseAssetFromIsin(String isin) {
 		BaseAsset country = null;
 		if (StringUtils.isNotBlank(isin)) {
-			country = entityManagerProvider.get().createNamedQuery("BaseAsset.selectByIsin", BaseAsset.class).setParameter("isin", isin).getSingleResult();
+			country = entityManagerProvider.get().createNamedQuery("BaseAsset.selectByIsin", BaseAsset.class)
+					.setParameter("isin", isin).getSingleResult();
 		}
 		return country;
 	}

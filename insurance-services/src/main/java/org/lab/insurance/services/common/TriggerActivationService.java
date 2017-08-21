@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.joda.time.DateTime;
 import org.lab.insurance.model.exceptions.ConfigurationException;
 import org.lab.insurance.model.jpa.system.TriggerDefinition;
@@ -19,14 +18,15 @@ public class TriggerActivationService {
 		case FIXED_LABORAL_DAY_MONTLY_FORWARD:
 			return evalFixedLaboralDayMontly(triggerDefinition, when);
 		default:
-			throw new NotImplementedException();
+			throw new RuntimeException("Not implemented");
 		}
 	}
 
 	private Date evalFixedLaboralDayMontly(TriggerDefinition triggerDefinition, Date when) {
 		String strDay = triggerDefinition.getValues().get(TriggerDefinition.KEY_DAY);
 		if (strDay == null || !strDay.matches("\\d+")) {
-			throw new ConfigurationException("Trigger " + triggerDefinition + " has not valid param " + TriggerDefinition.KEY_DAY);
+			throw new ConfigurationException(
+					"Trigger " + triggerDefinition + " has not valid param " + TriggerDefinition.KEY_DAY);
 		}
 		Integer targetDay = Integer.parseInt(strDay);
 		DateTime currentDate = new DateTime(when);

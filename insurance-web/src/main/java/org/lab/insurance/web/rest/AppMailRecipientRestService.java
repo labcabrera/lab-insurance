@@ -1,5 +1,6 @@
 package org.lab.insurance.web.rest;
 
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -13,8 +14,6 @@ import org.lab.insurance.model.common.Message;
 import org.lab.insurance.model.common.SearchParams;
 import org.lab.insurance.model.common.SearchResults;
 import org.lab.insurance.model.jpa.system.AppMailRecipient;
-
-import com.google.inject.persist.Transactional;
 
 @Path("/mailRecipient")
 @Consumes({ "application/json; charset=UTF-8" })

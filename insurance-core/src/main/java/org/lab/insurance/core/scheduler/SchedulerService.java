@@ -27,8 +27,6 @@ import org.quartz.spi.MutableTrigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Injector;
-
 /**
  * Al crear la instancia inserta en el contexto el {@link Injector} a partir del cual podremos utilizar los servicios.
  */
@@ -47,22 +45,26 @@ public class SchedulerService {
 	 * @param injector
 	 */
 	@Inject
-	public SchedulerService(Injector injector) {
+	public SchedulerService(/*Injector injector*/) {
 		LOG.info("Iniciando servicio de tareas programadas");
 		try {
 			Properties properties = new Properties();
 			properties.load(getClass().getResourceAsStream("/org/quartz/quartz.properties"));
 			scheduler = new StdSchedulerFactory(properties).getScheduler();
-			scheduler.getContext().put(Injector.class.getName(), injector);
-			entityManagerProvider = injector.getProvider(EntityManager.class);
+			// TODO remove guice integration
+			// scheduler.getContext().put(Injector.class.getName(), injector);
+			// entityManagerProvider = injector.getProvider(EntityManager.class);
+			entityManagerProvider = null;
 			classLoader = Thread.currentThread().getContextClassLoader();
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			throw new RuntimeException("Error al arrancar el servicio de tareas programadas", ex);
 		}
 	}
 
 	/**
-	 * Podemos consultar la aplicación <a href="http://www.cronmaker.com/">cronmaker.com</a> para generar las expresiones cron.
+	 * Podemos consultar la aplicación <a href="http://www.cronmaker.com/">cronmaker.com</a> para generar las
+	 * expresiones cron.
 	 * 
 	 * @throws SchedulerException
 	 */
@@ -80,11 +82,13 @@ public class SchedulerService {
 				try {
 					Class<? extends Job> jobClass = (Class<? extends Job>) classLoader.loadClass(task.getClassName());
 					registerJob(jobClass, task.getCronExpression(), task.getParams());
-				} catch (Exception ex) {
+				}
+				catch (Exception ex) {
 					LOG.error("Error al registrar la tarea {}", task);
 				}
 			}
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			throw new RuntimeException("Error al registrar las tareas programadas", ex);
 		}
 	}
@@ -106,7 +110,8 @@ public class SchedulerService {
 		registerJob(jobClass, cronExpression, null);
 	}
 
-	private void registerJob(Class<? extends Job> jobClass, String cronExpression, Map<String, String> params) throws SchedulerException {
+	private void registerJob(Class<? extends Job> jobClass, String cronExpression, Map<String, String> params)
+			throws SchedulerException {
 		LOG.debug("Registrando job {} con la expresion cron {}", jobClass.getName(), cronExpression);
 		if (params != null) {
 			for (String key : params.keySet()) {
@@ -128,7 +133,8 @@ public class SchedulerService {
 		Class<? extends Job> jobClass = (Class<? extends Job>) classLoader.loadClass(task.getClassName());
 		String name = String.format("%s_%s", System.currentTimeMillis(), jobClass.getName());
 		JobDetail jobDetail = JobBuilder.newJob(jobClass).withDescription(name).withIdentity(name).build();
-		SimpleScheduleBuilder builder = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(1).withRepeatCount(1);
+		SimpleScheduleBuilder builder = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(1)
+				.withRepeatCount(1);
 		Trigger trigger = TriggerBuilder.newTrigger().withIdentity("Trigger_" + name).withSchedule(builder).build();
 		scheduler.scheduleJob(jobDetail, trigger);
 	}

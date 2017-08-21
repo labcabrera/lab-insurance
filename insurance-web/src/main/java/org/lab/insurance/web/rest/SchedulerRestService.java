@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,7 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
-import com.google.inject.persist.Transactional;
 
 @Path("/scheduler")
 @Consumes({ "application/json; charset=UTF-8" })
@@ -62,7 +62,8 @@ public class SchedulerRestService extends AbstractRestEntityService<ScheduledTas
 			schedulerService.registerTask(task);
 			entityManager.merge(current);
 			return new Message<ScheduledTask>(Message.SUCCESS, "scheduler.task.merge.ok").withPayload(current);
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			LOG.error("Merge error", ex);
 			return new Message<ScheduledTask>(Message.GENERIC_ERROR).withMessage("scheduler.task.merge.error");
 		}
@@ -78,8 +79,10 @@ public class SchedulerRestService extends AbstractRestEntityService<ScheduledTas
 			current.setEndDate(Calendar.getInstance().getTime());
 			entityManager.merge(current);
 			schedulerService.unregisterTask(current);
-			return new Message<ScheduledTask>(Message.SUCCESS).withPayload(current).withMessage("scheduler.task.pause.ok");
-		} catch (Exception ex) {
+			return new Message<ScheduledTask>(Message.SUCCESS).withPayload(current)
+					.withMessage("scheduler.task.pause.ok");
+		}
+		catch (Exception ex) {
 			LOG.error("Pause error", ex);
 			return new Message<ScheduledTask>(Message.GENERIC_ERROR).withMessage("scheduler.task.pause.error");
 		}
@@ -95,8 +98,10 @@ public class SchedulerRestService extends AbstractRestEntityService<ScheduledTas
 			current.setEndDate(null);
 			entityManager.merge(current);
 			schedulerService.registerTask(current);
-			return new Message<ScheduledTask>(Message.SUCCESS).withPayload(current).withMessage("scheduler.task.resume.ok");
-		} catch (Exception ex) {
+			return new Message<ScheduledTask>(Message.SUCCESS).withPayload(current)
+					.withMessage("scheduler.task.resume.ok");
+		}
+		catch (Exception ex) {
 			LOG.error("Resume error", ex);
 			return new Message<ScheduledTask>(Message.GENERIC_ERROR).withMessage("scheduler.task.resume.error");
 		}
@@ -109,7 +114,8 @@ public class SchedulerRestService extends AbstractRestEntityService<ScheduledTas
 		try {
 			schedulerService.getScheduler().pauseAll();
 			return new Message<ScheduledTask>(Message.SUCCESS).withMessage("scheduler.task.pauseAll.ok");
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			return new Message<ScheduledTask>(Message.GENERIC_ERROR).withMessage("scheduler.task.pauseAll.error");
 		}
 	}
@@ -121,7 +127,8 @@ public class SchedulerRestService extends AbstractRestEntityService<ScheduledTas
 		try {
 			schedulerService.getScheduler().resumeAll();
 			return new Message<ScheduledTask>(Message.SUCCESS).withMessage("scheduler.task.resumeAll.ok");
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			return new Message<ScheduledTask>(Message.GENERIC_ERROR).withMessage("scheduler.task.resumeAll.error");
 		}
 	}
@@ -135,7 +142,8 @@ public class SchedulerRestService extends AbstractRestEntityService<ScheduledTas
 			ScheduledTask task = entityManager.find(ScheduledTask.class, taskId);
 			schedulerService.execute(task);
 			return new Message<ScheduledTask>(Message.SUCCESS).withMessage("scheduler.task.resumeAll.ok");
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			return new Message<ScheduledTask>(Message.GENERIC_ERROR).withMessage("scheduler.task.resumeAll.error");
 		}
 	}
@@ -164,10 +172,13 @@ public class SchedulerRestService extends AbstractRestEntityService<ScheduledTas
 					checkDate = targetDate;
 				}
 				return message;
-			} else {
-				return new Message<String>(Message.SUCCESS).withMessage("scheduler.nextExecutions.undefinedCronExpression");
 			}
-		} catch (Exception ex) {
+			else {
+				return new Message<String>(Message.SUCCESS)
+						.withMessage("scheduler.nextExecutions.undefinedCronExpression");
+			}
+		}
+		catch (Exception ex) {
 			return new Message<String>(Message.GENERIC_ERROR).withMessage("scheduler.nextExecutions.error");
 		}
 

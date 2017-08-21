@@ -3,6 +3,7 @@ package org.lab.insurance.web.rest;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -19,8 +20,6 @@ import org.lab.insurance.model.jpa.product.Agreement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.persist.Transactional;
-
 @Path("/agreement")
 @Consumes({ "application/json; charset=UTF-8" })
 @Produces({ "application/json; charset=UTF-8" })
@@ -31,7 +30,8 @@ public class AgreementRestService extends AbstractRestEntityService<Agreement> {
 	@GET
 	@Path("/findAll")
 	public List<Agreement> findAll() {
-		return entityManagerProvider.get().createQuery("select e from Agreement e order by e.code", Agreement.class).getResultList();
+		return entityManagerProvider.get().createQuery("select e from Agreement e order by e.code", Agreement.class)
+				.getResultList();
 	}
 
 	@GET
@@ -59,7 +59,8 @@ public class AgreementRestService extends AbstractRestEntityService<Agreement> {
 			}
 			entityManager.merge(acuerdo);
 			message.setMessage("label.acuerdoMarco.saved");
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			LOG.error("Error al guardar el acuerdo marco", ex);
 			message.addError("label.acuerdoMarco.saved");
 		}

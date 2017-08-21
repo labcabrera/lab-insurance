@@ -11,6 +11,7 @@ import javax.inject.Provider;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 import org.joda.time.DateTime;
 import org.lab.insurance.core.math.BigMath;
@@ -22,8 +23,6 @@ import org.lab.insurance.model.jpa.portfolio.Portfolio;
 import org.lab.insurance.model.jpa.portfolio.PortfolioMathProvision;
 import org.lab.insurance.services.accounting.PortfolioService;
 import org.lab.insurance.services.common.TimestampProvider;
-
-import com.google.inject.persist.Transactional;
 
 public class MathProvisionService {
 
@@ -38,18 +37,21 @@ public class MathProvisionService {
 
 	public PortfolioMathProvision findAtDate(Portfolio portfolio, Date date, boolean cotizate) {
 		EntityManager entityManager = entityManagerProvider.get();
-		TypedQuery<PortfolioMathProvision> query = entityManager.createNamedQuery("PortfolioMathProvision.selectByDate", PortfolioMathProvision.class);
+		TypedQuery<PortfolioMathProvision> query = entityManager.createNamedQuery("PortfolioMathProvision.selectByDate",
+				PortfolioMathProvision.class);
 		query.setParameter("portfolio", portfolio);
 		query.setParameter("date", date);
 		try {
 			return query.getSingleResult();
-		} catch (NoResultException ex) {
+		}
+		catch (NoResultException ex) {
 			return createMathProvisionAtDate(portfolio, date, cotizate);
 		}
 	}
 
 	@Transactional
-	public PortfolioMathProvision createMathProvisionAtDate(Portfolio portfolio, Date date, boolean cotizate) throws NoCotizationException {
+	public PortfolioMathProvision createMathProvisionAtDate(Portfolio portfolio, Date date, boolean cotizate)
+			throws NoCotizationException {
 		EntityManager entityManager = entityManagerProvider.get();
 		PortfolioMathProvision mp = new PortfolioMathProvision();
 		mp.setPortfolio(portfolio);
@@ -57,12 +59,16 @@ public class MathProvisionService {
 		mp.setGenerated(timestampProvider.getCurrentDateTime());
 		mp.setMathProvisions(new ArrayList<MathProvision>());
 		List<Investment> investments = portfolioService.findActiveInvestmentsAtDate(portfolio, date);
-		TypedQuery<BigDecimal> queryUnitsIn = entityManager.createNamedQuery("PortfolioOperation.unitsIn", BigDecimal.class);
-		TypedQuery<BigDecimal> queryUnitsOut = entityManager.createNamedQuery("PortfolioOperation.unitsOut", BigDecimal.class);
+		TypedQuery<BigDecimal> queryUnitsIn = entityManager.createNamedQuery("PortfolioOperation.unitsIn",
+				BigDecimal.class);
+		TypedQuery<BigDecimal> queryUnitsOut = entityManager.createNamedQuery("PortfolioOperation.unitsOut",
+				BigDecimal.class);
 		BigDecimal totalAmount = BigDecimal.ZERO;
 		for (Investment investment : investments) {
-			BigDecimal unitsIn = BigMath.safeNull(queryUnitsIn.setParameter("investment", investment).setParameter("date", date).getSingleResult());
-			BigDecimal unitsOut = BigMath.safeNull(queryUnitsOut.setParameter("investment", investment).setParameter("date", date).getSingleResult());
+			BigDecimal unitsIn = BigMath.safeNull(
+					queryUnitsIn.setParameter("investment", investment).setParameter("date", date).getSingleResult());
+			BigDecimal unitsOut = BigMath.safeNull(
+					queryUnitsOut.setParameter("investment", investment).setParameter("date", date).getSingleResult());
 			MathProvision mathProvision = new MathProvision();
 			mathProvision.setPortfolioMathProvision(mp);
 			mathProvision.setInvestment(investment);
@@ -70,9 +76,11 @@ public class MathProvisionService {
 			if (BigMath.isNotZero(mathProvision.getUnits())) {
 				if (cotizate) {
 					AssetPrice assetPrice = cotizationsService.findPriceAtDate(investment.getAsset(), date);
-					BigDecimal amount = assetPrice.getBuyPrice().multiply(mathProvision.getUnits()).setScale(2, RoundingMode.HALF_EVEN);
+					BigDecimal amount = assetPrice.getBuyPrice().multiply(mathProvision.getUnits()).setScale(2,
+							RoundingMode.HALF_EVEN);
 					mathProvision.setAmount(amount);
-				} else {
+				}
+				else {
 					mathProvision.setAmount(BigDecimal.ZERO);
 				}
 				mathProvision.setCost(BigDecimal.ZERO);
