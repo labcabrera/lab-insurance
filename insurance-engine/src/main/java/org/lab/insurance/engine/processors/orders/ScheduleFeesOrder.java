@@ -33,7 +33,7 @@ public class ScheduleFeesOrder implements Processor {
 			LOG.warn("Missing fees trigger definition in agreement {}", contract.getAgreement());
 			return;
 		}
-		Date when = contract.getStartDate();
+		Date when = contract.getDates().getStartDate();
 		if (when == null) {
 			LOG.warn("Cant resolve fees activation date");
 			return;

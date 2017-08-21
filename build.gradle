@@ -42,8 +42,9 @@ subprojects {
 
 	dependencies {
 		compile "org.projectlombok:lombok:${lombokVersion}"
-		compile "org.apache.commons:commons-lang3:3.6"		
 		testCompile "org.springframework.boot:spring-boot-starter-test"
+		// remove
+		compile "org.apache.commons:commons-lang3:3.6"		
 	}
 	
 	// exclude version in jar file (tmp for docker-compose tuning)
@@ -52,11 +53,11 @@ subprojects {
 
 project(":insurance-model") {
 	dependencies {
-		compile "org.springframework.boot:spring-boot-starter-data-jpa"
 		compile "org.springframework.boot:spring-boot-starter-data-mongodb"
 		compile "io.springfox:springfox-swagger2:${springfoxSwaggerVersion}"
 		compile "org.hibernate:hibernate-validator"
 		// remove
+		compile "org.springframework.boot:spring-boot-starter-data-jpa"
 		compile "com.googlecode.lambdaj:lambdaj:2.3.3"
 		compile group: 'com.h2database', name: 'h2', version: '1.4.196'
 	}
@@ -117,25 +118,12 @@ project(":insurance-engine") {
 	}
 }
 
+// deprecated project
 project(":insurance-bootstrap") {
 	dependencies {
 		compile project(":insurance-engine")
 		// remove
 		compile group: 'net.sf.flatpack', name: 'flatpack', version: '4.0.1'
-	}
-	bootRepackage {
-		enabled = false
-	}
-}
-
-project(":insurance-web") {
-	dependencies {
-		compile project(":insurance-engine")
-		// remove
-		compile group: 'org.jboss.resteasy', name: 'resteasy-jaxrs', version: '3.1.4.Final'
-		compile group: 'org.jboss.resteasy', name: 'resteasy-multipart-provider', version: '3.1.4.Final'
-		compile group: 'org.jboss.resteasy', name: 'resteasy-guice', version: '3.1.4.Final'
-		
 	}
 	bootRepackage {
 		enabled = false
@@ -165,7 +153,6 @@ project(":insurance-ms-core") {
 		compile "org.springframework.boot:spring-boot-starter-amqp"
 		compile "io.springfox:springfox-swagger2:${springfoxSwaggerVersion}"
 		compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
-		
 	}
 	bootRepackage {
 		enabled = false

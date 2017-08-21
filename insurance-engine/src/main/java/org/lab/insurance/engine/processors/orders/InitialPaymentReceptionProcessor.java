@@ -10,6 +10,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.contract.Contract;
+import org.lab.insurance.model.contract.ContractDates;
 import org.lab.insurance.model.insurance.Order;
 import org.lab.insurance.services.common.StateMachineService;
 import org.lab.insurance.services.common.TimestampProvider;
@@ -36,7 +37,11 @@ public class InitialPaymentReceptionProcessor implements Processor {
 		Contract contract = order.getContract();
 		boolean checkStarted = checkContractStarted(contract);
 		if (checkStarted) {
-			contract.setStartDate(timestampProvider.getCurrentDate());
+			ContractDates contractDates = contract.getDates();
+			if (contractDates == null) {
+				contract.setDates(new ContractDates());
+			}
+			contract.getDates().setStartDate(timestampProvider.getCurrentDate());
 			stateMachineService.createTransition(contract, Constants.ContractStates.PAYED);
 			EntityManager entityManager = entityManagerProvider.get();
 			entityManager.merge(contract);

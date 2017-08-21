@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
+import org.lab.insurance.model.HasState;
 import org.lab.insurance.model.engine.State;
 import org.lab.insurance.model.insurance.Order;
 import org.lab.insurance.model.product.Agreement;
@@ -17,7 +18,7 @@ import lombok.Data;
 @Data
 @Document
 @Entity
-public class Contract {
+public class Contract implements HasState<String> {
 
 	@Id
 	private String id;
