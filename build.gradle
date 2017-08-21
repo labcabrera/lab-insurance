@@ -189,3 +189,23 @@ project(":insurance-ms-accounting") {
 	}
 }
 
+project(":insurance-ms-payment") {
+	dependencies {
+		compile project(":insurance-ms-core")
+	}
+}
+
+project(":insurance-ms-asset") {
+	dependencies {
+		compile project(":insurance-ms-core")
+	}
+}
+
+project(":insurance-ms-market") {
+	dependencies {
+		compile project(":insurance-ms-core")
+	}
+}
+
+
+
