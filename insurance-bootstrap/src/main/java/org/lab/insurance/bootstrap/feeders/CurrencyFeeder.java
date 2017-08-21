@@ -1,8 +1,8 @@
 package org.lab.insurance.bootstrap.feeders;
 
-import net.sf.flatpack.DataSet;
+import org.lab.insurance.model.insurance.Currency;
 
-import org.lab.insurance.model.jpa.insurance.Currency;
+import net.sf.flatpack.DataSet;
 
 public class CurrencyFeeder extends AbstractEntityFeeder<Currency> {
 

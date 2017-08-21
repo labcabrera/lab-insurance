@@ -10,8 +10,8 @@ import net.sf.flatpack.DataSet;
 
 import org.joda.time.DateTime;
 import org.lab.insurance.bootstrap.feeders.AbstractFeeder;
-import org.lab.insurance.model.jpa.insurance.AssetPrice;
-import org.lab.insurance.model.jpa.insurance.BaseAsset;
+import org.lab.insurance.model.insurance.AssetPrice;
+import org.lab.insurance.model.insurance.BaseAsset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

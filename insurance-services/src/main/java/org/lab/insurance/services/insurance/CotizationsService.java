@@ -10,8 +10,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import org.lab.insurance.model.exceptions.NoCotizationException;
-import org.lab.insurance.model.jpa.insurance.AssetPrice;
-import org.lab.insurance.model.jpa.insurance.BaseAsset;
+import org.lab.insurance.model.insurance.AssetPrice;
+import org.lab.insurance.model.insurance.BaseAsset;
 
 public class CotizationsService {
 

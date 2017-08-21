@@ -16,11 +16,11 @@ import javax.transaction.Transactional;
 import org.joda.time.DateTime;
 import org.lab.insurance.core.math.BigMath;
 import org.lab.insurance.model.exceptions.NoCotizationException;
-import org.lab.insurance.model.jpa.insurance.AssetPrice;
-import org.lab.insurance.model.jpa.portfolio.Investment;
-import org.lab.insurance.model.jpa.portfolio.MathProvision;
-import org.lab.insurance.model.jpa.portfolio.Portfolio;
-import org.lab.insurance.model.jpa.portfolio.PortfolioMathProvision;
+import org.lab.insurance.model.insurance.AssetPrice;
+import org.lab.insurance.model.portfolio.Investment;
+import org.lab.insurance.model.portfolio.MathProvision;
+import org.lab.insurance.model.portfolio.Portfolio;
+import org.lab.insurance.model.portfolio.PortfolioMathProvision;
 import org.lab.insurance.services.accounting.PortfolioService;
 import org.lab.insurance.services.common.TimestampProvider;
 

@@ -5,11 +5,11 @@ import javax.inject.Provider;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import net.sf.flatpack.DataSet;
+import org.lab.insurance.model.product.Agreement;
+import org.lab.insurance.model.product.AgreementServiceInfo;
+import org.lab.insurance.model.product.AgreementValidationInfo;
 
-import org.lab.insurance.model.jpa.product.Agreement;
-import org.lab.insurance.model.jpa.product.AgreementServiceInfo;
-import org.lab.insurance.model.jpa.product.AgreementValidationInfo;
+import net.sf.flatpack.DataSet;
 
 public class AgreementFeeder extends AbstractEntityFeeder<Agreement> {
 

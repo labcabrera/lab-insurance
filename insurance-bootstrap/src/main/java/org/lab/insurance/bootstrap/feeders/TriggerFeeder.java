@@ -9,8 +9,8 @@ import net.sf.flatpack.DataSet;
 
 import org.apache.commons.lang3.StringUtils;
 import org.lab.insurance.core.serialization.Serializer;
-import org.lab.insurance.model.jpa.system.TriggerDefinition;
-import org.lab.insurance.model.jpa.system.TriggerType;
+import org.lab.insurance.model.system.TriggerDefinition;
+import org.lab.insurance.model.system.TriggerType;
 
 public class TriggerFeeder extends AbstractEntityFeeder<TriggerDefinition> {
 

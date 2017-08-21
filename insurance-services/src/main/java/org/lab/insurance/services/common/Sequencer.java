@@ -10,7 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.TypedQuery;
 
-import org.lab.insurance.model.jpa.system.Sequence;
+import org.lab.insurance.model.system.Sequence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

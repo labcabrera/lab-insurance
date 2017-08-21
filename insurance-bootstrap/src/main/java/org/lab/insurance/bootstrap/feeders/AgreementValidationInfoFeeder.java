@@ -1,8 +1,8 @@
 package org.lab.insurance.bootstrap.feeders;
 
-import net.sf.flatpack.DataSet;
+import org.lab.insurance.model.product.AgreementValidationInfo;
 
-import org.lab.insurance.model.jpa.product.AgreementValidationInfo;
+import net.sf.flatpack.DataSet;
 
 public class AgreementValidationInfoFeeder extends AbstractEntityFeeder<AgreementValidationInfo> {
 

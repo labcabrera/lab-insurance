@@ -12,7 +12,7 @@ import org.lab.insurance.engine.model.exceptions.CancelAndRexecuteException;
 import org.lab.insurance.engine.model.orders.ValorizateOrderAction;
 import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.exceptions.NoCotizationException;
-import org.lab.insurance.model.jpa.insurance.Order;
+import org.lab.insurance.model.insurance.Order;
 import org.lab.insurance.services.common.CalendarService;
 import org.lab.insurance.services.common.StateMachineService;
 import org.lab.insurance.services.common.TimestampProvider;

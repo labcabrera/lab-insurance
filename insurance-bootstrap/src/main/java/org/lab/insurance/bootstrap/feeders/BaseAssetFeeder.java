@@ -4,11 +4,11 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
 
-import net.sf.flatpack.DataSet;
+import org.lab.insurance.model.insurance.AssetType;
+import org.lab.insurance.model.insurance.BaseAsset;
+import org.lab.insurance.model.insurance.Currency;
 
-import org.lab.insurance.model.jpa.insurance.AssetType;
-import org.lab.insurance.model.jpa.insurance.BaseAsset;
-import org.lab.insurance.model.jpa.insurance.Currency;
+import net.sf.flatpack.DataSet;
 
 public class BaseAssetFeeder extends AbstractEntityFeeder<BaseAsset> {
 

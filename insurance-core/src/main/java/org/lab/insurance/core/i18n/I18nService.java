@@ -7,8 +7,6 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Singleton;
-
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +15,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-@Singleton
+@Deprecated
 public class I18nService {
 
 	private static final String DEFAULT_LANG = "it";
@@ -35,12 +33,14 @@ public class I18nService {
 		for (String key : availableResources.keySet()) {
 			String resourcePath = availableResources.get(key);
 			try {
-				InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(resourcePath);
+				InputStream inputStream = Thread.currentThread().getContextClassLoader()
+						.getResourceAsStream(resourcePath);
 				Reader reader = new InputStreamReader(inputStream, Charset.forName("UTF8"));
 				JsonParser parser = new JsonParser();
 				JsonElement jsonElement = parser.parse(reader);
 				jsonMap.put(key, jsonElement.getAsJsonObject());
-			} catch (Exception ex) {
+			}
+			catch (Exception ex) {
 				LOG.error("Cant load JSON resource {}", resourcePath, ex);
 			}
 		}

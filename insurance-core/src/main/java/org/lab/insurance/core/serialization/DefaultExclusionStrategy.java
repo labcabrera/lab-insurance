@@ -1,6 +1,6 @@
 package org.lab.insurance.core.serialization;
 
-import org.lab.insurance.model.common.NotSerializable;
+import org.lab.insurance.model.common.internal.NotSerializable;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;

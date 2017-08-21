@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.lab.insurance.engine.model.ActionEntity;
 import org.lab.insurance.model.HasOrder;
-import org.lab.insurance.model.jpa.insurance.Order;
+import org.lab.insurance.model.insurance.Order;
 
 @SuppressWarnings("serial")
 public abstract class OrderBaseAction implements ActionEntity<Order>, HasOrder {

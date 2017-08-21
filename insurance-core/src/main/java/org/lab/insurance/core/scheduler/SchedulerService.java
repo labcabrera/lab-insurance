@@ -4,13 +4,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import org.lab.insurance.model.jpa.system.ScheduledTask;
+import org.lab.insurance.model.system.ScheduledTask;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
@@ -30,21 +27,13 @@ import org.slf4j.LoggerFactory;
 /**
  * Al crear la instancia inserta en el contexto el {@link Injector} a partir del cual podremos utilizar los servicios.
  */
-@Singleton
 public class SchedulerService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SchedulerService.class);
 
 	private final Scheduler scheduler;
-	private final Provider<EntityManager> entityManagerProvider;
 	private final ClassLoader classLoader;
 
-	/**
-	 * Constructor de la clase que genera la instancia del Scheduler de Quartz.
-	 * 
-	 * @param injector
-	 */
-	@Inject
 	public SchedulerService(/*Injector injector*/) {
 		LOG.info("Iniciando servicio de tareas programadas");
 		try {
@@ -54,7 +43,6 @@ public class SchedulerService {
 			// TODO remove guice integration
 			// scheduler.getContext().put(Injector.class.getName(), injector);
 			// entityManagerProvider = injector.getProvider(EntityManager.class);
-			entityManagerProvider = null;
 			classLoader = Thread.currentThread().getContextClassLoader();
 		}
 		catch (Exception ex) {
@@ -72,7 +60,7 @@ public class SchedulerService {
 	public void registerJobs() throws SchedulerException {
 		LOG.debug("Registrando tareas programadas");
 		try {
-			EntityManager entityManager = entityManagerProvider.get();
+			EntityManager entityManager = null;
 			String qlString = "select e from ScheduledTask e where e.disabled is null or e.disabled = false";
 			TypedQuery<ScheduledTask> query = entityManager.createQuery(qlString, ScheduledTask.class);
 			List<ScheduledTask> tasks = query.getResultList();

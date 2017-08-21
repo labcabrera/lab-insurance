@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.lab.insurance.engine.model.ActionDefinition;
 import org.lab.insurance.engine.model.ActionEntity;
-import org.lab.insurance.model.jpa.insurance.BaseAsset;
+import org.lab.insurance.model.insurance.BaseAsset;
 
 @SuppressWarnings("serial")
 @ActionDefinition(endpoint = "direct:guarantee_price_creation")

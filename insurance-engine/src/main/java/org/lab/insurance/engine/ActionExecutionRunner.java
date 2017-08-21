@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 
 import org.lab.insurance.core.serialization.Serializer;
 import org.lab.insurance.engine.model.ActionEntity;
-import org.lab.insurance.model.jpa.engine.ActionExecution;
+import org.lab.insurance.model.engine.ActionExecution;
 import org.lab.insurance.services.common.TimestampProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

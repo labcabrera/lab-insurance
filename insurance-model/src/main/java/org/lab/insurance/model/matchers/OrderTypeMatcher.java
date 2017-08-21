@@ -3,8 +3,8 @@ package org.lab.insurance.model.matchers;
 import org.apache.commons.lang3.Validate;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
-import org.lab.insurance.model.jpa.insurance.Order;
-import org.lab.insurance.model.jpa.insurance.OrderType;
+import org.lab.insurance.model.insurance.Order;
+import org.lab.insurance.model.insurance.OrderType;
 
 public class OrderTypeMatcher extends BaseMatcher<Order> {
 

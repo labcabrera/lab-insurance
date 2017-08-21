@@ -10,10 +10,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 import org.apache.commons.lang3.StringUtils;
-import org.lab.insurance.model.common.Message;
-import org.lab.insurance.model.common.SearchParams;
-import org.lab.insurance.model.common.SearchResults;
-import org.lab.insurance.model.jpa.system.AppMailRecipient;
+import org.lab.insurance.model.common.internal.Message;
+import org.lab.insurance.model.common.internal.SearchParams;
+import org.lab.insurance.model.common.internal.SearchResults;
+import org.lab.insurance.model.system.AppMailRecipient;
 
 @Path("/mailRecipient")
 @Consumes({ "application/json; charset=UTF-8" })

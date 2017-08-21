@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.lab.insurance.engine.model.prices.GuaranteePriceCreationAction;
-import org.lab.insurance.model.jpa.insurance.AssetGuaranteePercent;
+import org.lab.insurance.model.insurance.AssetGuaranteePercent;
 
 /**
  * Procesador encargado de generar una entidad de tipo {@link GuaranteePriceCreationAction} cada vez que se genera un precio a traves de la

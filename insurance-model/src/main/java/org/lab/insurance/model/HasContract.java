@@ -1,6 +1,6 @@
 package org.lab.insurance.model;
 
-import org.lab.insurance.model.jpa.contract.Contract;
+import org.lab.insurance.model.contract.Contract;
 
 public interface HasContract {
 

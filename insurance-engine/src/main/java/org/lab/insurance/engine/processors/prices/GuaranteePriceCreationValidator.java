@@ -15,8 +15,8 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.joda.time.DateTime;
 import org.lab.insurance.engine.model.prices.GuaranteePriceCreationAction;
-import org.lab.insurance.model.jpa.insurance.AssetGuaranteePercent;
-import org.lab.insurance.model.jpa.insurance.AssetPrice;
+import org.lab.insurance.model.insurance.AssetGuaranteePercent;
+import org.lab.insurance.model.insurance.AssetPrice;
 import org.lab.insurance.services.insurance.CotizationsService;
 
 /**

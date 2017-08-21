@@ -30,8 +30,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.lab.insurance.model.Constants;
-import org.lab.insurance.model.common.Message;
-import org.lab.insurance.model.jpa.system.AppFile;
+import org.lab.insurance.model.common.internal.Message;
+import org.lab.insurance.model.system.AppFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

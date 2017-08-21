@@ -11,7 +11,7 @@ import org.lab.insurance.engine.ActionExecutionService;
 import org.lab.insurance.engine.model.ActionEntity;
 import org.lab.insurance.engine.model.orders.AccountOrderAction;
 import org.lab.insurance.model.Constants;
-import org.lab.insurance.model.jpa.insurance.Order;
+import org.lab.insurance.model.insurance.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

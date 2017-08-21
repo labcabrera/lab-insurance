@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 import org.lab.insurance.model.exceptions.ConfigurationException;
-import org.lab.insurance.model.jpa.system.TriggerDefinition;
+import org.lab.insurance.model.system.TriggerDefinition;
 
 public class TriggerActivationService {
 

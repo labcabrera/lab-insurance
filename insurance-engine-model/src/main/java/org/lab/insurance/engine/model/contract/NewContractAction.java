@@ -5,7 +5,7 @@ import java.util.Date;
 import org.lab.insurance.engine.model.ActionDefinition;
 import org.lab.insurance.engine.model.ActionEntity;
 import org.lab.insurance.model.HasContract;
-import org.lab.insurance.model.jpa.contract.Contract;
+import org.lab.insurance.model.contract.Contract;
 
 @ActionDefinition(endpoint = "direct:new_contract_action")
 @SuppressWarnings("serial")

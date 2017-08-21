@@ -1,6 +1,6 @@
 package org.lab.insurance.model;
 
-import org.lab.insurance.model.jpa.engine.State;
+import org.lab.insurance.model.engine.State;
 
 public interface HasState<T> extends HasIdentifier<T> {
 

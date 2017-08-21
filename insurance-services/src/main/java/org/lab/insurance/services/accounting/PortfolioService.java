@@ -9,10 +9,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import org.lab.insurance.model.jpa.insurance.BaseAsset;
-import org.lab.insurance.model.jpa.portfolio.Investment;
-import org.lab.insurance.model.jpa.portfolio.Portfolio;
-import org.lab.insurance.model.jpa.portfolio.PortfolioType;
+import org.lab.insurance.model.insurance.BaseAsset;
+import org.lab.insurance.model.portfolio.Investment;
+import org.lab.insurance.model.portfolio.Portfolio;
+import org.lab.insurance.model.portfolio.PortfolioType;
 
 public class PortfolioService {
 

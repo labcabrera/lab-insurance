@@ -9,8 +9,8 @@ import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintValidatorContext.ConstraintViolationBuilder;
 
 import org.lab.insurance.model.Constants;
-import org.lab.insurance.model.jpa.insurance.MarketOrder;
-import org.lab.insurance.model.jpa.insurance.MarketOrderSource;
+import org.lab.insurance.model.insurance.MarketOrder;
+import org.lab.insurance.model.insurance.MarketOrderSource;
 
 public class MarketOrderValidator extends AbstractValidator implements ConstraintValidator<ValidMarketOrder, MarketOrder> {
 

@@ -7,8 +7,8 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintValidatorContext.ConstraintViolationBuilder;
 
-import org.lab.insurance.model.jpa.insurance.Order;
-import org.lab.insurance.model.jpa.insurance.OrderProcessInfo;
+import org.lab.insurance.model.insurance.Order;
+import org.lab.insurance.model.insurance.OrderProcessInfo;
 
 public class OrderValidator extends AbstractValidator implements ConstraintValidator<ValidOrder, Order> {
 

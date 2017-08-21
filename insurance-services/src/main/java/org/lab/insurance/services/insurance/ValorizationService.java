@@ -9,11 +9,11 @@ import javax.persistence.EntityManager;
 
 import org.apache.commons.lang3.Validate;
 import org.lab.insurance.model.exceptions.NoCotizationException;
-import org.lab.insurance.model.jpa.insurance.AssetPrice;
-import org.lab.insurance.model.jpa.insurance.MarketOrder;
-import org.lab.insurance.model.jpa.insurance.MarketOrderSource;
-import org.lab.insurance.model.jpa.insurance.MarketOrderType;
-import org.lab.insurance.model.jpa.insurance.Order;
+import org.lab.insurance.model.insurance.AssetPrice;
+import org.lab.insurance.model.insurance.MarketOrder;
+import org.lab.insurance.model.insurance.MarketOrderSource;
+import org.lab.insurance.model.insurance.MarketOrderType;
+import org.lab.insurance.model.insurance.Order;
 import org.lab.insurance.model.matchers.MarketOrderTypeMatcher;
 import org.lab.insurance.services.common.TimestampProvider;
 

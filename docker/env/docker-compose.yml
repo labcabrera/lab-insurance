@@ -22,14 +22,14 @@ services:
     command: java -jar /app/insurance-cloud-config.jar
 
 
-  insurance-eureka:
-    image: java:openjdk-8u45-jdk
-    working_dir: /app
-    volumes:
-      - ../../insurance-eureka/build/libs:/app
-    ports:
-      - "8070:8070"
-#    links:
-#      - cloud-config
-    #workaround: wait 20 seconds until cloud-config is up
-    command: bash -c "sleep 20; java -jar /app/insurance-eureka.jar"
+ # insurance-eureka:
+ #   image: java:openjdk-8u45-jdk
+ #   working_dir: /app
+ #   volumes:
+ #     - ../../insurance-eureka/build/libs:/app
+ #   ports:
+ #     - "8070:8070"
+ #   links:
+ #     - insurance-cloud-config
+ #   #workaround: wait 20 seconds until cloud-config is up
+ #   command: bash -c "sleep 20; java -jar /app/insurance-eureka.jar"

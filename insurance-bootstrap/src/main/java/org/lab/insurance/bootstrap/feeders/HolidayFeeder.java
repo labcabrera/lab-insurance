@@ -1,8 +1,8 @@
 package org.lab.insurance.bootstrap.feeders;
 
 import org.apache.commons.lang3.StringUtils;
-import org.lab.insurance.model.jpa.common.Holiday;
-import org.lab.insurance.model.jpa.common.HolidayCalendar;
+import org.lab.insurance.model.common.Holiday;
+import org.lab.insurance.model.common.HolidayCalendar;
 
 import net.sf.flatpack.DataSet;
 

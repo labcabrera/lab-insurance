@@ -1,6 +1,6 @@
 package org.lab.insurance.ms.contract.creation.controllers;
 
-import org.lab.insurance.model.jpa.contract.Contract;
+import org.lab.insurance.model.contract.Contract;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping(value = "/contract-creation")

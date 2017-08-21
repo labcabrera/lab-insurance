@@ -17,7 +17,7 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.lab.insurance.model.common.ASTNode;
+import org.lab.insurance.model.common.internal.ASTNode;
 
 /**
  * Clase que genera a partir de una expresión FIQL un {@link Predicate} de JPA.<br>

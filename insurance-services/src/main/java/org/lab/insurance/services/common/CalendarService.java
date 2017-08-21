@@ -10,7 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import org.joda.time.DateTime;
-import org.lab.insurance.model.jpa.common.HolidayCalendar;
+import org.lab.insurance.model.common.HolidayCalendar;
 
 @Singleton
 public class CalendarService {

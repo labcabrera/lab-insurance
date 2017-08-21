@@ -20,10 +20,10 @@ import javax.validation.Validator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.lab.insurance.core.jpa.FiqlParser;
-import org.lab.insurance.model.common.Message;
-import org.lab.insurance.model.common.SearchOrder;
-import org.lab.insurance.model.common.SearchParams;
-import org.lab.insurance.model.common.SearchResults;
+import org.lab.insurance.model.common.internal.Message;
+import org.lab.insurance.model.common.internal.SearchOrder;
+import org.lab.insurance.model.common.internal.SearchParams;
+import org.lab.insurance.model.common.internal.SearchResults;
 
 public abstract class AbstractRestEntityService<T> {
 

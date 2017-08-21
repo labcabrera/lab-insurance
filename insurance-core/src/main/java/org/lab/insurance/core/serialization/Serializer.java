@@ -3,15 +3,12 @@ package org.lab.insurance.core.serialization;
 import java.lang.reflect.Type;
 import java.util.Date;
 
-import javax.inject.Singleton;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-@Singleton
 public class Serializer {
 
 	private final static Logger LOG = LoggerFactory.getLogger(Serializer.class);
@@ -23,7 +20,8 @@ public class Serializer {
 		LOG.info("Initializing serializer");
 		gsonBuilder = new GsonBuilder();
 		gsonBuilder.addSerializationExclusionStrategy(new DefaultExclusionStrategy());
-		gsonBuilder.registerTypeHierarchyAdapter(Date.class, new DateSerializer("yyyy-MM-dd'T'HH:mm:ss.SSSZ", "dd/MM/yyyy", "ddMMyyyy"));
+		gsonBuilder.registerTypeHierarchyAdapter(Date.class,
+				new DateSerializer("yyyy-MM-dd'T'HH:mm:ss.SSSZ", "dd/MM/yyyy", "ddMMyyyy"));
 		serializer = gsonBuilder.create();
 	}
 

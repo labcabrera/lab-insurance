@@ -6,8 +6,8 @@ import javax.persistence.TypedQuery;
 
 import net.sf.flatpack.DataSet;
 
-import org.lab.insurance.model.jpa.product.AgreementServiceInfo;
-import org.lab.insurance.model.jpa.system.TriggerDefinition;
+import org.lab.insurance.model.product.AgreementServiceInfo;
+import org.lab.insurance.model.system.TriggerDefinition;
 
 import com.google.inject.Provider;
 

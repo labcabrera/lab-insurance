@@ -1,8 +1,8 @@
 package org.lab.insurance.bootstrap.feeders;
 
-import net.sf.flatpack.DataSet;
+import org.lab.insurance.model.geo.Country;
 
-import org.lab.insurance.model.jpa.geo.Country;
+import net.sf.flatpack.DataSet;
 
 public class CountryFeeder extends AbstractEntityFeeder<Country> {
 

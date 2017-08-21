@@ -15,7 +15,7 @@ import org.lab.insurance.engine.processors.orders.OrderValueDateProcessor;
 import org.lab.insurance.engine.processors.orders.PaymentReceptionDateProcessor;
 import org.lab.insurance.engine.processors.orders.ScheduleOrderAccount;
 import org.lab.insurance.engine.processors.orders.ScheduleOrderValorization;
-import org.lab.insurance.model.jpa.insurance.OrderType;
+import org.lab.insurance.model.insurance.OrderType;
 
 public class OrderRouteBuilder extends RouteBuilder {
 

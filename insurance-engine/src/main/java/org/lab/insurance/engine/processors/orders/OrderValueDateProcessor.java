@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.lab.insurance.model.jpa.insurance.Order;
+import org.lab.insurance.model.insurance.Order;
 import org.lab.insurance.services.common.CalendarService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

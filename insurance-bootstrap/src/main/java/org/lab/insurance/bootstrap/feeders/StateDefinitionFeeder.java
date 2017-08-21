@@ -1,8 +1,8 @@
 package org.lab.insurance.bootstrap.feeders;
 
-import net.sf.flatpack.DataSet;
+import org.lab.insurance.model.engine.StateDefinition;
 
-import org.lab.insurance.model.jpa.engine.StateDefinition;
+import net.sf.flatpack.DataSet;
 
 public class StateDefinitionFeeder extends AbstractEntityFeeder<StateDefinition> {
 

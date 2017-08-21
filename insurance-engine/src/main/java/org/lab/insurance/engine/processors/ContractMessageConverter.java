@@ -3,8 +3,8 @@ package org.lab.insurance.engine.processors;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.lab.insurance.model.HasContract;
-import org.lab.insurance.model.common.Message;
-import org.lab.insurance.model.jpa.contract.Contract;
+import org.lab.insurance.model.common.internal.Message;
+import org.lab.insurance.model.contract.Contract;
 
 public class ContractMessageConverter implements Processor {
 

@@ -9,8 +9,8 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import org.lab.insurance.core.serialization.Serializer;
-import org.lab.insurance.model.common.Message;
-import org.lab.insurance.model.common.MessageEntry;
+import org.lab.insurance.model.common.internal.Message;
+import org.lab.insurance.model.common.internal.MessageEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -12,11 +12,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import org.lab.insurance.model.common.Message;
-import org.lab.insurance.model.common.SearchOrder;
-import org.lab.insurance.model.common.SearchParams;
-import org.lab.insurance.model.common.SearchResults;
-import org.lab.insurance.model.jpa.product.Agreement;
+import org.lab.insurance.model.common.internal.Message;
+import org.lab.insurance.model.common.internal.SearchOrder;
+import org.lab.insurance.model.common.internal.SearchParams;
+import org.lab.insurance.model.common.internal.SearchResults;
+import org.lab.insurance.model.product.Agreement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -6,9 +6,9 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.lab.insurance.engine.ActionExecutionService;
 import org.lab.insurance.engine.model.contract.ContractStartAction;
-import org.lab.insurance.model.jpa.contract.Contract;
-import org.lab.insurance.model.jpa.insurance.Order;
-import org.lab.insurance.model.jpa.insurance.OrderType;
+import org.lab.insurance.model.contract.Contract;
+import org.lab.insurance.model.insurance.Order;
+import org.lab.insurance.model.insurance.OrderType;
 import org.lab.insurance.model.matchers.OrderTypeMatcher;
 
 import ch.lambdaj.Lambda;

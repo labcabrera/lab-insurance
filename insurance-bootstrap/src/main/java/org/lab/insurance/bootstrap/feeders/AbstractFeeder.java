@@ -12,8 +12,8 @@ import javax.persistence.EntityManager;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.format.DateTimeFormat;
-import org.lab.insurance.model.jpa.geo.Country;
-import org.lab.insurance.model.jpa.insurance.BaseAsset;
+import org.lab.insurance.model.geo.Country;
+import org.lab.insurance.model.insurance.BaseAsset;
 
 import net.sf.flatpack.DataSet;
 import net.sf.flatpack.DefaultParserFactory;

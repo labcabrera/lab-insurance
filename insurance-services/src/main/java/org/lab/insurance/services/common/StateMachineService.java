@@ -7,8 +7,8 @@ import javax.persistence.EntityManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.lab.insurance.model.HasState;
-import org.lab.insurance.model.jpa.engine.State;
-import org.lab.insurance.model.jpa.engine.StateDefinition;
+import org.lab.insurance.model.engine.State;
+import org.lab.insurance.model.engine.StateDefinition;
 
 public class StateMachineService {
 

@@ -1,6 +1,6 @@
 package org.lab.insurance.model;
 
-import org.lab.insurance.model.jpa.insurance.Order;
+import org.lab.insurance.model.insurance.Order;
 
 public interface HasOrder {
 

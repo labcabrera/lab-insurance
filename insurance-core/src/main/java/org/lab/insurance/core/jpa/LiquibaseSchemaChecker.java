@@ -2,10 +2,6 @@ package org.lab.insurance.core.jpa;
 
 import java.sql.Connection;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.persistence.EntityManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,13 +13,11 @@ import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import liquibase.resource.ResourceAccessor;
 
+@Deprecated
 public class LiquibaseSchemaChecker {
 
 	public static final String DEFAULT_MASTER_CHANGELOG = "dbchangelog/db.changelog-master.xml";
 	private static final Logger LOG = LoggerFactory.getLogger(LiquibaseSchemaChecker.class);
-
-	@Inject
-	private Provider<EntityManager> entityManagerProvider;
 
 	public void checkSchema() throws LiquibaseException {
 		checkSchema(DEFAULT_MASTER_CHANGELOG);
@@ -33,7 +27,8 @@ public class LiquibaseSchemaChecker {
 		Connection connection = resolveConnection();
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		ResourceAccessor resourceAccessor = new ClassLoaderResourceAccessor(classLoader);
-		Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
+		Database database = DatabaseFactory.getInstance()
+				.findCorrectDatabaseImplementation(new JdbcConnection(connection));
 		Liquibase liquibase = new Liquibase(schema, resourceAccessor, database);
 		liquibase.forceReleaseLocks();
 		LOG.warn("Comprobando actualizaciones de esquema de BBDD");
