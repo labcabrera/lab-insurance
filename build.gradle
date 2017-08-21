@@ -47,6 +47,9 @@ subprojects {
 		// remove
 		compile group: 'javax.inject', name: 'javax.inject', version: '1'
 	}
+	
+	// exclude version in jar file (tmp for docker-compose tuning)
+	jar.archiveName = "${jar.baseName}.${jar.extension}"
 }
 
 project(":insurance-model") {

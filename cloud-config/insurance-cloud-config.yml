@@ -1,0 +1,16 @@
+configuration:
+  projectName: insurance-eureka
+
+eureka:
+  instance:
+    hostname: localhost
+  server:
+    eviction-interval-timer-in-ms: 10000
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+server:
+port: 8070
