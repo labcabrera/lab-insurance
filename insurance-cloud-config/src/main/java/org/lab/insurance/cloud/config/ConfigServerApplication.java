@@ -1,4 +1,4 @@
-package org.lab.rm.engine.cloud.config;
+package org.lab.insurance.cloud.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -5,6 +5,20 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/labcabrera/lab-insurance/cloud-config
+          uri: https://github.com/labcabrera/lab-insurance
+          basedir: cloud-config
 server:
   port: 8888
+
+security:
+  basic:
+    enabled: false
+
+management:
+  security:
+    enabled: false
+    
+logging:
+  level:
+    com.netflix.discovery: 'OFF'
+    org.springframework.cloud: 'DEBUG'
