@@ -1,2 +1,8 @@
 include ":insurance-model"
 include ":insurance-core"
+include ":insurance-services"
+include ":insurance-engine-model"
+include ":insurance-engine"
+include ":insurance-bootstrap"
+include ":insurance-test"
+include ":insurance-web"

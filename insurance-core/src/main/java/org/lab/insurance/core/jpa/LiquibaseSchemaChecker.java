@@ -6,6 +6,9 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
@@ -13,10 +16,6 @@ import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import liquibase.resource.ResourceAccessor;
-
-import org.eclipse.persistence.sessions.server.ServerSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LiquibaseSchemaChecker {
 
@@ -43,7 +42,8 @@ public class LiquibaseSchemaChecker {
 	}
 
 	private Connection resolveConnection() {
-		ServerSession sess = entityManagerProvider.get().unwrap(ServerSession.class);
-		return sess.getAccessor().getConnection();
+		throw new RuntimeException("NOT IMPLEMENTED");
+		// ServerSession sess = entityManagerProvider.get().unwrap(ServerSession.class);
+		// return sess.getAccessor().getConnection();
 	}
 }

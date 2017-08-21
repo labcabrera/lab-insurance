@@ -63,72 +63,97 @@ project(":insurance-model") {
 	}
 }
 
-
 project(":insurance-core") {
 	dependencies {
 		compile project(":insurance-model")
 		compile "joda-time:joda-time:2.9.9"
-
+		compile "commons-io:commons-io:2.5"
 		// remove
-		compile group: 'commons-io', name: 'commons-io', version: '2.5'
 		compile group: 'com.google.inject', name: 'guice', version: '4.1.0'
-		compile group: 'org.liquibase', name: 'liquibase-core', version: '3.5.3'
 		compile group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.0'
+		compile group: 'org.liquibase', name: 'liquibase-core', version: '3.5.3'
 		compile group: 'com.google.code.gson', name: 'gson', version: '2.8.1'
-
-
-
+		compile group: 'javax.inject', name: 'javax.inject', version: '1'
 	}
 	bootRepackage {
 		enabled = false
 	}
 }
 
-
-// ---------------------------
-
-/*
-
-project(":rm-engine-cloud-config") {
+project(":insurance-services") {
 	dependencies {
-		compile "org.springframework.cloud:spring-cloud-config-server"
-		compile "org.springframework.boot:spring-boot-starter-web"
+		compile project(":insurance-core")
+
+		// remove
+		compile group: 'org.apache.bval', name: 'bval-jsr', version: '1.1.2'
+		compile group: 'com.google.inject.extensions', name: 'guice-persist', version: '4.1.0'
+		compile group: 'org.apache.camel', name: 'camel-guice', version: '2.19.2'
+		compile group: 'org.apache.solr', name: 'solr-core', version: '4.10.3'
+		compile group: 'commons-logging', name: 'commons-logging', version: '1.2'
+		
+		testCompile group: 'junit', name: 'junit', version: '4.12'
+		
+		compileOnly "javax.servlet:javax.servlet-api:3.0.1"
+		
+	}
+	bootRepackage {
+		enabled = false
 	}
 }
 
-project(":rm-engine-eureka") {
+project(":insurance-engine-model") {
 	dependencies {
-		compile "org.springframework.cloud:spring-cloud-starter-eureka-server"
-		compile "org.springframework.cloud:spring-cloud-config-client"
+		compile project(":insurance-model")
+	}
+	bootRepackage {
+		enabled = false
 	}
 }
 
-configure(subprojects.findAll {it.name.startsWith("rm-engine-ms")}) {
+project(":insurance-engine") {
 	dependencies {
-		compile project(":rm-engine-core")
-		compile "org.springframework.boot:spring-boot-starter"
-		compile "org.springframework.boot:spring-boot-starter-web"
-		compile "org.springframework.boot:spring-boot-starter-actuator"
-		compile "org.springframework.cloud:spring-cloud-config-client"
-		compile "org.springframework.cloud:spring-cloud-starter-eureka"
-		compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
+		compile project(":insurance-services")
+		compile project(":insurance-engine-model")
+		
+		// remove
+		compile group: 'org.apache.camel', name: 'camel-guice', version: '2.19.2'
+	}
+	bootRepackage {
+		enabled = false
 	}
 }
 
-project(":rm-engine-web") {
+project(":insurance-bootstrap") {
 	dependencies {
-		compile "org.springframework.boot:spring-boot-starter"
-		compile "org.springframework.boot:spring-boot-starter-web"
-		compile "org.springframework.boot:spring-boot-starter-thymeleaf"
-		compile "org.springframework.boot:spring-boot-starter-actuator"
-		compile "org.springframework.cloud:spring-cloud-starter-zuul"
-		compile "org.springframework.cloud:spring-cloud-config-client"
-
-		// webjars (temporal)
-		compile "org.webjars:bootstrap:3.3.7"
-		compile "org.webjars:angularjs:1.6.4"
-		compile "org.webjars:jquery:3.2.0"
-		compile "org.webjars:angular-ui-select:0.19.6"
+		compile project(":insurance-engine")
+		// remove
+		compile group: 'net.sf.flatpack', name: 'flatpack', version: '4.0.1'
+	}
+	bootRepackage {
+		enabled = false
 	}
 }
-*/
+
+project(":insurance-test") {
+	dependencies {
+		compile project(":insurance-engine")
+	}
+	bootRepackage {
+		enabled = false
+	}
+}
+
+project(":insurance-web") {
+	dependencies {
+		compile project(":insurance-engine")
+		// remove
+		compile group: 'org.jboss.resteasy', name: 'resteasy-jaxrs', version: '3.1.4.Final'
+		compile group: 'org.jboss.resteasy', name: 'resteasy-multipart-provider', version: '3.1.4.Final'
+		compile group: 'org.jboss.resteasy', name: 'resteasy-guice', version: '3.1.4.Final'
+		
+	}
+	bootRepackage {
+		enabled = false
+	}
+}
+

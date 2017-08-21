@@ -9,6 +9,13 @@ import javax.inject.Provider;
 import javax.persistence.EntityManager;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.io.FileUtils;
+import org.lab.insurance.engine.guice.InsuranceCoreModule;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.persist.PersistService;
+
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
@@ -19,17 +26,10 @@ import liquibase.integration.commandline.CommandLineUtils;
 import liquibase.resource.FileSystemResourceAccessor;
 import liquibase.snapshot.InvalidExampleException;
 
-import org.apache.commons.io.FileUtils;
-import org.eclipse.persistence.sessions.server.ServerSession;
-import org.lab.insurance.engine.guice.InsuranceCoreModule;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.persist.PersistService;
-
 /**
- * Genera el XML de Liquibase a partir de un esquema de base de datos existente. Para ello podremos generar el esquema a traves del
- * eclipselink utilizando la propiedad:
+ * Genera el XML de Liquibase a partir de un esquema de base de datos existente.
+ * Para ello podremos generar el esquema a traves del eclipselink utilizando la
+ * propiedad:
  * 
  * <pre>
  * eclipselink.ddl-generation=drop-and-create-tables
@@ -60,9 +60,11 @@ public class LiquibaseSchemaGenerator {
 	@Inject
 	private Provider<EntityManager> entityManagerProvider;
 
-	public void generateInitialSchema() throws IOException, InvalidExampleException, ParserConfigurationException, LiquibaseException {
+	public void generateInitialSchema()
+			throws IOException, InvalidExampleException, ParserConfigurationException, LiquibaseException {
 		Connection connection = resolveConnection();
-		Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
+		Database database = DatabaseFactory.getInstance()
+				.findCorrectDatabaseImplementation(new JdbcConnection(connection));
 		// Bootstrap.createSchema(config);
 		File masterFile = new File(DEFAULT_SRC_FOLDER + DEFAULT_MASTER_CHANGELOG);
 		FileUtils.writeStringToFile(masterFile, master);
@@ -75,15 +77,18 @@ public class LiquibaseSchemaGenerator {
 		String context = null;
 		String dataDir = null;
 		DiffOutputControl diffOutputControl = new DiffOutputControl();
-		CommandLineUtils.doGenerateChangeLog(changeLogFile, originalDatabase, catalogName, schemaName, snapshotTypes, author, context, dataDir, diffOutputControl);
-		Liquibase liquibase = new Liquibase(DEFAULT_MASTER_CHANGELOG, new FileSystemResourceAccessor(DEFAULT_SRC_FOLDER), database);
+		CommandLineUtils.doGenerateChangeLog(changeLogFile, originalDatabase, catalogName, schemaName, snapshotTypes,
+				author, context, dataDir, diffOutputControl);
+		Liquibase liquibase = new Liquibase(DEFAULT_MASTER_CHANGELOG,
+				new FileSystemResourceAccessor(DEFAULT_SRC_FOLDER), database);
 		liquibase.changeLogSync("initial");
 		database.close();
 	}
 
 	private Connection resolveConnection() {
-		ServerSession sess = entityManagerProvider.get().unwrap(ServerSession.class);
-		Connection connection = sess.getAccessor().getConnection();
-		return connection;
+		throw new RuntimeException("NOT IMPLEMENTED");
+		// ServerSession sess = entityManagerProvider.get().unwrap(ServerSession.class);
+		// Connection connection = sess.getAccessor().getConnection();
+		// return connection;
 	}
 }

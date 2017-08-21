@@ -38,7 +38,7 @@ public class IndexingService {
 		solrServer.commit();
 	}
 
-	public QueryResponse rawQuery(ModifiableSolrParams solrParams) throws SolrServerException {
+	public QueryResponse rawQuery(ModifiableSolrParams solrParams) throws SolrServerException, IOException {
 		return solrServer.query(solrParams);
 	}
 }

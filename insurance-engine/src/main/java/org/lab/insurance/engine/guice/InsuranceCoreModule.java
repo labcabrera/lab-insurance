@@ -2,7 +2,6 @@ package org.lab.insurance.engine.guice;
 
 import java.util.Properties;
 
-import org.apache.bval.guice.ValidationModule;
 import org.lab.insurance.engine.camel.CamelModule;
 import org.lab.insurance.model.Constants;
 
@@ -18,7 +17,6 @@ public class InsuranceCoreModule extends AbstractModule {
 		Names.bindProperties(binder(), properties);
 		installJpaModule(properties);
 		install(new CamelModule());
-		install(new ValidationModule());
 	}
 
 	private Properties readApplicationProperties() {
