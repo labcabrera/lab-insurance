@@ -7,8 +7,7 @@ buildscript {
 		springfoxSwaggerVersion = "2.7.0"
 	}
 	repositories {
-		maven { url "http://nexus:8080/nexus/content/groups/public/" }
-		//mavenCentral()
+		mavenCentral()
 	}
 	dependencies {
 		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
@@ -32,8 +31,7 @@ subprojects {
 			options.encoding = "UTF-8"
 	}
 	repositories {
-		maven { url "http://nexus:8080/nexus/content/groups/public/" }
-		//mavenCentral()
+		mavenCentral()
 	}
 
 	dependencyManagement {
@@ -140,6 +138,21 @@ project(":insurance-web") {
 		enabled = false
 	}
 }
+
+project(":insurance-eureka") {
+	dependencies {
+		compile "org.springframework.cloud:spring-cloud-starter-eureka-server"
+		compile "org.springframework.cloud:spring-cloud-config-client"
+	}
+}
+
+project(":insurance-cloud-config") {
+	dependencies {
+		compile "org.springframework.cloud:spring-cloud-config-server"
+		compile "org.springframework.boot:spring-boot-starter-web"
+	}
+}
+
 
 project(":insurance-ms-core") {
 	dependencies {

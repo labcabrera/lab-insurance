@@ -1,0 +1,35 @@
+version: "3.0"
+services:
+
+  mongodb:
+    image: mongo:3.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ../../resources:/resources
+    expose:
+      - "27017"
+    command: bash -c " set -o monitor ; mongod --smallfiles & sleep 20; mongo localhost:27017/lab-insurance /resources/mongo-init-data.js; fg"
+
+#  cloud-config:
+#    image: java:openjdk-8u45-jdk
+#    working_dir: /app
+#    volumes:
+#      - ../../rm-engine-cloud-config/build/libs:/app
+#    ports:
+#      - "8888:8888"
+#    command: java -jar /app/insurance-cloud-config.jar
+
+
+  eureka:
+    image: java:openjdk-8u45-jdk
+    working_dir: /app
+    volumes:
+      - ../../insurance-eureka/build/libs:/app
+    ports:
+      - "8070:8070"
+    links:
+      - cloud-config
+    #workaround: wait 20 seconds until cloud-config is up
+    command: bash -c "sleep 20; java -jar /app/rm-engine-eureka-0.0.2-SNAPSHOT.jar"

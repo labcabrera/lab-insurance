@@ -6,6 +6,9 @@ include ":insurance-engine"
 include ":insurance-bootstrap"
 include ":insurance-web"
 
+include ":insurance-cloud-config"
+include ":insurance-eureka"
+
 include ":insurance-ms-core"
 include ":insurance-ms-legal-entity"
 include ":insurance-ms-asset"

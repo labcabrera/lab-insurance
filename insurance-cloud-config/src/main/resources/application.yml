@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: rm-engine-cloud-config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/labcabrera/rm-engine-cloud-config
+server:
+  port: 8888
