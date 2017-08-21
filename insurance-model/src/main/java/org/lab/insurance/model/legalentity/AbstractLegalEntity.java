@@ -35,4 +35,9 @@ public abstract class AbstractLegalEntity {
 
 	protected String externalCode;
 
+	@SuppressWarnings("unchecked")
+	public <T> T as(Class<? extends AbstractLegalEntity> entityClass) {
+		return (T) this;
+	}
+
 }
