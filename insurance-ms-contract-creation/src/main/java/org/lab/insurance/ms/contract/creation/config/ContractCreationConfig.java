@@ -6,8 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import(InsuranceModelConfig.class)
-@ComponentScan("org.lab.insurance.ms.contract.creation")
+@Import({ InsuranceModelConfig.class })
+@ComponentScan({ "org.lab.insurance.ms.contract.creation.service",
+		"org.lab.insurance.ms.contract.creation.controllers" })
 public class ContractCreationConfig {
 
 }

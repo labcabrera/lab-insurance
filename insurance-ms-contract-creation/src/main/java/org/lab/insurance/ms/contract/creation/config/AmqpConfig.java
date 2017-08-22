@@ -20,7 +20,7 @@ public class AmqpConfig {
 	private static final boolean IS_DURABLE_QUEUE = false;
 
 	@Bean
-	Queue queue() {
+	public Queue queue() {
 		return new Queue(QUEUE_NAME, IS_DURABLE_QUEUE);
 	}
 
@@ -47,6 +47,11 @@ public class AmqpConfig {
 	@Bean
 	MessageListenerAdapter listenerAdapter(DummyAmpqReceiver receiver) {
 		return new MessageListenerAdapter(receiver);
+	}
+
+	@Bean
+	DummyAmpqReceiver dummyAmpqReceiver() {
+		return new DummyAmpqReceiver();
 	}
 
 }

@@ -7,7 +7,9 @@ import org.lab.insurance.ms.contract.creation.service.ContractCreationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 @RequestMapping(value = "/contract-creation")
 public class ContractCreationController {
 
@@ -19,7 +21,7 @@ public class ContractCreationController {
 		return contractCreationService.prepare(request);
 	}
 
-	@RequestMapping(value = "/prepare", method = RequestMethod.POST)
+	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public Contract save(ContractCreateInfo request) {
 		return contractCreationService.save(request);
 	}

@@ -2,6 +2,7 @@ package org.lab.insurance.model.product;
 
 import java.util.Date;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class Agreement {
 
 	@Id
-	private String id;
+	private ObjectId id;
 
 	private String name;
 	private String code;
