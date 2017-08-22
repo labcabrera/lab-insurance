@@ -153,6 +153,7 @@ project(":insurance-ms-core") {
 		compile "org.springframework.boot:spring-boot-starter-actuator"
 		compile "org.springframework.boot:spring-boot-starter-amqp"
 		compile "org.springframework.cloud:spring-cloud-config-client"
+		compile "org.springframework.cloud:spring-cloud-starter-eureka"
 		compile "io.springfox:springfox-swagger2:${springfoxSwaggerVersion}"
 		compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
 	}
