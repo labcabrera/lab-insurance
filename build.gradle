@@ -148,6 +148,7 @@ project(":insurance-cloud-config") {
 project(":insurance-ms-core") {
 	dependencies {
 		compile project(":insurance-model")
+		compile project(":insurance-core")
 		compile "org.springframework.boot:spring-boot-starter-web"
 		compile "org.springframework.boot:spring-boot-starter-actuator"
 		compile "org.springframework.boot:spring-boot-starter-amqp"
