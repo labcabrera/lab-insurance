@@ -1,6 +1,7 @@
 package org.lab.insurance.model.validation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -8,9 +9,6 @@ import javax.validation.ConstraintValidatorContext;
 import org.lab.insurance.model.contract.Contract;
 import org.lab.insurance.model.insurance.Order;
 import org.lab.insurance.model.insurance.OrderType;
-import org.lab.insurance.model.matchers.OrderTypeMatcher;
-
-import ch.lambdaj.Lambda;
 
 public class ContractValidator implements ConstraintValidator<ValidContract, Contract> {
 
@@ -32,9 +30,13 @@ public class ContractValidator implements ConstraintValidator<ValidContract, Con
 		for (Order order : policy.getOrders()) {
 			order.setContract(policy);
 		}
-		List<Order> initialPayments = Lambda.select(policy.getOrders(), new OrderTypeMatcher(OrderType.INITIAL_PAYMENT));
+
+		List<Order> initialPayments = policy.getOrders().stream()
+				.filter(x -> OrderType.INITIAL_PAYMENT.equals(x.getType())).collect(Collectors.toList());
+
 		if (initialPayments.isEmpty()) {
-			ctx.buildConstraintViolationWithTemplate("policy.validation.missingInitialPayment").addConstraintViolation();
+			ctx.buildConstraintViolationWithTemplate("policy.validation.missingInitialPayment")
+					.addConstraintViolation();
 			hasErrors = true;
 		}
 		return !hasErrors;

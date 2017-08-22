@@ -5,7 +5,7 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.lab.insurance.model.contract.PolicyEntityRelation;
+import org.lab.insurance.model.contract.ContractPersonRelation;
 import org.lab.insurance.model.insurance.Order;
 import org.lab.insurance.model.product.Agreement;
 
@@ -19,7 +19,7 @@ public class ContractCreateInfo {
 
 	@NotEmpty
 	@NotNull
-	private List<PolicyEntityRelation> relations;
+	private List<ContractPersonRelation> relations;
 
 	@NotNull
 	private Order initialPayment;

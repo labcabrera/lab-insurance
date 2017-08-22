@@ -3,24 +3,10 @@ package org.lab.insurance.services.common;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.inject.Singleton;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-
 import org.joda.time.DateTime;
 import org.lab.insurance.model.common.HolidayCalendar;
 
-@Singleton
 public class CalendarService {
-
-	private final Provider<EntityManager> entityManagerProvider;
-
-	@Inject
-	private CalendarService(Provider<EntityManager> entityManagerProvider) {
-		this.entityManagerProvider = entityManagerProvider;
-	}
 
 	/**
 	 * Devuelve el siguiente dia festivo (o anterior si days es menor que cero) pasados una cantidad dada de dias.
@@ -34,9 +20,9 @@ public class CalendarService {
 	}
 
 	/**
-	 * Devuelve el siguiente dia festivo (o anterior si days es menor que cero) pasados una cantidad dada de dias. Nos permite seleccionar
-	 * una lista de calendarios de vacaciones personalizada (por ejemplo podemos tener varios calendarios para diferentes paises y solo
-	 * querer usar el calendario de uno determinado).
+	 * Devuelve el siguiente dia festivo (o anterior si days es menor que cero) pasados una cantidad dada de dias. Nos
+	 * permite seleccionar una lista de calendarios de vacaciones personalizada (por ejemplo podemos tener varios
+	 * calendarios para diferentes paises y solo querer usar el calendario de uno determinado).
 	 * 
 	 * @param date
 	 * @param days
@@ -62,13 +48,16 @@ public class CalendarService {
 	}
 
 	public boolean isHoliday(Date value, List<HolidayCalendar> calendars) {
-		EntityManager entityManager = entityManagerProvider.get();
-		TypedQuery<Long> query;
-		if (calendars == null || calendars.isEmpty()) {
-			query = entityManager.createNamedQuery("Holiday.countByDate", Long.class).setParameter("value", value);
-		} else {
-			query = entityManager.createNamedQuery("Holiday.countByDateInCalendars", Long.class).setParameter("value", value).setParameter("calendars", calendars);
-		}
-		return query.getSingleResult() > 0L;
+		throw new RuntimeException("Not implemented jpa -> mongo");
+		// EntityManager entityManager = entityManagerProvider.get();
+		// TypedQuery<Long> query;
+		// if (calendars == null || calendars.isEmpty()) {
+		// query = entityManager.createNamedQuery("Holiday.countByDate", Long.class).setParameter("value", value);
+		// }
+		// else {
+		// query = entityManager.createNamedQuery("Holiday.countByDateInCalendars", Long.class)
+		// .setParameter("value", value).setParameter("calendars", calendars);
+		// }
+		// return query.getSingleResult() > 0L;
 	}
 }

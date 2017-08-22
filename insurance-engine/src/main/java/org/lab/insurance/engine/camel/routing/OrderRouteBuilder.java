@@ -2,7 +2,6 @@ package org.lab.insurance.engine.camel.routing;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.lab.insurance.engine.camel.predicates.OrderTypePredicate;
-import org.lab.insurance.engine.processors.common.MergeEntityProcessor;
 import org.lab.insurance.engine.processors.orders.InitialPaymentReceptionProcessor;
 import org.lab.insurance.engine.processors.orders.InitialPaymentValuedProcessor;
 import org.lab.insurance.engine.processors.orders.MarketOrderGeneratorProcessor;
@@ -32,7 +31,8 @@ public class OrderRouteBuilder extends RouteBuilder {
 				.bean(OrderProcessor.class) //
 				.bean(MarketOrderGeneratorProcessor.class) //
 				.bean(ScheduleOrderValorization.class) //
-				.bean(MergeEntityProcessor.class);
+		// .bean(MergeEntityProcessor.class);
+		;
 
 		/**
 		 * Accion de valorizar una orden.
@@ -44,7 +44,8 @@ public class OrderRouteBuilder extends RouteBuilder {
 				.choice() //
 				.when(OrderTypePredicate.withType(OrderType.INITIAL_PAYMENT)).bean(InitialPaymentValuedProcessor.class) //
 				.end() //
-				.bean(MergeEntityProcessor.class);
+		// .bean(MergeEntityProcessor.class);
+		;
 
 		/**
 		 * Accion de generar la contabilidad de una orden.
@@ -52,7 +53,8 @@ public class OrderRouteBuilder extends RouteBuilder {
 		from("direct:order_accounting") //
 				.bean(OrderResolverProcessor.class) //
 				.bean(OrderAccountProcessor.class) //
-				.bean(MergeEntityProcessor.class);
+		// .bean(MergeEntityProcessor.class);
+		;
 
 		/**
 		 * Accion de procesar la recepcion de un pago.
@@ -61,7 +63,8 @@ public class OrderRouteBuilder extends RouteBuilder {
 				.bean(OrderResolverProcessor.class) //
 				.bean(PaymentReceptionDateProcessor.class) //
 				.choice() //
-				.when(OrderTypePredicate.withType(OrderType.INITIAL_PAYMENT)).bean(InitialPaymentReceptionProcessor.class) //
+				.when(OrderTypePredicate.withType(OrderType.INITIAL_PAYMENT))
+				.bean(InitialPaymentReceptionProcessor.class) //
 				.end() //
 				.to("direct:order_process");
 

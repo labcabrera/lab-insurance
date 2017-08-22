@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 import org.junit.Assert;
 import org.lab.insurance.bdd.contract.MongoTestOperations;
 import org.lab.insurance.model.contract.Contract;
-import org.lab.insurance.model.contract.ContractRelationType;
-import org.lab.insurance.model.contract.PolicyEntityRelation;
+import org.lab.insurance.model.contract.RelationType;
+import org.lab.insurance.model.contract.ContractPersonRelation;
 import org.lab.insurance.model.contract.repository.ContractRepository;
 import org.lab.insurance.model.insurance.BaseAsset;
 import org.lab.insurance.model.insurance.Order;
@@ -63,7 +63,7 @@ public class ContractCreationSteps extends ContractCreationIntegrationTest {
 	public void establezco_como_suscriptor_del_contrato_a_la_persona_identificada_con_(String idCardNumber) {
 		Person person = personRepository.findByIdCardNumber(idCardNumber);
 		Assert.assertNotNull(person);
-		addRelation(person, ContractRelationType.SUSCRIPTOR);
+		addRelation(person, RelationType.SUSCRIPTOR);
 	}
 
 	@When("^Establezco como beneficiario del contrato a la persona identificada con (\\w+)$")
@@ -71,11 +71,11 @@ public class ContractCreationSteps extends ContractCreationIntegrationTest {
 		Assert.assertNotNull(contractCreateInfo);
 		Person person = personRepository.findByIdCardNumber(idCardNumber);
 		Assert.assertNotNull(person);
-		addRelation(person, ContractRelationType.RECIPIENT);
+		addRelation(person, RelationType.RECIPIENT);
 	}
 
-	private void addRelation(Person person, ContractRelationType type) {
-		PolicyEntityRelation relation = new PolicyEntityRelation();
+	private void addRelation(Person person, RelationType type) {
+		ContractPersonRelation relation = new ContractPersonRelation();
 		relation.setContract(contract);
 		relation.setPerson(person);
 		relation.setType(type);
@@ -141,11 +141,11 @@ public class ContractCreationSteps extends ContractCreationIntegrationTest {
 
 	@Then("^Verifico que el suscriptor es (\\w+)$")
 	public void verifico_que_el_suscriptor_es_Z(String idCardNumber) {
-		List<PolicyEntityRelation> relations = contract.getRelations();
+		List<ContractPersonRelation> relations = contract.getRelations();
 		Assert.assertNotNull(relations);
 
-		List<PolicyEntityRelation> filtered = relations.stream()
-				.filter(x -> ContractRelationType.SUSCRIPTOR.equals(x.getType())).collect(Collectors.toList());
+		List<ContractPersonRelation> filtered = relations.stream()
+				.filter(x -> RelationType.SUSCRIPTOR.equals(x.getType())).collect(Collectors.toList());
 
 		Assert.assertTrue(filtered.size() == 1);
 		Assert.assertTrue(filtered.iterator().next().getPerson().getIdCard().getNumber().equals(idCardNumber));

@@ -5,7 +5,7 @@ import java.util.Calendar;
 import org.lab.insurance.bdd.TestConstants;
 import org.lab.insurance.model.common.audit.AuditData;
 import org.lab.insurance.model.contract.repository.ContractRepository;
-import org.lab.insurance.model.contract.repository.PolicyEntityRelationRepository;
+import org.lab.insurance.model.contract.repository.ContractPersonRelationRepository;
 import org.lab.insurance.model.insurance.AssetType;
 import org.lab.insurance.model.insurance.BaseAsset;
 import org.lab.insurance.model.insurance.repository.BaseAssetRepository;
@@ -32,7 +32,7 @@ public class MongoTestOperations {
 	@Autowired
 	private ContractRepository contractRepository;
 	@Autowired
-	private PolicyEntityRelationRepository policyEntityRelationRepository;
+	private ContractPersonRelationRepository policyEntityRelationRepository;
 	@Autowired
 	private PersonRepository personRepository;
 	@Autowired

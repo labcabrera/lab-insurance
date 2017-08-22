@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 
 import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.insurance.BaseAsset;
@@ -17,14 +15,14 @@ import org.lab.insurance.model.insurance.Order;
 import org.lab.insurance.model.portfolio.Investment;
 import org.lab.insurance.model.portfolio.Portfolio;
 import org.lab.insurance.model.portfolio.PortfolioOperation;
+import org.lab.insurance.model.portfolio.repository.PortfolioOperationRepository;
 import org.lab.insurance.services.common.StateMachineService;
-
-import com.google.inject.Provider;
+import org.springframework.transaction.annotation.Transactional;
 
 public class AccountingService {
 
 	@Inject
-	private Provider<EntityManager> entityManagerProvider;
+	private PortfolioOperationRepository portfolioOperationRepository;
 	@Inject
 	private PortfolioService portfolioService;
 	@Inject
@@ -56,7 +54,8 @@ public class AccountingService {
 
 	}
 
-	public PortfolioOperation accountUnits(Investment from, Investment to, BaseAsset asset, BigDecimal units, Date valueDate, MarketOrder marketOrder) {
+	public PortfolioOperation accountUnits(Investment from, Investment to, BaseAsset asset, BigDecimal units,
+			Date valueDate, MarketOrder marketOrder) {
 		PortfolioOperation operation = new PortfolioOperation();
 		operation.setDebe(from);
 		operation.setHaber(to);
@@ -65,9 +64,7 @@ public class AccountingService {
 		operation.setAmount(BigDecimal.ZERO);
 		operation.setValueDate(valueDate);
 		operation.setMarketOrder(marketOrder);
-		EntityManager entityManager = entityManagerProvider.get();
-		entityManager.persist(operation);
-		entityManager.flush();
+		portfolioOperationRepository.save(operation);
 		return operation;
 	}
 }

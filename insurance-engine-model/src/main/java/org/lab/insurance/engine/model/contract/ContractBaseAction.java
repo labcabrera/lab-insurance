@@ -31,12 +31,12 @@ public abstract class ContractBaseAction implements ActionEntity<Contract>, HasC
 		this.actionDate = actionDate;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> T withContractId(String contractId) {
-		contract = new Contract();
-		contract.setId(contractId);
-		return (T) this;
-	}
+	// @SuppressWarnings("unchecked")
+	// public <T> T withContractId(String contractId) {
+	// contract = new Contract();
+	// contract.setId(contractId);
+	// return (T) this;
+	// }
 
 	@SuppressWarnings("unchecked")
 	public <T> T withActionDate(Date actionDate) {

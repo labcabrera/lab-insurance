@@ -2,10 +2,8 @@ package org.lab.insurance.services.insurance;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.lab.insurance.model.exceptions.NoCotizationException;
 import org.lab.insurance.model.insurance.AssetPrice;
@@ -13,30 +11,33 @@ import org.lab.insurance.model.insurance.MarketOrder;
 import org.lab.insurance.model.insurance.MarketOrderSource;
 import org.lab.insurance.model.insurance.MarketOrderType;
 import org.lab.insurance.model.insurance.Order;
-import org.lab.insurance.model.matchers.MarketOrderTypeMatcher;
+import org.lab.insurance.model.insurance.repository.MarketOrderRepository;
 import org.lab.insurance.services.common.TimestampProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
-
-import ch.lambdaj.Lambda;
 
 /**
  * Servicio que se encarga de valorizar un movimiento calculando el importe o las unidades a partir de las cotizaciones.
  */
 public class ValorizationService {
 
-	@Inject
+	@Autowired
 	private CotizationsService cotizationsService;
-	@Inject
-	private Provider<EntityManager> entityManagerProvider;
-	@Inject
+	@Autowired
 	private TimestampProvider timestampProvider;
+	@Autowired
+	private MarketOrderRepository marketOrderRepository;
 
 	public void valorizate(Order order) throws NoCotizationException {
-		for (MarketOrder i : Lambda.select(order.getMarketOrders(), new MarketOrderTypeMatcher(MarketOrderType.SELL))) {
+		List<MarketOrder> sell = order.getMarketOrders().stream().filter(x -> MarketOrderType.SELL.equals(x.getType()))
+				.collect(Collectors.toList());
+		List<MarketOrder> buy = order.getMarketOrders().stream().filter(x -> MarketOrderType.BUY.equals(x.getType()))
+				.collect(Collectors.toList());
+		for (MarketOrder i : sell) {
 			valorizate(i);
 		}
 		// TODO calcular el importe total de las ventas y actualizar el order
-		for (MarketOrder i : Lambda.select(order.getMarketOrders(), new MarketOrderTypeMatcher(MarketOrderType.BUY))) {
+		for (MarketOrder i : buy) {
 			valorizate(i);
 		}
 		order.getDates().setValued(timestampProvider.getCurrentDateTime());
@@ -59,6 +60,6 @@ public class ValorizationService {
 			BigDecimal units = amount.divide(price.getPrice(), decimals, RoundingMode.HALF_EVEN);
 			marketOrder.setUnits(units);
 		}
-		entityManagerProvider.get().merge(marketOrder);
+		marketOrderRepository.save(marketOrder);
 	}
 }

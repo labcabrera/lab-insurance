@@ -3,18 +3,18 @@ package org.lab.insurance.engine.processors.orders;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.persistence.EntityManager;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.contract.Contract;
 import org.lab.insurance.model.contract.ContractDates;
+import org.lab.insurance.model.contract.repository.ContractRepository;
 import org.lab.insurance.model.insurance.Order;
 import org.lab.insurance.services.common.StateMachineService;
 import org.lab.insurance.services.common.TimestampProvider;
 import org.lab.insurance.services.insurance.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Procesador que se ejecuta cuando se recibe la confirmacion de un pago inicial.
@@ -22,12 +22,13 @@ import org.lab.insurance.services.insurance.OrderService;
  */
 public class InitialPaymentReceptionProcessor implements Processor {
 
+	@Autowired
+	private ContractRepository contractRepository;
 	@Inject
 	private StateMachineService stateMachineService;
 	@Inject
 	private TimestampProvider timestampProvider;
-	@Inject
-	private Provider<EntityManager> entityManagerProvider;
+
 	@Inject
 	private OrderService orderService;
 
@@ -43,8 +44,7 @@ public class InitialPaymentReceptionProcessor implements Processor {
 			}
 			contract.getDates().setStartDate(timestampProvider.getCurrentDate());
 			stateMachineService.createTransition(contract, Constants.ContractStates.PAYED);
-			EntityManager entityManager = entityManagerProvider.get();
-			entityManager.merge(contract);
+			contractRepository.save(contract);
 		}
 	}
 

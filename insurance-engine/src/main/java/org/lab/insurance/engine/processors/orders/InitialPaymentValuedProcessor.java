@@ -1,5 +1,8 @@
 package org.lab.insurance.engine.processors.orders;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.inject.Inject;
 
 import org.apache.camel.Exchange;
@@ -10,9 +13,6 @@ import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.contract.Contract;
 import org.lab.insurance.model.insurance.Order;
 import org.lab.insurance.model.insurance.OrderType;
-import org.lab.insurance.model.matchers.OrderTypeMatcher;
-
-import ch.lambdaj.Lambda;
 
 /**
  * Procesador que se ejecuta cuando se valoriza un pago inicial.
@@ -27,7 +27,11 @@ public class InitialPaymentValuedProcessor implements Processor {
 		Order order = exchange.getIn().getBody(Order.class);
 		Contract contract = order.getContract();
 		boolean allInitialPaymentValued = true;
-		for (Order i : Lambda.select(contract.getOrders(), new OrderTypeMatcher(OrderType.INITIAL_PAYMENT))) {
+
+		List<Order> initialPayments = contract.getOrders().stream()
+				.filter(x -> OrderType.INITIAL_PAYMENT.equals(x.getType())).collect(Collectors.toList());
+
+		for (Order i : initialPayments) {
 			if (!isValued(i)) {
 				allInitialPaymentValued = false;
 				break;
@@ -43,7 +47,8 @@ public class InitialPaymentValuedProcessor implements Processor {
 	}
 
 	public boolean isValued(Order i) {
-		String currentStateId = (i.getCurrentState() != null) ? i.getCurrentState().getStateDefinition().getId() : null;
+		String currentStateId = (i.getCurrentState() != null) ? i.getCurrentState().getStateDefinition().getCode()
+				: null;
 		boolean checkDate = i.getDates() != null && i.getDates().getValued() != null;
 		boolean checkState = currentStateId != null && (currentStateId.equals(Constants.OrderStates.VALUED)
 				|| currentStateId.equals(Constants.OrderStates.ACCOUNTED));

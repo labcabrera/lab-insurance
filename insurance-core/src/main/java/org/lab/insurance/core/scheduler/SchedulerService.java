@@ -1,11 +1,7 @@
 package org.lab.insurance.core.scheduler;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 
 import org.lab.insurance.model.system.ScheduledTask;
 import org.quartz.CronScheduleBuilder;
@@ -58,27 +54,28 @@ public class SchedulerService {
 	 */
 	@SuppressWarnings("unchecked")
 	public void registerJobs() throws SchedulerException {
-		LOG.debug("Registrando tareas programadas");
-		try {
-			EntityManager entityManager = null;
-			String qlString = "select e from ScheduledTask e where e.disabled is null or e.disabled = false";
-			TypedQuery<ScheduledTask> query = entityManager.createQuery(qlString, ScheduledTask.class);
-			List<ScheduledTask> tasks = query.getResultList();
-			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-			LOG.debug("Encontradas {} tareas programadas", tasks.size());
-			for (ScheduledTask task : tasks) {
-				try {
-					Class<? extends Job> jobClass = (Class<? extends Job>) classLoader.loadClass(task.getClassName());
-					registerJob(jobClass, task.getCronExpression(), task.getParams());
-				}
-				catch (Exception ex) {
-					LOG.error("Error al registrar la tarea {}", task);
-				}
-			}
-		}
-		catch (Exception ex) {
-			throw new RuntimeException("Error al registrar las tareas programadas", ex);
-		}
+		throw new RuntimeException("Not implemented: jpa -> mongo");
+		// LOG.debug("Registrando tareas programadas");
+		// try {
+		// // EntityManager entityManager = null;
+		// String qlString = "select e from ScheduledTask e where e.disabled is null or e.disabled = false";
+		//// TypedQuery<ScheduledTask> query = entityManager.createQuery(qlString, ScheduledTask.class);
+		// List<ScheduledTask> tasks = query.getResultList();
+		// ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		// LOG.debug("Encontradas {} tareas programadas", tasks.size());
+		// for (ScheduledTask task : tasks) {
+		// try {
+		// Class<? extends Job> jobClass = (Class<? extends Job>) classLoader.loadClass(task.getClassName());
+		// registerJob(jobClass, task.getCronExpression(), task.getParams());
+		// }
+		// catch (Exception ex) {
+		// LOG.error("Error al registrar la tarea {}", task);
+		// }
+		// }
+		// }
+		// catch (Exception ex) {
+		// throw new RuntimeException("Error al registrar las tareas programadas", ex);
+		// }
 	}
 
 	@SuppressWarnings("unchecked")

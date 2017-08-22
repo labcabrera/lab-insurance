@@ -10,9 +10,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Representa un acuerdo marco.
- */
 @Document
 @Data
 @NoArgsConstructor
@@ -25,9 +22,6 @@ public class Agreement {
 
 	private String name;
 	private String code;
-
-	private AgreementServiceInfo serviceInfo;
-	private AgreementValidationInfo validationInfo;
 
 	private Date startDate;
 	private Date endDate;

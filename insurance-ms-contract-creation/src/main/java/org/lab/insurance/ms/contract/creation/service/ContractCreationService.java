@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.lab.insurance.model.contract.Contract;
-import org.lab.insurance.model.contract.PolicyEntityRelation;
+import org.lab.insurance.model.contract.ContractPersonRelation;
 import org.lab.insurance.model.contract.repository.ContractRepository;
-import org.lab.insurance.model.contract.repository.PolicyEntityRelationRepository;
+import org.lab.insurance.model.contract.repository.ContractPersonRelationRepository;
 import org.lab.insurance.model.legalentity.Person;
 import org.lab.insurance.model.legalentity.repository.PersonRepository;
 import org.lab.insurance.model.product.Agreement;
@@ -29,7 +29,7 @@ public class ContractCreationService {
 	@Autowired
 	private PersonRepository personRepository;
 	@Autowired
-	private PolicyEntityRelationRepository policyEntityRelationRepository;
+	private ContractPersonRelationRepository policyEntityRelationRepository;
 
 	public ContractCreateInfo prepare(ContractPrepareInfo prepareInfo) {
 		Agreement agreement = agreementRepository.findByCode(prepareInfo.getAgreementCode());
@@ -44,8 +44,8 @@ public class ContractCreationService {
 		contract.setAgreement(request.getAgreement());
 		contractRepository.save(contract);
 
-		List<PolicyEntityRelation> effectiveRelations = new ArrayList<>();
-		for (PolicyEntityRelation i : request.getRelations()) {
+		List<ContractPersonRelation> effectiveRelations = new ArrayList<>();
+		for (ContractPersonRelation i : request.getRelations()) {
 			Person effectivePerson = resolvePersonFromRelation(i);
 			i.setPerson(effectivePerson);
 			i.setContract(contract);
@@ -59,7 +59,7 @@ public class ContractCreationService {
 	}
 
 	// TODO utilizar un servicio para resolver esto
-	public Person resolvePersonFromRelation(PolicyEntityRelation relation) {
+	public Person resolvePersonFromRelation(ContractPersonRelation relation) {
 		Person entity = relation.getPerson();
 		if (entity.getId() == null) {
 			if (entity.getIdCard() != null && entity.getIdCard().getNumber() != null) {

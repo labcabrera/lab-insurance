@@ -22,7 +22,7 @@ import lombok.Data;
 
 @Data
 @Document
-public class PolicyEntityRelation implements HasIdentifier<ObjectId>, HasContract, HasActivationRange {
+public class ContractPersonRelation implements HasIdentifier<ObjectId>, HasContract, HasActivationRange {
 
 	@Id
 	@ApiModelProperty(value = "Identifier")
@@ -30,7 +30,7 @@ public class PolicyEntityRelation implements HasIdentifier<ObjectId>, HasContrac
 
 	@ApiModelProperty(value = "Contract relation type")
 	@NotNull
-	private ContractRelationType type;
+	private RelationType type;
 
 	@Reference
 	@JsonIgnore

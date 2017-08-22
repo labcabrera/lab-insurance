@@ -1,51 +1,17 @@
 package org.lab.insurance.model.geo;
 
-import java.io.Serializable;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import lombok.Data;
 
-@Entity
-@Table(name = "GEO_LOCALITY")
-@SuppressWarnings("serial")
-public class Locality implements Serializable {
+@Document
+@Data
+public class Locality {
 
 	@Id
-	@Column(name = "ID")
 	private String id;
-
-	@Column(name = "NAME")
 	private String name;
-
-	@ManyToOne
-	@JoinColumn(name = "PROVINCE_ID")
 	private Province province;
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Province getProvince() {
-		return province;
-	}
-
-	public void setProvince(Province province) {
-		this.province = province;
-	}
 }

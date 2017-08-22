@@ -1,6 +1,6 @@
 package org.lab.insurance.model.contract;
 
-public enum ContractRelationType {
+public enum RelationType {
 
 	SUSCRIPTOR, RECIPIENT, REPRESENTANT
 }

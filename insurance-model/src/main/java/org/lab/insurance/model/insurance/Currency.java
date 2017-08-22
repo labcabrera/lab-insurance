@@ -1,37 +1,19 @@
 package org.lab.insurance.model.insurance;
 
-import java.io.Serializable;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.Data;
 
-@Entity
-@Table(name = "INS_CURRENCY")
-@SuppressWarnings("serial")
-public class Currency implements Serializable {
+@Document
+@Data
+public class Currency {
 
 	@Id
-	@Column(name = "ID", length = 3)
-	private String id;
+	private ObjectId id;
 
-	@Column(name = "NAME", length = 32, nullable = false)
+	private String iso;
 	private String name;
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 }

@@ -2,10 +2,10 @@ package org.lab.insurance.model.contract;
 
 import java.util.List;
 
-import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import org.bson.types.ObjectId;
 import org.lab.insurance.model.HasState;
 import org.lab.insurance.model.engine.State;
 import org.lab.insurance.model.insurance.Order;
@@ -23,14 +23,13 @@ import lombok.Data;
 
 @Data
 @Document
-@Entity
 public class Contract implements HasState<String> {
 
 	@Id
 	@Null(message = "ID_MUST_BE_EMPTY", groups = ValidationContext.Insert.class)
 	@NotNull(message = "ID_MANDATORY", groups = ValidationContext.Default.class)
 	@ApiModelProperty(value = "Identifier")
-	private String id;
+	private ObjectId id;
 
 	@Null(message = "CONTRACT_NUMBER_MUST_BE_EMPTY", groups = ValidationContext.Insert.class)
 	@NotNull(message = "CONTRACT_NUMBER_MANDATORY", groups = ValidationContext.Default.class)
@@ -53,7 +52,7 @@ public class Contract implements HasState<String> {
 	private ContractPorfolioInfo portfolioInfo;
 
 	@DBRef
-	private List<PolicyEntityRelation> relations;
+	private List<ContractPersonRelation> relations;
 
 	@Transient // TODO
 	private List<FinancialService> financialServices;
