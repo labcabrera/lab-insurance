@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
 
-import org.apache.commons.lang3.Validate;
 import org.lab.insurance.model.exceptions.NoCotizationException;
 import org.lab.insurance.model.insurance.AssetPrice;
 import org.lab.insurance.model.insurance.MarketOrder;
@@ -16,6 +15,7 @@ import org.lab.insurance.model.insurance.MarketOrderType;
 import org.lab.insurance.model.insurance.Order;
 import org.lab.insurance.model.matchers.MarketOrderTypeMatcher;
 import org.lab.insurance.services.common.TimestampProvider;
+import org.springframework.util.Assert;
 
 import ch.lambdaj.Lambda;
 
@@ -47,13 +47,13 @@ public class ValorizationService {
 				marketOrder.getDates().getValueDate());
 		marketOrder.setNav(price.getPrice());
 		if (marketOrder.getSource() == MarketOrderSource.UNITS) {
-			Validate.notNull(marketOrder.getUnits());
+			Assert.notNull(marketOrder.getUnits(), "Missing units");
 			BigDecimal units = marketOrder.getUnits();
 			BigDecimal amount = price.getPrice().multiply(units);
 			marketOrder.setNetAmount(amount);
 		}
 		else {
-			Validate.notNull(marketOrder.getNetAmount());
+			Assert.notNull(marketOrder.getUnits(), "Missing net amount");
 			BigDecimal amount = marketOrder.getNetAmount();
 			Integer decimals = marketOrder.getAsset().getDecimals() != null ? marketOrder.getAsset().getDecimals() : 5;
 			BigDecimal units = amount.divide(price.getPrice(), decimals, RoundingMode.HALF_EVEN);

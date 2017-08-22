@@ -5,9 +5,15 @@ buildscript {
 		springDependencyManagementVersion = "1.0.0.RELEASE"
 		lombokVersion = "1.16.16"
 		springfoxSwaggerVersion = "2.7.0"
+		
+		useProxy = true
 	}
 	repositories {
-		mavenCentral()
+		if(useProxy) {
+			maven { url "http://nexus:8080/nexus/content/groups/public/" }
+		} else {
+			mavenCentral()
+		}
 	}
 	dependencies {
 		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
@@ -31,7 +37,11 @@ subprojects {
 			options.encoding = "UTF-8"
 	}
 	repositories {
-		mavenCentral()
+		if(useProxy) {
+			maven { url "http://nexus:8080/nexus/content/groups/public/" }
+		} else {
+			mavenCentral()
+		}
 	}
 
 	dependencyManagement {
@@ -44,7 +54,7 @@ subprojects {
 		compile "org.projectlombok:lombok:${lombokVersion}"
 		testCompile "org.springframework.boot:spring-boot-starter-test"
 		// remove
-		compile "org.apache.commons:commons-lang3:3.6"		
+		//compile "org.apache.commons:commons-lang3:3.6"		
 	}
 	
 	// exclude version in jar file (tmp for docker-compose tuning)
@@ -96,6 +106,7 @@ project(":insurance-services") {
 	}
 }
 
+// deprecated project
 project(":insurance-engine-model") {
 	dependencies {
 		compile project(":insurance-model")
@@ -105,13 +116,15 @@ project(":insurance-engine-model") {
 	}
 }
 
+// deprecated project
 project(":insurance-engine") {
 	dependencies {
 		compile project(":insurance-services")
 		compile project(":insurance-engine-model")
 		
 		// remove
-		compile group: 'org.apache.camel', name: 'camel-guice', version: '2.19.2'
+		compile "org.apache.camel:camel-guice:2.19.2"
+		compile "org.apache.commons:commons-lang3:3.6"
 	}
 	bootRepackage {
 		enabled = false
@@ -123,6 +136,7 @@ project(":insurance-bootstrap") {
 	dependencies {
 		compile project(":insurance-engine")
 		// remove
+		compile "org.apache.commons:commons-lang3:3.6"
 		compile group: 'net.sf.flatpack', name: 'flatpack', version: '4.0.1'
 	}
 	bootRepackage {
@@ -162,6 +176,7 @@ project(":insurance-ms-core") {
 project(":insurance-ms-contract-creation") {
 	dependencies {
 		compile project(":insurance-ms-core")
+		compile "org.springframework.boot:spring-boot-starter-integration"
 	}
 }
 
@@ -207,5 +222,16 @@ project(":insurance-ms-market") {
 	}
 }
 
+project(":insurance-bdd") {
+	dependencies {
+		compile project(":insurance-ms-contract")
+		compile project(":insurance-ms-contract-creation")
+		
+		testCompile "info.cukes:cucumber-junit:1.2.5"
+		testCompile "info.cukes:cucumber-java:1.2.5"
+		testCompile "info.cukes:cucumber-spring:1.2.5"
+		
+	}
+}
 
 

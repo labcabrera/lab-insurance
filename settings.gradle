@@ -17,3 +17,5 @@ include ":insurance-ms-accounting"
 include ":insurance-ms-market"
 include ":insurance-ms-payment"
 include ":insurance-ms-stop-loss"
+
+include ":insurance-bdd"

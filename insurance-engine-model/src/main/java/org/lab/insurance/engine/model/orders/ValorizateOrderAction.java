@@ -1,6 +1,5 @@
 package org.lab.insurance.engine.model.orders;
 
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.lab.insurance.engine.model.ActionDefinition;
 
 @ActionDefinition(endpoint = "direct:order_valorizarion")
@@ -13,7 +12,7 @@ public class ValorizateOrderAction extends OrderBaseAction {
 		sb.append("ValorizateOrder/");
 		sb.append(order != null ? order.getId() : "<null>");
 		sb.append("/");
-		sb.append(actionDate != null ? DateFormatUtils.ISO_DATE_FORMAT.format(actionDate) : "<null>");
+		// sb.append(actionDate != null ? DateFormatUtils.ISO_DATE_FORMAT.format(actionDate) : "<null>");
 		return sb.toString();
 	}
 }

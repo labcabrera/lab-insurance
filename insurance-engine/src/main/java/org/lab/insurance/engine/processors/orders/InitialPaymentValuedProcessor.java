@@ -6,6 +6,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.lab.insurance.engine.ActionExecutionService;
 import org.lab.insurance.engine.model.contract.ContractStartAction;
+import org.lab.insurance.model.Constants;
 import org.lab.insurance.model.contract.Contract;
 import org.lab.insurance.model.insurance.Order;
 import org.lab.insurance.model.insurance.OrderType;
@@ -27,7 +28,7 @@ public class InitialPaymentValuedProcessor implements Processor {
 		Contract contract = order.getContract();
 		boolean allInitialPaymentValued = true;
 		for (Order i : Lambda.select(contract.getOrders(), new OrderTypeMatcher(OrderType.INITIAL_PAYMENT))) {
-			if (!i.isValued()) {
+			if (!isValued(i)) {
 				allInitialPaymentValued = false;
 				break;
 			}
@@ -39,5 +40,13 @@ public class InitialPaymentValuedProcessor implements Processor {
 			action.setActionDate(order.getDates().getValued());
 			actionExecutionService.execute(action);
 		}
+	}
+
+	public boolean isValued(Order i) {
+		String currentStateId = (i.getCurrentState() != null) ? i.getCurrentState().getStateDefinition().getId() : null;
+		boolean checkDate = i.getDates() != null && i.getDates().getValued() != null;
+		boolean checkState = currentStateId != null && (currentStateId.equals(Constants.OrderStates.VALUED)
+				|| currentStateId.equals(Constants.OrderStates.ACCOUNTED));
+		return checkDate && checkState;
 	}
 }
