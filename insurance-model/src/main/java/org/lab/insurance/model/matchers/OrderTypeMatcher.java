@@ -1,6 +1,5 @@
 package org.lab.insurance.model.matchers;
 
-import org.apache.commons.lang3.Validate;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.lab.insurance.model.insurance.Order;
@@ -11,7 +10,6 @@ public class OrderTypeMatcher extends BaseMatcher<Order> {
 	private final OrderType type;
 
 	public OrderTypeMatcher(OrderType type) {
-		Validate.notNull(type);
 		this.type = type;
 	}
 

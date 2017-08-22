@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.lab.insurance.model.geo.Address;
 import org.springframework.data.annotation.Reference;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +13,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Document
+//@Document
 @Data
 @Builder
 @NoArgsConstructor

@@ -2,7 +2,9 @@ package org.lab.insurance.model.legalentity;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.lab.insurance.model.common.Account;
+import org.lab.insurance.model.common.audit.AuditData;
 import org.lab.insurance.model.geo.Address;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,7 +19,7 @@ import lombok.Data;
 public abstract class AbstractLegalEntity {
 
 	@Id
-	protected String id;
+	protected ObjectId id;
 
 	protected IdCard idCard;
 
@@ -34,6 +36,8 @@ public abstract class AbstractLegalEntity {
 	protected String internalCode;
 
 	protected String externalCode;
+	
+	protected AuditData auditData;
 
 	@SuppressWarnings("unchecked")
 	public <T> T as(Class<? extends AbstractLegalEntity> entityClass) {
