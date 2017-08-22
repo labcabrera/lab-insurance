@@ -21,6 +21,14 @@ services:
       - "8888:8888"
     command: java -jar /app/insurance-cloud-config.jar
 
+  insurance-rabbitmq:
+    image: rabbitmq:3.5.3
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    expose:
+      - "5672"
 
  # insurance-eureka:
  #   image: java:openjdk-8u45-jdk
