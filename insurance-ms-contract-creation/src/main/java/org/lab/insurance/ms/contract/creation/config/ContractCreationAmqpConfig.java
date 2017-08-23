@@ -21,12 +21,12 @@ public class ContractCreationAmqpConfig {
 
 	@Bean
 	public Queue queueContractCreationIn() {
-		return new Queue(Queues.CONTRACT_CREATION_IN);
+		return new Queue(Queues.CONTRACT_CREATION_IN, false);
 	}
 
 	@Bean
 	public Queue queueContractCreationOut() {
-		return new Queue(Queues.CONTRACT_CREATION_OUT);
+		return new Queue(Queues.CONTRACT_CREATION_OUT, false);
 	}
 
 	@Bean
@@ -40,11 +40,12 @@ public class ContractCreationAmqpConfig {
 	}
 
 	@Bean
-	public SimpleMessageListenerContainer listenerFoo(ConnectionFactory connectionFactory) {
+	public SimpleMessageListenerContainer listenerContractCreationIn(ConnectionFactory connectionFactory,
+			ContractCreationListener listener) {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
 		container.setQueueNames(Queues.CONTRACT_CREATION_IN);
-		container.setMessageListener(contractCreationListener());
+		container.setMessageListener(listener);
 		return container;
 	}
 

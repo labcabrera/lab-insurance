@@ -6,7 +6,7 @@ import org.lab.insurance.model.product.Agreement;
 import org.lab.insurance.model.product.AgreementRepository;
 import org.lab.insurance.ms.contract.creation.config.ContractCreationConfig;
 import org.lab.insurance.ms.contract.creation.domain.ContractCreateInfo;
-import org.lab.insurance.ms.core.InsuranceCoreConstants;
+import org.lab.insurance.ms.core.InsuranceCoreConstants.Queues;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -28,9 +28,10 @@ public class ContractCreationAmqpTest {
 		ContractCreateInfo info = new ContractCreateInfo();
 		info.setAgreement(agreement);
 
-		template.convertAndSend(InsuranceCoreConstants.Queues.CONTRACT_CREATION_IN, info);
-		
-		System.out.println("ok");
+		Object response = template.convertSendAndReceive(Queues.CONTRACT_CREATION_IN, Queues.CONTRACT_CREATION_IN,
+				info);
+
+		System.out.println("response: " + response);
 
 	}
 
