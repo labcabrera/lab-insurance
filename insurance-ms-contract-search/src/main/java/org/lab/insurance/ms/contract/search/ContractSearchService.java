@@ -1,4 +1,4 @@
-package org.lab.insurance.ms.contract;
+package org.lab.insurance.ms.contract.search;
 
 import org.lab.insurance.model.contract.Contract;
 import org.lab.insurance.model.contract.repository.ContractRepository;

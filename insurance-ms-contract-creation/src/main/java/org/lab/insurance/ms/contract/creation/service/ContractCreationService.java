@@ -11,10 +11,8 @@ import org.lab.insurance.model.legalentity.Person;
 import org.lab.insurance.model.legalentity.repository.PersonRepository;
 import org.lab.insurance.model.product.Agreement;
 import org.lab.insurance.model.product.AgreementRepository;
-import org.lab.insurance.ms.contract.creation.config.AmqpConfig;
 import org.lab.insurance.ms.contract.creation.domain.ContractCreateInfo;
 import org.lab.insurance.ms.contract.creation.domain.ContractPrepareInfo;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -33,8 +31,8 @@ public class ContractCreationService {
 	@Autowired
 	private ContractPersonRelationRepository policyEntityRelationRepository;
 
-	@Autowired
-	private RabbitTemplate rabbitTemplate;
+	// @Autowired
+	// private RabbitTemplate rabbitTemplate;
 
 	public ContractCreateInfo prepare(ContractPrepareInfo prepareInfo) {
 		Agreement agreement = agreementRepository.findByCode(prepareInfo.getAgreementCode());
@@ -61,7 +59,7 @@ public class ContractCreationService {
 		contractNumberGenerator.generate(contract);
 		contractRepository.save(contract);
 
-		rabbitTemplate.convertAndSend(AmqpConfig.EXCHANGE_NAME, AmqpConfig.ROUTING_KEY, contract);
+		// rabbitTemplate.convertAndSend(AmqpConfig.TOPIC_NAME, AmqpConfig.ROUTING_KEY, contract);
 
 		return contract;
 	}

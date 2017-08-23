@@ -1,5 +1,6 @@
 package org.lab.insurance.model.contract;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -23,7 +24,8 @@ import lombok.Data;
 
 @Data
 @Document
-public class Contract implements HasState<String> {
+@SuppressWarnings("serial")
+public class Contract implements Serializable, HasState<String> {
 
 	@Id
 	@Null(message = "ID_MUST_BE_EMPTY", groups = ValidationContext.Insert.class)

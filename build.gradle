@@ -7,7 +7,7 @@ buildscript {
 		springfoxSwaggerVersion = "2.7.0"
 		cucumberVersion = "1.2.5"
 		
-		useProxy = true
+		useProxy = false
 	}
 	repositories {
 		if(useProxy) {
