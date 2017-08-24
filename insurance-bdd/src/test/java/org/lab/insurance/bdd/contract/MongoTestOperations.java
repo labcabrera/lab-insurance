@@ -4,11 +4,12 @@ import java.util.Calendar;
 
 import org.lab.insurance.bdd.TestConstants;
 import org.lab.insurance.model.common.audit.AuditData;
-import org.lab.insurance.model.contract.repository.ContractRepository;
 import org.lab.insurance.model.contract.repository.ContractPersonRelationRepository;
+import org.lab.insurance.model.contract.repository.ContractRepository;
 import org.lab.insurance.model.insurance.AssetType;
 import org.lab.insurance.model.insurance.BaseAsset;
 import org.lab.insurance.model.insurance.repository.BaseAssetRepository;
+import org.lab.insurance.model.insurance.repository.OrderRepository;
 import org.lab.insurance.model.legalentity.IdCard;
 import org.lab.insurance.model.legalentity.LegalEntity;
 import org.lab.insurance.model.legalentity.Person;
@@ -37,6 +38,8 @@ public class MongoTestOperations {
 	private PersonRepository personRepository;
 	@Autowired
 	private LegalEntityRepository legalEntityRepository;
+	@Autowired
+	private OrderRepository orderRepository;
 
 	public void resetDataBase() {
 		log.warn("=======================================================");
@@ -86,6 +89,7 @@ public class MongoTestOperations {
 		contractRepository.deleteAll();
 
 		policyEntityRelationRepository.deleteAll();
+		orderRepository.deleteAll();
 
 	}
 

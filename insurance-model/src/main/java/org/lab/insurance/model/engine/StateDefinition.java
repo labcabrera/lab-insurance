@@ -12,6 +12,7 @@ public class StateDefinition {
 
 	@Id
 	private ObjectId id;
+	
 	private String code;
 	private String name;
 	private Class<?> entityClass;

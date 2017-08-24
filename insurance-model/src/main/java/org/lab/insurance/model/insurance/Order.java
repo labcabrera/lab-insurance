@@ -9,7 +9,7 @@ import org.lab.insurance.model.contract.Contract;
 import org.lab.insurance.model.engine.State;
 import org.lab.insurance.model.validation.ValidOrder;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Reference;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -33,7 +33,7 @@ public class Order implements HasContract, HasState<String> {
 
 	private OrderType type;
 
-	@Reference
+	@DBRef
 	private Contract contract;
 
 	private State currentState;

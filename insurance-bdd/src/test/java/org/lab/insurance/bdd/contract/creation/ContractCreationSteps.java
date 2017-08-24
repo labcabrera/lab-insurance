@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 import org.junit.Assert;
 import org.lab.insurance.bdd.contract.MongoTestOperations;
 import org.lab.insurance.model.contract.Contract;
-import org.lab.insurance.model.contract.RelationType;
 import org.lab.insurance.model.contract.ContractPersonRelation;
+import org.lab.insurance.model.contract.RelationType;
 import org.lab.insurance.model.contract.repository.ContractRepository;
 import org.lab.insurance.model.insurance.BaseAsset;
 import org.lab.insurance.model.insurance.Order;
@@ -18,9 +18,10 @@ import org.lab.insurance.model.insurance.OrderDistribution;
 import org.lab.insurance.model.insurance.OrderType;
 import org.lab.insurance.model.legalentity.Person;
 import org.lab.insurance.model.legalentity.repository.PersonRepository;
-import org.lab.insurance.ms.contract.creation.domain.ContractCreateInfo;
+import org.lab.insurance.ms.contract.creation.domain.ContractCreationData;
 import org.lab.insurance.ms.contract.creation.domain.ContractPrepareInfo;
-import org.lab.insurance.ms.contract.creation.service.ContractCreationService;
+import org.lab.insurance.ms.contract.creation.integration.gateway.ContractCreationGateway;
+import org.lab.insurance.ms.contract.creation.service.ContractPrepareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
@@ -35,7 +36,10 @@ import lombok.extern.slf4j.Slf4j;
 public class ContractCreationSteps extends ContractCreationIntegrationTest {
 
 	@Autowired
-	protected ContractCreationService contractCreationService;
+	protected ContractCreationGateway contractCreationGateway;
+	@Autowired
+	protected ContractPrepareService prepareService;
+
 	@Autowired
 	protected ContractRepository contractRepository;
 	@Autowired
@@ -43,7 +47,7 @@ public class ContractCreationSteps extends ContractCreationIntegrationTest {
 	@Autowired
 	protected MongoTestOperations mongoTestOperations;
 
-	protected ContractCreateInfo contractCreateInfo;
+	protected ContractCreationData contractCreateInfo;
 	protected Contract contract;
 	protected String contractNumber;
 
@@ -56,7 +60,7 @@ public class ContractCreationSteps extends ContractCreationIntegrationTest {
 	public void preparo_contrato(String agreementCode) {
 		ContractPrepareInfo prepareInfo = new ContractPrepareInfo();
 		prepareInfo.setAgreementCode(agreementCode);
-		contractCreateInfo = contractCreationService.prepare(prepareInfo);
+		contractCreateInfo = prepareService.prepare(prepareInfo);
 	}
 
 	@When("^Establezco como suscriptor del contrato a la persona identificada con (\\w+)$")
@@ -122,7 +126,7 @@ public class ContractCreationSteps extends ContractCreationIntegrationTest {
 
 	@Then("^Invoco al servicio de contratacion$")
 	public void invoco_al_servicio_de_contratacion() {
-		contract = contractCreationService.save(contractCreateInfo);
+		contract = contractCreationGateway.process(contractCreateInfo);
 		Assert.assertNotNull(contract.getId());
 	}
 

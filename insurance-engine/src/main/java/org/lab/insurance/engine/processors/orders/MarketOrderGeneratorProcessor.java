@@ -92,7 +92,6 @@ public class MarketOrderGeneratorProcessor implements Processor {
 				marketOrder.setAsset(distribution.getAsset());
 				marketOrder.setGrossAmount(grossAmount);
 				marketOrder.setNetAmount(netAmount);
-				marketOrder.setOrder(order);
 				marketOrder.setDates(new OrderDates());
 				marketOrder.getDates().setEffective(order.getDates().getEffective());
 				marketOrder.getDates().setValueDate(order.getDates().getValueDate());

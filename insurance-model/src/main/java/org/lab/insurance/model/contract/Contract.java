@@ -2,6 +2,7 @@ package org.lab.insurance.model.contract;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -10,6 +11,7 @@ import org.bson.types.ObjectId;
 import org.lab.insurance.model.HasState;
 import org.lab.insurance.model.engine.State;
 import org.lab.insurance.model.insurance.Order;
+import org.lab.insurance.model.insurance.OrderType;
 import org.lab.insurance.model.product.Agreement;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Reference;
@@ -61,13 +63,17 @@ public class Contract implements Serializable, HasState<String> {
 
 	@Reference
 	@JsonIgnore
-	@Transient // TODO
+	@DBRef
 	private List<Order> orders;
 
 	@Reference
 	@JsonIgnore
 	@Transient // TODO
 	private List<ContractLetter> letters;
+
+	public List<Order> filterOrders(OrderType type) {
+		return orders.stream().filter(x -> type.equals(x.getType())).collect(Collectors.toList());
+	}
 
 	public static class ValidationContext {
 

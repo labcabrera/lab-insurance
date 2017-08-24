@@ -26,4 +26,7 @@ public class BaseAsset {
 	private Date fromDate;
 	private Date toDate;
 
+	public BaseAsset(String isin) {
+		this.isin = isin;
+	}
 }

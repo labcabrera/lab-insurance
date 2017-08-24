@@ -14,8 +14,10 @@ public class Portfolio {
 
 	@Id
 	private ObjectId id;
+	
 	private String name;
 	private PortfolioType type;
+	
 	private List<Investment> investments;
 
 }

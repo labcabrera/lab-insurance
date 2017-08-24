@@ -12,7 +12,7 @@ import org.lab.insurance.model.product.Agreement;
 import lombok.Data;
 
 @Data
-public class ContractCreateInfo {
+public class ContractCreationData {
 
 	@NotNull
 	private Agreement agreement;

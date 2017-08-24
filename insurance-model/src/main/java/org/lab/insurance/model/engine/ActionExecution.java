@@ -19,7 +19,9 @@ public class ActionExecution {
 	private Date scheduled;
 	private Date cancelled;
 	private Date failure;
+	
 	private Class<?> actionEntityClass;
+	
 	private String actionEntityJson;
 	private String resultJson;
 	private Integer priority;
