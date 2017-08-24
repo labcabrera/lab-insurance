@@ -106,8 +106,9 @@ public class ContractCreationSteps extends ContractCreationIntegrationTest {
 		while (stringTokenizer.hasMoreTokens()) {
 			String token = stringTokenizer.nextToken();
 			String[] split = token.split(":");
+			String isin = StringUtils.trimAllWhitespace(split[0]);
 			OrderDistribution i = new OrderDistribution();
-			i.setAsset(BaseAsset.builder().isin(split[0]).build());
+			i.setAsset(BaseAsset.builder().isin(isin).build());
 			i.setPercent(new BigDecimal(StringUtils.trimWhitespace(split[1].replaceAll("%", ""))));
 			initialPayment.getBuyDistribution().add(i);
 		}
