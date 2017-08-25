@@ -55,12 +55,11 @@ subprojects {
 		compile "org.projectlombok:lombok:${lombokVersion}"
 		testCompile "org.springframework.boot:spring-boot-starter-test"		
 	}
-	
 	// exclude version in jar file (tmp for docker-compose)
 	jar.archiveName = "${jar.baseName}.${jar.extension}"
 }
 
-project(":insurance-model") {
+project(":insurance-domain") {
 	dependencies {
 		compile "org.springframework.boot:spring-boot-starter-data-mongodb"
 		compile "io.springfox:springfox-swagger2:${springfoxSwaggerVersion}"
@@ -73,7 +72,7 @@ project(":insurance-model") {
 
 project(":insurance-core") {
 	dependencies {
-		compile project(":insurance-model")
+		compile project(":insurance-domain")
 		compile "joda-time:joda-time:2.9.9"
 		compile "commons-io:commons-io:2.5"
 	}
@@ -97,9 +96,9 @@ project(":insurance-services") {
 }
 
 // deprecated project
-project(":insurance-engine-model") {
+project(":insurance-engine-domain") {
 	dependencies {
-		compile project(":insurance-model")
+		compile project(":insurance-domain")
 	}
 	bootRepackage {
 		enabled = false
@@ -110,7 +109,7 @@ project(":insurance-engine-model") {
 project(":insurance-engine") {
 	dependencies {
 		compile project(":insurance-services")
-		compile project(":insurance-engine-model")
+		compile project(":insurance-engine-domain")
 		
 		// remove
 		//compile "org.apache.camel:camel-guice:2.19.2"
@@ -142,17 +141,19 @@ project(":insurance-cloud-config") {
 	}
 }
 
-
+//deprecated
 project(":insurance-ms-core") {
 	dependencies {
-		compile project(":insurance-model")
 		compile project(":insurance-core")
 		compile "org.springframework.boot:spring-boot-starter-web"
 		compile "org.springframework.boot:spring-boot-starter-integration"
 		compile "org.springframework.boot:spring-boot-starter-actuator"
 		compile "org.springframework.boot:spring-boot-starter-amqp"
 
+		compile "org.springframework.integration:spring-integration-amqp"
 		compile "org.springframework.integration:spring-integration-mongodb"
+		compile "org.springframework.integration:spring-integration-java-dsl"
+		
 
 		compile "org.springframework.cloud:spring-cloud-config-client"
 		compile "org.springframework.cloud:spring-cloud-starter-eureka"
@@ -164,49 +165,70 @@ project(":insurance-ms-core") {
 	}
 }
 
-project(":insurance-ms-contract-creation") {
+project(":insurance-contract-creation-integration") {
+	dependencies {
+		compile project(":insurance-domain")
+		compile "org.springframework.boot:spring-boot-starter-integration"
+		compile "org.springframework.boot:spring-boot-starter-amqp"
+		compile "org.springframework.integration:spring-integration-amqp"
+		compile "org.springframework.integration:spring-integration-mongodb"
+		compile "org.springframework.integration:spring-integration-java-dsl"
+	}
+}
+project(":insurance-contract-creation-gateway") {
+	dependencies {
+		compile project(":insurance-contract-creation-integration")
+		compile "org.springframework.boot:spring-boot-starter-web"
+		//compile "org.springframework.boot:spring-boot-starter-integration"
+		//compile "org.springframework.boot:spring-boot-starter-amqp"
+		//compile "org.springframework.integration:spring-integration-amqp"
+		//compile "org.springframework.integration:spring-integration-mongodb"
+		//compile "org.springframework.integration:spring-integration-java-dsl"
+		//compile "org.springframework.cloud:spring-cloud-config-client"
+		//compile "org.springframework.cloud:spring-cloud-starter-eureka"
+		compile "org.springframework.boot:spring-boot-starter-actuator"
+		compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
+	}
+}
+
+
+project(":insurance-contract-search") {
 	dependencies {
 		compile project(":insurance-ms-core")
 	}
 }
 
-project(":insurance-ms-contract-search") {
+project(":insurance-legal-entity") {
 	dependencies {
 		compile project(":insurance-ms-core")
 	}
 }
 
-project(":insurance-ms-legal-entity") {
+project(":insurance-stop-loss") {
 	dependencies {
 		compile project(":insurance-ms-core")
 	}
 }
 
-project(":insurance-ms-stop-loss") {
+project(":insurance-accounting") {
 	dependencies {
 		compile project(":insurance-ms-core")
 	}
 }
 
-project(":insurance-ms-accounting") {
+project(":insurance-payment") {
 	dependencies {
 		compile project(":insurance-ms-core")
 	}
 }
 
-project(":insurance-ms-payment") {
+project(":insurance-asset") {
 	dependencies {
 		compile project(":insurance-ms-core")
 	}
 }
 
-project(":insurance-ms-asset") {
-	dependencies {
-		compile project(":insurance-ms-core")
-	}
-}
-
-project(":insurance-ms-market") {
+project(":insurance-market") {
 	dependencies {
 		compile project(":insurance-ms-core")
 	}
@@ -214,11 +236,10 @@ project(":insurance-ms-market") {
 
 project(":insurance-bdd") {
 	dependencies {
-		compile(project(":insurance-ms-contract-creation")) {
+		compile(project(":insurance-contract-creation-gateway")) {
 			exclude group: "io.springfox:springfox-swagger2"
 			exclude group: "org.springframework.cloud"
 		}
-		
 		testCompile "info.cukes:cucumber-junit:${cucumberVersion}"
 		testCompile "info.cukes:cucumber-java:${cucumberVersion}"
 		testCompile "info.cukes:cucumber-spring:${cucumberVersion}"

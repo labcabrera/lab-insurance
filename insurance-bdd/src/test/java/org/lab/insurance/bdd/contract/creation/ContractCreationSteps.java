@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.junit.Assert;
 import org.lab.insurance.bdd.contract.MongoTestOperations;
+import org.lab.insurance.contract.creation.integration.domain.ContractCreationData;
 import org.lab.insurance.model.contract.Contract;
 import org.lab.insurance.model.contract.ContractPersonRelation;
 import org.lab.insurance.model.contract.RelationType;
@@ -18,15 +19,12 @@ import org.lab.insurance.model.insurance.OrderDistribution;
 import org.lab.insurance.model.insurance.OrderType;
 import org.lab.insurance.model.legalentity.Person;
 import org.lab.insurance.model.legalentity.repository.PersonRepository;
-import org.lab.insurance.ms.contract.creation.domain.ContractCreationData;
-import org.lab.insurance.ms.contract.creation.domain.ContractPrepareInfo;
-import org.lab.insurance.ms.contract.creation.integration.gateway.ContractCreationGateway;
-import org.lab.insurance.ms.contract.creation.service.ContractPrepareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.lab.insurance.contract.creation.gateway.messaging.ContractCreationGateway;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -37,8 +35,6 @@ public class ContractCreationSteps extends ContractCreationIntegrationTest {
 
 	@Autowired
 	protected ContractCreationGateway contractCreationGateway;
-	@Autowired
-	protected ContractPrepareService prepareService;
 
 	@Autowired
 	protected ContractRepository contractRepository;
@@ -58,9 +54,8 @@ public class ContractCreationSteps extends ContractCreationIntegrationTest {
 
 	@When("^Preparo contrato con acuerdo (\\w+)$")
 	public void preparo_contrato(String agreementCode) {
-		ContractPrepareInfo prepareInfo = new ContractPrepareInfo();
-		prepareInfo.setAgreementCode(agreementCode);
-		contractCreateInfo = prepareService.prepare(prepareInfo);
+		contractCreateInfo = new ContractCreationData();
+		contractCreateInfo.setAgreementCode(agreementCode);
 	}
 
 	@When("^Establezco como suscriptor del contrato a la persona identificada con (\\w+)$")

@@ -2,4 +2,41 @@
 
 image:https://travis-ci.org/labcabrera/lab-insurance.svg?branch=master["Build Status", link="https://travis-ci.org/labcabrera/lab-insurance"]
 
-Insurance showcase engine (under refactor)
+= Insurance Showcase Engine
+
+Motor de gestión de productos de ahorro basado en una arquitectura de microservicios con las siguientes
+características.
+
+Su desarrollo se basa en:
+
+* Spring Boot
+* Spring Integration
+* RabbitMQ
+* Spring Cloud Netflix
+
+== Contratación
+
+La contratación está separada en dos módulos. Un gateway que simplemente provee de los servicios REST
+comunes que hace de dispatcher para encolar los mensajes en RabbitMQ.
+
+Después tenemos el otro módulo que procesa los mensajes obtenidos de RabbitMQ.
+
+Flujo:
+
+* El cliente realiza una llamada al servicio rest prepare a partir de unos parámetros generales tales
+como el tipo de contrato (acuerdo marco). El servicio devuelve un objeto `ContractCreationData`.
+* En segundo lugar el cliente invoca al servicio de contratación pasando ese objeto una vez se
+ha completado con la información requerida.
+* El gateway lo enruta, y si la validación es correcta se encola en RabbitMQ.
+* El módulo de integración recibe el mensaje y lo procesa, volcando el resultado a RabbitMQ.
+** Adicionalmente publica los eventos también a través de AMQP para que los diferentes módulos
+efectúen las diferentes acciones necesarias (generación de documentación, initialización de los
+portfolios, etc).
+* El gateway recupera la información del contrato y genera la respuesta.
+
+== References
+
+=== Spring Integration
+
+* https://github.com/bijukunjummen/si-dsl-rabbit-sample
+* https://knallisworld.de/blog/2016/03/26/expose-a-java-method-with-amqp-and-spring-reloaded-with-java-dsl/

@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: insurance-ms-contract-creation
-  cloud:
-    config:
-      uri: http://localhost:8888/
-      name: insurance-ms-contract-creation,insurance-common
