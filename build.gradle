@@ -173,19 +173,14 @@ project(":insurance-contract-creation-integration") {
 		compile "org.springframework.integration:spring-integration-amqp"
 		compile "org.springframework.integration:spring-integration-mongodb"
 		compile "org.springframework.integration:spring-integration-java-dsl"
+		compile "org.springframework.cloud:spring-cloud-config-client"
 	}
 }
 project(":insurance-contract-creation-gateway") {
 	dependencies {
 		compile project(":insurance-contract-creation-integration")
 		compile "org.springframework.boot:spring-boot-starter-web"
-		//compile "org.springframework.boot:spring-boot-starter-integration"
-		//compile "org.springframework.boot:spring-boot-starter-amqp"
-		//compile "org.springframework.integration:spring-integration-amqp"
-		//compile "org.springframework.integration:spring-integration-mongodb"
-		//compile "org.springframework.integration:spring-integration-java-dsl"
-		//compile "org.springframework.cloud:spring-cloud-config-client"
-		//compile "org.springframework.cloud:spring-cloud-starter-eureka"
+		compile "org.springframework.cloud:spring-cloud-config-client"
 		compile "org.springframework.boot:spring-boot-starter-actuator"
 		compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
 	}

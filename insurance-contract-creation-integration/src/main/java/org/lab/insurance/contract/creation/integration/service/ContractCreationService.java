@@ -1,6 +1,7 @@
 package org.lab.insurance.contract.creation.integration.service;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.lab.insurance.contract.creation.integration.domain.ContractCreationData;
 import org.lab.insurance.model.contract.Contract;
@@ -66,6 +67,8 @@ public class ContractCreationService {
 		orderRepository.save(data.getInitialPayment());
 		result.setOrders(new ArrayList<>());
 		result.getOrders().add(data.getInitialPayment());
+
+		result.setNumber(String.valueOf(new Random().nextInt(10000)));
 
 		contractRepository.save(result);
 		return result;

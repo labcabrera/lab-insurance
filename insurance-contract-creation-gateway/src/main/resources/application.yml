@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: insurance-contract-creation-gateway
+  cloud:
+    config:
+      uri: http://localhost:8888/
+      name: insurance-contract-creation-gateway,insurance-common
