@@ -22,7 +22,7 @@ services:
     command: java -jar /app/insurance-cloud-config.jar
 
   insurance-rabbitmq:
-    image: rabbitmq:3.6.11
+    image: rabbitmq:3.6.11-management
     container_name: rabbitmq
     ports:
       - "5672:5672"
