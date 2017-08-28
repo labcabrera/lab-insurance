@@ -236,7 +236,7 @@ project(":insurance-asset-gateway") {
 	}
 }
 
-project(":insurance-market") {
+project(":insurance-broker-core") {
 	dependencies {
 		compile project(":insurance-ms-common")
 	}
