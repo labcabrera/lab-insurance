@@ -1,0 +1,11 @@
+version: "3.0"
+services:
+
+  insurance-cloud-config:
+    image: java:openjdk-8u45-jdk
+    working_dir: /app
+    volumes:
+      - ../../insurance-cloud-config/build/libs:/app
+    ports:
+      - "8888:8888"
+    command: java -jar /app/insurance-cloud-config.jar

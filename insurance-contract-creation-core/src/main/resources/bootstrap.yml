@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active: local
+
+---
+
+spring:
+  profiles: cloud
+  cloud:
+    config:
+      uri: http://localhost:8888/
+      name: insurance-contract-creation-core,insurance-common
+
+---
+
+spring:
+  profiles: local
+  cloud:
+    config:
+      enabled: false

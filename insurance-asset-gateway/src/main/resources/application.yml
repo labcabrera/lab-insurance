@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: insurance-ms-asset
+#  profiles:
+#    active: default
+  cloud:
+    config:
+      uri: http://localhost:8888/
+       name: insurance-common,insurance-ms-asset
+
+logging.level.org.springframework: DEBUG

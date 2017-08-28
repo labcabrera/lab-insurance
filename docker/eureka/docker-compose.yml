@@ -1,0 +1,11 @@
+version: "3.0"
+services:
+
+  insurance-eureka:
+    image: java:openjdk-8u45-jdk
+    working_dir: /app
+    volumes:
+      - ../../insurance-eureka/build/libs:/app
+    ports:
+      - "8070:8070"
+    command: bash -c "sleep 20; java -jar /app/insurance-eureka.jar"
