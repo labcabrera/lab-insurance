@@ -78,8 +78,7 @@ utilizando AMQP.
 |legal-entity-gateway       | 8082
 |asset-gateway              | 8089
 |accounting-gateway         | 8083
-|contract-search            | 8091
-|asset                      | 8099
+|contract-common-gateway    | 8091
 |===
 
 == References

@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: insurance-contract-common-gateway
+#  profiles:
+#    active: default
+  cloud:
+    config:
+      uri: http://localhost:8888/
+      name: insurance-common,insurance-contract-common-gateway

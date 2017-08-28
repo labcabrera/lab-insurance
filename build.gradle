@@ -199,6 +199,9 @@ project(":insurance-contract-creation-gateway") {
 	}
 }
 
+project(":insurance-contract-common-gateway") {
+}
+
 project(":insurance-asset-core") {
 }
 project(":insurance-asset-gateway") {

@@ -16,12 +16,14 @@ include ":insurance-asset-core"
 include ":insurance-asset-gateway"
 include ":insurance-contract-creation-core"
 include ":insurance-contract-creation-gateway"
+include ":insurance-contract-common-gateway"
 include ":insurance-portfolio-core"
 include ":insurance-portfolio-gateway"
 include ":insurance-market"
 include ":insurance-payment-core"
 include ":insurance-stop-loss"
 include ":insurance-order-gateway"
+
 
 include ":insurance-zuul"
 

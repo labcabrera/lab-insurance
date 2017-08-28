@@ -27,13 +27,7 @@ public class AssetSearchController {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
-	// TODO search & pagination
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public List<Asset> search() {
-		return repository.findAll();
-	}
-
-	@RequestMapping(value = "/find", method = RequestMethod.GET)
 	public List<Asset> searchAlt(@RequestParam(value = "p", defaultValue = "0") Integer page,
 			@RequestParam(value = "s", defaultValue = "10") Integer size) {
 		final Pageable pageableRequest = new PageRequest(page, size);
