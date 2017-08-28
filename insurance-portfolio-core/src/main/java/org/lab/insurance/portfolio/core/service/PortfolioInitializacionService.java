@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.lab.insurance.domain.contract.Contract;
 import org.lab.insurance.domain.contract.repository.ContractRepository;
+import org.lab.insurance.domain.messaging.ContractRefMessage;
 import org.lab.insurance.domain.portfolio.Portfolio;
 import org.lab.insurance.domain.portfolio.PortfolioType;
 import org.lab.insurance.domain.portfolio.repository.PortfolioRepository;
@@ -26,11 +27,12 @@ public class PortfolioInitializacionService {
 	@Autowired
 	private ContractPortfolioInfoRepository repo;
 
-	public Contract initialize(Contract contractRef) {
+	public Contract initialize(ContractRefMessage msg) {
 		log.info("Intializing contract {} portfolios");
 
-		Contract contract = contractRepo.findOne(contractRef.getId());
+		Contract contract = contractRepo.findOne(msg.getContractId());
 		String cn = contract.getNumber();
+		// TODO validate contract status (filtering)
 
 		List<Portfolio> portfolios = new ArrayList<>();
 		portfolios.add(Portfolio.builder().type(PortfolioType.PASSIVE).name(cn + "/passive").build());

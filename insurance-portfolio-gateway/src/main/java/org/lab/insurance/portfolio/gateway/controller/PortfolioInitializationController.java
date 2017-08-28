@@ -5,6 +5,7 @@ import org.lab.insurance.portfolio.gateway.integration.ContractCreationGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -14,7 +15,7 @@ public class PortfolioInitializationController {
 	@Autowired
 	private ContractCreationGateway gateway;
 
-	@RequestMapping("/{contractId}")
+	@RequestMapping(value = "/{contractId}", method = RequestMethod.POST)
 	public ContractPortfolioRelation initialize(@PathVariable(value = "contractId") String contractId) {
 		return gateway.process(contractId);
 	}

@@ -34,12 +34,10 @@ public class IntegrationConfig {
 	}
 
 	@Bean
-	public IntegrationFlow portfolioInitializationFlow() {
-
+	public IntegrationFlow flow() {
 		AmqpOutboundEndpointSpec outbound = Amqp.outboundGateway(amqpTemplate)
 				.routingKey(Queues.PortfolioInitializationRequest);
-
-		return IntegrationFlows.from(MessageChannels.publishSubscribe(Channels.ContractRequest)) //
+		return IntegrationFlows.from(MessageChannels.publishSubscribe(Channels.PortfolioInitializationRequest)) //
 				.transform(Transformers.toJson(mapper())) //
 				.handle(outbound) //
 				.transform(Transformers.fromJson(Contract.class, mapper())) //

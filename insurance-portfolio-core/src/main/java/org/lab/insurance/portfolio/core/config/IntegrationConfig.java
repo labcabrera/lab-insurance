@@ -1,7 +1,7 @@
 package org.lab.insurance.portfolio.core.config;
 
 import org.lab.insurance.domain.IntegrationConstants.Queues;
-import org.lab.insurance.domain.contract.Contract;
+import org.lab.insurance.domain.messaging.ContractRefMessage;
 import org.lab.insurance.portfolio.core.service.PortfolioInitializacionService;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
@@ -47,8 +47,8 @@ public class IntegrationConfig {
 		return IntegrationFlows //
 				.from(inboundGateway) //
 				.log(Level.INFO) //
-				.transform(Transformers.fromJson(Contract.class, mapper())) //
-				.handle(Contract.class, (request, headers) -> initializationService.initialize(request)) //
+				.transform(Transformers.fromJson(ContractRefMessage.class)) //
+				.handle(ContractRefMessage.class, (request, headers) -> initializationService.initialize(request)) //
 				.transform(Transformers.toJson(mapper())) //
 				.get();
 	}
