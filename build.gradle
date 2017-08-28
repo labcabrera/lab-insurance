@@ -245,6 +245,17 @@ project(":insurance-order-gateway") {
 	}
 }
 
+project(":insurance-zuul") {
+dependencies {
+		compile "org.springframework.boot:spring-boot-starter"
+		compile "org.springframework.boot:spring-boot-starter-web"
+		compile "org.springframework.boot:spring-boot-starter-thymeleaf"
+		compile "org.springframework.boot:spring-boot-starter-actuator"
+		compile "org.springframework.cloud:spring-cloud-starter-zuul"
+		compile "org.springframework.cloud:spring-cloud-config-client"
+	}
+}
+
 project(":insurance-bdd") {
 	dependencies {
 		compile(project(":insurance-contract-creation-gateway")) {

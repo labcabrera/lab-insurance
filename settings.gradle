@@ -23,4 +23,6 @@ include ":insurance-payment-core"
 include ":insurance-stop-loss"
 include ":insurance-order-gateway"
 
+include ":insurance-zuul"
+
 include ":insurance-bdd"
