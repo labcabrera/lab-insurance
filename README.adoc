@@ -76,9 +76,10 @@ utilizando AMQP.
 |zuul-gateway               | 8080
 |contract-creation-gateway  | 8081
 |legal-entity-gateway       | 8082
+|asset-gateway              | 8089
 |accounting-gateway         | 8083
 |contract-search            | 8091
-|asset                      | 8092
+|asset                      | 8099
 |===
 
 == References

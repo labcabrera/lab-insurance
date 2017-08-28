@@ -1,11 +1,9 @@
 spring:
   application:
-    name: insurance-ms-asset
+    name: insurance-asset-gateway
 #  profiles:
 #    active: default
   cloud:
     config:
       uri: http://localhost:8888/
-       name: insurance-common,insurance-ms-asset
-
-logging.level.org.springframework: DEBUG
+      name: insurance-common,insurance-asset-gateway

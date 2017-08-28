@@ -6,8 +6,8 @@ import org.lab.insurance.bdd.TestConstants;
 import org.lab.insurance.domain.common.audit.AuditData;
 import org.lab.insurance.domain.contract.repository.ContractPersonRelationRepository;
 import org.lab.insurance.domain.contract.repository.ContractRepository;
-import org.lab.insurance.domain.insurance.AssetType;
 import org.lab.insurance.domain.insurance.Asset;
+import org.lab.insurance.domain.insurance.AssetType;
 import org.lab.insurance.domain.insurance.repository.AssetRepository;
 import org.lab.insurance.domain.insurance.repository.OrderRepository;
 import org.lab.insurance.domain.legalentity.IdCard;
@@ -76,16 +76,16 @@ public class MongoTestOperations {
 		legalEntityRepository.insert(insuranceInc);
 
 		baseAssetRepository.deleteAll();
+		baseAssetRepository.insert(Asset.builder().isin(TestConstants.Assets.ASSET_01).name("Asset 1")
+				.type(AssetType.INTERNAL_FUND).build());
+		baseAssetRepository.insert(Asset.builder().isin(TestConstants.Assets.ASSET_02).name("Asset 2")
+				.type(AssetType.INTERNAL_FUND).build());
+		baseAssetRepository.insert(Asset.builder().isin(TestConstants.Assets.GUARANTEE_01).name("Garantizado 1")
+				.type(AssetType.GUARANTEE).build());
+		baseAssetRepository.insert(Asset.builder().isin(TestConstants.Assets.GUARANTEE_02).name("Garantizado 2")
+				.type(AssetType.GUARANTEE).build());
 		baseAssetRepository
-				.insert(Asset.builder().isin(TestConstants.Assets.ASSET_01).type(AssetType.INTERNAL_FUND).build());
-		baseAssetRepository
-				.insert(Asset.builder().isin(TestConstants.Assets.ASSET_02).type(AssetType.INTERNAL_FUND).build());
-		baseAssetRepository
-				.insert(Asset.builder().isin(TestConstants.Assets.GUARANTEE_01).type(AssetType.GUARANTEE).build());
-		baseAssetRepository
-				.insert(Asset.builder().isin(TestConstants.Assets.GUARANTEE_02).type(AssetType.GUARANTEE).build());
-		baseAssetRepository
-				.insert(Asset.builder().isin(TestConstants.Assets.CASH_EURO).type(AssetType.CASH).build());
+				.insert(Asset.builder().isin(TestConstants.Assets.CASH_EURO).name("Euro").type(AssetType.CASH).build());
 		contractRepository.deleteAll();
 
 		policyEntityRelationRepository.deleteAll();

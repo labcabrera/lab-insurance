@@ -9,6 +9,9 @@ spring:
   thymeleaf:
     #no cache templates under development phase
     cache: false
+    
+server:
+  port: 8080
 
 zuul:
   prefix: /api
