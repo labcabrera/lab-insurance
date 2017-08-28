@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lab.insurance.contract.creation.gateway.messaging.ContractCreationGateway;
+import com.lab.insurance.contract.creation.gateway.integration.ContractCreationGateway;
 
 @RequestMapping(value = "/api/v1/contract/creation/")
 @RestController

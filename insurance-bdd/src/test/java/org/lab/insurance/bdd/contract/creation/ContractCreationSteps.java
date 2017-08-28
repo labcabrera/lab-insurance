@@ -24,7 +24,7 @@ import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.lab.insurance.contract.creation.gateway.messaging.ContractCreationGateway;
+import com.lab.insurance.contract.creation.gateway.integration.ContractCreationGateway;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;

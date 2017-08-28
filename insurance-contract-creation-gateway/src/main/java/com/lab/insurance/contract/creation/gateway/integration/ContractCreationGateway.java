@@ -1,4 +1,4 @@
-package com.lab.insurance.contract.creation.gateway.messaging;
+package com.lab.insurance.contract.creation.gateway.integration;
 
 import org.lab.insurance.contract.creation.core.domain.ContractCreationData;
 import org.lab.insurance.domain.IntegrationConstants.Channels;

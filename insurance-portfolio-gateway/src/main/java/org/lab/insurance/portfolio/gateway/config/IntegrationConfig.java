@@ -1,30 +1,25 @@
-package org.lab.insurance.portfolio.core.config;
+package org.lab.insurance.portfolio.gateway.config;
 
+import org.lab.insurance.domain.IntegrationConstants.Channels;
 import org.lab.insurance.domain.IntegrationConstants.Queues;
 import org.lab.insurance.domain.contract.Contract;
-import org.lab.insurance.portfolio.core.service.PortfolioInitializacionService;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.amqp.Amqp;
-import org.springframework.integration.dsl.amqp.AmqpInboundGatewaySpec;
+import org.springframework.integration.dsl.amqp.AmqpOutboundEndpointSpec;
+import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.dsl.support.Transformers;
-import org.springframework.integration.handler.LoggingHandler.Level;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.integration.support.json.JsonObjectMapper;
 
 @Configuration
 public class IntegrationConfig {
 
-	@Autowired
-	private ConnectionFactory connectionFactory;
-	@Autowired
-	private PortfolioInitializacionService initializationService;
 	@Autowired
 	private AmqpTemplate amqpTemplate;
 
@@ -39,17 +34,16 @@ public class IntegrationConfig {
 	}
 
 	@Bean
-	public IntegrationFlow portfolioInitializacionFlow() {
+	public IntegrationFlow portfolioInitializationFlow() {
 
-		AmqpInboundGatewaySpec inboundGateway = Amqp.inboundGateway(connectionFactory, amqpTemplate,
-				portfolioInitializationRequest());
+		AmqpOutboundEndpointSpec outbound = Amqp.outboundGateway(amqpTemplate)
+				.routingKey(Queues.PortfolioInitializationRequest);
 
-		return IntegrationFlows //
-				.from(inboundGateway) //
-				.transform(Transformers.fromJson(Contract.class, mapper())) //
-				.log(Level.INFO) //
-				.handle(Contract.class, (request, headers) -> initializationService.initialize(request)) //
+		return IntegrationFlows.from(MessageChannels.publishSubscribe(Channels.ContractRequest)) //
 				.transform(Transformers.toJson(mapper())) //
+				.handle(outbound) //
+				.transform(Transformers.fromJson(Contract.class, mapper())) //
+				.channel(MessageChannels.direct(Channels.PortfolioInitializationResponse)) //
 				.get();
 	}
 }

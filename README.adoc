@@ -53,14 +53,13 @@ Por ejemplo para el storie básico de contratación necesitaremos primero ejecut
 aplicación `ContractCreationCoreApp` y posteriormente ejecutaremos el
 test `ContractCreationCucumberTest`. 
 
-=== Configuración de colas
+=== RabbitMQ
 
-[Pendiente de documentar]
+Se puede acceder a la consola de administración desde:
 
-Aunque se puede ejecutar sin crear colas persistentes se recomienda crear las siguientes colas
-desde la interface de administración de RabbitMQ (por defecto con las credenciales guest:guest):
+http://localhost:15672/
 
-http://localhost:15672/#/queues
+Las credenciales son las del management por defecto: guest:guest.
 
 === Nomenclatura de los módulos:
 
@@ -79,6 +78,7 @@ utilizando AMQP.
 |asset-gateway              | 8089
 |accounting-gateway         | 8083
 |contract-common-gateway    | 8091
+|portfolio-gateway          | 8095
 |===
 
 == References
