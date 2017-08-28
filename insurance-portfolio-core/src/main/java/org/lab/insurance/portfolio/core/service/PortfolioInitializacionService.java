@@ -27,7 +27,7 @@ public class PortfolioInitializacionService {
 	@Autowired
 	private ContractPortfolioInfoRepository repo;
 
-	public Contract initialize(ContractRefMessage msg) {
+	public ContractPortfolioRelation initialize(ContractRefMessage msg) {
 		log.info("Intializing contract {} portfolios");
 
 		Contract contract = contractRepo.findOne(msg.getContractId());
@@ -48,11 +48,6 @@ public class PortfolioInitializacionService {
 		entity.getPortfolios().addAll(portfolios);
 
 		repo.save(entity);
-
-		portfolioRepo.delete(portfolios);
-		repo.delete(entity);
-		contractRepo.delete(contract);
-
-		return contract;
+		return entity;
 	}
 }
