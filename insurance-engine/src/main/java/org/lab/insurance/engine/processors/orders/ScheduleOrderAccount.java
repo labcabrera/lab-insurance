@@ -35,7 +35,7 @@ public class ScheduleOrderAccount implements Processor {
 	private void validateOrder(Order order) {
 		Validate.notNull(order.getDates().getValued(), "order.validation.missingValuedDate");
 		Validate.isTrue(order.getDates().getAccounted() == null, "order.validation.accountedDateMustBeNull");
-		Validate.isTrue(order.getCurrentState().getStateDefinition().getId().equals(Constants.OrderStates.VALUED),
+		Validate.isTrue(order.getCurrentState().getCode().equals(Constants.OrderStates.VALUED),
 				"order.validation.expectedStateValued");
 	}
 }

@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Document
 @Data
-public class TradeOrder implements HasState<String> {
+public class TradeOrder implements HasState {
 
 	@Id
 	private String id;

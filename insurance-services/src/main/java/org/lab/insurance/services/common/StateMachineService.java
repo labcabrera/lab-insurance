@@ -4,12 +4,13 @@ import javax.inject.Inject;
 
 import org.lab.insurance.domain.HasState;
 
+@Deprecated
 public class StateMachineService {
 
 	@Inject
 	private TimestampProvider timestampProvider;
 
-	public void createTransition(HasState<String> hasState, String stateDefinitionId) {
+	public void createTransition(HasState hasState, String stateDefinitionId) {
 		throw new RuntimeException("Not implemented jpa -> mongo");
 		// StateDefinition stateDefinition = entityManager.find(StateDefinition.class, stateDefinitionId);
 		// State state = new State();

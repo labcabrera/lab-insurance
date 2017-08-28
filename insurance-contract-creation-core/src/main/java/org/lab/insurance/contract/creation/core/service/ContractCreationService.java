@@ -3,8 +3,10 @@ package org.lab.insurance.contract.creation.core.service;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.lab.insurance.commons.services.StateMachineService;
 import org.lab.insurance.commons.services.TimestampProvider;
 import org.lab.insurance.contract.creation.core.domain.ContractCreationData;
+import org.lab.insurance.domain.Constants;
 import org.lab.insurance.domain.common.audit.AuditData;
 import org.lab.insurance.domain.contract.Contract;
 import org.lab.insurance.domain.contract.ContractPersonRelation;
@@ -41,6 +43,8 @@ public class ContractCreationService {
 	private PersonRepository personRepository;
 	@Autowired
 	private TimestampProvider timeStampProvider;
+	@Autowired
+	private StateMachineService stateMachineService;
 
 	public Contract process(ContractCreationData data) {
 		log.info("Processing contract creation {}", data);
@@ -76,6 +80,9 @@ public class ContractCreationService {
 		result.setAuditData(AuditData.builder().created(timeStampProvider.getCurrentDate()).build());
 
 		contractRepository.save(result);
+
+		stateMachineService.createTransition(result, Constants.ContractStates.CREATED);
+
 		return result;
 
 	}
@@ -88,10 +95,12 @@ public class ContractCreationService {
 				Person tmp = personRepository.findByIdCardNumber(entity.getIdCard().getNumber());
 				Assert.notNull(tmp, "Cant resolve legal entity " + entity);
 				return tmp;
-			} else {
+			}
+			else {
 				throw new RuntimeException("Cant resolve legal entity");
 			}
-		} else {
+		}
+		else {
 			return relation.getPerson();
 		}
 	}

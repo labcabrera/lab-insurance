@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ValidOrder
-public class Order implements HasContract, HasState<String> {
+public class Order implements HasContract, HasState {
 
 	@Id
 	private String id;

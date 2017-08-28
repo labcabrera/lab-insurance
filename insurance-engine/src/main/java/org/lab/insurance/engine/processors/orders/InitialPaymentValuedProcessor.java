@@ -47,8 +47,7 @@ public class InitialPaymentValuedProcessor implements Processor {
 	}
 
 	public boolean isValued(Order i) {
-		String currentStateId = (i.getCurrentState() != null) ? i.getCurrentState().getStateDefinition().getCode()
-				: null;
+		String currentStateId = (i.getCurrentState() != null) ? i.getCurrentState().getCode() : null;
 		boolean checkDate = i.getDates() != null && i.getDates().getValued() != null;
 		boolean checkState = currentStateId != null && (currentStateId.equals(Constants.OrderStates.VALUED)
 				|| currentStateId.equals(Constants.OrderStates.ACCOUNTED));

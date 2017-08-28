@@ -25,7 +25,7 @@ import lombok.Data;
 
 @Data
 @Document
-public class Contract implements HasState<String> {
+public class Contract implements HasState {
 
 	@Id
 	@Null(message = "ID_MUST_BE_EMPTY", groups = ValidationContext.Insert.class)

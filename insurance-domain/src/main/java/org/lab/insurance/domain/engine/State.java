@@ -7,8 +7,7 @@ import lombok.Data;
 @Data
 public class State {
 
-	private StateDefinition stateDefinition;
-	
+	private String code;
 	private Date entered;
 	private String hasStateId;
 

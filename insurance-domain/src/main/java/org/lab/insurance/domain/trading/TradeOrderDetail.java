@@ -7,12 +7,15 @@ import org.lab.insurance.domain.HasState;
 import org.lab.insurance.domain.engine.State;
 import org.lab.insurance.domain.insurance.Asset;
 import org.lab.insurance.domain.insurance.MarketOrderSource;
+import org.springframework.data.annotation.Id;
 
 import lombok.Data;
 
 @Data
-public class TradeOrderDetail implements HasState<String>, HasAsset {
+public class TradeOrderDetail implements HasState, HasAsset {
 
+	@Id
+	private String id;
 	private TradeOrder tradeOrder;
 	private Asset asset;
 	private MarketOrderSource source;

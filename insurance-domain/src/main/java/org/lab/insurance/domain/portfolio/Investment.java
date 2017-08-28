@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Document
 @Data
-public class Investment implements HasState<String> {
+public class Investment implements HasState {
 
 	@Id
 	private String id;

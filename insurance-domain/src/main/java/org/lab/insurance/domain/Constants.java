@@ -3,6 +3,7 @@ package org.lab.insurance.domain;
 public interface Constants {
 
 	public interface ContractStates {
+		String CREATED = "CONTRACT_CREATED";
 		String INITIAL = "CONTRACT_INITIAL";
 		String PAYED = "CONTRACT_PAYED";
 		String ACTIVE = "CONTRACT_ACTIVE";
