@@ -2,11 +2,11 @@ package org.lab.insurance.engine.processors.orders;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.lab.insurance.model.Constants;
-import org.lab.insurance.model.contract.Contract;
-import org.lab.insurance.model.insurance.Order;
-import org.lab.insurance.model.insurance.OrderProcessInfo;
-import org.lab.insurance.model.insurance.repository.OrderRepository;
+import org.lab.insurance.domain.Constants;
+import org.lab.insurance.domain.contract.Contract;
+import org.lab.insurance.domain.insurance.Order;
+import org.lab.insurance.domain.insurance.OrderProcessInfo;
+import org.lab.insurance.domain.insurance.repository.OrderRepository;
 import org.lab.insurance.services.common.StateMachineService;
 import org.lab.insurance.services.common.TimestampProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +37,9 @@ public class OrderProcessor implements Processor {
 		if (order.getProcessInfo() == null) {
 			Contract policy = order.getContract();
 			order.setProcessInfo(new OrderProcessInfo());
-			order.getProcessInfo().setPortfolioActive(policy.getPortfolioInfo().getPortfolioActive());
-			order.getProcessInfo().setPortfolioPassive(policy.getPortfolioInfo().getPortfolioPassive());
+			throw new RuntimeException("Not implemented");
+			// order.getProcessInfo().setPortfolioActive(policy.getPortfolioInfo().getPortfolioActive());
+			// order.getProcessInfo().setPortfolioPassive(policy.getPortfolioInfo().getPortfolioPassive());
 		}
 	}
 }

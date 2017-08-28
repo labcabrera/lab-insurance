@@ -7,15 +7,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.lab.insurance.model.Constants;
-import org.lab.insurance.model.insurance.BaseAsset;
-import org.lab.insurance.model.insurance.MarketOrder;
-import org.lab.insurance.model.insurance.MarketOrderType;
-import org.lab.insurance.model.insurance.Order;
-import org.lab.insurance.model.portfolio.Investment;
-import org.lab.insurance.model.portfolio.Portfolio;
-import org.lab.insurance.model.portfolio.PortfolioOperation;
-import org.lab.insurance.model.portfolio.repository.PortfolioOperationRepository;
+import org.lab.insurance.domain.Constants;
+import org.lab.insurance.domain.insurance.Asset;
+import org.lab.insurance.domain.insurance.MarketOrder;
+import org.lab.insurance.domain.insurance.MarketOrderType;
+import org.lab.insurance.domain.insurance.Order;
+import org.lab.insurance.domain.portfolio.Investment;
+import org.lab.insurance.domain.portfolio.Portfolio;
+import org.lab.insurance.domain.portfolio.PortfolioOperation;
+import org.lab.insurance.domain.portfolio.repository.PortfolioOperationRepository;
 import org.lab.insurance.services.common.StateMachineService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,13 +34,15 @@ public class AccountingService {
 		Portfolio orderPassive = order.getProcessInfo().getPortfolioPassive();
 		Portfolio orderActive = order.getProcessInfo().getPortfolioActive();
 		if (orderPassive == null) {
-			orderPassive = order.getContract().getPortfolioInfo().getPortfolioPassive();
+			throw new RuntimeException("Not implemented");
+			//orderPassive = order.getContract().getPortfolioInfo().getPortfolioPassive();
 		}
 		if (orderActive == null) {
-			orderActive = order.getContract().getPortfolioInfo().getPortfolioActive();
+			throw new RuntimeException("Not implemented");
+			//orderActive = order.getContract().getPortfolioInfo().getPortfolioActive();
 		}
 		for (MarketOrder marketOrder : order.getMarketOrders()) {
-			BaseAsset asset = marketOrder.getAsset();
+			Asset asset = marketOrder.getAsset();
 			Date valueDate = order.getDates().getValueDate();
 			BigDecimal units = marketOrder.getUnits();
 			Portfolio portfolioDebe = marketOrder.getType() == MarketOrderType.BUY ? orderActive : orderPassive;
@@ -54,7 +56,7 @@ public class AccountingService {
 
 	}
 
-	public PortfolioOperation accountUnits(Investment from, Investment to, BaseAsset asset, BigDecimal units,
+	public PortfolioOperation accountUnits(Investment from, Investment to, Asset asset, BigDecimal units,
 			Date valueDate, MarketOrder marketOrder) {
 		PortfolioOperation operation = new PortfolioOperation();
 		operation.setDebe(from);

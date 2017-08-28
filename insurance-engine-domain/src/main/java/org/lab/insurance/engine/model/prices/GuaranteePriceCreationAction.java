@@ -3,25 +3,25 @@ package org.lab.insurance.engine.model.prices;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.lab.insurance.domain.insurance.Asset;
 import org.lab.insurance.engine.model.ActionDefinition;
 import org.lab.insurance.engine.model.ActionEntity;
-import org.lab.insurance.model.insurance.BaseAsset;
 
 @SuppressWarnings("serial")
 @ActionDefinition(endpoint = "direct:guarantee_price_creation")
-public class GuaranteePriceCreationAction implements ActionEntity<BaseAsset> {
+public class GuaranteePriceCreationAction implements ActionEntity<Asset> {
 
-	private BaseAsset asset;
+	private Asset asset;
 	private BigDecimal percent;
 	private Date from;
 	private Date to;
 	private Date actionDate;
 
-	public BaseAsset getAsset() {
+	public Asset getAsset() {
 		return asset;
 	}
 
-	public void setAsset(BaseAsset asset) {
+	public void setAsset(Asset asset) {
 		this.asset = asset;
 	}
 

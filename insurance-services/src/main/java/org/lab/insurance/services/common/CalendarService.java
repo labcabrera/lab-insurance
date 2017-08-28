@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.lab.insurance.model.common.HolidayCalendar;
+import org.lab.insurance.domain.common.HolidayCalendar;
 
 public class CalendarService {
 

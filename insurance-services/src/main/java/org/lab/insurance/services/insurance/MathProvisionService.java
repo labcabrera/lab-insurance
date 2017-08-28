@@ -4,9 +4,9 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
-import org.lab.insurance.model.exceptions.NoCotizationException;
-import org.lab.insurance.model.portfolio.Portfolio;
-import org.lab.insurance.model.portfolio.PortfolioMathProvision;
+import org.lab.insurance.domain.exceptions.NoCotizationException;
+import org.lab.insurance.domain.portfolio.Portfolio;
+import org.lab.insurance.domain.portfolio.PortfolioMathProvision;
 import org.lab.insurance.services.accounting.PortfolioService;
 import org.lab.insurance.services.common.TimestampProvider;
 import org.springframework.transaction.annotation.Transactional;

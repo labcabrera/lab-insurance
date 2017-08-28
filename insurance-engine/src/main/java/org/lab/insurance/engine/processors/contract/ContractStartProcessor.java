@@ -4,9 +4,9 @@ import javax.inject.Inject;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.lab.insurance.model.Constants;
-import org.lab.insurance.model.HasContract;
-import org.lab.insurance.model.contract.Contract;
+import org.lab.insurance.domain.Constants;
+import org.lab.insurance.domain.HasContract;
+import org.lab.insurance.domain.contract.Contract;
 import org.lab.insurance.services.common.StateMachineService;
 
 public class ContractStartProcessor implements Processor {

@@ -2,9 +2,9 @@ package org.lab.insurance.engine.processors.contract;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.lab.insurance.model.HasContract;
-import org.lab.insurance.model.contract.Contract;
-import org.lab.insurance.model.contract.repository.ContractRepository;
+import org.lab.insurance.domain.HasContract;
+import org.lab.insurance.domain.contract.Contract;
+import org.lab.insurance.domain.contract.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ContractResolverProcessor implements Processor {

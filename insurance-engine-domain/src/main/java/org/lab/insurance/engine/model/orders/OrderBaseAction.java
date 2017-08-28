@@ -2,9 +2,9 @@ package org.lab.insurance.engine.model.orders;
 
 import java.util.Date;
 
+import org.lab.insurance.domain.HasOrder;
+import org.lab.insurance.domain.insurance.Order;
 import org.lab.insurance.engine.model.ActionEntity;
-import org.lab.insurance.model.HasOrder;
-import org.lab.insurance.model.insurance.Order;
 
 @SuppressWarnings("serial")
 public abstract class OrderBaseAction implements ActionEntity<Order>, HasOrder {

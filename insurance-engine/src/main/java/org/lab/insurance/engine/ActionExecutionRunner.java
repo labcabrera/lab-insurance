@@ -3,7 +3,7 @@ package org.lab.insurance.engine;
 import java.util.Date;
 
 import org.lab.insurance.core.serialization.Serializer;
-import org.lab.insurance.model.engine.ActionExecution;
+import org.lab.insurance.domain.engine.ActionExecution;
 import org.lab.insurance.services.common.TimestampProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 

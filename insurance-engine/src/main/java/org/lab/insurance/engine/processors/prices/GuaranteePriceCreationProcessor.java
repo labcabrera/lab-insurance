@@ -12,12 +12,12 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.commons.lang3.time.DateUtils;
 import org.lab.insurance.core.math.BigMath;
+import org.lab.insurance.domain.insurance.AssetPrice;
+import org.lab.insurance.domain.insurance.Asset;
+import org.lab.insurance.domain.insurance.Currency;
+import org.lab.insurance.domain.insurance.repository.AssetPriceRepository;
+import org.lab.insurance.domain.insurance.repository.CurrencyRepository;
 import org.lab.insurance.engine.model.prices.GuaranteePriceCreationAction;
-import org.lab.insurance.model.insurance.AssetPrice;
-import org.lab.insurance.model.insurance.BaseAsset;
-import org.lab.insurance.model.insurance.Currency;
-import org.lab.insurance.model.insurance.repository.AssetPriceRepository;
-import org.lab.insurance.model.insurance.repository.CurrencyRepository;
 import org.lab.insurance.services.insurance.CotizationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -42,7 +42,7 @@ public class GuaranteePriceCreationProcessor implements Processor {
 	public void process(Exchange exchange) throws Exception {
 		Currency currency = resolveGuaranteeCurrency();
 		GuaranteePriceCreationAction action = exchange.getIn().getBody(GuaranteePriceCreationAction.class);
-		BaseAsset asset = action.getAsset();
+		Asset asset = action.getAsset();
 		Date from = action.getFrom();
 		Date to = action.getTo();
 		BigDecimal guarantee = action.getPercent();

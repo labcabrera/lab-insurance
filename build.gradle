@@ -6,7 +6,7 @@ buildscript {
 		lombokVersion = "1.16.16"
 		springfoxSwaggerVersion = "2.7.0"
 		cucumberVersion = "1.2.5"
-		
+
 		useProxy = true
 	}
 	repositories {
@@ -53,10 +53,35 @@ subprojects {
 
 	dependencies {
 		compile "org.projectlombok:lombok:${lombokVersion}"
-		testCompile "org.springframework.boot:spring-boot-starter-test"		
+		testCompile "org.springframework.boot:spring-boot-starter-test"
 	}
 	// exclude version in jar file (tmp for docker-compose)
 	jar.archiveName = "${jar.baseName}.${jar.extension}"
+}
+
+configure(subprojects.findAll {it.name.endsWith("-core")}) {
+	dependencies {
+		compile project(":insurance-domain")
+		compile project(":insurance-common")
+		compile "org.springframework.boot:spring-boot-starter-integration"
+		compile "org.springframework.boot:spring-boot-starter-amqp"
+		compile "org.springframework.integration:spring-integration-amqp"
+		compile "org.springframework.integration:spring-integration-mongodb"
+		compile "org.springframework.integration:spring-integration-java-dsl"
+		compile "org.springframework.cloud:spring-cloud-config-client"
+	}
+}
+configure(subprojects.findAll {it.name.endsWith("-gateway")}) {
+	dependencies {
+		compile project(":insurance-domain")
+		compile "org.springframework.boot:spring-boot-starter-web"
+		compile "org.springframework.boot:spring-boot-starter-integration"
+		compile "org.springframework.boot:spring-boot-starter-amqp"
+		compile "org.springframework.integration:spring-integration-amqp"
+		compile "org.springframework.cloud:spring-cloud-config-client"
+		compile "org.springframework.boot:spring-boot-starter-actuator"
+		compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
+	}
 }
 
 project(":insurance-domain") {
@@ -70,7 +95,7 @@ project(":insurance-domain") {
 	}
 }
 
-project(":insurance-core") {
+project(":insurance-common") {
 	dependencies {
 		compile project(":insurance-domain")
 		compile "joda-time:joda-time:2.9.9"
@@ -83,7 +108,7 @@ project(":insurance-core") {
 
 project(":insurance-services") {
 	dependencies {
-		compile project(":insurance-core")
+		compile project(":insurance-common")
 
 		// remove
 		compile group: 'org.apache.camel', name: 'camel-guice', version: '2.19.2'
@@ -110,7 +135,7 @@ project(":insurance-engine") {
 	dependencies {
 		compile project(":insurance-services")
 		compile project(":insurance-engine-domain")
-		
+
 		// remove
 		//compile "org.apache.camel:camel-guice:2.19.2"
 		compile "org.apache.commons:commons-lang3:3.6"
@@ -142,9 +167,9 @@ project(":insurance-cloud-config") {
 }
 
 //deprecated
-project(":insurance-ms-core") {
+project(":insurance-ms-common") {
 	dependencies {
-		compile project(":insurance-core")
+		compile project(":insurance-common")
 		compile "org.springframework.boot:spring-boot-starter-web"
 		compile "org.springframework.boot:spring-boot-starter-integration"
 		compile "org.springframework.boot:spring-boot-starter-actuator"
@@ -153,7 +178,7 @@ project(":insurance-ms-core") {
 		compile "org.springframework.integration:spring-integration-amqp"
 		compile "org.springframework.integration:spring-integration-mongodb"
 		compile "org.springframework.integration:spring-integration-java-dsl"
-		
+
 
 		compile "org.springframework.cloud:spring-cloud-config-client"
 		compile "org.springframework.cloud:spring-cloud-starter-eureka"
@@ -165,74 +190,64 @@ project(":insurance-ms-core") {
 	}
 }
 
-project(":insurance-contract-creation-integration") {
-	dependencies {
-		compile project(":insurance-domain")
-		compile "org.springframework.boot:spring-boot-starter-integration"
-		compile "org.springframework.boot:spring-boot-starter-amqp"
-		compile "org.springframework.integration:spring-integration-amqp"
-		compile "org.springframework.integration:spring-integration-mongodb"
-		compile "org.springframework.integration:spring-integration-java-dsl"
-		compile "org.springframework.cloud:spring-cloud-config-client"
-	}
+project(":insurance-contract-creation-core") {
 }
+
 project(":insurance-contract-creation-gateway") {
 	dependencies {
-		compile project(":insurance-contract-creation-integration")
-		compile "org.springframework.boot:spring-boot-starter-web"
-		compile "org.springframework.cloud:spring-cloud-config-client"
-		compile "org.springframework.boot:spring-boot-starter-actuator"
-		compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
+		compile project(":insurance-contract-creation-core") 
 	}
 }
 
-
-project(":insurance-contract-search") {
-	dependencies {
-		compile project(":insurance-ms-core")
-	}
+project(":insurance-asset-core") {
+}
+project(":insurance-asset-gateway") {
 }
 
-project(":insurance-legal-entity") {
-	dependencies {
-		compile project(":insurance-ms-core")
-	}
+project(":insurance-legal-entity-core") {
+}
+
+project(":insurance-legal-entity-gateway") {
 }
 
 project(":insurance-stop-loss") {
 	dependencies {
-		compile project(":insurance-ms-core")
+		compile project(":insurance-ms-common")
 	}
 }
 
-project(":insurance-accounting") {
+project(":insurance-portfolio-core") {
+}
+project(":insurance-portfolio-gateway") {
+}
+
+project(":insurance-payment-core") {
 	dependencies {
-		compile project(":insurance-ms-core")
+		compile project(":insurance-ms-common")
 	}
 }
 
-project(":insurance-payment") {
+project(":insurance-asset-gateway") {
 	dependencies {
-		compile project(":insurance-ms-core")
-	}
-}
-
-project(":insurance-asset") {
-	dependencies {
-		compile project(":insurance-ms-core")
+		compile project(":insurance-ms-common")
 	}
 }
 
 project(":insurance-market") {
 	dependencies {
-		compile project(":insurance-ms-core")
+		compile project(":insurance-ms-common")
+	}
+}
+
+project(":insurance-order-gateway") {
+	dependencies {
+		compile project(":insurance-ms-common")
 	}
 }
 
 project(":insurance-bdd") {
 	dependencies {
 		compile(project(":insurance-contract-creation-gateway")) {
-			exclude group: "io.springfox:springfox-swagger2"
 			exclude group: "org.springframework.cloud"
 		}
 		testCompile "info.cukes:cucumber-junit:${cucumberVersion}"
@@ -243,5 +258,3 @@ project(":insurance-bdd") {
 		enabled = false
 	}
 }
-
-

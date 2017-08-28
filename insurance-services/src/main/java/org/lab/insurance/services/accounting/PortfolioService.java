@@ -3,17 +3,17 @@ package org.lab.insurance.services.accounting;
 import java.util.Date;
 import java.util.List;
 
-import org.lab.insurance.model.insurance.BaseAsset;
-import org.lab.insurance.model.portfolio.Investment;
-import org.lab.insurance.model.portfolio.Portfolio;
-import org.lab.insurance.model.portfolio.PortfolioType;
-import org.lab.insurance.model.portfolio.repository.PorfolioRepository;
+import org.lab.insurance.domain.insurance.Asset;
+import org.lab.insurance.domain.portfolio.Investment;
+import org.lab.insurance.domain.portfolio.Portfolio;
+import org.lab.insurance.domain.portfolio.PortfolioType;
+import org.lab.insurance.domain.portfolio.repository.PortfolioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class PortfolioService {
 
 	@Autowired
-	private PorfolioRepository porfolioRepository;
+	private PortfolioRepository porfolioRepository;
 
 	public Portfolio createPortfolio(String name, PortfolioType type) {
 		Portfolio portfolio = new Portfolio();
@@ -23,7 +23,7 @@ public class PortfolioService {
 		return portfolio;
 	}
 
-	public Investment findOrCreateActiveInvestment(Portfolio portfolio, BaseAsset asset, Date date) {
+	public Investment findOrCreateActiveInvestment(Portfolio portfolio, Asset asset, Date date) {
 		throw new RuntimeException("Not implemented jpa -> mongo");
 		// EntityManager entityManager = entityManagerProvider.get();
 		// TypedQuery<Investment> query = entityManager.createNamedQuery("Investment.selectAtDateByAsset",

@@ -12,15 +12,6 @@ services:
       - "27017"
     command: bash -c " set -o monitor ; mongod --smallfiles & sleep 20; mongo localhost:27017/lab-insurance /resources/mongo-init-data.js; fg"
 
-  insurance-cloud-config:
-    image: java:openjdk-8u45-jdk
-    working_dir: /app
-    volumes:
-      - ../../insurance-cloud-config/build/libs:/app
-    ports:
-      - "8888:8888"
-    command: java -jar /app/insurance-cloud-config.jar
-
   insurance-rabbitmq:
     image: rabbitmq:3.6.11-management
     container_name: rabbitmq
@@ -29,6 +20,16 @@ services:
       - "15672:15672"
     expose:
       - "5672"
+
+#  insurance-cloud-config:
+#    image: java:openjdk-8u45-jdk
+#    working_dir: /app
+#    volumes:
+#      - ../../insurance-cloud-config/build/libs:/app
+#    ports:
+#      - "8888:8888"
+#    command: java -jar /app/insurance-cloud-config.jar
+
 
  # insurance-eureka:
  #   image: java:openjdk-8u45-jdk

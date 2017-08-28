@@ -13,6 +13,7 @@ Su desarrollo se basa en:
 * Spring Integration
 * RabbitMQ
 * Spring Cloud Netflix
+* MongoDB
 
 == Contratación
 
@@ -33,6 +34,52 @@ ha completado con la información requerida.
 efectúen las diferentes acciones necesarias (generación de documentación, initialización de los
 portfolios, etc).
 * El gateway recupera la información del contrato y genera la respuesta.
+
+== Development
+
+=== Ejecutando el proyecto
+
+Una vez montado el proyecto deberemos arrancar mongodb y rabbitmq. Para ello en la carpeta
+_/docker/env_ hay un docker-compose.
+
+Si utilizamos la configuración de Spring Cloud Config deberemos arrancar también el servidor
+de configuración. Podemos hacerlo también desde el docker-compose específico o arrancándolo
+desde nuestro IDE.
+
+Después tenemos el proyecto BDD donde tenemos stories de diferentes operativas. Para poder
+ejecutar los stories será necesario tener levantados los diversos módulos que hacen falta.
+
+Por ejemplo para el storie básico de contratación necesitaremos primero ejecutar la
+aplicación `ContractCreationCoreApp` y posteriormente ejecutaremos el
+test `ContractCreationCucumberTest`. 
+
+=== Configuración de colas
+
+[Pendiente de documentar]
+
+Aunque se puede ejecutar sin crear colas persistentes se recomienda crear las siguientes colas
+desde la interface de administración de RabbitMQ (por defecto con las credenciales guest:guest):
+
+http://localhost:15672/#/queues
+
+=== Nomenclatura de los módulos:
+
+Los módulos _${name}-core_ hacen referencia a proyectos de integración sin interface web.
+Los módulos _${name}-gateway_ hacen referencia a los módulos web que generalmente explotan los servicios core
+utilizando AMQP.
+
+=== Local port mapping
+
+|===
+|cloud-config               | 8888
+|eureka                     | 8070
+|zuul-gateway               | 8080
+|contract-creation-gateway  | 8081
+|legal-entity-gateway       | 8082
+|accounting-gateway         | 8083
+|contract-search            | 8091
+|asset                      | 8092
+|===
 
 == References
 

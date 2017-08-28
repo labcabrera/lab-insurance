@@ -2,9 +2,9 @@ package org.lab.insurance.engine.model.contract;
 
 import java.util.Date;
 
+import org.lab.insurance.domain.HasContract;
+import org.lab.insurance.domain.contract.Contract;
 import org.lab.insurance.engine.model.ActionEntity;
-import org.lab.insurance.model.HasContract;
-import org.lab.insurance.model.contract.Contract;
 
 @SuppressWarnings("serial")
 public abstract class ContractBaseAction implements ActionEntity<Contract>, HasContract {

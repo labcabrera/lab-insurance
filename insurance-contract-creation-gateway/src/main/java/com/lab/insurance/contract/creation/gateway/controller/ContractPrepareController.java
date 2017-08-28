@@ -1,7 +1,7 @@
 package com.lab.insurance.contract.creation.gateway.controller;
 
-import org.lab.insurance.contract.creation.integration.domain.ContractCreationData;
-import org.lab.insurance.contract.creation.integration.domain.ContractPrepareInfo;
+import org.lab.insurance.contract.creation.core.domain.ContractCreationData;
+import org.lab.insurance.contract.creation.core.domain.ContractPrepareInfo;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;

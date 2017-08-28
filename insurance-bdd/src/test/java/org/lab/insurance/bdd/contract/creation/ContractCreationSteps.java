@@ -8,17 +8,17 @@ import java.util.stream.Collectors;
 
 import org.junit.Assert;
 import org.lab.insurance.bdd.contract.MongoTestOperations;
-import org.lab.insurance.contract.creation.integration.domain.ContractCreationData;
-import org.lab.insurance.model.contract.Contract;
-import org.lab.insurance.model.contract.ContractPersonRelation;
-import org.lab.insurance.model.contract.RelationType;
-import org.lab.insurance.model.contract.repository.ContractRepository;
-import org.lab.insurance.model.insurance.BaseAsset;
-import org.lab.insurance.model.insurance.Order;
-import org.lab.insurance.model.insurance.OrderDistribution;
-import org.lab.insurance.model.insurance.OrderType;
-import org.lab.insurance.model.legalentity.Person;
-import org.lab.insurance.model.legalentity.repository.PersonRepository;
+import org.lab.insurance.contract.creation.core.domain.ContractCreationData;
+import org.lab.insurance.domain.contract.Contract;
+import org.lab.insurance.domain.contract.ContractPersonRelation;
+import org.lab.insurance.domain.contract.RelationType;
+import org.lab.insurance.domain.contract.repository.ContractRepository;
+import org.lab.insurance.domain.insurance.Asset;
+import org.lab.insurance.domain.insurance.Order;
+import org.lab.insurance.domain.insurance.OrderDistribution;
+import org.lab.insurance.domain.insurance.OrderType;
+import org.lab.insurance.domain.legalentity.Person;
+import org.lab.insurance.domain.legalentity.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
@@ -31,7 +31,7 @@ import cucumber.api.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ContractCreationSteps extends ContractCreationIntegrationTest {
+public class ContractCreationSteps extends BddSupport {
 
 	@Autowired
 	protected ContractCreationGateway contractCreationGateway;
@@ -103,7 +103,7 @@ public class ContractCreationSteps extends ContractCreationIntegrationTest {
 			String[] split = token.split(":");
 			String isin = StringUtils.trimAllWhitespace(split[0]);
 			OrderDistribution i = new OrderDistribution();
-			i.setAsset(BaseAsset.builder().isin(isin).build());
+			i.setAsset(Asset.builder().isin(isin).build());
 			i.setPercent(new BigDecimal(StringUtils.trimWhitespace(split[1].replaceAll("%", ""))));
 			initialPayment.getBuyDistribution().add(i);
 		}

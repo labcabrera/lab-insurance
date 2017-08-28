@@ -1,4 +1,12 @@
 spring:
+  profiles:
+    active: test
+  application:
+    name: insurance-contract-creation-core
+
+---
+spring:
+  profiles: test
   data:
     mongodb:
       uri: mongodb://localhost:27017/lab-insurance

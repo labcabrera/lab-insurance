@@ -2,9 +2,9 @@ package org.lab.insurance.engine.processors.prices;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.lab.insurance.domain.insurance.AssetGuaranteePercent;
+import org.lab.insurance.domain.insurance.repository.AssetGuaranteePercentRepository;
 import org.lab.insurance.engine.model.prices.GuaranteePriceCreationAction;
-import org.lab.insurance.model.insurance.AssetGuaranteePercent;
-import org.lab.insurance.model.insurance.repository.AssetGuaranteePercentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

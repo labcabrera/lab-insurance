@@ -7,11 +7,11 @@ import javax.inject.Inject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.commons.lang3.Validate;
+import org.lab.insurance.domain.Constants;
+import org.lab.insurance.domain.insurance.Order;
 import org.lab.insurance.engine.ActionExecutionService;
 import org.lab.insurance.engine.model.ActionEntity;
 import org.lab.insurance.engine.model.orders.AccountOrderAction;
-import org.lab.insurance.model.Constants;
-import org.lab.insurance.model.insurance.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

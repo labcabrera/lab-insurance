@@ -3,20 +3,20 @@ package org.lab.insurance.bdd.contract;
 import java.util.Calendar;
 
 import org.lab.insurance.bdd.TestConstants;
-import org.lab.insurance.model.common.audit.AuditData;
-import org.lab.insurance.model.contract.repository.ContractPersonRelationRepository;
-import org.lab.insurance.model.contract.repository.ContractRepository;
-import org.lab.insurance.model.insurance.AssetType;
-import org.lab.insurance.model.insurance.BaseAsset;
-import org.lab.insurance.model.insurance.repository.BaseAssetRepository;
-import org.lab.insurance.model.insurance.repository.OrderRepository;
-import org.lab.insurance.model.legalentity.IdCard;
-import org.lab.insurance.model.legalentity.LegalEntity;
-import org.lab.insurance.model.legalentity.Person;
-import org.lab.insurance.model.legalentity.repository.LegalEntityRepository;
-import org.lab.insurance.model.legalentity.repository.PersonRepository;
-import org.lab.insurance.model.product.Agreement;
-import org.lab.insurance.model.product.AgreementRepository;
+import org.lab.insurance.domain.common.audit.AuditData;
+import org.lab.insurance.domain.contract.repository.ContractPersonRelationRepository;
+import org.lab.insurance.domain.contract.repository.ContractRepository;
+import org.lab.insurance.domain.insurance.AssetType;
+import org.lab.insurance.domain.insurance.Asset;
+import org.lab.insurance.domain.insurance.repository.BaseAssetRepository;
+import org.lab.insurance.domain.insurance.repository.OrderRepository;
+import org.lab.insurance.domain.legalentity.IdCard;
+import org.lab.insurance.domain.legalentity.LegalEntity;
+import org.lab.insurance.domain.legalentity.Person;
+import org.lab.insurance.domain.legalentity.repository.LegalEntityRepository;
+import org.lab.insurance.domain.legalentity.repository.PersonRepository;
+import org.lab.insurance.domain.product.Agreement;
+import org.lab.insurance.domain.product.AgreementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -77,15 +77,15 @@ public class MongoTestOperations {
 
 		baseAssetRepository.deleteAll();
 		baseAssetRepository
-				.insert(BaseAsset.builder().isin(TestConstants.Assets.ASSET_01).type(AssetType.INTERNAL_FUND).build());
+				.insert(Asset.builder().isin(TestConstants.Assets.ASSET_01).type(AssetType.INTERNAL_FUND).build());
 		baseAssetRepository
-				.insert(BaseAsset.builder().isin(TestConstants.Assets.ASSET_02).type(AssetType.INTERNAL_FUND).build());
+				.insert(Asset.builder().isin(TestConstants.Assets.ASSET_02).type(AssetType.INTERNAL_FUND).build());
 		baseAssetRepository
-				.insert(BaseAsset.builder().isin(TestConstants.Assets.GUARANTEE_01).type(AssetType.GUARANTEE).build());
+				.insert(Asset.builder().isin(TestConstants.Assets.GUARANTEE_01).type(AssetType.GUARANTEE).build());
 		baseAssetRepository
-				.insert(BaseAsset.builder().isin(TestConstants.Assets.GUARANTEE_02).type(AssetType.GUARANTEE).build());
+				.insert(Asset.builder().isin(TestConstants.Assets.GUARANTEE_02).type(AssetType.GUARANTEE).build());
 		baseAssetRepository
-				.insert(BaseAsset.builder().isin(TestConstants.Assets.CASH_EURO).type(AssetType.CASH).build());
+				.insert(Asset.builder().isin(TestConstants.Assets.CASH_EURO).type(AssetType.CASH).build());
 		contractRepository.deleteAll();
 
 		policyEntityRelationRepository.deleteAll();

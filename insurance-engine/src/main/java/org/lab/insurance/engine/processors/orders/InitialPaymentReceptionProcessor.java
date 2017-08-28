@@ -6,11 +6,11 @@ import javax.inject.Inject;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.lab.insurance.model.Constants;
-import org.lab.insurance.model.contract.Contract;
-import org.lab.insurance.model.contract.ContractDates;
-import org.lab.insurance.model.contract.repository.ContractRepository;
-import org.lab.insurance.model.insurance.Order;
+import org.lab.insurance.domain.Constants;
+import org.lab.insurance.domain.contract.Contract;
+import org.lab.insurance.domain.contract.ContractDates;
+import org.lab.insurance.domain.contract.repository.ContractRepository;
+import org.lab.insurance.domain.insurance.Order;
 import org.lab.insurance.services.common.StateMachineService;
 import org.lab.insurance.services.common.TimestampProvider;
 import org.lab.insurance.services.insurance.OrderService;

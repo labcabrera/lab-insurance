@@ -11,11 +11,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.lab.insurance.core.serialization.Serializer;
+import org.lab.insurance.domain.common.internal.Message;
+import org.lab.insurance.domain.engine.ActionExecution;
 import org.lab.insurance.engine.model.ActionDefinition;
 import org.lab.insurance.engine.model.ActionEntity;
 import org.lab.insurance.engine.model.exceptions.CancelAndRexecuteException;
-import org.lab.insurance.model.common.internal.Message;
-import org.lab.insurance.model.engine.ActionExecution;
 import org.lab.insurance.services.common.TimestampProvider;
 import org.springframework.transaction.annotation.Transactional;
 

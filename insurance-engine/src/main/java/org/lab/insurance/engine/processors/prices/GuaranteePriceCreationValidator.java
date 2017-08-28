@@ -10,9 +10,9 @@ import javax.validation.ValidationException;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.joda.time.DateTime;
+import org.lab.insurance.domain.insurance.AssetGuaranteePercent;
+import org.lab.insurance.domain.insurance.AssetPrice;
 import org.lab.insurance.engine.model.prices.GuaranteePriceCreationAction;
-import org.lab.insurance.model.insurance.AssetGuaranteePercent;
-import org.lab.insurance.model.insurance.AssetPrice;
 import org.lab.insurance.services.insurance.CotizationsService;
 
 /**

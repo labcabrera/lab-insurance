@@ -2,7 +2,7 @@ package org.lab.insurance.services.common;
 
 import javax.inject.Inject;
 
-import org.lab.insurance.model.HasState;
+import org.lab.insurance.domain.HasState;
 
 public class StateMachineService {
 

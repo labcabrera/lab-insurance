@@ -1,6 +1,7 @@
 package org.lab.insurance.engine.camel.routing;
 
 import org.apache.camel.builder.RouteBuilder;
+import org.lab.insurance.domain.insurance.OrderType;
 import org.lab.insurance.engine.camel.predicates.OrderTypePredicate;
 import org.lab.insurance.engine.processors.orders.InitialPaymentReceptionProcessor;
 import org.lab.insurance.engine.processors.orders.InitialPaymentValuedProcessor;
@@ -14,7 +15,6 @@ import org.lab.insurance.engine.processors.orders.OrderValueDateProcessor;
 import org.lab.insurance.engine.processors.orders.PaymentReceptionDateProcessor;
 import org.lab.insurance.engine.processors.orders.ScheduleOrderAccount;
 import org.lab.insurance.engine.processors.orders.ScheduleOrderValorization;
-import org.lab.insurance.model.insurance.OrderType;
 
 public class OrderRouteBuilder extends RouteBuilder {
 

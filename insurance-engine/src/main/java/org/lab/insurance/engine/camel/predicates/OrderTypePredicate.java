@@ -2,8 +2,8 @@ package org.lab.insurance.engine.camel.predicates;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Predicate;
-import org.lab.insurance.model.insurance.Order;
-import org.lab.insurance.model.insurance.OrderType;
+import org.lab.insurance.domain.insurance.Order;
+import org.lab.insurance.domain.insurance.OrderType;
 
 public class OrderTypePredicate implements Predicate {
 

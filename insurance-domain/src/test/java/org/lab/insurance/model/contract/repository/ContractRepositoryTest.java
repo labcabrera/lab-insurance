@@ -4,16 +4,17 @@ import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.lab.insurance.model.config.InsuranceModelConfig;
-import org.lab.insurance.model.contract.Contract;
-import org.lab.insurance.model.product.Agreement;
-import org.lab.insurance.model.product.AgreementRepository;
+import org.lab.insurance.domain.contract.Contract;
+import org.lab.insurance.domain.contract.repository.ContractRepository;
+import org.lab.insurance.domain.product.Agreement;
+import org.lab.insurance.domain.product.AgreementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = InsuranceModelConfig.class)
+// @SpringBootTest(classes = InsuranceModelConfig.class)
+@EnableMongoRepositories("org.lab.insurance.domain")
 public class ContractRepositoryTest {
 
 	@Autowired

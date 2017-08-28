@@ -4,7 +4,7 @@ import javax.inject.Inject;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.lab.insurance.model.insurance.Order;
+import org.lab.insurance.domain.insurance.Order;
 import org.lab.insurance.services.accounting.AccountingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

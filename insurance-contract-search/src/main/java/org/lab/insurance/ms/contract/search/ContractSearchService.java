@@ -1,7 +1,7 @@
 package org.lab.insurance.ms.contract.search;
 
-import org.lab.insurance.model.contract.Contract;
-import org.lab.insurance.model.contract.repository.ContractRepository;
+import org.lab.insurance.domain.contract.Contract;
+import org.lab.insurance.domain.contract.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

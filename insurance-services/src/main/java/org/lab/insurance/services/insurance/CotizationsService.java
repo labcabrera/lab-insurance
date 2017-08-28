@@ -3,9 +3,9 @@ package org.lab.insurance.services.insurance;
 import java.util.Date;
 import java.util.List;
 
-import org.lab.insurance.model.exceptions.NoCotizationException;
-import org.lab.insurance.model.insurance.AssetPrice;
-import org.lab.insurance.model.insurance.BaseAsset;
+import org.lab.insurance.domain.exceptions.NoCotizationException;
+import org.lab.insurance.domain.insurance.AssetPrice;
+import org.lab.insurance.domain.insurance.Asset;
 
 public class CotizationsService {
 
@@ -17,7 +17,7 @@ public class CotizationsService {
 	 * @return
 	 * @throws NoCotizationException Si no encuentra el precio.
 	 */
-	public AssetPrice findPriceAtDate(BaseAsset asset, Date when) throws NoCotizationException {
+	public AssetPrice findPriceAtDate(Asset asset, Date when) throws NoCotizationException {
 		throw new RuntimeException("Not implemented jpa -> mongo");
 		// EntityManager entityManager = entityManagerProvider.get();
 		// TypedQuery<AssetPrice> query = entityManager.createNamedQuery("AssetPrice.selectByDate", AssetPrice.class);
@@ -38,7 +38,7 @@ public class CotizationsService {
 	 * @param to
 	 * @return
 	 */
-	public List<AssetPrice> findPricesInRange(BaseAsset asset, Date from, Date to) {
+	public List<AssetPrice> findPricesInRange(Asset asset, Date from, Date to) {
 		throw new RuntimeException("Not implemented jpa -> mongo");
 		// EntityManager entityManager = entityManagerProvider.get();
 		// TypedQuery<AssetPrice> query = entityManager.createNamedQuery("AssetPrice.selectInRange", AssetPrice.class);
@@ -54,7 +54,7 @@ public class CotizationsService {
 	 * @param notAfter
 	 * @return
 	 */
-	public AssetPrice findLastPrice(BaseAsset asset, Date notAfter) {
+	public AssetPrice findLastPrice(Asset asset, Date notAfter) {
 		throw new RuntimeException("Not implemented jpa -> mongo");
 		// EntityManager entityManager = entityManagerProvider.get();
 		// TypedQuery<AssetPrice> query = entityManager.createNamedQuery("AssetPrice.selectLast", AssetPrice.class);

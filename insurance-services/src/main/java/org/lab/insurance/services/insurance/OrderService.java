@@ -2,8 +2,8 @@ package org.lab.insurance.services.insurance;
 
 import java.util.List;
 
-import org.lab.insurance.model.contract.Contract;
-import org.lab.insurance.model.insurance.Order;
+import org.lab.insurance.domain.contract.Contract;
+import org.lab.insurance.domain.insurance.Order;
 
 public class OrderService {
 
