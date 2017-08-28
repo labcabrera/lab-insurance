@@ -1,13 +1,11 @@
 package org.lab.insurance.domain.contract;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
-import org.bson.types.ObjectId;
 import org.lab.insurance.domain.HasState;
 import org.lab.insurance.domain.common.audit.AuditData;
 import org.lab.insurance.domain.engine.State;
@@ -27,14 +25,13 @@ import lombok.Data;
 
 @Data
 @Document
-@SuppressWarnings("serial")
-public class Contract implements Serializable, HasState<String> {
+public class Contract implements HasState<String> {
 
 	@Id
 	@Null(message = "ID_MUST_BE_EMPTY", groups = ValidationContext.Insert.class)
 	@NotNull(message = "ID_MANDATORY", groups = ValidationContext.Default.class)
 	@ApiModelProperty(value = "Identifier")
-	private ObjectId id;
+	private String id;
 
 	@Null(message = "CONTRACT_NUMBER_MUST_BE_EMPTY", groups = ValidationContext.Insert.class)
 	@NotNull(message = "CONTRACT_NUMBER_MANDATORY", groups = ValidationContext.Default.class)

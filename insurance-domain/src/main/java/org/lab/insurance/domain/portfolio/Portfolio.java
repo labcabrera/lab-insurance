@@ -2,7 +2,6 @@ package org.lab.insurance.domain.portfolio;
 
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -19,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Portfolio {
 
 	@Id
-	private ObjectId id;
+	private String id;
 
 	private String name;
 

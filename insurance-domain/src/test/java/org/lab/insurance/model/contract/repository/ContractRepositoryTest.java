@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.lab.insurance.domain.contract.Contract;
 import org.lab.insurance.domain.contract.repository.ContractRepository;
 import org.lab.insurance.domain.product.Agreement;
-import org.lab.insurance.domain.product.AgreementRepository;
+import org.lab.insurance.domain.product.repository.AgreementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.test.context.junit4.SpringRunner;

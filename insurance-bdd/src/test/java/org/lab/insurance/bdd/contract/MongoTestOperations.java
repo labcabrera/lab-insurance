@@ -16,7 +16,7 @@ import org.lab.insurance.domain.legalentity.Person;
 import org.lab.insurance.domain.legalentity.repository.LegalEntityRepository;
 import org.lab.insurance.domain.legalentity.repository.PersonRepository;
 import org.lab.insurance.domain.product.Agreement;
-import org.lab.insurance.domain.product.AgreementRepository;
+import org.lab.insurance.domain.product.repository.AgreementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

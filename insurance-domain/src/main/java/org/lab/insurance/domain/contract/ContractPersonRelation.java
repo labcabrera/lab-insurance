@@ -5,10 +5,8 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
-import org.bson.types.ObjectId;
 import org.lab.insurance.domain.HasActivationRange;
 import org.lab.insurance.domain.HasContract;
-import org.lab.insurance.domain.HasIdentifier;
 import org.lab.insurance.domain.legalentity.Person;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Reference;
@@ -22,11 +20,11 @@ import lombok.Data;
 
 @Data
 @Document
-public class ContractPersonRelation implements HasIdentifier<ObjectId>, HasContract, HasActivationRange {
+public class ContractPersonRelation implements HasContract, HasActivationRange {
 
 	@Id
 	@ApiModelProperty(value = "Identifier")
-	private ObjectId id;
+	private String id;
 
 	@ApiModelProperty(value = "Contract relation type")
 	@NotNull

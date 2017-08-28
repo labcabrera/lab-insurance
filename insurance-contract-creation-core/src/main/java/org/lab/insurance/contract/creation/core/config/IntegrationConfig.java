@@ -60,7 +60,8 @@ public class IntegrationConfig {
 				.log(Level.INFO) //
 				.handle(ContractCreationData.class, (request, headers) -> service.process(request)) //
 				.transform(Transformers.toJson(mapper())) //
-				.channel(publishContractCreatedChannel()).get();
+				// .channel(publishContractCreatedChannel()) //
+				.get();
 	}
 
 	@Bean

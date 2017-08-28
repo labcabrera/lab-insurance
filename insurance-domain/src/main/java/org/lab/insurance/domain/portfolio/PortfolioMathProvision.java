@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
@@ -13,7 +13,9 @@ import lombok.Data;
 @Data
 public class PortfolioMathProvision {
 
-	private ObjectId id;
+	@Id
+	private String id;
+
 	private Portfolio portfolio;
 	private BigDecimal value;
 	private Date valueDate;

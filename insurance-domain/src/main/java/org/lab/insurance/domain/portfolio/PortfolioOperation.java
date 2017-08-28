@@ -3,7 +3,6 @@ package org.lab.insurance.domain.portfolio;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.bson.types.ObjectId;
 import org.lab.insurance.domain.insurance.Asset;
 import org.lab.insurance.domain.insurance.MarketOrder;
 import org.springframework.data.annotation.Id;
@@ -18,7 +17,7 @@ import lombok.Data;
 public class PortfolioOperation {
 
 	@Id
-	private ObjectId id;
+	private String id;
 
 	@DBRef
 	private Investment debe;

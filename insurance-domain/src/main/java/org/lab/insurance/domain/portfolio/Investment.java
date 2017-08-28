@@ -3,7 +3,6 @@ package org.lab.insurance.domain.portfolio;
 import java.util.Date;
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.lab.insurance.domain.HasState;
 import org.lab.insurance.domain.engine.State;
 import org.lab.insurance.domain.insurance.Asset;
@@ -18,7 +17,7 @@ import lombok.Data;
 public class Investment implements HasState<String> {
 
 	@Id
-	private ObjectId id;
+	private String id;
 
 	@DBRef
 	private Asset asset;

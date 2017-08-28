@@ -2,7 +2,6 @@ package org.lab.insurance.domain.insurance;
 
 import java.math.BigDecimal;
 
-import org.bson.types.ObjectId;
 import org.lab.insurance.domain.HasAsset;
 import org.lab.insurance.domain.HasState;
 import org.lab.insurance.domain.engine.State;
@@ -19,7 +18,7 @@ import lombok.Data;
 public class MarketOrder implements HasState<String>, HasAsset {
 
 	@Id
-	private ObjectId id;
+	private String id;
 
 	@DBRef
 	private Asset asset;
