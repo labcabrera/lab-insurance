@@ -13,10 +13,12 @@ import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.amqp.Amqp;
 import org.springframework.integration.dsl.amqp.AmqpInboundGatewaySpec;
+import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.dsl.support.Transformers;
 import org.springframework.integration.handler.LoggingHandler.Level;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.integration.support.json.JsonObjectMapper;
+import org.springframework.messaging.MessageChannel;
 
 @Configuration
 public class IntegrationConfig {
@@ -44,21 +46,34 @@ public class IntegrationConfig {
 	}
 
 	@Bean
-	public IntegrationFlow mainFlow() {
+	public MessageChannel publishContractCreatedChannel() {
+		return MessageChannels.direct("dummy-event-channel").get();
+	}
 
+	@Bean
+	public IntegrationFlow mainFlow() {
 		AmqpInboundGatewaySpec inboundGateway = Amqp.inboundGateway(connectionFactory, amqpTemplate,
 				queueContractCreateRequest());
-
 		return IntegrationFlows //
 				.from(inboundGateway) //
 				.transform(Transformers.fromJson(ContractCreationData.class, mapper())) //
 				.log(Level.INFO) //
 				.handle(ContractCreationData.class, (request, headers) -> service.process(request)) //
 				.transform(Transformers.toJson(mapper())) //
-				// TODO en este punto tenemos que encolar los mensajes para que se activen todos
-				// los submodulos
-				// .publishSubscribeChannel(x -> x.subscribe(f -> f.channel(c ->
-				// c.queue("portfolio-initializacion"))))
-				.get();
+				.channel(publishContractCreatedChannel()).get();
 	}
+
+	@Bean
+	public IntegrationFlow publishContractCreation() {
+		return IntegrationFlows.from(publishContractCreatedChannel()) //
+				.transform(Transformers.toJson(mapper())) //
+				// .handle(System.out::println) //
+				.log(Level.INFO, "contract-creation-event") //
+				// TODO publicar en rabbit en los diferentes modulos
+				// .handle(Amqp.outboundGateway(amqpTemplate) //
+				// .routingKey(Queues.PortfolioInitializationRequest)) //
+				.bridge(null).get();
+
+	}
+
 }

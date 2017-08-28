@@ -8,7 +8,7 @@ import org.lab.insurance.domain.insurance.Asset;
 import org.lab.insurance.domain.insurance.Order;
 import org.lab.insurance.domain.insurance.OrderDistribution;
 import org.lab.insurance.domain.insurance.OrderType;
-import org.lab.insurance.domain.insurance.repository.BaseAssetRepository;
+import org.lab.insurance.domain.insurance.repository.AssetRepository;
 import org.lab.insurance.ms.core.integration.example.DemoConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.annotation.Transformer;
@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ContractInputTransformer {
 
 	@Autowired
-	private BaseAssetRepository repository;
+	private AssetRepository repository;
 
 	@Transformer(inputChannel = DemoConstants.CHANNEL_REQUEST, outputChannel = DemoConstants.CHANNEL_PROCESS)
 	public Contract buildRequest(Message<Contract> msg) {

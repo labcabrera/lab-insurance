@@ -35,7 +35,7 @@ public class IntegrationConfig {
 
 	@Bean
 	public Queue portfolioInitializationRequest() {
-		return new Queue(Queues.PortfolioInitializationRequest, true);
+		return new Queue(Queues.PortfolioInitializationRequest, true, false, false);
 	}
 
 	@Bean
@@ -46,8 +46,8 @@ public class IntegrationConfig {
 
 		return IntegrationFlows //
 				.from(inboundGateway) //
-				.transform(Transformers.fromJson(Contract.class, mapper())) //
 				.log(Level.INFO) //
+				.transform(Transformers.fromJson(Contract.class, mapper())) //
 				.handle(Contract.class, (request, headers) -> initializationService.initialize(request)) //
 				.transform(Transformers.toJson(mapper())) //
 				.get();

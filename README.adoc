@@ -85,5 +85,7 @@ utilizando AMQP.
 
 === Spring Integration
 
+* https://github.com/spring-projects/spring-integration-java-dsl/wiki/spring-integration-java-dsl-reference
+* https://spring.io/blog/2014/11/25/spring-integration-java-dsl-line-by-line-tutorial
 * https://github.com/bijukunjummen/si-dsl-rabbit-sample
 * https://knallisworld.de/blog/2016/03/26/expose-a-java-method-with-amqp-and-spring-reloaded-with-java-dsl/

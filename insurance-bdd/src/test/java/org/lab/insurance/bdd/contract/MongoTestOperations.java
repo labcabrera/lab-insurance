@@ -8,7 +8,7 @@ import org.lab.insurance.domain.contract.repository.ContractPersonRelationReposi
 import org.lab.insurance.domain.contract.repository.ContractRepository;
 import org.lab.insurance.domain.insurance.AssetType;
 import org.lab.insurance.domain.insurance.Asset;
-import org.lab.insurance.domain.insurance.repository.BaseAssetRepository;
+import org.lab.insurance.domain.insurance.repository.AssetRepository;
 import org.lab.insurance.domain.insurance.repository.OrderRepository;
 import org.lab.insurance.domain.legalentity.IdCard;
 import org.lab.insurance.domain.legalentity.LegalEntity;
@@ -29,7 +29,7 @@ public class MongoTestOperations {
 	@Autowired
 	private AgreementRepository agreementRepository;
 	@Autowired
-	private BaseAssetRepository baseAssetRepository;
+	private AssetRepository baseAssetRepository;
 	@Autowired
 	private ContractRepository contractRepository;
 	@Autowired

@@ -12,7 +12,7 @@ import org.lab.insurance.domain.contract.repository.ContractPersonRelationReposi
 import org.lab.insurance.domain.contract.repository.ContractRepository;
 import org.lab.insurance.domain.insurance.Asset;
 import org.lab.insurance.domain.insurance.OrderDistribution;
-import org.lab.insurance.domain.insurance.repository.BaseAssetRepository;
+import org.lab.insurance.domain.insurance.repository.AssetRepository;
 import org.lab.insurance.domain.insurance.repository.OrderRepository;
 import org.lab.insurance.domain.legalentity.Person;
 import org.lab.insurance.domain.legalentity.repository.PersonRepository;
@@ -34,7 +34,7 @@ public class ContractCreationService {
 	@Autowired
 	private ContractPersonRelationRepository contractPersonRelationRepository;
 	@Autowired
-	private BaseAssetRepository baseAssetRepository;
+	private AssetRepository baseAssetRepository;
 	@Autowired
 	private OrderRepository orderRepository;
 	@Autowired
