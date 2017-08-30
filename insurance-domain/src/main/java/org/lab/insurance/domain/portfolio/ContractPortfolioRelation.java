@@ -1,4 +1,4 @@
-package org.lab.insurance.portfolio.core.domain;
+package org.lab.insurance.domain.portfolio;
 
 import java.util.List;
 

@@ -1,8 +1,10 @@
 package org.lab.insurance.contract.creation.core.config;
 
 import org.lab.insurance.contract.creation.core.domain.ContractCreationData;
+import org.lab.insurance.contract.creation.core.service.ContractCreatedProcessor;
 import org.lab.insurance.contract.creation.core.service.ContractCreationService;
 import org.lab.insurance.domain.IntegrationConstants.Queues;
+import org.lab.insurance.domain.contract.Contract;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -27,6 +29,8 @@ public class IntegrationConfig {
 	private ConnectionFactory connectionFactory;
 	@Autowired
 	private ContractCreationService service;
+	@Autowired
+	private ContractCreatedProcessor contractCreatedProcessor;
 	@Autowired
 	private AmqpTemplate amqpTemplate;
 
@@ -59,6 +63,7 @@ public class IntegrationConfig {
 				.transform(Transformers.fromJson(ContractCreationData.class, mapper())) //
 				.log(Level.INFO) //
 				.handle(ContractCreationData.class, (request, headers) -> service.process(request)) //
+				.handle(Contract.class, (request, headers) -> contractCreatedProcessor.process(request)) //
 				.transform(Transformers.toJson(mapper())) //
 				// .channel(publishContractCreatedChannel()) //
 				.get();

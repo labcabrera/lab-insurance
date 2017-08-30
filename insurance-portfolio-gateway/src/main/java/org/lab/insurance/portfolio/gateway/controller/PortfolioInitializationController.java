@@ -1,7 +1,7 @@
 package org.lab.insurance.portfolio.gateway.controller;
 
 import org.lab.insurance.domain.messaging.ContractRefMessage;
-import org.lab.insurance.portfolio.core.domain.ContractPortfolioRelation;
+import org.lab.insurance.domain.portfolio.ContractPortfolioRelation;
 import org.lab.insurance.portfolio.gateway.integration.ContractCreationGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

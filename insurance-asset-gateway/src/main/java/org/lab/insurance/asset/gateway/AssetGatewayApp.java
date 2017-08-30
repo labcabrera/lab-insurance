@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@EnableMongoRepositories("org.lab.insurance.domain")
+//@EnableMongoRepositories({"org.lab.insurance.domain","org.lab.insurance.asset.gateway.repository"})
 @EnableSwagger2
 public class AssetGatewayApp {
 

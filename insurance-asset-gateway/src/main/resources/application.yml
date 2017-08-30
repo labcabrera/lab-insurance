@@ -1,9 +1,28 @@
 spring:
+  profiles:
+    active: cloud
   application:
     name: insurance-asset-gateway
-#  profiles:
-#    active: default
-  cloud:
-    config:
-      uri: http://localhost:8888/
-      name: insurance-common,insurance-asset-gateway
+
+---
+spring:
+  profiles: local
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/lab-insurance
+
+server:
+  port: 8081
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8070/eureka/
+
+management:
+  context-path: /admin
+  security:
+    enabled: false
+
+logging:
+  level.org: INFO

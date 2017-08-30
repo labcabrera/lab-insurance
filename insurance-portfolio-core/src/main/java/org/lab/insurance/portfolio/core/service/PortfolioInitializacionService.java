@@ -6,11 +6,11 @@ import java.util.List;
 import org.lab.insurance.domain.contract.Contract;
 import org.lab.insurance.domain.contract.repository.ContractRepository;
 import org.lab.insurance.domain.messaging.ContractRefMessage;
+import org.lab.insurance.domain.portfolio.ContractPortfolioRelation;
 import org.lab.insurance.domain.portfolio.Portfolio;
 import org.lab.insurance.domain.portfolio.PortfolioType;
+import org.lab.insurance.domain.portfolio.repository.ContractPortfolioRelationRepository;
 import org.lab.insurance.domain.portfolio.repository.PortfolioRepository;
-import org.lab.insurance.portfolio.core.domain.ContractPortfolioRelation;
-import org.lab.insurance.portfolio.core.domain.repository.ContractPortfolioInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ public class PortfolioInitializacionService {
 	@Autowired
 	private PortfolioRepository portfolioRepo;
 	@Autowired
-	private ContractPortfolioInfoRepository repo;
+	private ContractPortfolioRelationRepository repo;
 
 	public ContractPortfolioRelation initialize(ContractRefMessage msg) {
 		log.info("Intializing contract {} portfolios");
