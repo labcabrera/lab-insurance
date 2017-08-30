@@ -1,6 +1,6 @@
 spring:
-  profiles:
-    active: local
+#  profiles:
+#    active: local
   application:
     name: insurance-contract-creation-core
 
@@ -17,7 +17,8 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8070/eureka/
+      defaultZone: http://localhost:8070/
+
 
 management:
   context-path: /admin
