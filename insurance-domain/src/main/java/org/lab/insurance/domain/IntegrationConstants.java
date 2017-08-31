@@ -13,6 +13,7 @@ public interface IntegrationConstants {
 		String ContractResponse = "channel-contract-response";
 		String PortfolioInitializationRequest = "channel-portfolio-initialization-request";
 		String PortfolioInitializationResponse = "channel-portfolio-initialization-response";
+		String ContractCreatedSubscribeChannel = "channel-contract-created-subscribe";
 	}
 
 }
