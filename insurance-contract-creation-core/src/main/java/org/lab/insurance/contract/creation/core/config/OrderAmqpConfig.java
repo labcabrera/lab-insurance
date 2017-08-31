@@ -13,7 +13,7 @@ import org.springframework.integration.dsl.amqp.Amqp;
 import org.springframework.messaging.MessageChannel;
 
 @Configuration
-public class PorfolioAmqpConfig {
+public class OrderAmqpConfig {
 
 	@Autowired
 	private AmqpTemplate amqpTemplate;
@@ -23,13 +23,13 @@ public class PorfolioAmqpConfig {
 	private MessageChannel publishSubscribeContractCreatedChannel;
 
 	@Bean
-	public IntegrationFlow publishPortfolioInitialization() {
+	public IntegrationFlow publishOrderInitialization() {
 		return IntegrationFlows //
 				.from(publishSubscribeContractCreatedChannel) //
 				// .transform(new ObjectToJsonTransformer()) //
-				.handle(Amqp.outboundAdapter(amqpTemplate)
-						.routingKey(IntegrationConstants.Queues.PortfolioInitializationRequest)
+				.handle(Amqp.outboundAdapter(amqpTemplate).routingKey(IntegrationConstants.Queues.OrderCreationRequest)
 						.defaultDeliveryMode(MessageDeliveryMode.PERSISTENT))
 				.get();
 	}
+
 }

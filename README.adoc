@@ -76,7 +76,7 @@ http://localhost:15672/
 
 Las credenciales son las del management por defecto: guest:guest.
 
-Tendremos que dar de alta las colas definidas en `IntegrationConstants` de tipo persistente.
+Tendremos que dar de alta las colas definidas en `IntegrationConstants` de tipo _durable_.
 
 === RabbitMQ vs Eureka
 

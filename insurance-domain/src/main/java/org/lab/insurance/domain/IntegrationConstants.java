@@ -6,6 +6,7 @@ public interface IntegrationConstants {
 		String ContractRequest = "q/contract/create/request";
 		String PortfolioInitializationRequest = "q/portfolio/init/request";
 		String PortfolioInitializationResponse = "q/portfolio/init/response";
+		String OrderCreationRequest = "q/order/create/request";
 	}
 
 	public interface Channels {
