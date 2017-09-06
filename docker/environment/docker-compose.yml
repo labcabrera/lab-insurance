@@ -1,0 +1,23 @@
+version: "3.0"
+services:
+
+  insurance-mongodb:
+    image: mongo:${MONGO_VERSION}
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ../../resources:/resources
+    expose:
+      - "27017"
+    command: bash -c " set -o monitor ; mongod --smallfiles & sleep 20; mongo localhost:27017/lab-insurance /resources/mongo-init-data.js; fg"
+
+  insurance-rabbitmq:
+    image: rabbitmq:${RABBITMQ_VERSION}-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    expose:
+      - "5672"
+

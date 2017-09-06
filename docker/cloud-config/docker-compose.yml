@@ -2,10 +2,13 @@ version: "3.0"
 services:
 
   insurance-cloud-config:
-    image: java:openjdk-8u45-jdk
+    image: openjdk:${OPENJDK_VERSION}
     working_dir: /app
     volumes:
       - ../../insurance-cloud-config/build/libs:/app
     ports:
       - "8888:8888"
-    command: java -jar /app/insurance-cloud-config.jar
+    environment:
+      - PORT=8888
+      - SPRING_PROFILES_ACTIVE=github
+    command: java -jar /app/insurance-cloud-config-${VERSION}.jar
