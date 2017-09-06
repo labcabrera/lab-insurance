@@ -1,5 +1,4 @@
 spring:
-  profiles: cloud
   cloud:
     config:
       uri: http://${CLOUD_CONFIG_HOST:localhost}:${CLOUD_CONFIG_PORT:8888}/
