@@ -6,15 +6,9 @@ buildscript {
 		lombokVersion = "1.16.16"
 		springfoxSwaggerVersion = "2.7.0"
 		cucumberVersion = "1.2.5"
-
-		useProxy = false
 	}
 	repositories {
-		if(useProxy) {
-			maven { url "http://nexus:8080/nexus/content/groups/public/" }
-		} else {
-			mavenCentral()
-		}
+		mavenCentral()
 	}
 	dependencies {
 		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
@@ -38,11 +32,7 @@ subprojects {
 			options.encoding = "UTF-8"
 	}
 	repositories {
-		if(useProxy) {
-			maven { url "http://nexus:8080/nexus/content/groups/public/" }
-		} else {
-			mavenCentral()
-		}
+		mavenCentral()
 	}
 
 	dependencyManagement {
@@ -55,8 +45,6 @@ subprojects {
 		compile "org.projectlombok:lombok:${lombokVersion}"
 		testCompile "org.springframework.boot:spring-boot-starter-test"
 	}
-	// exclude version in jar file (tmp for docker-compose)
-	jar.archiveName = "${jar.baseName}.${jar.extension}"
 }
 
 configure(subprojects.findAll {it.name.endsWith("-core")}) {
