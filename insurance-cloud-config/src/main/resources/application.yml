@@ -1,14 +1,11 @@
 spring:
   application:
     name: insurance-cloud-config
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://github.com/labcabrera/lab-insurance-cloud-config
-
+  profiles:
+    active: github
+ 
 server:
-  port: 8888
+  port: ${PORT:8888}
 
 security:
   basic:
@@ -22,3 +19,21 @@ logging:
   level:
     com.netflix.discovery: 'OFF'
     org.springframework.cloud: 'DEBUG'
+
+---
+spring:
+  profiles: github
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/labcabrera/lab-insurance-cloud-config
+
+---
+spring:
+  profiles: local-git
+  cloud:
+    config:
+      server:
+        git:
+          uri: file:///home/lab/repositories/training/lab-insurance-cloud-config
