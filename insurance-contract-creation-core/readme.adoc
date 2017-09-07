@@ -1,0 +1,11 @@
+= insurance-contract-creation-core
+
+Módulo de contratación.
+
+Este módulo escucha la cola de RabbitMQ de contratación. Cuando recibe un mensaje se encarga
+de persistirlo y realizar las llamadas a los diferentes módulos tales como:
+
+* Creación del portfolio asociado
+* Generación de las órdenes
+* Generación de la documentación
+* Etc.
