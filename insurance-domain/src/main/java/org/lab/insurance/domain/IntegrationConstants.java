@@ -4,6 +4,7 @@ public interface IntegrationConstants {
 
 	public interface Queues {
 		String ContractCreation = "contract-create.request";
+		String ContractApprobation = "contract-approbation.request";
 		String PortfolioInitialization = "portfolio-create.request";
 		String PortfolioInitializationResponse = "portfolio-create.response";
 		String PortfolioInitializationError = "portfolio-create.error";
@@ -12,11 +13,10 @@ public interface IntegrationConstants {
 	}
 
 	public interface Channels {
-		String ContractRequest = "channel-contract-request";
-		String ContractResponse = "channel-contract-response";
-		String PortfolioInitializationRequest = "channel-portfolio-initialization-request";
-		String PortfolioInitializationResponse = "channel-portfolio-initialization-response";
-		String ContractCreatedSubscribeChannel = "channel-contract-created-subscribe";
+		String ContractCreationRequest = "contract-create-channel.request";
+		String ContractCreationResponse = "contract-create-channel.reponse";
+		String ContractApprobationRequest = "contract-approbation-channel.request";
+		String ContractApprobationResponse = "contract-approbation-channel.response";
 	}
 
 }

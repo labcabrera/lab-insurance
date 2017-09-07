@@ -9,6 +9,7 @@ Feature: basic contract creation
     When Establezco la fecha de contratacion a 2017/01/01
     When Muestro el JSON del contrato
     Then Invoco al servicio de contratacion
+    Then Apruebo el contrato
     And Recupero el numero del contrato
     And Recupero el contrato de base de datos a partir del numero
     And Verifico que el suscriptor es 11222333Z

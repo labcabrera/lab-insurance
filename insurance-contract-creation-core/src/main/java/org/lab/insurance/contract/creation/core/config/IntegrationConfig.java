@@ -1,10 +1,13 @@
 package org.lab.insurance.contract.creation.core.config;
 
 import org.lab.insurance.contract.creation.core.domain.ContractCreationData;
-import org.lab.insurance.contract.creation.core.service.ContractCreationService;
+import org.lab.insurance.contract.creation.core.service.ContractApprobationProcessor;
+import org.lab.insurance.contract.creation.core.service.ContractCreationProcessor;
 import org.lab.insurance.contract.creation.core.service.integration.InitialPaymentTransformer;
+import org.lab.insurance.contract.creation.core.service.integration.ReadContractTransformer;
 import org.lab.insurance.domain.IntegrationConstants;
 import org.lab.insurance.domain.IntegrationConstants.Queues;
+import org.lab.insurance.domain.contract.Contract;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -26,8 +29,13 @@ public class IntegrationConfig {
 
 	@Autowired
 	private ConnectionFactory connectionFactory;
+
 	@Autowired
-	private ContractCreationService service;
+	private ContractCreationProcessor service;
+
+	@Autowired
+	private ContractApprobationProcessor approbationProcessor;
+
 	@Autowired
 	private AmqpTemplate amqpTemplate;
 
@@ -57,6 +65,11 @@ public class IntegrationConfig {
 	}
 
 	@Bean
+	Queue queueContractApprobation() {
+		return new Queue(Queues.ContractApprobation, true, false, false);
+	}
+
+	@Bean
 	MessageChannel portfolioInitChannel() {
 		return MessageChannels.direct().get();
 	}
@@ -70,10 +83,15 @@ public class IntegrationConfig {
 	MessageChannel createContractDocumentation() {
 		return MessageChannels.direct().get();
 	}
+	
+	@Bean
+	ReadContractTransformer readContractTransformer() {
+		return new ReadContractTransformer();
+	}
 
 	//@formatter:off
 	@Bean
-	IntegrationFlow mainFlow() {
+	IntegrationFlow creationFlow() {
 		return IntegrationFlows
 			.from(Amqp
 				.inboundGateway(connectionFactory, amqpTemplate, queueContractCreateRequest()))
@@ -81,6 +99,22 @@ public class IntegrationConfig {
 			.log(Level.INFO, "Received contract creation request")
 			.handle(ContractCreationData.class, (request, headers) -> service.process(request))
 			.log(Level.INFO, "Contract created")
+			.transform(Transformers.toJson(mapper()))
+			.get();
+	}
+	//@formatter:on
+
+	//@formatter:off
+	@Bean
+	IntegrationFlow approbationFlow() {
+		return IntegrationFlows
+			.from(Amqp
+				.inboundGateway(connectionFactory, amqpTemplate, queueContractApprobation()))
+			.transform(Transformers.fromJson(Contract.class, mapper()))
+			.log(Level.INFO, "Received contract approbation request")
+			.transform(readContractTransformer())
+			.handle(Contract.class, (request, headers) -> approbationProcessor.process(request))
+			.log(Level.INFO, "Contract approbed")
 			.publishSubscribeChannel(c -> c.applySequence(false)
 				.subscribe(f -> f
 					.channel(portfolioInitChannel()))

@@ -20,14 +20,14 @@ import org.lab.insurance.domain.legalentity.Person;
 import org.lab.insurance.domain.legalentity.repository.PersonRepository;
 import org.lab.insurance.domain.product.repository.AgreementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Service
+@Component
 @Slf4j
-public class ContractCreationService {
+public class ContractCreationProcessor {
 
 	@Autowired
 	private ContractRepository contractRepository;

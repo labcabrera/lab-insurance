@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.amqp.Amqp;
-import org.springframework.integration.dsl.amqp.AmqpOutboundEndpointSpec;
 import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.dsl.support.Transformers;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
@@ -23,20 +22,39 @@ public class IntegrationConfig {
 	private AmqpTemplate amqpTemplate;
 
 	@Bean
-	public JsonObjectMapper<?, ?> mapper() {
+	JsonObjectMapper<?, ?> mapper() {
 		return new Jackson2JsonObjectMapper();
 	}
 
+	//@formatter:off
 	@Bean
-	public IntegrationFlow flow() {
-
-		AmqpOutboundEndpointSpec outbound = Amqp.outboundGateway(amqpTemplate).routingKey(Queues.ContractCreation);
-
-		return IntegrationFlows.from(MessageChannels.publishSubscribe(Channels.ContractRequest)) //
-				.transform(Transformers.toJson(mapper())) //
-				.handle(outbound) //
-				.transform(Transformers.fromJson(Contract.class, mapper())) //
-				.channel(MessageChannels.direct(Channels.ContractResponse)) //
-				.get();
+	IntegrationFlow creationflow() {
+		return IntegrationFlows
+			.from(MessageChannels.publishSubscribe(Channels.ContractCreationRequest))
+			.transform(Transformers.toJson(mapper()))
+			.handle(Amqp
+				.outboundGateway(amqpTemplate)
+				.routingKey(Queues.ContractCreation)
+			)
+			.transform(Transformers.fromJson(Contract.class, mapper()))
+			.channel(MessageChannels.direct(Channels.ContractCreationResponse))
+			.get();
 	}
+	//@formatter:on
+
+	//@formatter:off
+	@Bean
+	IntegrationFlow approbationflow() {
+		return IntegrationFlows
+			.from(MessageChannels.publishSubscribe(Channels.ContractApprobationRequest))
+			.transform(Transformers.toJson(mapper()))
+			.handle(Amqp
+				.outboundGateway(amqpTemplate)
+				.routingKey(Queues.ContractApprobation)
+			)
+			.transform(Transformers.fromJson(Contract.class, mapper()))
+			.channel(MessageChannels.direct(Channels.ContractApprobationResponse))
+			.get();
+	}
+	//@formatter:on
 }

@@ -24,6 +24,7 @@ import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.lab.insurance.contract.creation.gateway.integration.ContractApprobationGateway;
 import com.lab.insurance.contract.creation.gateway.integration.ContractCreationGateway;
 
 import cucumber.api.java.en.Then;
@@ -37,9 +38,14 @@ public class ContractCreationSteps extends BddSupport {
 	protected ContractCreationGateway contractCreationGateway;
 
 	@Autowired
+	protected ContractApprobationGateway contractApprobationGateway;
+
+	@Autowired
 	protected ContractRepository contractRepository;
+
 	@Autowired
 	protected PersonRepository personRepository;
+
 	@Autowired
 	protected MongoTestOperations mongoTestOperations;
 
@@ -124,6 +130,11 @@ public class ContractCreationSteps extends BddSupport {
 	public void invoco_al_servicio_de_contratacion() {
 		contract = contractCreationGateway.process(contractCreateInfo);
 		Assert.assertNotNull(contract.getId());
+	}
+
+	@Then("^Apruebo el contrato$")
+	public void apruebo_el_contrato() {
+		contract = contractApprobationGateway.process(contract);
 	}
 
 	@Then("^Recupero el numero del contrato$")
