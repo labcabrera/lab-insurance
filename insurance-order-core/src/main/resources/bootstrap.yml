@@ -2,4 +2,4 @@ spring:
   cloud:
     config:
       uri: http://${CLOUD_CONFIG_HOST:localhost}:${CLOUD_CONFIG_PORT:8888}/
-      name: insurance-porfolio-core,insurance-common
+      name: insurance-order-core,insurance-common

@@ -1,9 +1,8 @@
-package org.lab.insurance.portfolio.core.config;
+package org.lab.insurance.order.core.config;
 
 import org.lab.insurance.domain.IntegrationConstants.Queues;
-import org.lab.insurance.domain.contract.Contract;
 import org.lab.insurance.domain.insurance.Order;
-import org.lab.insurance.portfolio.core.service.PortfolioInitializacionService;
+import org.lab.insurance.order.core.service.OrderCreatedProcessor;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -19,14 +18,16 @@ import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.integration.support.json.JsonObjectMapper;
 
 @Configuration
-public class IntegrationConfig {
+public class OrderCoreIntegrationConfig {
 
 	@Autowired
 	private ConnectionFactory connectionFactory;
-	@Autowired
-	private PortfolioInitializacionService initializationService;
+
 	@Autowired
 	private AmqpTemplate amqpTemplate;
+
+	@Autowired
+	private OrderCreatedProcessor orderCreatedProcessor;
 
 	@Bean
 	public JsonObjectMapper<?, ?> mapper() {
@@ -34,19 +35,19 @@ public class IntegrationConfig {
 	}
 
 	@Bean
-	public Queue portfolioInitializationRequest() {
-		return new Queue(Queues.PortfolioInitialization, true, false, false);
+	Queue orderInitializationQueue() {
+		return new Queue(Queues.OrderCreationRequest, true, false, false);
 	}
 
 	//@formatter:off
 	@Bean
-	public IntegrationFlow portfolioInitializacionFlow() {
+	IntegrationFlow portfolioInitializacionFlow() {
 		return IntegrationFlows //
 			.from(Amqp
-				.inboundGateway(connectionFactory, amqpTemplate, portfolioInitializationRequest()))
-			.log(Level.INFO, "Processing portfolio initialization request")
+				.inboundGateway(connectionFactory, amqpTemplate, orderInitializationQueue()))
+			.log(Level.INFO, "Processing order initialization request")
 			.transform(Transformers.fromJson(Order.class))
-			.handle(Contract.class, (request, headers) -> initializationService.initialize(request))
+			.handle(Order.class, (request, headers) -> orderCreatedProcessor.initialize(request))
 			.transform(Transformers.toJson(mapper()))
 			.get();
 	}

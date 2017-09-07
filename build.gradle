@@ -235,17 +235,15 @@ project(":insurance-portfolio-gateway") {
 	}
 }
 
-project(":insurance-payment-core") {
-	dependencies {
-		compile project(":insurance-ms-common")
-	}
-}
-
 project(":insurance-broker-core") {
 	dependencies {
 		compile project(":insurance-ms-common")
 	}
 }
+
+project(":insurance-order-core") {
+}
+
 
 project(":insurance-order-gateway") {
 	dependencies {
