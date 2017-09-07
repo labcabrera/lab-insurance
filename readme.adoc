@@ -88,9 +88,9 @@ accederemos a través del service-discovery de Eureka (por ejemplo la consulta d
 
 === Nomenclatura de los módulos:
 
-Los módulos _${name}-core_ hacen referencia a proyectos de integración sin interface web.
-Los módulos _${name}-gateway_ hacen referencia a los módulos web que generalmente explotan los servicios core
-utilizando AMQP.
+Los módulos _${name}-core_ hacen referencia a proyectos de integración sin interface web que sólo se comunican vía RabbitMQ.
+Los módulos _${name}-gateway_ hacen referencia a los módulos web que generalmente explotan los servicios core utilizando 
+AMQP y exponen servicios REST.
 
 === Local port mapping
 
