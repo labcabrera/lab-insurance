@@ -1,7 +1,7 @@
 package org.lab.insurance.portfolio.core.config;
 
 import org.lab.insurance.domain.IntegrationConstants.Queues;
-import org.lab.insurance.domain.messaging.ContractRefMessage;
+import org.lab.insurance.domain.contract.Contract;
 import org.lab.insurance.portfolio.core.service.PortfolioInitializacionService;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.amqp.Amqp;
-import org.springframework.integration.dsl.amqp.AmqpInboundGatewaySpec;
 import org.springframework.integration.dsl.support.Transformers;
 import org.springframework.integration.handler.LoggingHandler.Level;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
@@ -38,18 +37,17 @@ public class IntegrationConfig {
 		return new Queue(Queues.PortfolioInitializationRequest, true, false, false);
 	}
 
+	//@formatter:off
 	@Bean
 	public IntegrationFlow portfolioInitializacionFlow() {
-
-		AmqpInboundGatewaySpec inboundGateway = Amqp.inboundGateway(connectionFactory, amqpTemplate,
-				portfolioInitializationRequest());
-
 		return IntegrationFlows //
-				.from(inboundGateway) //
-				.log(Level.INFO) //
-				.transform(Transformers.fromJson(ContractRefMessage.class)) //
-				.handle(ContractRefMessage.class, (request, headers) -> initializationService.initialize(request)) //
-				.transform(Transformers.toJson(mapper())) //
-				.get();
+			.from(Amqp.inboundGateway(connectionFactory, amqpTemplate,
+				portfolioInitializationRequest()))
+			.log(Level.INFO, "Processing portfolio initialization request")
+			.transform(Transformers.fromJson(Contract.class))
+			.handle(Contract.class, (request, headers) -> initializationService.initialize(request))
+			.transform(Transformers.toJson(mapper()))
+			.get();
 	}
+	//@formatter:on
 }

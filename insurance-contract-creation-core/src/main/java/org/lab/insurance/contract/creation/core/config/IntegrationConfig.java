@@ -10,7 +10,6 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.integration.channel.PublishSubscribeChannel;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.amqp.Amqp;
@@ -38,32 +37,22 @@ public class IntegrationConfig {
 
 	@Bean
 	Queue queueContractCreateRequest() {
-		return new Queue(Queues.ContractRequest, true);
+		return new Queue(Queues.ContractRequest, true, false, false);
 	}
 
 	@Bean
 	Queue queuePortfolioInitializacionRequest() {
-		return new Queue(Queues.PortfolioInitializationRequest, true);
+		return new Queue(Queues.PortfolioInitializationRequest, true, false, false);
 	}
 
 	@Bean
 	Queue queueOrderInitializacionRequest() {
-		return new Queue(Queues.OrderCreationRequest, true);
-	}
-
-	@Bean(name = IntegrationConstants.Channels.ContractCreatedSubscribeChannel)
-	MessageChannel publishContractCreatedChannel() {
-		return new PublishSubscribeChannel();
+		return new Queue(Queues.OrderCreationRequest, true, false, false);
 	}
 
 	@Bean
 	MessageChannel portfolioInitChannel() {
 		return MessageChannels.direct().get();
-	}
-
-	@Bean
-	MessageChannel publishSubscribeChannel() {
-		return MessageChannels.publishSubscribe().get();
 	}
 
 	@Bean
@@ -77,9 +66,10 @@ public class IntegrationConfig {
 		return IntegrationFlows
 			.from(Amqp
 				.inboundGateway(connectionFactory, amqpTemplate, queueContractCreateRequest()))
-			.transform(Transformers.fromJson(ContractCreationData.class, mapper())) //
+			.transform(Transformers.fromJson(ContractCreationData.class, mapper()))
 			.log(Level.INFO, "Received contract creation request")
 			.handle(ContractCreationData.class, (request, headers) -> service.process(request))
+			.log(Level.INFO, "Contract created")
 			.publishSubscribeChannel(c -> c.applySequence(false)
 				.subscribe(f -> f
 					.channel(portfolioInitChannel()))
@@ -91,46 +81,32 @@ public class IntegrationConfig {
 	}
 	//@formatter:on
 
-	@Bean
-	IntegrationFlow publishChannel() {
-		return IntegrationFlows.from(publishSubscribeChannel()).log("XXXXXXXXXXXXXXX").bridge(null).get();
-	}
-
 	//@formatter:off
 	@Bean
 	IntegrationFlow portfolioInitFlow() {
 		return IntegrationFlows
 			.from(portfolioInitChannel())
+			.transform(Transformers.toJson(mapper()))
 			.log("Sending portfolio initialization message")
-//			.transform(Contract.class, s -> s.getId())
-//			.transform(Transformers.toJson(mapper()))
-//			.handle(Amqp
-//				.outboundAdapter(amqpTemplate)
-//				.routingKey(IntegrationConstants.Queues.PortfolioInitializationRequest)
-//				.defaultDeliveryMode(MessageDeliveryMode.PERSISTENT)
-//			)
-			.bridge(null)
+			.handle(Amqp
+				.outboundAdapter(amqpTemplate)
+				.routingKey(IntegrationConstants.Queues.PortfolioInitializationRequest)
+			)
 			.get();	
 	}
 	//@formatter:on
 
-	/**
-	 * Crea un mensaje con la orden a procesar a partir del contrato y la encola en rabbitmq.
-	 * @return
-	 */
 	//@formatter:off
 	@Bean
 	IntegrationFlow orderInitChannelFlow() {
 		return IntegrationFlows
 			.from(orderInitChannel())
 			.log("Sending order initialization message")
-//			.transform(new InitialPaymentTransformer())
-//			.transform(Transformers.toJson(mapper()))
-//			.handle(Amqp
-//				.outboundGateway(amqpTemplate)
-//				.routingKey(IntegrationConstants.Queues.OrderCreationRequest)
-//			)
-			.bridge(null)
+			.transform(Transformers.toJson(mapper()))
+			.handle(Amqp
+				.outboundAdapter(amqpTemplate)
+				.routingKey(IntegrationConstants.Queues.OrderCreationRequest)
+			)
 			.get();
 	}
 	//@formatter:on

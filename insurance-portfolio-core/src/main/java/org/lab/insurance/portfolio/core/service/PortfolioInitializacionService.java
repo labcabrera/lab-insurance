@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.lab.insurance.domain.contract.Contract;
 import org.lab.insurance.domain.contract.repository.ContractRepository;
-import org.lab.insurance.domain.messaging.ContractRefMessage;
 import org.lab.insurance.domain.portfolio.ContractPortfolioRelation;
 import org.lab.insurance.domain.portfolio.Portfolio;
 import org.lab.insurance.domain.portfolio.PortfolioType;
@@ -27,10 +26,10 @@ public class PortfolioInitializacionService {
 	@Autowired
 	private ContractPortfolioRelationRepository repo;
 
-	public ContractPortfolioRelation initialize(ContractRefMessage msg) {
-		log.info("Intializing contract {} portfolios");
+	public ContractPortfolioRelation initialize(Contract request) {
+		log.info("Intializing contract {} portfolios", request.getId());
 
-		Contract contract = contractRepo.findOne(msg.getContractId());
+		Contract contract = contractRepo.findOne(request.getId());
 		String cn = contract.getNumber();
 		// TODO validate contract status (filtering)
 
