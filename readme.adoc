@@ -38,17 +38,23 @@ para crear el contrato.
 de este flujo será controlar las validaciones.
 * Como parte del flujo DSL el gateway encolará la petición en RabbitMQ y se quedará esperando la respuesta (este proceso
 puede hacerse de forma síncrona para por ejemplo una contratación web o asíncrona por ejemplo para procesos batch).
-* El módulo de integración recibe el mensaje y lo procesará también utilizando las definiciones del flujo establecidas
-mediante DSL.
-** Como parte de este flujo irá publicando en las diferentes colas los mensajes para que cada uno de los módulos realice
-las acciones necesarias (generación de documentación, initialización de los portfolios, creación de órdenes, etc). En
-general estas acciones se procesarán de forma asíncrona y el módulo de integración devolverá previamente el contrato
-generado.
+* El módulo _core_ persistirá el contrato y devolverá el mensaje a RabbitMQ donde lo recogerá el gateway.
 
-En este punto se deberán haber encolado los diferentes mensajes que se procesarán de forma asíncrona, eso nos asegura
-por ejemplo que si un componente no está disponible en un determinado momento no afectará al proceso de contratación.
-También facilita la integración de módulos adicionales ya que para extender la funcionalidad simplemente tendremos que
-modificar el DSL y no el comportamiento de todos los servicios.
+Posteriormente realizaremos una petición de aprobación del contrato a través del gateway. Esto generará un mensaje
+en la cola de aprobación que será procesado por el módulo _insurance-contract-creation-core_.
+
+Una vez reciba el mensaje informará a los diferentes módulos registrados en el sistema para que realicen las operaciones
+necesarias de forma asíncrona:
+
+* Generación del portfolio
+* Procesamiento de la orden de pago inicial
+* Generación de la documentación del contrato
+* etc
+
+Los diferentes mensajes que se procesarán de forma asíncrona, eso nos asegura por ejemplo que si un componente no está
+disponible en un determinado momento no afectará al proceso de contratación/aprobación. También facilita la integración
+de módulos adicionales ya que para extender la funcionalidad simplemente tendremos que modificar el DSL y no el
+comportamiento de ningún componente.
 
 == Development
 
