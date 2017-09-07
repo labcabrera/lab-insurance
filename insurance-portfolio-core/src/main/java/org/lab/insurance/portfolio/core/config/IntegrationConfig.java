@@ -34,7 +34,7 @@ public class IntegrationConfig {
 
 	@Bean
 	public Queue portfolioInitializationRequest() {
-		return new Queue(Queues.PortfolioInitializationRequest, true, false, false);
+		return new Queue(Queues.PortfolioInitialization, true, false, false);
 	}
 
 	//@formatter:off

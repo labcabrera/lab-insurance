@@ -2,6 +2,7 @@ package org.lab.insurance.contract.creation.core.config;
 
 import org.lab.insurance.contract.creation.core.domain.ContractCreationData;
 import org.lab.insurance.contract.creation.core.service.ContractCreationService;
+import org.lab.insurance.contract.creation.core.service.integration.InitialPaymentTransformer;
 import org.lab.insurance.domain.IntegrationConstants;
 import org.lab.insurance.domain.IntegrationConstants.Queues;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -37,17 +38,22 @@ public class IntegrationConfig {
 
 	@Bean
 	Queue queueContractCreateRequest() {
-		return new Queue(Queues.ContractRequest, true, false, false);
+		return new Queue(Queues.ContractCreation, true, false, false);
 	}
 
 	@Bean
 	Queue queuePortfolioInitializacionRequest() {
-		return new Queue(Queues.PortfolioInitializationRequest, true, false, false);
+		return new Queue(Queues.PortfolioInitialization, true, false, false);
 	}
 
 	@Bean
 	Queue queueOrderInitializacionRequest() {
 		return new Queue(Queues.OrderCreationRequest, true, false, false);
+	}
+
+	@Bean
+	Queue queueContractCreateInitialDoc() {
+		return new Queue(Queues.ContractInitialDocRequest, true, false, false);
 	}
 
 	@Bean
@@ -60,9 +66,14 @@ public class IntegrationConfig {
 		return MessageChannels.direct().get();
 	}
 
+	@Bean
+	MessageChannel createContractDocumentation() {
+		return MessageChannels.direct().get();
+	}
+
 	//@formatter:off
 	@Bean
-	public IntegrationFlow mainFlow() {
+	IntegrationFlow mainFlow() {
 		return IntegrationFlows
 			.from(Amqp
 				.inboundGateway(connectionFactory, amqpTemplate, queueContractCreateRequest()))
@@ -75,6 +86,8 @@ public class IntegrationConfig {
 					.channel(portfolioInitChannel()))
 				.subscribe(f -> f
 					.channel(orderInitChannel()))
+				.subscribe(f -> f
+					.channel(createContractDocumentation()))
 			)
 			.transform(Transformers.toJson(mapper()))
 			.get();
@@ -90,7 +103,7 @@ public class IntegrationConfig {
 			.log("Sending portfolio initialization message")
 			.handle(Amqp
 				.outboundAdapter(amqpTemplate)
-				.routingKey(IntegrationConstants.Queues.PortfolioInitializationRequest)
+				.routingKey(IntegrationConstants.Queues.PortfolioInitialization)
 			)
 			.get();	
 	}
@@ -102,10 +115,27 @@ public class IntegrationConfig {
 		return IntegrationFlows
 			.from(orderInitChannel())
 			.log("Sending order initialization message")
+			//TODO revisar la transformacion. Aunque solo sea a nivel de canal esta afectando a la salida
+			.transform(new InitialPaymentTransformer())
 			.transform(Transformers.toJson(mapper()))
 			.handle(Amqp
 				.outboundAdapter(amqpTemplate)
 				.routingKey(IntegrationConstants.Queues.OrderCreationRequest)
+			)
+			.get();
+	}
+	//@formatter:on
+
+	//@formatter:off
+	@Bean
+	IntegrationFlow createContractDocumentationFlow() {
+		return IntegrationFlows
+			.from(createContractDocumentation())
+			.log("Sending contract doc message")
+			.transform(Transformers.toJson(mapper()))
+			.handle(Amqp
+				.outboundAdapter(amqpTemplate)
+				.routingKey(IntegrationConstants.Queues.ContractInitialDocRequest)
 			)
 			.get();
 	}

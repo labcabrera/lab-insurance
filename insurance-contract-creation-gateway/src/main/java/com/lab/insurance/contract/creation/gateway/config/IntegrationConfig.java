@@ -30,7 +30,7 @@ public class IntegrationConfig {
 	@Bean
 	public IntegrationFlow flow() {
 
-		AmqpOutboundEndpointSpec outbound = Amqp.outboundGateway(amqpTemplate).routingKey(Queues.ContractRequest);
+		AmqpOutboundEndpointSpec outbound = Amqp.outboundGateway(amqpTemplate).routingKey(Queues.ContractCreation);
 
 		return IntegrationFlows.from(MessageChannels.publishSubscribe(Channels.ContractRequest)) //
 				.transform(Transformers.toJson(mapper())) //
