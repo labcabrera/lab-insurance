@@ -3,10 +3,11 @@ package org.lab.insurance.domain;
 public interface IntegrationConstants {
 
 	public interface Queues {
-		String ContractRequest = "q/contract/create/request";
-		String PortfolioInitializationRequest = "q/portfolio/init/request";
-		String PortfolioInitializationResponse = "q/portfolio/init/response";
-		String OrderCreationRequest = "q/order/create/request";
+		String ContractRequest = "contract-create.request";
+		String PortfolioInitializationRequest = "portfolio-create.request";
+		String PortfolioInitializationResponse = "portfolio-create.response";
+		String PortfolioInitializationError = "portfolio-create.error";
+		String OrderCreationRequest = "order-create.request";
 	}
 
 	public interface Channels {

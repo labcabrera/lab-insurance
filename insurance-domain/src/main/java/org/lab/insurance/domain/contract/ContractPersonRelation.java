@@ -17,8 +17,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
+@ToString(of = "id")
 @Document
 public class ContractPersonRelation implements HasContract, HasActivationRange {
 
