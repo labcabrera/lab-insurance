@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Representa un movimiento u operacion de entrada/salida de fondos en un contrato.
@@ -27,6 +28,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ValidOrder
+@ToString(of = { "id", "type" })
 public class Order implements HasContract, HasState {
 
 	@Id

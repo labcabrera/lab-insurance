@@ -91,10 +91,10 @@ public class ContractCreationSteps extends BddSupport {
 
 	}
 
-	@When("^Establezco un pago inicial neto de ([\\d|\\.]+) euros$")
+	@When("^Establezco un pago inicial bruto de ([\\d|\\.]+) euros$")
 	public void establezco_un_pago_inicial_neto_de_euros(BigDecimal amount) {
 		Order initialPayment = Order.builder().type(OrderType.INITIAL_PAYMENT).build();
-		initialPayment.setNetAmount(amount);
+		initialPayment.setGrossAmount(amount);
 		contractCreateInfo.setInitialPayment(initialPayment);
 	}
 
@@ -117,6 +117,7 @@ public class ContractCreationSteps extends BddSupport {
 
 	@When("^Establezco la fecha de contratacion a (\\d+)/(\\d+)/(\\d+)$")
 	public void establezco_la_fecha_de_contratacion_a(int arg1, int arg2, int arg3) {
+		//TODO
 	}
 
 	@When("^Muestro el JSON del contrato$")
@@ -136,6 +137,12 @@ public class ContractCreationSteps extends BddSupport {
 	public void apruebo_el_contrato() {
 		contract = contractApprobationGateway.process(contract);
 	}
+	
+	@Then("^Establezco la recepcion del pago inicial a (\\d+)/(\\d+)/(\\d+)$")
+	public void establezco_la_recepcion_del_pago_inicial_a(int arg1, int arg2, int arg3) throws Throwable {
+		//TODO
+	}
+
 
 	@Then("^Recupero el numero del contrato$")
 	public void recupero_el_numero_del_contrato() {

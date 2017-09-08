@@ -4,6 +4,7 @@ import org.lab.insurance.domain.IntegrationConstants.Queues;
 import org.lab.insurance.domain.insurance.Order;
 import org.lab.insurance.order.core.integration.OrderMongoReader;
 import org.lab.insurance.order.core.service.MarketOrderGeneratorProcessor;
+import org.lab.insurance.order.core.service.OrderFeesProcessor;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -35,6 +36,9 @@ public class OrderCoreIntegrationConfig {
 	@Autowired
 	private OrderMongoReader orderMongoReader;
 
+	@Autowired
+	private OrderFeesProcessor orderFeesProcessor;
+
 	@Bean
 	JsonObjectMapper<?, ?> mapper() {
 		return new Jackson2JsonObjectMapper();
@@ -59,6 +63,7 @@ public class OrderCoreIntegrationConfig {
 			.log(Level.INFO, "Processing order initialization request")
 			.transform(Transformers.fromJson(Order.class))
 			.handle(Order.class, (request, headers) -> orderMongoReader.read(request))
+			.handle(Order.class, (request, headers) -> orderFeesProcessor.process(request))
 			.handle(Order.class, (request, headers) -> marketOrderGeneratorProcessor.process(request))
 			.transform(Transformers.toJson(mapper()))
 			//TODO
