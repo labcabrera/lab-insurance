@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
-import org.lab.insurance.domain.HasCode;
 import org.lab.insurance.domain.HasState;
 import org.lab.insurance.domain.common.audit.AuditData;
 import org.lab.insurance.domain.engine.State;
@@ -45,6 +44,8 @@ public class Contract implements HasState {
 	@ApiModelProperty(value = "Agreement")
 	private Agreement agreement;
 
+	// TODO problema al registrar el serializador
+	@JsonIgnore
 	@Null(message = "STATE_MUST_BE_EMPTY", groups = ValidationContext.Insert.class)
 	private State currentState;
 
@@ -73,13 +74,8 @@ public class Contract implements HasState {
 		return orders.stream().filter(x -> type.equals(x.getType())).collect(Collectors.toList());
 	}
 
-	public enum States implements HasCode {
+	public enum States {
 		INITIAL, VALIDATED, APPROBED, PAID, STARTED, CANCELLED;
-
-		@Override
-		public String getCode() {
-			return name();
-		}
 	}
 
 	public static class ValidationContext {

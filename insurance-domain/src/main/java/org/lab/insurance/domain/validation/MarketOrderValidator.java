@@ -37,7 +37,7 @@ public class MarketOrderValidator extends AbstractValidator
 		addIfNotNull(errors, checkPositiveValue(entity.getNav(), "marketOrder.validation.negativeNav", ctx));
 		// Comprobamos la integridad de las fechas y los estados
 		if (entity.getCurrentState() != null && entity.getDates() != null) {
-			MarketOrder.States state = MarketOrder.States.valueOf(entity.getCurrentState().getCode().getCode());
+			MarketOrder.States state = MarketOrder.States.valueOf(entity.getCurrentState().getCode());
 			switch (state) {
 			case INITIAL:
 				addIfNotNull(errors, checkNullValue(entity.getDates().getProcessed(),

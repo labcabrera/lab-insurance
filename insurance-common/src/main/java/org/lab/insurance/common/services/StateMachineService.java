@@ -2,7 +2,6 @@ package org.lab.insurance.common.services;
 
 import java.io.Serializable;
 
-import org.lab.insurance.domain.HasCode;
 import org.lab.insurance.domain.HasIdentifier;
 import org.lab.insurance.domain.HasState;
 import org.lab.insurance.domain.engine.State;
@@ -12,22 +11,25 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 @Service
 public class StateMachineService {
 
-	@Autowired
+	@Autowired(required = false)
 	private TimestampProvider timestampProvider;
 	@Autowired
 	private MongoTemplate template;
 
 	@SuppressWarnings("unchecked")
-	public void createTransition(HasState hasState, HasCode newState, boolean persist) {
+	public void createTransition(HasState hasState, String newState, boolean persist) {
 		// TODO validacion maquina estados transicion
 		State state = new State();
 		state.setCode(newState);
 		state.setEntered(timestampProvider.getCurrentDate());
+		hasState.setCurrentState(state);
 		if (persist && HasIdentifier.class.isAssignableFrom(hasState.getClass())) {
+			Assert.notNull(template, "Missing MongoTemplate");
 			HasIdentifier<Serializable> hasId = (HasIdentifier<Serializable>) hasState;
 			Class<?> entityClass = hasState.getClass();
 			Update update = new Update();

@@ -3,7 +3,6 @@ package org.lab.insurance.domain.insurance;
 import java.math.BigDecimal;
 
 import org.lab.insurance.domain.HasAsset;
-import org.lab.insurance.domain.HasCode;
 import org.lab.insurance.domain.HasState;
 import org.lab.insurance.domain.engine.State;
 import org.lab.insurance.domain.validation.ValidMarketOrder;
@@ -35,12 +34,7 @@ public class MarketOrder implements HasState, HasAsset {
 	private BigDecimal netAmount;
 	private BigDecimal nav;
 
-	public enum States implements HasCode {
+	public enum States {
 		INITIAL, PROCESSED, VALUED, ACCOUNTED;
-
-		@Override
-		public String getCode() {
-			return name();
-		}
 	}
 }

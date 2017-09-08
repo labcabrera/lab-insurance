@@ -23,6 +23,8 @@ import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.integration.support.json.JsonObjectMapper;
 import org.springframework.messaging.MessageChannel;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Configuration
 public class IntegrationConfig {
 
@@ -38,9 +40,12 @@ public class IntegrationConfig {
 	@Autowired
 	private AmqpTemplate amqpTemplate;
 
+	@Autowired
+	private ObjectMapper objectMapper;
+
 	@Bean
 	JsonObjectMapper<?, ?> mapper() {
-		return new Jackson2JsonObjectMapper();
+		return new Jackson2JsonObjectMapper(objectMapper);
 	}
 
 	@Bean

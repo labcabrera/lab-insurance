@@ -2,15 +2,18 @@ package org.lab.insurance.domain.engine;
 
 import java.util.Date;
 
-import org.lab.insurance.domain.HasCode;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class State {
 
-	private HasCode code;
+	private String code;
 	private Date entered;
-	private String hasStateId;
 
 }

@@ -1,8 +1,9 @@
 package org.lab.insurance.order.core.config;
 
+import org.lab.insurance.common.integration.PayloadMongoAdapter;
+import org.lab.insurance.common.integration.StateMachineProcesor;
 import org.lab.insurance.domain.IntegrationConstants.Queues;
 import org.lab.insurance.domain.insurance.Order;
-import org.lab.insurance.order.core.integration.OrderMongoReader;
 import org.lab.insurance.order.core.service.MarketOrderGeneratorProcessor;
 import org.lab.insurance.order.core.service.OrderFeesProcessor;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -34,10 +35,13 @@ public class OrderCoreIntegrationConfig {
 	private MarketOrderGeneratorProcessor marketOrderGeneratorProcessor;
 
 	@Autowired
-	private OrderMongoReader orderMongoReader;
+	private PayloadMongoAdapter<Order> orderMongoAdapter;
 
 	@Autowired
 	private OrderFeesProcessor orderFeesProcessor;
+
+	@Autowired
+	private StateMachineProcesor<Order> stateMachineProcessor;
 
 	@Bean
 	JsonObjectMapper<?, ?> mapper() {
@@ -62,9 +66,12 @@ public class OrderCoreIntegrationConfig {
 				.inboundGateway(connectionFactory, amqpTemplate, orderInitializationQueue()))
 			.log(Level.INFO, "Processing order initialization request")
 			.transform(Transformers.fromJson(Order.class))
-			.handle(Order.class, (request, headers) -> orderMongoReader.read(request))
+			.handle(Order.class, (request, headers) -> orderMongoAdapter.read(request.getId(), Order.class))
+			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.PROCESSING.name(), true))
 			.handle(Order.class, (request, headers) -> orderFeesProcessor.process(request))
 			.handle(Order.class, (request, headers) -> marketOrderGeneratorProcessor.process(request))
+			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.PROCESSED.name(), true))
+			.handle(Order.class, (request, headers) -> orderMongoAdapter.save(request))
 			.transform(Transformers.toJson(mapper()))
 			//TODO
 			.bridge(null)

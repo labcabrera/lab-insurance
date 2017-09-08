@@ -4,13 +4,10 @@ image:https://travis-ci.org/labcabrera/lab-insurance.svg?branch=master["Build St
 
 = Insurance Showcase Engine
 
-Motor de gestión de productos de ahorro basado en una arquitectura de microservicios con las siguientes
-características.
-
-Su desarrollo se basa en:
+Motor de gestión de productos de ahorro basado en una arquitectura de microservicios basada en:
 
 * Spring Boot
-* Spring Integration
+* Spring Integration & DSL
 * RabbitMQ
 * Spring Cloud Netflix
 * MongoDB
@@ -94,18 +91,24 @@ Los módulos _${name}-core_ hacen referencia a proyectos de integración sin int
 Los módulos _${name}-gateway_ hacen referencia a los módulos web que generalmente explotan los servicios core utilizando 
 AMQP y exponen servicios REST.
 
+=== Git cloud config
+
+El repositorio utilizado para la configuración es:
+
+https://github.com/labcabrera/lab-insurance-cloud-config
+
 === Local port mapping
 
+[options="headers"]
 |===
-|cloud-config               | 8888
-|eureka                     | 8070
-|zuul-gateway               | 8080
-|contract-creation-gateway  | 8081
-|legal-entity-gateway       | 8082
-|asset-gateway              | 8089
-|accounting-gateway         | 8083
-|contract-common-gateway    | 8091
-|portfolio-gateway          | 8095
+|Environment                | Port | Application                | Port 
+|cloud-config               | 8888 | contract-creation-gateway  | 8081
+|eureka                     | 8070 | legal-entity-gateway       | 8082
+|zuul-gateway               | 8080 | asset-gateway              | 8089
+|                           |      | accounting-gateway         | 8083 
+|                           |      | contract-common-gateway    | 8091
+|                           |      | portfolio-gateway          | 8095
+|                           |      | order-gateway              | 8096
 |===
 
 == References

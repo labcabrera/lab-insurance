@@ -12,6 +12,7 @@ import org.lab.insurance.domain.contract.ContractPersonRelation;
 import org.lab.insurance.domain.contract.repository.ContractPersonRelationRepository;
 import org.lab.insurance.domain.contract.repository.ContractRepository;
 import org.lab.insurance.domain.insurance.Asset;
+import org.lab.insurance.domain.insurance.Order;
 import org.lab.insurance.domain.insurance.OrderDistribution;
 import org.lab.insurance.domain.insurance.repository.AssetRepository;
 import org.lab.insurance.domain.insurance.repository.OrderRepository;
@@ -71,6 +72,7 @@ public class ContractCreationProcessor {
 
 			}
 		}
+		stateMachineService.createTransition(data.getInitialPayment(), Order.States.INITIAL.name(), false);
 		orderRepository.save(data.getInitialPayment());
 		result.setOrders(new ArrayList<>());
 		result.getOrders().add(data.getInitialPayment());
@@ -78,7 +80,7 @@ public class ContractCreationProcessor {
 		result.setNumber(String.valueOf(new Random().nextInt(10000)));
 		result.setAuditData(AuditData.builder().created(timeStampProvider.getCurrentDate()).build());
 
-		stateMachineService.createTransition(result, Contract.States.INITIAL, false);
+		stateMachineService.createTransition(result, Contract.States.INITIAL.name(), false);
 		contractRepository.save(result);
 		return result;
 

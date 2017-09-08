@@ -3,8 +3,8 @@ package org.lab.insurance.domain.insurance;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.lab.insurance.domain.HasCode;
 import org.lab.insurance.domain.HasContract;
+import org.lab.insurance.domain.HasIdentifier;
 import org.lab.insurance.domain.HasState;
 import org.lab.insurance.domain.contract.Contract;
 import org.lab.insurance.domain.engine.State;
@@ -29,7 +29,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ValidOrder
 @ToString(of = { "id", "type" })
-public class Order implements HasContract, HasState {
+public class Order implements HasContract, HasState, HasIdentifier<String> {
 
 	@Id
 	private String id;
@@ -54,14 +54,8 @@ public class Order implements HasContract, HasState {
 	private BigDecimal grossAmount;
 	private BigDecimal netAmount;
 
-	public enum States implements HasCode {
-		INITIAL, PROCESSED, VALUED, ACCOUNTED;
-
-		@Override
-		public String getCode() {
-			return name();
-		}
-
+	public enum States {
+		INITIAL, PROCESSING, PROCESSED, VALUED, ACCOUNTED;
 	}
 
 }

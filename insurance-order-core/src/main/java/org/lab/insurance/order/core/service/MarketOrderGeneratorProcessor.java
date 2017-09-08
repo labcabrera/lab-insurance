@@ -41,7 +41,6 @@ public class MarketOrderGeneratorProcessor {
 		Mutable<BigDecimal> buyNetAmount = new MutableObject<BigDecimal>();
 		createSellMarketOrders(order, buyGrossAmount, buyNetAmount);
 		createBuyMarketOrders(order, buyGrossAmount.getValue(), buyNetAmount.getValue());
-		orderRepo.save(order);
 		return order;
 	}
 
@@ -101,7 +100,7 @@ public class MarketOrderGeneratorProcessor {
 				marketOrder.setType(MarketOrderType.BUY);
 				marketOrder.setSource(MarketOrderSource.AMOUNT);
 				order.getMarketOrders().add(marketOrder);
-				stateMachineService.createTransition(marketOrder, MarketOrder.States.PROCESSED, false);
+				stateMachineService.createTransition(marketOrder, MarketOrder.States.PROCESSED.name(), false);
 			}
 		}
 	}

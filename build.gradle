@@ -90,6 +90,7 @@ project(":insurance-common") {
 		compile "commons-io:commons-io:2.5"
 		compile "org.apache.commons:commons-lang3:3.6"
 		compile "org.springframework.integration:spring-integration-amqp"
+		testCompile testLibs
 	}
 	bootRepackage {
 		enabled = false

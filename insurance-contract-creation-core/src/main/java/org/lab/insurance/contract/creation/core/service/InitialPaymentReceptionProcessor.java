@@ -1,6 +1,7 @@
 package org.lab.insurance.contract.creation.core.service;
 
 import org.apache.commons.lang3.StringUtils;
+import org.lab.insurance.common.services.StateMachineService;
 import org.lab.insurance.contract.creation.core.domain.PaymentReceptionData;
 import org.lab.insurance.domain.contract.Contract;
 import org.lab.insurance.domain.contract.repository.ContractRepository;
@@ -22,6 +23,8 @@ public class InitialPaymentReceptionProcessor {
 	private ContractRepository contractRepo;
 	@Autowired
 	private OrderRepository orderRepo;
+	@Autowired
+	private StateMachineService stateMachineService;
 
 	public Order process(PaymentReceptionData request) {
 		Assert.notNull(request, "Null request");
@@ -30,10 +33,12 @@ public class InitialPaymentReceptionProcessor {
 		log.info("Processing initial payment reception {}", request);
 		Contract contract = contractRepo.findOne(request.getContractId());
 		Order payment = contract.filterOrders(OrderType.INITIAL_PAYMENT).iterator().next();
+		payment.setContract(contract);
 		if (payment.getDates() == null) {
 			payment.setDates(new OrderDates());
 			payment.getDates().setEffective(request.getPaymentReception());
 		}
+		stateMachineService.createTransition(payment, Order.States.INITIAL.name(), false);
 		orderRepo.save(payment);
 		return payment;
 	}

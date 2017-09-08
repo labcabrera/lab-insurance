@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-// @SpringBootTest(classes = InsuranceModelConfig.class)
 @EnableMongoRepositories("org.lab.insurance.domain")
 public class ContractRepositoryTest {
 
