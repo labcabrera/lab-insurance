@@ -140,7 +140,8 @@ public class ContractCreationSteps extends BddSupport {
 	@Then("^Establezco la recepcion del pago inicial a (\\d+)/(\\d+)/(\\d+)$")
 	public void establezco_la_recepcion_del_pago_inicial_a(int year, int monthOfYear, int dayOfMonth) {
 		Date date = new DateTime(year, monthOfYear, dayOfMonth, 0, 0).toDate();
-		PaymentReceptionData request = PaymentReceptionData.builder().paymentReception(date).build();
+		PaymentReceptionData request = PaymentReceptionData.builder().paymentReception(date)
+				.contractId(contract.getId()).build();
 		contract = contractCreationGateway.processPaymentReception(request);
 	}
 

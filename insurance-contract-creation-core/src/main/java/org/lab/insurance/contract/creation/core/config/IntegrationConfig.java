@@ -2,7 +2,6 @@ package org.lab.insurance.contract.creation.core.config;
 
 import org.lab.insurance.contract.creation.core.domain.ContractCreationData;
 import org.lab.insurance.contract.creation.core.domain.PaymentReceptionData;
-import org.lab.insurance.contract.creation.core.integration.InitialPaymentTransformer;
 import org.lab.insurance.contract.creation.core.integration.ReadContractTransformer;
 import org.lab.insurance.contract.creation.core.service.ContractApprobationProcessor;
 import org.lab.insurance.contract.creation.core.service.ContractCreationProcessor;
@@ -141,10 +140,11 @@ public class IntegrationConfig {
 	IntegrationFlow initialPaymentReceptionFlow() {
 		return IntegrationFlows
 			.from(Amqp
-				.inboundGateway(connectionFactory, amqpTemplate, queueContractApprobation()))
+				.inboundGateway(connectionFactory, amqpTemplate, queueInitialPaymentReception()))
 			.transform(Transformers.fromJson(PaymentReceptionData.class, mapper()))
 			.log(Level.INFO, "Received payment reception request")
 			.handle(PaymentReceptionData.class, (request, headers) -> initialPaymentReceptionProcessor.process(request))
+			.log(Level.INFO, "Processed initial payment")
 			.publishSubscribeChannel(c -> c.applySequence(false)
 				.subscribe(f -> f
 					.channel(orderInitChannel()))
@@ -175,8 +175,6 @@ public class IntegrationConfig {
 		return IntegrationFlows
 			.from(orderInitChannel())
 			.log("Sending order initialization message")
-			//TODO revisar la transformacion. Aunque solo sea a nivel de canal esta afectando a la salida
-			.transform(new InitialPaymentTransformer())
 			.transform(Transformers.toJson(mapper()))
 			.handle(Amqp
 				.outboundAdapter(amqpTemplate)

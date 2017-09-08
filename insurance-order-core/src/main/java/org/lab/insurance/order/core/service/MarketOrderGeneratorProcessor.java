@@ -2,6 +2,7 @@ package org.lab.insurance.order.core.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.commons.lang3.mutable.Mutable;
@@ -33,6 +34,9 @@ public class MarketOrderGeneratorProcessor {
 
 	public Order process(Order order) {
 		log.info("Processing order {}", order);
+		if (order.getMarketOrders() == null) {
+			order.setMarketOrders(new ArrayList<>());
+		}
 		Mutable<BigDecimal> buyGrossAmount = new MutableObject<BigDecimal>();
 		Mutable<BigDecimal> buyNetAmount = new MutableObject<BigDecimal>();
 		createSellMarketOrders(order, buyGrossAmount, buyNetAmount);

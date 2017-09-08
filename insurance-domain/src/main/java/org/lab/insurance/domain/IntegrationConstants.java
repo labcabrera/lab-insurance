@@ -18,10 +18,10 @@ public interface IntegrationConstants {
 		String ContractCreationResponse = "contract-create-channel.reponse";
 		String ContractApprobationRequest = "contract-approbation-channel.request";
 		String ContractApprobationResponse = "contract-approbation-channel.response";
-		String PortfolioInitializationRequest = "portfolio-initialization.request";
-		String PortfolioInitializationResponse = "portfolio-iinitialization.response";
-		String InitialPaymentReceptionRequest = "initial-payment-reception.request";
-		String InitialPaymentReceptionResponse = "initial-payment-reception.response";
+		String PortfolioInitializationRequest = "portfolio-initialization-channel.request";
+		String PortfolioInitializationResponse = "portfolio-iinitialization-channel.response";
+		String InitialPaymentReceptionRequest = "initial-payment-reception-channel.request";
+		String InitialPaymentReceptionResponse = "initial-payment-reception-channel.response";
 	}
 
 }

@@ -1,8 +1,9 @@
-	package com.lab.insurance.contract.creation.gateway.config;
+package com.lab.insurance.contract.creation.gateway.config;
 
 import org.lab.insurance.domain.IntegrationConstants.Channels;
 import org.lab.insurance.domain.IntegrationConstants.Queues;
 import org.lab.insurance.domain.contract.Contract;
+import org.lab.insurance.domain.insurance.Order;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -54,6 +55,22 @@ public class IntegrationConfig {
 			)
 			.transform(Transformers.fromJson(Contract.class, mapper()))
 			.channel(MessageChannels.direct(Channels.ContractApprobationResponse))
+			.get();
+	}
+	//@formatter:on
+
+	//@formatter:off
+	@Bean
+	IntegrationFlow initialPaymentflow() {
+		return IntegrationFlows
+			.from(MessageChannels.publishSubscribe(Channels.InitialPaymentReceptionRequest))
+			.transform(Transformers.toJson(mapper()))
+			.handle(Amqp
+				.outboundGateway(amqpTemplate)
+				.routingKey(Queues.InitialPaymentReception)
+			)
+			.transform(Transformers.fromJson(Order.class, mapper()))
+			.channel(MessageChannels.direct(Channels.InitialPaymentReceptionResponse))
 			.get();
 	}
 	//@formatter:on
