@@ -1,30 +1,30 @@
 include ":insurance-domain"
 include ":insurance-common"
-include ":insurance-services"
-include ":insurance-engine-domain"
-include ":insurance-engine"
-include ":insurance-bootstrap"
 
 include ":insurance-cloud-config"
 include ":insurance-eureka"
 
-include ":insurance-ms-common"
-
-include ":insurance-legal-entity-core"
-include ":insurance-legal-entity-gateway"
 include ":insurance-asset-core"
 include ":insurance-asset-gateway"
+include ":insurance-broker-core"
+include ":insurance-contract-common-gateway"
 include ":insurance-contract-creation-core"
 include ":insurance-contract-creation-gateway"
-include ":insurance-contract-common-gateway"
-include ":insurance-portfolio-core"
+include ":insurance-legal-entity-core"
+include ":insurance-legal-entity-gateway"
 include ":insurance-order-core"
 include ":insurance-order-gateway"
+include ":insurance-portfolio-core"
 include ":insurance-portfolio-gateway"
-include ":insurance-broker-core"
-include ":insurance-stop-loss"
-
+include ":insurance-stop-loss-core"
 
 include ":insurance-zuul"
 
 include ":insurance-bdd"
+
+// deprecated
+include ":insurance-services"
+include ":insurance-engine-domain"
+include ":insurance-engine"
+include ":insurance-bootstrap"
+include ":insurance-ms-common"

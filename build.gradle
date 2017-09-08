@@ -16,6 +16,30 @@ buildscript {
 	}
 }
 
+def coreLibs = [
+	"org.springframework.boot:spring-boot-starter-integration",
+	"org.springframework.boot:spring-boot-starter-amqp",
+	"org.springframework.integration:spring-integration-amqp",
+	"org.springframework.integration:spring-integration-mongodb",
+	"org.springframework.integration:spring-integration-java-dsl",
+	"org.springframework.cloud:spring-cloud-config-client",
+	"org.springframework.cloud:spring-cloud-starter-eureka",
+	"org.springframework.cloud:spring-cloud-starter-feign"
+]
+def gatewayLibs = [
+	"org.springframework.boot:spring-boot-starter-web",
+	"org.springframework.boot:spring-boot-starter-integration",
+	"org.springframework.boot:spring-boot-starter-amqp",
+	"org.springframework.integration:spring-integration-amqp",
+	"org.springframework.cloud:spring-cloud-config-client",
+	"org.springframework.cloud:spring-cloud-starter-eureka",
+	"org.springframework.boot:spring-boot-starter-actuator",
+	"io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
+]
+def testLibs = [
+	"org.springframework.boot:spring-boot-starter-test"
+]
+
 subprojects {
 	apply plugin: "java"
 	apply plugin: "org.springframework.boot"
@@ -43,35 +67,6 @@ subprojects {
 
 	dependencies {
 		compile "org.projectlombok:lombok:${lombokVersion}"
-		testCompile "org.springframework.boot:spring-boot-starter-test"
-	}
-}
-
-configure(subprojects.findAll {it.name.endsWith("-core")}) {
-	dependencies {
-		compile project(":insurance-domain")
-		compile project(":insurance-common")
-		compile "org.springframework.boot:spring-boot-starter-integration"
-		compile "org.springframework.boot:spring-boot-starter-amqp"
-		compile "org.springframework.integration:spring-integration-amqp"
-		compile "org.springframework.integration:spring-integration-mongodb"
-		compile "org.springframework.integration:spring-integration-java-dsl"
-		compile "org.springframework.cloud:spring-cloud-config-client"
-		compile "org.springframework.cloud:spring-cloud-starter-eureka"
-		compile "org.springframework.cloud:spring-cloud-starter-feign"
-	}
-}
-configure(subprojects.findAll {it.name.endsWith("-gateway")}) {
-	dependencies {
-		compile project(":insurance-domain")
-		compile "org.springframework.boot:spring-boot-starter-web"
-		compile "org.springframework.boot:spring-boot-starter-integration"
-		compile "org.springframework.boot:spring-boot-starter-amqp"
-		compile "org.springframework.integration:spring-integration-amqp"
-		compile "org.springframework.cloud:spring-cloud-config-client"
-		compile "org.springframework.cloud:spring-cloud-starter-eureka"
-		compile "org.springframework.boot:spring-boot-starter-actuator"
-		compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
 	}
 }
 
@@ -80,6 +75,7 @@ project(":insurance-domain") {
 		compile "org.springframework.boot:spring-boot-starter-data-mongodb"
 		compile "io.springfox:springfox-swagger2:${springfoxSwaggerVersion}"
 		compile "org.hibernate:hibernate-validator"
+		testCompile testLibs
 	}
 	bootRepackage {
 		enabled = false
@@ -97,49 +93,11 @@ project(":insurance-common") {
 	}
 }
 
-project(":insurance-services") {
+project(":insurance-cloud-config") {
 	dependencies {
-		compile project(":insurance-common")
-
-		// remove
-		compile group: 'org.apache.camel', name: 'camel-guice', version: '2.19.2'
-		compileOnly "javax.servlet:javax.servlet-api:3.0.1"
-		testCompile group: 'junit', name: 'junit', version: '4.12'
-	}
-	bootRepackage {
-		enabled = false
-	}
-}
-
-// deprecated project
-project(":insurance-engine-domain") {
-	dependencies {
-		compile project(":insurance-domain")
-	}
-	bootRepackage {
-		enabled = false
-	}
-}
-
-// deprecated project
-project(":insurance-engine") {
-	dependencies {
-		compile project(":insurance-services")
-		compile project(":insurance-engine-domain")
-
-		// remove
-		//compile "org.apache.camel:camel-guice:2.19.2"
-		compile "org.apache.commons:commons-lang3:3.6"
-	}
-	bootRepackage {
-		enabled = false
-	}
-}
-
-// deprecated project
-project(":insurance-bootstrap") {
-	bootRepackage {
-		enabled = false
+		compile "org.springframework.cloud:spring-cloud-config-server"
+		compile "org.springframework.boot:spring-boot-starter-web"
+		testCompile testLibs
 	}
 }
 
@@ -150,104 +108,104 @@ project(":insurance-eureka") {
 	}
 }
 
-project(":insurance-cloud-config") {
-	dependencies {
-		compile "org.springframework.cloud:spring-cloud-config-server"
-		compile "org.springframework.boot:spring-boot-starter-web"
-	}
-}
-
-//deprecated
-project(":insurance-ms-common") {
-	dependencies {
-		compile project(":insurance-common")
-		compile "org.springframework.boot:spring-boot-starter-web"
-		compile "org.springframework.boot:spring-boot-starter-integration"
-		compile "org.springframework.boot:spring-boot-starter-actuator"
-		compile "org.springframework.boot:spring-boot-starter-amqp"
-
-		compile "org.springframework.integration:spring-integration-amqp"
-		compile "org.springframework.integration:spring-integration-mongodb"
-		compile "org.springframework.integration:spring-integration-java-dsl"
-
-
-		compile "org.springframework.cloud:spring-cloud-config-client"
-		compile "org.springframework.cloud:spring-cloud-starter-eureka"
-
-		compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
-	}
-	bootRepackage {
-		enabled = false
-	}
-}
-
-project(":insurance-contract-creation-core") {
-}
-
-project(":insurance-contract-creation-gateway") {
-	dependencies {
-		compile project(":insurance-contract-creation-core") 
-	}
-}
-
-project(":insurance-contract-common-gateway") {
-}
-
 project(":insurance-asset-core") {
 	dependencies {
-		//compile "org.springframework.boot:spring-boot-starter-batch"
-		//compile "de.flapdoodle.embed:de.flapdoodle.embed.mongo"
+		compile project(":insurance-common")
+		compile coreLibs
+		testCompile testLibs
 	}
 }
 project(":insurance-asset-gateway") {
 	dependencies {
+		compile project(":insurance-common")
+		compile coreLibs
 		compile "org.springframework.boot:spring-boot-starter-data-rest"
-	}
-}
-
-project(":insurance-legal-entity-core") {
-}
-
-project(":insurance-legal-entity-gateway") {
-}
-
-project(":insurance-stop-loss") {
-	dependencies {
-		compile project(":insurance-ms-common")
-	}
-}
-
-project(":insurance-portfolio-core") {
-}
-
-project(":insurance-portfolio-gateway") {
-	//TODO error al resolver las dependencias
-	dependencies {
-		compile project(":insurance-portfolio-core")
-		compile project(":insurance-domain")
-		compile "org.springframework.boot:spring-boot-starter-web"
-		compile "org.springframework.boot:spring-boot-starter-integration"
-		compile "org.springframework.boot:spring-boot-starter-amqp"
-		compile "org.springframework.integration:spring-integration-amqp"
-		compile "org.springframework.cloud:spring-cloud-config-client"
-		compile "org.springframework.boot:spring-boot-starter-actuator"
-		compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
+		testCompile testLibs
 	}
 }
 
 project(":insurance-broker-core") {
 	dependencies {
-		compile project(":insurance-ms-common")
+		compile project(":insurance-common")
+		compile coreLibs
+		testCompile testLibs
+	}
+}
+
+project(":insurance-contract-common-gateway") {
+	dependencies {
+		compile project(":insurance-common")
+		compile gatewayLibs
+	}
+}
+
+project(":insurance-contract-creation-core") {
+	dependencies {
+		compile project(":insurance-common")
+		compile coreLibs
+		testCompile testLibs
+	}
+}
+
+project(":insurance-contract-creation-gateway") {
+	dependencies {
+		compile project(":insurance-contract-creation-core")
+		compile gatewayLibs
+	}
+}
+
+project(":insurance-legal-entity-core") {
+	dependencies {
+		compile project(":insurance-common")
+		compile coreLibs
+		testCompile testLibs
+	}
+}
+
+project(":insurance-legal-entity-gateway") {
+	dependencies {
+		compile project(":insurance-common")
+		compile gatewayLibs
 	}
 }
 
 project(":insurance-order-core") {
+	dependencies {
+		compile project(":insurance-common")
+		compile coreLibs
+		testCompile testLibs
+	}
 }
-
 
 project(":insurance-order-gateway") {
 	dependencies {
-		compile project(":insurance-ms-common")
+		compile project(":insurance-portfolio-core")
+		compile gatewayLibs
+		testCompile testLibs
+	}
+}
+
+project(":insurance-portfolio-core") {
+	dependencies {
+		compile project(":insurance-common")
+		compile coreLibs
+		testCompile testLibs
+	}
+}
+
+project(":insurance-portfolio-gateway") {
+	dependencies {
+		compile project(":insurance-portfolio-core")
+		compile gatewayLibs
+		testCompile testLibs
+	}
+}
+
+project(":insurance-stop-loss-core") {
+	dependencies {
+		compile project(":insurance-common")
+		compile coreLibs
+		testCompile testLibs
 	}
 }
 
@@ -264,12 +222,75 @@ dependencies {
 
 project(":insurance-bdd") {
 	dependencies {
-		compile(project(":insurance-contract-creation-gateway")) {
-			exclude group: "org.springframework.cloud"
-		}
+		compile coreLibs
+		compile gatewayLibs
+		testCompile testLibs
 		testCompile "info.cukes:cucumber-junit:${cucumberVersion}"
 		testCompile "info.cukes:cucumber-java:${cucumberVersion}"
 		testCompile "info.cukes:cucumber-spring:${cucumberVersion}"
+		compile(project(":insurance-contract-creation-gateway")) {
+			exclude group: "org.springframework.cloud"
+		}
+	}
+	bootRepackage {
+		enabled = false
+	}
+}
+
+// deprecated projects --------------------------------------------------------
+
+project(":insurance-bootstrap") {
+	bootRepackage {
+		enabled = false
+	}
+}
+
+project(":insurance-ms-common") {
+	dependencies {
+		compile project(":insurance-common")
+		compile "org.springframework.boot:spring-boot-starter-web"
+		compile "org.springframework.boot:spring-boot-starter-integration"
+		compile "org.springframework.boot:spring-boot-starter-actuator"
+		compile "org.springframework.boot:spring-boot-starter-amqp"
+		compile "org.springframework.integration:spring-integration-amqp"
+		compile "org.springframework.integration:spring-integration-mongodb"
+		compile "org.springframework.integration:spring-integration-java-dsl"
+		compile "org.springframework.cloud:spring-cloud-config-client"
+		compile "org.springframework.cloud:spring-cloud-starter-eureka"
+		compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
+		testCompile testLibs
+	}
+	bootRepackage {
+		enabled = false
+	}
+}
+
+project(":insurance-engine") {
+	dependencies {
+		compile project(":insurance-services")
+		compile project(":insurance-engine-domain")
+		compile "org.apache.commons:commons-lang3:3.6"
+	}
+	bootRepackage {
+		enabled = false
+	}
+}
+
+project(":insurance-services") {
+	dependencies {
+		compile project(":insurance-common")
+		compile group: 'org.apache.camel', name: 'camel-guice', version: '2.19.2'
+		compileOnly "javax.servlet:javax.servlet-api:3.0.1"
+		testCompile group: 'junit', name: 'junit', version: '4.12'
+	}
+	bootRepackage {
+		enabled = false
+	}
+}
+
+project(":insurance-engine-domain") {
+	dependencies {
+		compile project(":insurance-domain")
 	}
 	bootRepackage {
 		enabled = false

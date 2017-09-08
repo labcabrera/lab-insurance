@@ -17,6 +17,8 @@ public interface IntegrationConstants {
 		String ContractCreationResponse = "contract-create-channel.reponse";
 		String ContractApprobationRequest = "contract-approbation-channel.request";
 		String ContractApprobationResponse = "contract-approbation-channel.response";
+		String PortfolioInitializationRequest = "portfolio-initialization.request";
+		String PortfolioInitializationResponse = "portfolio-iinitialization.response";
 	}
 
 }
