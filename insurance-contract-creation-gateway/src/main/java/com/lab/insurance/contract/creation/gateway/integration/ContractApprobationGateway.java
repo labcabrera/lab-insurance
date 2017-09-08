@@ -8,7 +8,5 @@ import org.springframework.integration.annotation.MessagingGateway;
 @MessagingGateway
 public interface ContractApprobationGateway {
 
-	@Gateway(requestChannel = Channels.ContractApprobationRequest, replyChannel = Channels.ContractApprobationResponse)
-	Contract process(Contract data);
 
 }

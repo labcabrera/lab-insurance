@@ -47,9 +47,11 @@ Una vez reciba el mensaje informará a los diferentes módulos registrados en el
 necesarias de forma asíncrona:
 
 * Generación del portfolio
-* Procesamiento de la orden de pago inicial
 * Generación de la documentación del contrato
-* etc
+* etc.
+
+Finalmente procesaremos la acción de recepción del pago inicial. Esto establecerá las fechas de las órdenes y encolará
+el mensaje para que se procese el pago.
 
 Los diferentes mensajes que se procesarán de forma asíncrona, eso nos asegura por ejemplo que si un componente no está
 disponible en un determinado momento no afectará al proceso de contratación/aprobación. También facilita la integración

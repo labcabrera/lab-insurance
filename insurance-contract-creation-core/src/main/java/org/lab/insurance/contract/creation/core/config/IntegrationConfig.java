@@ -1,10 +1,12 @@
 package org.lab.insurance.contract.creation.core.config;
 
 import org.lab.insurance.contract.creation.core.domain.ContractCreationData;
+import org.lab.insurance.contract.creation.core.domain.PaymentReceptionData;
+import org.lab.insurance.contract.creation.core.integration.InitialPaymentTransformer;
+import org.lab.insurance.contract.creation.core.integration.ReadContractTransformer;
 import org.lab.insurance.contract.creation.core.service.ContractApprobationProcessor;
 import org.lab.insurance.contract.creation.core.service.ContractCreationProcessor;
-import org.lab.insurance.contract.creation.core.service.integration.InitialPaymentTransformer;
-import org.lab.insurance.contract.creation.core.service.integration.ReadContractTransformer;
+import org.lab.insurance.contract.creation.core.service.InitialPaymentReceptionProcessor;
 import org.lab.insurance.domain.IntegrationConstants;
 import org.lab.insurance.domain.IntegrationConstants.Queues;
 import org.lab.insurance.domain.contract.Contract;
@@ -35,6 +37,9 @@ public class IntegrationConfig {
 
 	@Autowired
 	private ContractApprobationProcessor approbationProcessor;
+
+	@Autowired
+	private InitialPaymentReceptionProcessor initialPaymentReceptionProcessor;
 
 	@Autowired
 	private AmqpTemplate amqpTemplate;
@@ -70,6 +75,11 @@ public class IntegrationConfig {
 	}
 
 	@Bean
+	Queue queueInitialPaymentReception() {
+		return new Queue(Queues.InitialPaymentReception, true, false, false);
+	}
+
+	@Bean
 	MessageChannel portfolioInitChannel() {
 		return MessageChannels.direct().get();
 	}
@@ -83,7 +93,7 @@ public class IntegrationConfig {
 	MessageChannel createContractDocumentation() {
 		return MessageChannels.direct().get();
 	}
-	
+
 	@Bean
 	ReadContractTransformer readContractTransformer() {
 		return new ReadContractTransformer();
@@ -119,14 +129,30 @@ public class IntegrationConfig {
 				.subscribe(f -> f
 					.channel(portfolioInitChannel()))
 				.subscribe(f -> f
-					.channel(orderInitChannel()))
-				.subscribe(f -> f
 					.channel(createContractDocumentation()))
 			)
 			.transform(Transformers.toJson(mapper()))
 			.get();
 	}
 	//@formatter:on
+
+	//@formatter:off
+	@Bean
+	IntegrationFlow initialPaymentReceptionFlow() {
+		return IntegrationFlows
+			.from(Amqp
+				.inboundGateway(connectionFactory, amqpTemplate, queueContractApprobation()))
+			.transform(Transformers.fromJson(PaymentReceptionData.class, mapper()))
+			.log(Level.INFO, "Received payment reception request")
+			.handle(PaymentReceptionData.class, (request, headers) -> initialPaymentReceptionProcessor.process(request))
+			.publishSubscribeChannel(c -> c.applySequence(false)
+				.subscribe(f -> f
+					.channel(orderInitChannel()))
+			)
+			.transform(Transformers.toJson(mapper()))
+			.get();
+	}
+	//@formatter:on	
 
 	//@formatter:off
 	@Bean

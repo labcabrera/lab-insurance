@@ -1,4 +1,4 @@
-package org.lab.insurance.contract.creation.core.service.integration;
+package org.lab.insurance.contract.creation.core.integration;
 
 import java.util.List;
 import java.util.stream.Collectors;

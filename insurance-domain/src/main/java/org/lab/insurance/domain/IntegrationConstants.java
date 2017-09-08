@@ -10,6 +10,7 @@ public interface IntegrationConstants {
 		String PortfolioInitializationError = "portfolio-create.error";
 		String OrderCreationRequest = "order-create.request";
 		String ContractInitialDocRequest = "contract-create-doc.request";
+		String InitialPaymentReception = "initial-payment-reception.request";
 	}
 
 	public interface Channels {
@@ -19,6 +20,8 @@ public interface IntegrationConstants {
 		String ContractApprobationResponse = "contract-approbation-channel.response";
 		String PortfolioInitializationRequest = "portfolio-initialization.request";
 		String PortfolioInitializationResponse = "portfolio-iinitialization.response";
+		String InitialPaymentReceptionRequest = "initial-payment-reception.request";
+		String InitialPaymentReceptionResponse = "initial-payment-reception.response";
 	}
 
 }

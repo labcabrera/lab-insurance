@@ -2,13 +2,16 @@ package org.lab.insurance.bdd.contract.creation;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.lab.insurance.bdd.contract.MongoTestOperations;
 import org.lab.insurance.contract.creation.core.domain.ContractCreationData;
+import org.lab.insurance.contract.creation.core.domain.PaymentReceptionData;
 import org.lab.insurance.domain.contract.Contract;
 import org.lab.insurance.domain.contract.ContractPersonRelation;
 import org.lab.insurance.domain.contract.RelationType;
@@ -24,7 +27,6 @@ import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.lab.insurance.contract.creation.gateway.integration.ContractApprobationGateway;
 import com.lab.insurance.contract.creation.gateway.integration.ContractCreationGateway;
 
 import cucumber.api.java.en.Then;
@@ -36,9 +38,6 @@ public class ContractCreationSteps extends BddSupport {
 
 	@Autowired
 	protected ContractCreationGateway contractCreationGateway;
-
-	@Autowired
-	protected ContractApprobationGateway contractApprobationGateway;
 
 	@Autowired
 	protected ContractRepository contractRepository;
@@ -117,7 +116,7 @@ public class ContractCreationSteps extends BddSupport {
 
 	@When("^Establezco la fecha de contratacion a (\\d+)/(\\d+)/(\\d+)$")
 	public void establezco_la_fecha_de_contratacion_a(int arg1, int arg2, int arg3) {
-		//TODO
+		// TODO
 	}
 
 	@When("^Muestro el JSON del contrato$")
@@ -129,20 +128,21 @@ public class ContractCreationSteps extends BddSupport {
 
 	@Then("^Invoco al servicio de contratacion$")
 	public void invoco_al_servicio_de_contratacion() {
-		contract = contractCreationGateway.process(contractCreateInfo);
+		contract = contractCreationGateway.processCreation(contractCreateInfo);
 		Assert.assertNotNull(contract.getId());
 	}
 
 	@Then("^Apruebo el contrato$")
 	public void apruebo_el_contrato() {
-		contract = contractApprobationGateway.process(contract);
-	}
-	
-	@Then("^Establezco la recepcion del pago inicial a (\\d+)/(\\d+)/(\\d+)$")
-	public void establezco_la_recepcion_del_pago_inicial_a(int arg1, int arg2, int arg3) throws Throwable {
-		//TODO
+		contract = contractCreationGateway.processApprobation(contract);
 	}
 
+	@Then("^Establezco la recepcion del pago inicial a (\\d+)/(\\d+)/(\\d+)$")
+	public void establezco_la_recepcion_del_pago_inicial_a(int year, int monthOfYear, int dayOfMonth) {
+		Date date = new DateTime(year, monthOfYear, dayOfMonth, 0, 0).toDate();
+		PaymentReceptionData request = PaymentReceptionData.builder().paymentReception(date).build();
+		contract = contractCreationGateway.processPaymentReception(request);
+	}
 
 	@Then("^Recupero el numero del contrato$")
 	public void recupero_el_numero_del_contrato() {

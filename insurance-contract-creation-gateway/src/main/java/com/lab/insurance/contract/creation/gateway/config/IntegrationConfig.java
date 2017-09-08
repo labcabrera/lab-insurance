@@ -1,4 +1,4 @@
-package com.lab.insurance.contract.creation.gateway.config;
+	package com.lab.insurance.contract.creation.gateway.config;
 
 import org.lab.insurance.domain.IntegrationConstants.Channels;
 import org.lab.insurance.domain.IntegrationConstants.Queues;

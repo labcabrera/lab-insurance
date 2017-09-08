@@ -87,6 +87,7 @@ public class MarketOrderGeneratorProcessor {
 					grossAmount = buyGrossAmount.subtract(partialGrossAmount);
 				}
 				MarketOrder marketOrder = new MarketOrder();
+				marketOrder.setDates(new OrderDates());
 				marketOrder.setAsset(distribution.getAsset());
 				marketOrder.setGrossAmount(grossAmount);
 				marketOrder.setNetAmount(netAmount);

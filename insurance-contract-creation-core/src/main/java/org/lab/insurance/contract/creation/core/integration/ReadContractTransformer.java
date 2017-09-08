@@ -1,4 +1,4 @@
-package org.lab.insurance.contract.creation.core.service.integration;
+package org.lab.insurance.contract.creation.core.integration;
 
 import org.lab.insurance.domain.contract.Contract;
 import org.lab.insurance.domain.contract.repository.ContractRepository;

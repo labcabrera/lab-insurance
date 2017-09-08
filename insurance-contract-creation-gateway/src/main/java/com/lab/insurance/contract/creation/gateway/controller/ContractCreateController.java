@@ -20,7 +20,7 @@ public class ContractCreateController {
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	@ResponseBody
 	public Contract execute(ContractCreationData data) {
-		Contract result = gateway.process(data);
+		Contract result = gateway.processCreation(data);
 		return result;
 	}
 }
