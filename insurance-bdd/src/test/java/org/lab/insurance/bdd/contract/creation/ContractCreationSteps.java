@@ -50,6 +50,7 @@ public class ContractCreationSteps extends BddSupport {
 
 	protected ContractCreationData contractCreateInfo;
 	protected Contract contract;
+	protected Order initialPayment;
 	protected String contractNumber;
 
 	@When("^Inicializo la base de datos$")
@@ -142,7 +143,7 @@ public class ContractCreationSteps extends BddSupport {
 		Date date = new DateTime(year, monthOfYear, dayOfMonth, 0, 0).toDate();
 		PaymentReceptionData request = PaymentReceptionData.builder().paymentReception(date)
 				.contractId(contract.getId()).build();
-		contract = contractCreationGateway.processPaymentReception(request);
+		initialPayment = contractCreationGateway.processPaymentReception(request);
 	}
 
 	@Then("^Recupero el numero del contrato$")

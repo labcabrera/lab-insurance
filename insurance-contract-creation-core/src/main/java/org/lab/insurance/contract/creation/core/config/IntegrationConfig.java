@@ -1,11 +1,9 @@
 package org.lab.insurance.contract.creation.core.config;
 
 import org.lab.insurance.contract.creation.core.domain.ContractCreationData;
-import org.lab.insurance.contract.creation.core.domain.PaymentReceptionData;
 import org.lab.insurance.contract.creation.core.integration.ReadContractTransformer;
 import org.lab.insurance.contract.creation.core.service.ContractApprobationProcessor;
 import org.lab.insurance.contract.creation.core.service.ContractCreationProcessor;
-import org.lab.insurance.contract.creation.core.service.InitialPaymentReceptionProcessor;
 import org.lab.insurance.domain.IntegrationConstants;
 import org.lab.insurance.domain.IntegrationConstants.Queues;
 import org.lab.insurance.domain.contract.Contract;
@@ -36,9 +34,6 @@ public class IntegrationConfig {
 
 	@Autowired
 	private ContractApprobationProcessor approbationProcessor;
-
-	@Autowired
-	private InitialPaymentReceptionProcessor initialPaymentReceptionProcessor;
 
 	@Autowired
 	private AmqpTemplate amqpTemplate;
@@ -74,17 +69,7 @@ public class IntegrationConfig {
 	}
 
 	@Bean
-	Queue queueInitialPaymentReception() {
-		return new Queue(Queues.InitialPaymentReception, true, false, false);
-	}
-
-	@Bean
 	MessageChannel portfolioInitChannel() {
-		return MessageChannels.direct().get();
-	}
-
-	@Bean
-	MessageChannel orderInitChannel() {
 		return MessageChannels.direct().get();
 	}
 
@@ -137,25 +122,6 @@ public class IntegrationConfig {
 
 	//@formatter:off
 	@Bean
-	IntegrationFlow initialPaymentReceptionFlow() {
-		return IntegrationFlows
-			.from(Amqp
-				.inboundGateway(connectionFactory, amqpTemplate, queueInitialPaymentReception()))
-			.transform(Transformers.fromJson(PaymentReceptionData.class, mapper()))
-			.log(Level.INFO, "Received payment reception request")
-			.handle(PaymentReceptionData.class, (request, headers) -> initialPaymentReceptionProcessor.process(request))
-			.log(Level.INFO, "Processed initial payment")
-			.publishSubscribeChannel(c -> c.applySequence(false)
-				.subscribe(f -> f
-					.channel(orderInitChannel()))
-			)
-			.transform(Transformers.toJson(mapper()))
-			.get();
-	}
-	//@formatter:on	
-
-	//@formatter:off
-	@Bean
 	IntegrationFlow portfolioInitFlow() {
 		return IntegrationFlows
 			.from(portfolioInitChannel())
@@ -166,21 +132,6 @@ public class IntegrationConfig {
 				.routingKey(IntegrationConstants.Queues.PortfolioInitialization)
 			)
 			.get();	
-	}
-	//@formatter:on
-
-	//@formatter:off
-	@Bean
-	IntegrationFlow orderInitChannelFlow() {
-		return IntegrationFlows
-			.from(orderInitChannel())
-			.log("Sending order initialization message")
-			.transform(Transformers.toJson(mapper()))
-			.handle(Amqp
-				.outboundAdapter(amqpTemplate)
-				.routingKey(IntegrationConstants.Queues.OrderCreationRequest)
-			)
-			.get();
 	}
 	//@formatter:on
 
