@@ -34,6 +34,7 @@ def gatewayLibs = [
 	"org.springframework.cloud:spring-cloud-config-client",
 	"org.springframework.cloud:spring-cloud-starter-eureka",
 	"org.springframework.boot:spring-boot-starter-actuator",
+	"io.springfox:springfox-swagger2:${springfoxSwaggerVersion}",
 	"io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
 ]
 def testLibs = [
@@ -72,8 +73,9 @@ subprojects {
 
 project(":insurance-domain") {
 	dependencies {
-		compile "org.springframework.boot:spring-boot-starter-data-mongodb"
-		compile "io.springfox:springfox-swagger2:${springfoxSwaggerVersion}"
+		compile "org.springframework.boot:spring-boot-starter-data-mongodb"		
+		compile "io.swagger:swagger-annotations:1.5.16"
+		compile "com.fasterxml.jackson.core:jackson-annotations:2.9.0"
 		compile "org.hibernate:hibernate-validator"
 		testCompile testLibs
 	}
@@ -120,7 +122,7 @@ project(":insurance-asset-core") {
 project(":insurance-asset-gateway") {
 	dependencies {
 		compile project(":insurance-common")
-		compile coreLibs
+		compile gatewayLibs
 		compile "org.springframework.boot:spring-boot-starter-data-rest"
 		testCompile testLibs
 	}
