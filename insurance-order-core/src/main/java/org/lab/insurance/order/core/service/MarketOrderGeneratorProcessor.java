@@ -68,7 +68,6 @@ public class MarketOrderGeneratorProcessor {
 	}
 
 	private void createBuyMarketOrders(Order order, BigDecimal buyGrossAmount, BigDecimal buyNetAmount) {
-		// En segundo lugar procesamos la compras
 		if (order.getBuyDistribution() != null) {
 			// TODO revisar las diferentes formas de calcular la distribucion de compra. Dejamos que esten espedificados
 			// ya los importes?

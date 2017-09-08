@@ -22,18 +22,17 @@ def coreLibs = [
 	"org.springframework.integration:spring-integration-amqp",
 	"org.springframework.integration:spring-integration-mongodb",
 	"org.springframework.integration:spring-integration-java-dsl",
-	"org.springframework.cloud:spring-cloud-config-client",
-	"org.springframework.cloud:spring-cloud-starter-eureka",
-	"org.springframework.cloud:spring-cloud-starter-feign"
+	"org.springframework.cloud:spring-cloud-config-client"
 ]
 def gatewayLibs = [
 	"org.springframework.boot:spring-boot-starter-web",
 	"org.springframework.boot:spring-boot-starter-integration",
 	"org.springframework.boot:spring-boot-starter-amqp",
+	"org.springframework.boot:spring-boot-starter-actuator",
 	"org.springframework.integration:spring-integration-amqp",
 	"org.springframework.cloud:spring-cloud-config-client",
 	"org.springframework.cloud:spring-cloud-starter-eureka",
-	"org.springframework.boot:spring-boot-starter-actuator",
+	"org.springframework.cloud:spring-cloud-starter-feign",
 	"io.springfox:springfox-swagger2:${springfoxSwaggerVersion}",
 	"io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
 ]

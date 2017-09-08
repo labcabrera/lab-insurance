@@ -1,6 +1,6 @@
 package org.lab.insurance.order.core.integration;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.lab.insurance.domain.insurance.Order;
 import org.lab.insurance.domain.insurance.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
