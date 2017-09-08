@@ -99,7 +99,7 @@ https://github.com/labcabrera/lab-insurance-cloud-config
 
 === Local port mapping
 
-[options="headers"]
+[options="header"]
 |===
 |Environment                | Port | Application                | Port 
 |cloud-config               | 8888 | contract-creation-gateway  | 8081
