@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.lab.insurance.domain.Constants;
+import org.lab.insurance.common.services.StateMachineService;
 import org.lab.insurance.domain.insurance.Asset;
 import org.lab.insurance.domain.insurance.MarketOrder;
 import org.lab.insurance.domain.insurance.MarketOrderType;
@@ -16,7 +16,6 @@ import org.lab.insurance.domain.portfolio.Investment;
 import org.lab.insurance.domain.portfolio.Portfolio;
 import org.lab.insurance.domain.portfolio.PortfolioOperation;
 import org.lab.insurance.domain.portfolio.repository.PortfolioOperationRepository;
-import org.lab.insurance.services.common.StateMachineService;
 import org.springframework.transaction.annotation.Transactional;
 
 public class AccountingService {
@@ -35,11 +34,11 @@ public class AccountingService {
 		Portfolio orderActive = order.getProcessInfo().getPortfolioActive();
 		if (orderPassive == null) {
 			throw new RuntimeException("Not implemented");
-			//orderPassive = order.getContract().getPortfolioInfo().getPortfolioPassive();
+			// orderPassive = order.getContract().getPortfolioInfo().getPortfolioPassive();
 		}
 		if (orderActive == null) {
 			throw new RuntimeException("Not implemented");
-			//orderActive = order.getContract().getPortfolioInfo().getPortfolioActive();
+			// orderActive = order.getContract().getPortfolioInfo().getPortfolioActive();
 		}
 		for (MarketOrder marketOrder : order.getMarketOrders()) {
 			Asset asset = marketOrder.getAsset();
@@ -51,7 +50,7 @@ public class AccountingService {
 			Investment haber = portfolioService.findOrCreateActiveInvestment(portfolioHaber, asset, valueDate);
 			list.add(accountUnits(debe, haber, asset, units, valueDate, marketOrder));
 		}
-		stateMachineService.createTransition(order, Constants.OrderStates.ACCOUNTED);
+		stateMachineService.createTransition(order, Order.States.ACCOUNTED);
 		return list;
 
 	}

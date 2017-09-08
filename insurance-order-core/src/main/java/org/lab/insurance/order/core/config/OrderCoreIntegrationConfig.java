@@ -2,7 +2,8 @@ package org.lab.insurance.order.core.config;
 
 import org.lab.insurance.domain.IntegrationConstants.Queues;
 import org.lab.insurance.domain.insurance.Order;
-import org.lab.insurance.order.core.service.OrderCreatedProcessor;
+import org.lab.insurance.order.core.integration.OrderMongoReader;
+import org.lab.insurance.order.core.service.MarketOrderGeneratorProcessor;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -12,10 +13,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.amqp.Amqp;
+import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.dsl.support.Transformers;
 import org.springframework.integration.handler.LoggingHandler.Level;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.integration.support.json.JsonObjectMapper;
+import org.springframework.messaging.MessageChannel;
 
 @Configuration
 public class OrderCoreIntegrationConfig {
@@ -27,10 +30,13 @@ public class OrderCoreIntegrationConfig {
 	private AmqpTemplate amqpTemplate;
 
 	@Autowired
-	private OrderCreatedProcessor orderCreatedProcessor;
+	private MarketOrderGeneratorProcessor marketOrderGeneratorProcessor;
+
+	@Autowired
+	private OrderMongoReader orderMongoReader;
 
 	@Bean
-	public JsonObjectMapper<?, ?> mapper() {
+	JsonObjectMapper<?, ?> mapper() {
 		return new Jackson2JsonObjectMapper();
 	}
 
@@ -39,16 +45,24 @@ public class OrderCoreIntegrationConfig {
 		return new Queue(Queues.OrderCreationRequest, true, false, false);
 	}
 
+	@Bean
+	MessageChannel paymentCreationChannel() {
+		return MessageChannels.direct().get();
+	}
+
 	//@formatter:off
 	@Bean
-	IntegrationFlow portfolioInitializacionFlow() {
+	IntegrationFlow orderCreationFlow() {
 		return IntegrationFlows //
 			.from(Amqp
 				.inboundGateway(connectionFactory, amqpTemplate, orderInitializationQueue()))
 			.log(Level.INFO, "Processing order initialization request")
 			.transform(Transformers.fromJson(Order.class))
-			.handle(Order.class, (request, headers) -> orderCreatedProcessor.initialize(request))
+			.handle(Order.class, (request, headers) -> orderMongoReader.read(request))
+			.handle(Order.class, (request, headers) -> marketOrderGeneratorProcessor.process(request))
 			.transform(Transformers.toJson(mapper()))
+			//TODO
+			.bridge(null)
 			.get();
 	}
 	//@formatter:on

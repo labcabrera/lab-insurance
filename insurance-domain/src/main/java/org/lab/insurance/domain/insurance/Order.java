@@ -3,6 +3,7 @@ package org.lab.insurance.domain.insurance;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.lab.insurance.domain.HasCode;
 import org.lab.insurance.domain.HasContract;
 import org.lab.insurance.domain.HasState;
 import org.lab.insurance.domain.contract.Contract;
@@ -50,5 +51,15 @@ public class Order implements HasContract, HasState {
 
 	private BigDecimal grossAmount;
 	private BigDecimal netAmount;
+
+	public enum States implements HasCode {
+		INITIAL, PROCESSED, VALUED, ACCOUNTED;
+
+		@Override
+		public String getCode() {
+			return name();
+		}
+
+	}
 
 }

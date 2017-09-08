@@ -3,10 +3,9 @@ package org.lab.insurance.contract.creation.core.service;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.lab.insurance.commons.services.StateMachineService;
-import org.lab.insurance.commons.services.TimestampProvider;
+import org.lab.insurance.common.services.StateMachineService;
+import org.lab.insurance.common.services.TimestampProvider;
 import org.lab.insurance.contract.creation.core.domain.ContractCreationData;
-import org.lab.insurance.domain.Constants;
 import org.lab.insurance.domain.common.audit.AuditData;
 import org.lab.insurance.domain.contract.Contract;
 import org.lab.insurance.domain.contract.ContractPersonRelation;
@@ -79,10 +78,8 @@ public class ContractCreationProcessor {
 		result.setNumber(String.valueOf(new Random().nextInt(10000)));
 		result.setAuditData(AuditData.builder().created(timeStampProvider.getCurrentDate()).build());
 
+		stateMachineService.createTransition(result, Contract.States.INITIAL, false);
 		contractRepository.save(result);
-
-		stateMachineService.createTransition(result, Constants.ContractStates.CREATED);
-
 		return result;
 
 	}

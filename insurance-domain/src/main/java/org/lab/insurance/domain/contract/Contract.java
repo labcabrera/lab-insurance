@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import org.lab.insurance.domain.HasCode;
 import org.lab.insurance.domain.HasState;
 import org.lab.insurance.domain.common.audit.AuditData;
 import org.lab.insurance.domain.engine.State;
@@ -38,8 +39,8 @@ public class Contract implements HasState {
 	@ApiModelProperty(value = "Contract number")
 	private String number;
 
-	@NotNull(message = "AGREEMENT_MANDATORY", groups = { ValidationContext.Insert.class,
-			ValidationContext.Default.class })
+	@NotNull(message = "AGREEMENT_MANDATORY",
+			groups = { ValidationContext.Insert.class, ValidationContext.Default.class })
 	@Reference
 	@ApiModelProperty(value = "Agreement")
 	private Agreement agreement;
@@ -70,6 +71,15 @@ public class Contract implements HasState {
 
 	public List<Order> filterOrders(OrderType type) {
 		return orders.stream().filter(x -> type.equals(x.getType())).collect(Collectors.toList());
+	}
+
+	public enum States implements HasCode {
+		INITIAL, VALIDATED, APPROBED, PAID, STARTED, CANCELLED;
+
+		@Override
+		public String getCode() {
+			return name();
+		}
 	}
 
 	public static class ValidationContext {

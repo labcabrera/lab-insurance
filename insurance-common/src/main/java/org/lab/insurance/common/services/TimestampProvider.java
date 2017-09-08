@@ -1,4 +1,4 @@
-package org.lab.insurance.commons.services;
+package org.lab.insurance.common.services;
 
 import java.util.Calendar;
 import java.util.Date;

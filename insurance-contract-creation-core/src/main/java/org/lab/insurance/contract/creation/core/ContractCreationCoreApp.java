@@ -1,6 +1,6 @@
 package org.lab.insurance.contract.creation.core;
 
-import org.lab.insurance.commons.InsuranceCommonConfig;
+import org.lab.insurance.common.InsuranceCommonConfig;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Import;

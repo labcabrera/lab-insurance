@@ -23,8 +23,10 @@ include ":insurance-zuul"
 include ":insurance-bdd"
 
 // deprecated
+/*
 include ":insurance-services"
 include ":insurance-engine-domain"
 include ":insurance-engine"
 include ":insurance-bootstrap"
 include ":insurance-ms-common"
+*/

@@ -1,6 +1,8 @@
 package org.lab.insurance.domain;
 
-public interface HasIdentifier<T> {
+import java.io.Serializable;
+
+public interface HasIdentifier<T extends Serializable> {
 
 	T getId();
 
