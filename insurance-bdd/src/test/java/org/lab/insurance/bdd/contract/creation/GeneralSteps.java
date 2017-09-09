@@ -18,7 +18,7 @@ public class GeneralSteps extends BddSupport {
 	@Autowired
 	private InsuranceTaskExecutor executor;
 
-	@When("^la fecha del sistema a (\\d+)/(\\d+)/(\\d+)$")
+	@When("^establezco la fecha del sistema a (\\d+)/(\\d+)/(\\d+)$")
 	public void la_fecha_del_sistema_a(int year, int monthOfYear, int dayOfMonth) {
 		Date date = new DateTime(year, monthOfYear, dayOfMonth, 0, 0).toDate();
 		timeStampProvider.setFakeDate(date);

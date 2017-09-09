@@ -1,7 +1,7 @@
 package org.lab.insurance.contract.creation.core.config.modules;
 
-import org.lab.insurance.contract.creation.core.domain.PaymentReceptionData;
 import org.lab.insurance.contract.creation.core.service.InitialPaymentReceptionProcessor;
+import org.lab.insurance.domain.action.contract.InitialPaymentReception;
 import org.lab.insurance.domain.core.IntegrationConstants;
 import org.lab.insurance.domain.core.IntegrationConstants.Queues;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -50,9 +50,9 @@ public class InitialPaymentReceptionConfig {
 		return IntegrationFlows
 			.from(Amqp
 				.inboundGateway(connectionFactory, amqpTemplate, queueInitialPaymentReception()))
-			.transform(Transformers.fromJson(PaymentReceptionData.class, mapper))
+			.transform(Transformers.fromJson(InitialPaymentReception.class, mapper))
 			.log(Level.INFO, "Received payment reception request")
-			.handle(PaymentReceptionData.class, (request, headers) -> initialPaymentReceptionProcessor.process(request))
+			.handle(InitialPaymentReception.class, (request, headers) -> initialPaymentReceptionProcessor.process(request))
 			.log(Level.INFO, "Processed initial payment")
 			.publishSubscribeChannel(c -> c.applySequence(false)
 				.subscribe(f -> f

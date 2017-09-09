@@ -5,7 +5,7 @@ import java.util.Random;
 
 import org.lab.insurance.common.services.StateMachineService;
 import org.lab.insurance.common.services.TimestampProvider;
-import org.lab.insurance.domain.action.ContractCreation;
+import org.lab.insurance.domain.action.contract.ContractCreation;
 import org.lab.insurance.domain.core.common.audit.AuditData;
 import org.lab.insurance.domain.core.contract.Contract;
 import org.lab.insurance.domain.core.contract.ContractPersonRelation;

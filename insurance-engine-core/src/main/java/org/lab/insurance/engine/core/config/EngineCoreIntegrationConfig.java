@@ -29,6 +29,10 @@ public class EngineCoreIntegrationConfig {
 		return MessageChannels.direct().get();
 	}
 
+//	MessageChannel channelExecutionSyncResponse() {
+//		return MessageChannels.direct().get();
+//	}
+
 	//@formatter:off
 	@Bean
 	IntegrationFlow executionFlowAsync() {
@@ -48,15 +52,29 @@ public class EngineCoreIntegrationConfig {
 	@Bean
 	IntegrationFlow executionFlowSync() {
 		return IntegrationFlows
-			.from(channelExecutionAsyncRequest())
+			.from(channelExecutionSyncRequest())
 			.transform(Transformers.toJson())
-			.log(Level.INFO, "Processing execution reuqest")
+			.log(Level.INFO, "Processing execution request")
 			.handle(Amqp
 				.outboundGateway(amqpTemplate)
 				.routingKeyExpression("headers.routingKey")
 			)
+			.log(Level.INFO, "Received execution response")
+//			.channel(channelExecutionSyncResponse())
+			.bridge(null)
 			.get();
 	}
+	//@formatter:on
+
+	//@formatter:off
+//	@Bean
+//	IntegrationFlow executionSyncResponseFlow() {
+//		return IntegrationFlows
+//			.from(channelExecutionSyncResponse())
+//			.log(Level.INFO, "TODO: ignoring reponse")
+//			.bridge(null)
+//			.get();
+//	}
 	//@formatter:on
 
 }

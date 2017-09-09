@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class InitialPaymentReception implements InsuranceAction {
+public abstract class AbstractInsuranceAction implements InsuranceAction {
 
 	Date execution;
 

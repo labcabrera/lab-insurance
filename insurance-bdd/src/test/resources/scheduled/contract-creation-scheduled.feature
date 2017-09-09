@@ -8,7 +8,7 @@ Feature: basic contract creation
     When Establezco la distribucion del pago inicial en (ASSET01:50%; ASSET02: 30%; GUARANTEE01:20%)
     When Establezco la fecha de contratacion a 2017/01/02
     When Muestro el JSON del contrato
-    When la fecha del sistema a 2017/01/01
+    When establezco la fecha del sistema a 2017/01/01
     When Invoco al servicio de contratacion
     When Programo la aprobacion del contrato a fecha 2017/01/11 con el id del contrato
     When Programo la accion de recepcion de pago a fecha 2017/01/15 con el id del contrato

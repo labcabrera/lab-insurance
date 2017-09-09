@@ -3,7 +3,7 @@ package org.lab.insurance.contract.creation.core.config;
 import org.lab.insurance.contract.creation.core.integration.ReadContractTransformer;
 import org.lab.insurance.contract.creation.core.service.ContractApprobationProcessor;
 import org.lab.insurance.contract.creation.core.service.ContractCreationProcessor;
-import org.lab.insurance.domain.action.ContractCreation;
+import org.lab.insurance.domain.action.contract.ContractCreation;
 import org.lab.insurance.domain.core.IntegrationConstants;
 import org.lab.insurance.domain.core.IntegrationConstants.Queues;
 import org.lab.insurance.domain.core.contract.Contract;

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.lab.insurance.common.exception.InsuranceException;
 import org.lab.insurance.common.services.TimestampProvider;
 import org.lab.insurance.engine.core.EngineConstants;
 import org.lab.insurance.engine.core.domain.ExecutionReport;
@@ -112,12 +111,12 @@ public class InsuranceTaskExecutor {
 
 	@SuppressWarnings("rawtypes")
 	private void internalExecute(InsuranceTask task) throws JsonProcessingException {
+		Boolean sync = routingKeyMapper.isSync(task);
 		Map<String, Object> headers = new HashMap<>();
 		headers.put("routingKey", routingKeyMapper.getRoutingKey(task));
 		Message message = new GenericMessage<>(task.getAction(), headers);
-		boolean sync = false;
 		if (sync) {
-			throw new InsuranceException("Not implemented");
+			messageChannelSync.send(message);
 		}
 		else {
 			messageChannelAsync.send(message);

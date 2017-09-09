@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.lab.insurance.common.exception.InsuranceException;
-import org.lab.insurance.domain.action.ContractCreation;
+import org.lab.insurance.domain.action.contract.ContractApprobation;
+import org.lab.insurance.domain.action.contract.ContractCreation;
 import org.lab.insurance.domain.core.IntegrationConstants;
 import org.lab.insurance.engine.core.domain.InsuranceTask;
 import org.springframework.stereotype.Component;
@@ -14,10 +15,15 @@ import org.springframework.stereotype.Component;
 public class RoutingKeyMapper {
 
 	private Map<Class, String> mapping;
+	private Map<Class, Boolean> mappingSync;
 
 	public RoutingKeyMapper() {
 		mapping = new HashMap<>();
 		mapping.put(ContractCreation.class, IntegrationConstants.Queues.ContractCreation);
+		mapping.put(ContractApprobation.class, IntegrationConstants.Queues.ContractApprobation);
+		mappingSync = new HashMap<>();
+		mappingSync.put(ContractCreation.class, true);
+		mappingSync.put(ContractApprobation.class, true);
 	}
 
 	public String getRoutingKey(InsuranceTask task) {
@@ -26,6 +32,14 @@ public class RoutingKeyMapper {
 			throw new InsuranceException("Unmapped class " + actionClass.getName());
 		}
 		return mapping.get(actionClass);
+	}
+	
+	public Boolean isSync(InsuranceTask task) {
+		Class actionClass = task.getAction().getClass();
+		if (!mapping.containsKey(actionClass)) {
+			throw new InsuranceException("Unmapped class " + actionClass.getName());
+		}
+		return mappingSync.get(actionClass);
 	}
 
 }

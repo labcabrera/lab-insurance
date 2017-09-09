@@ -5,7 +5,7 @@ import java.util.Calendar;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.lab.insurance.domain.action.ContractCreation;
+import org.lab.insurance.domain.action.contract.ContractCreation;
 import org.lab.insurance.engine.core.config.EngineTestConfig;
 import org.lab.insurance.engine.core.config.InsuranceEngineCoreConfig;
 import org.lab.insurance.engine.core.domain.InsuranceTask;
