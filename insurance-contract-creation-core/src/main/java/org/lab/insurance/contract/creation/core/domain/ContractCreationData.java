@@ -5,8 +5,8 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.lab.insurance.domain.contract.ContractPersonRelation;
-import org.lab.insurance.domain.insurance.Order;
+import org.lab.insurance.domain.core.contract.ContractPersonRelation;
+import org.lab.insurance.domain.core.insurance.Order;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

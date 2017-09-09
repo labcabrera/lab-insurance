@@ -1,8 +1,8 @@
 package org.lab.insurance.portfolio.gateway.config;
 
-import org.lab.insurance.domain.IntegrationConstants.Channels;
-import org.lab.insurance.domain.IntegrationConstants.Queues;
-import org.lab.insurance.domain.portfolio.ContractPortfolioRelation;
+import org.lab.insurance.domain.core.IntegrationConstants.Channels;
+import org.lab.insurance.domain.core.IntegrationConstants.Queues;
+import org.lab.insurance.domain.core.portfolio.ContractPortfolioRelation;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Autowired;

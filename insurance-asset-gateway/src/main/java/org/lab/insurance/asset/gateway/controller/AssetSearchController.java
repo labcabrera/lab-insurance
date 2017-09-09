@@ -1,7 +1,7 @@
 package org.lab.insurance.asset.gateway.controller;
 
-import org.lab.insurance.domain.insurance.Asset;
-import org.lab.insurance.domain.insurance.repository.AssetRepository;
+import org.lab.insurance.domain.core.insurance.Asset;
+import org.lab.insurance.domain.core.insurance.repository.AssetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

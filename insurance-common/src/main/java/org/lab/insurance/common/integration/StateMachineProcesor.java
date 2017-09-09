@@ -1,7 +1,7 @@
 package org.lab.insurance.common.integration;
 
 import org.lab.insurance.common.services.StateMachineService;
-import org.lab.insurance.domain.HasState;
+import org.lab.insurance.domain.core.HasState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

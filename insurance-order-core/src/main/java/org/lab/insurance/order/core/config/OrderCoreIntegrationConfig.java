@@ -2,8 +2,8 @@ package org.lab.insurance.order.core.config;
 
 import org.lab.insurance.common.integration.PayloadMongoAdapter;
 import org.lab.insurance.common.integration.StateMachineProcesor;
-import org.lab.insurance.domain.IntegrationConstants.Queues;
-import org.lab.insurance.domain.insurance.Order;
+import org.lab.insurance.domain.core.IntegrationConstants.Queues;
+import org.lab.insurance.domain.core.insurance.Order;
 import org.lab.insurance.order.core.service.MarketOrderGeneratorProcessor;
 import org.lab.insurance.order.core.service.OrderFeesProcessor;
 import org.springframework.amqp.core.AmqpTemplate;

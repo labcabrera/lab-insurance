@@ -2,8 +2,8 @@ package org.lab.insurance.contract.creation.core.config.modules;
 
 import org.lab.insurance.contract.creation.core.domain.PaymentReceptionData;
 import org.lab.insurance.contract.creation.core.service.InitialPaymentReceptionProcessor;
-import org.lab.insurance.domain.IntegrationConstants;
-import org.lab.insurance.domain.IntegrationConstants.Queues;
+import org.lab.insurance.domain.core.IntegrationConstants;
+import org.lab.insurance.domain.core.IntegrationConstants.Queues;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;

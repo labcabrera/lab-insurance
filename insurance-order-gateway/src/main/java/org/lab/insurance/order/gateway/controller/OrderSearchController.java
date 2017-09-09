@@ -2,8 +2,8 @@ package org.lab.insurance.order.gateway.controller;
 
 import java.util.List;
 
-import org.lab.insurance.domain.insurance.Order;
-import org.lab.insurance.domain.insurance.repository.OrderRepository;
+import org.lab.insurance.domain.core.insurance.Order;
+import org.lab.insurance.domain.core.insurance.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

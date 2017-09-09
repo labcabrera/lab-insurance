@@ -3,13 +3,13 @@ package org.lab.insurance.portfolio.core.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lab.insurance.domain.contract.Contract;
-import org.lab.insurance.domain.contract.repository.ContractRepository;
-import org.lab.insurance.domain.portfolio.ContractPortfolioRelation;
-import org.lab.insurance.domain.portfolio.Portfolio;
-import org.lab.insurance.domain.portfolio.PortfolioType;
-import org.lab.insurance.domain.portfolio.repository.ContractPortfolioRelationRepository;
-import org.lab.insurance.domain.portfolio.repository.PortfolioRepository;
+import org.lab.insurance.domain.core.contract.Contract;
+import org.lab.insurance.domain.core.contract.repository.ContractRepository;
+import org.lab.insurance.domain.core.portfolio.ContractPortfolioRelation;
+import org.lab.insurance.domain.core.portfolio.Portfolio;
+import org.lab.insurance.domain.core.portfolio.PortfolioType;
+import org.lab.insurance.domain.core.portfolio.repository.ContractPortfolioRelationRepository;
+import org.lab.insurance.domain.core.portfolio.repository.PortfolioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

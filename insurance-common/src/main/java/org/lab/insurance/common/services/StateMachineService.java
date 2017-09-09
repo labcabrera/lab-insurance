@@ -2,9 +2,9 @@ package org.lab.insurance.common.services;
 
 import java.io.Serializable;
 
-import org.lab.insurance.domain.HasIdentifier;
-import org.lab.insurance.domain.HasState;
-import org.lab.insurance.domain.engine.State;
+import org.lab.insurance.domain.core.HasIdentifier;
+import org.lab.insurance.domain.core.HasState;
+import org.lab.insurance.domain.core.engine.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

@@ -2,8 +2,8 @@ package org.lab.insurance.legalentity.gateway.controller;
 
 import java.util.List;
 
-import org.lab.insurance.domain.legalentity.Person;
-import org.lab.insurance.domain.legalentity.repository.PersonRepository;
+import org.lab.insurance.domain.core.legalentity.Person;
+import org.lab.insurance.domain.core.legalentity.repository.PersonRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;

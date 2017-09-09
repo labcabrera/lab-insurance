@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import org.lab.insurance.core.math.BigMath;
-import org.lab.insurance.domain.insurance.Order;
+import org.lab.insurance.domain.core.insurance.Order;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;

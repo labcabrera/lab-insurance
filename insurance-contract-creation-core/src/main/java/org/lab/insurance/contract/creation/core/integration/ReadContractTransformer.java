@@ -1,7 +1,7 @@
 package org.lab.insurance.contract.creation.core.integration;
 
-import org.lab.insurance.domain.contract.Contract;
-import org.lab.insurance.domain.contract.repository.ContractRepository;
+import org.lab.insurance.domain.core.contract.Contract;
+import org.lab.insurance.domain.core.contract.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.transformer.GenericTransformer;
 import org.springframework.util.Assert;

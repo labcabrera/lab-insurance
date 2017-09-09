@@ -2,8 +2,8 @@ package org.lab.insurance.portfolio.core.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.lab.insurance.domain.contract.Contract;
-import org.lab.insurance.domain.contract.repository.ContractRepository;
+import org.lab.insurance.domain.core.contract.Contract;
+import org.lab.insurance.domain.core.contract.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;

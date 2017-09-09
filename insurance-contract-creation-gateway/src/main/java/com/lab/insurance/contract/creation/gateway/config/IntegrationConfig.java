@@ -1,9 +1,9 @@
 package com.lab.insurance.contract.creation.gateway.config;
 
-import org.lab.insurance.domain.IntegrationConstants.Channels;
-import org.lab.insurance.domain.IntegrationConstants.Queues;
-import org.lab.insurance.domain.contract.Contract;
-import org.lab.insurance.domain.insurance.Order;
+import org.lab.insurance.domain.core.IntegrationConstants.Channels;
+import org.lab.insurance.domain.core.IntegrationConstants.Queues;
+import org.lab.insurance.domain.core.contract.Contract;
+import org.lab.insurance.domain.core.insurance.Order;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

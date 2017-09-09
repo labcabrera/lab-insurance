@@ -2,9 +2,9 @@ package org.lab.insurance.contract.creation.core.service;
 
 import org.lab.insurance.common.services.StateMachineService;
 import org.lab.insurance.common.services.TimestampProvider;
-import org.lab.insurance.domain.contract.Contract;
-import org.lab.insurance.domain.contract.ContractDates;
-import org.lab.insurance.domain.contract.repository.ContractRepository;
+import org.lab.insurance.domain.core.contract.Contract;
+import org.lab.insurance.domain.core.contract.ContractDates;
+import org.lab.insurance.domain.core.contract.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

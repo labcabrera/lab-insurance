@@ -1,8 +1,8 @@
 package org.lab.insurance.portfolio.core.config;
 
-import org.lab.insurance.domain.IntegrationConstants.Queues;
-import org.lab.insurance.domain.contract.Contract;
-import org.lab.insurance.domain.insurance.Order;
+import org.lab.insurance.domain.core.IntegrationConstants.Queues;
+import org.lab.insurance.domain.core.contract.Contract;
+import org.lab.insurance.domain.core.insurance.Order;
 import org.lab.insurance.portfolio.core.service.PortfolioInitializacionService;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
