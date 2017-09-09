@@ -85,6 +85,16 @@ project(":insurance-domain-core") {
 	}
 }
 
+project(":insurance-domain-action") {
+	dependencies {
+		compile project(":insurance-domain-core")
+		testCompile testLibs
+	}
+	bootRepackage {
+		enabled = false
+	}
+}
+
 project(":insurance-domain-hateoas") {
 	dependencies {
 		compile project(":insurance-domain-core")
@@ -103,6 +113,18 @@ project(":insurance-common") {
 		compile "commons-io:commons-io:2.5"
 		compile "org.apache.commons:commons-lang3:3.6"
 		compile "org.springframework.integration:spring-integration-amqp"
+		testCompile testLibs
+	}
+	bootRepackage {
+		enabled = false
+	}
+}
+
+project(":insurance-engine-core") {
+	dependencies {
+		compile project(":insurance-domain-action")
+		compile project(":insurance-common")
+		compile coreLibs
 		testCompile testLibs
 	}
 	bootRepackage {
@@ -161,6 +183,7 @@ project(":insurance-contract-common-gateway") {
 project(":insurance-contract-creation-core") {
 	dependencies {
 		compile project(":insurance-common")
+		compile project(":insurance-domain-action")
 		compile coreLibs
 		testCompile testLibs
 	}
@@ -252,6 +275,8 @@ dependencies {
 
 project(":insurance-bdd") {
 	dependencies {
+		compile project(":insurance-domain-action")
+		compile project(":insurance-engine-core")
 		compile coreLibs
 		compile gatewayLibs
 		testCompile testLibs

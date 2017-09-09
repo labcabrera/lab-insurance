@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.lab.insurance.bdd.contract.MongoTestOperations;
-import org.lab.insurance.contract.creation.core.domain.ContractCreationData;
 import org.lab.insurance.contract.creation.core.domain.PaymentReceptionData;
+import org.lab.insurance.domain.action.ContractCreation;
 import org.lab.insurance.domain.core.contract.Contract;
 import org.lab.insurance.domain.core.contract.ContractPersonRelation;
 import org.lab.insurance.domain.core.contract.RelationType;
@@ -48,7 +48,7 @@ public class ContractCreationSteps extends BddSupport {
 	@Autowired
 	protected MongoTestOperations mongoTestOperations;
 
-	protected ContractCreationData contractCreateInfo;
+	protected ContractCreation contractCreateInfo;
 	protected Contract contract;
 	protected Order initialPayment;
 	protected String contractNumber;
@@ -60,7 +60,7 @@ public class ContractCreationSteps extends BddSupport {
 
 	@When("^Preparo contrato con acuerdo (\\w+)$")
 	public void preparo_contrato(String agreementCode) {
-		contractCreateInfo = new ContractCreationData();
+		contractCreateInfo = new ContractCreation();
 		contractCreateInfo.setAgreementCode(agreementCode);
 	}
 
@@ -125,6 +125,14 @@ public class ContractCreationSteps extends BddSupport {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		log.debug(mapper.writeValueAsString(contract));
+	}
+
+	@When("^Programo la aprobacion del contrato a fecha (\\d+)/(\\d+)/(\\d+) con el id del contrato$")
+	public void programo_la_aprobacion_del_contrato_a_fecha_con_el_id_del_contrato(int arg1, int arg2, int arg3) {
+	}
+
+	@When("^Programo la accion de recepcion de pago a fecha (\\d+)/(\\d+)/(\\d+) con el id del contrato$")
+	public void programo_la_accion_de_recepcion_de_pago_a_fecha_con_el_id_del_contrato(int arg1, int arg2, int arg3) {
 	}
 
 	@Then("^Invoco al servicio de contratacion$")

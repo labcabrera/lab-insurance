@@ -1,9 +1,9 @@
 package org.lab.insurance.contract.creation.core.config;
 
-import org.lab.insurance.contract.creation.core.domain.ContractCreationData;
 import org.lab.insurance.contract.creation.core.integration.ReadContractTransformer;
 import org.lab.insurance.contract.creation.core.service.ContractApprobationProcessor;
 import org.lab.insurance.contract.creation.core.service.ContractCreationProcessor;
+import org.lab.insurance.domain.action.ContractCreation;
 import org.lab.insurance.domain.core.IntegrationConstants;
 import org.lab.insurance.domain.core.IntegrationConstants.Queues;
 import org.lab.insurance.domain.core.contract.Contract;
@@ -94,9 +94,9 @@ public class IntegrationConfig {
 		return IntegrationFlows
 			.from(Amqp
 				.inboundGateway(connectionFactory, amqpTemplate, queueContractCreateRequest()))
-			.transform(Transformers.fromJson(ContractCreationData.class, mapper()))
+			.transform(Transformers.fromJson(ContractCreation.class, mapper()))
 			.log(Level.INFO, "Received contract creation request")
-			.handle(ContractCreationData.class, (request, headers) -> service.process(request))
+			.handle(ContractCreation.class, (request, headers) -> service.process(request))
 			.log(Level.INFO, "Contract created")
 			.transform(Transformers.toJson(mapper()))
 			.get();

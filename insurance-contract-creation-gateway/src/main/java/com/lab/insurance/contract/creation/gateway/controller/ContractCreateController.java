@@ -1,6 +1,6 @@
 package com.lab.insurance.contract.creation.gateway.controller;
 
-import org.lab.insurance.contract.creation.core.domain.ContractCreationData;
+import org.lab.insurance.domain.action.ContractCreation;
 import org.lab.insurance.domain.core.contract.Contract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ public class ContractCreateController {
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	@ResponseBody
-	public Contract execute(ContractCreationData data) {
+	public Contract execute(ContractCreation data) {
 		Contract result = gateway.processCreation(data);
 		return result;
 	}

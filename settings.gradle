@@ -1,9 +1,12 @@
 include ":insurance-domain-core"
+include ":insurance-domain-action"
 include ":insurance-domain-hateoas"
 include ":insurance-common"
 
 include ":insurance-cloud-config"
 include ":insurance-eureka"
+
+include ":insurance-engine-core"
 
 include ":insurance-asset-core"
 include ":insurance-asset-gateway"
@@ -27,7 +30,6 @@ include ":insurance-bdd"
 /*
 include ":insurance-services"
 include ":insurance-engine-domain"
-include ":insurance-engine"
 include ":insurance-bootstrap"
 include ":insurance-ms-common"
 */

@@ -5,7 +5,7 @@ import java.util.Random;
 
 import org.lab.insurance.common.services.StateMachineService;
 import org.lab.insurance.common.services.TimestampProvider;
-import org.lab.insurance.contract.creation.core.domain.ContractCreationData;
+import org.lab.insurance.domain.action.ContractCreation;
 import org.lab.insurance.domain.core.common.audit.AuditData;
 import org.lab.insurance.domain.core.contract.Contract;
 import org.lab.insurance.domain.core.contract.ContractPersonRelation;
@@ -46,7 +46,7 @@ public class ContractCreationProcessor {
 	@Autowired
 	private StateMachineService stateMachineService;
 
-	public Contract process(ContractCreationData data) {
+	public Contract process(ContractCreation data) {
 		log.info("Processing contract creation {}", data);
 
 		Contract result = new Contract();
