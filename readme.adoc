@@ -3,9 +3,10 @@
 image:https://travis-ci.org/labcabrera/lab-insurance.svg?branch=master["Build Status", link="https://travis-ci.org/labcabrera/lab-insurance"]
 image:https://api.codacy.com/project/badge/Grade/a30d53d005584beb81b5a24aaa6bc7bc["Codacy code quality", link="https://www.codacy.com/app/lab.cabrera/lab-insurance?utm_source=github.com&utm_medium=referral&utm_content=labcabrera/lab-insurance&utm_campaign=Badge_Grade"]
 
-= Insurance Showcase Engine
+= Insurance Showcase Engine (beta)
 
-Motor de gestión de productos de ahorro basado en una arquitectura de microservicios basada en:
+Motor de gestión de productos de ahorro (o de cualquier otra cosa cuando esté bien parametrizado) con una
+arquitectura de microservicios basada en:
 
 * Spring Boot
 * Spring Integration & DSL
@@ -20,6 +21,9 @@ de los diferentes módulos y que simplemente intercambien los objetos de alto ni
 visibilidad de todos los módulos de los elementos que componen la cartera de un contrato).
 De este modo cada módulo estaría perfectamente desacoplado del resto y podría ser desarrollado con otro ciclo de vida
 independiente.
+
+Como estoy en proceso de refactor la idea es definir las entidades en el módulo de _domain-hateoas_ para reducir el
+acoplamiento, aunque esto aún está en la lista de cosillas por hacer.
 
 == Contratación
 
@@ -69,7 +73,7 @@ específico o arrancándolo desde nuestro IDE.
 Después tenemos el proyecto BDD donde tenemos stories de diferentes operativas. Para poder ejecutar los stories será
 necesario tener levantados los diversos módulos que hacen falta.
 
-Por ejemplo para el storie básico de contratación necesitaremos primero ejecutar la aplicación `ContractCreationCoreApp`
+Por ejemplo para el story básico de contratación necesitaremos primero ejecutar la aplicación `ContractCreationCoreApp`
 y posteriormente ejecutaremos el test `ContractCreationCucumberTest`.
 
 === RabbitMQ
