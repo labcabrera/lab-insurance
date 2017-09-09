@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
-import de.codecentric.boot.admin.config.EnableAdminServer;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
@@ -14,7 +13,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableZuulProxy
 @EnableDiscoveryClient
 @EnableSwagger2
-@EnableAdminServer
+// TODO revisar ClassNotFoundException:
+// org.springframework.cloud.netflix.zuul.ZuulServerAutoConfiguration
+//@EnableAdminServer
 public class ZuulApp {
 
 	public static void main(String[] args) {
