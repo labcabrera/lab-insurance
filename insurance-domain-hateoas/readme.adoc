@@ -1,0 +1,11 @@
+= insurance-domain-hateoas
+
+Este proyecto define los objectos que van a ser utilizados tanto por las APIs expuestas
+como para la comunicación entre los diferentes módulos del sistema.
+
+La idea es que el https://github.com/labcabrera/lab-insurance/tree/master/insurance-domain-core[modelo común]
+sólamente defina aquellos elementos que no son propios de ningún sistema (por ejemplo la entidad `MarketOrder`
+debería ser exclusiva del modelo de contabilidad y ser invisible para el resto).
+
+Utilizaremos https://orika-mapper.github.io/orika-docs/intro.html[Orika] para la conversión de entidades
+entre el core y el modelo compartido.
