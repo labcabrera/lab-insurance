@@ -55,6 +55,7 @@ public class InsuranceTaskExecutor {
 	private MessageChannel messageChannelAsync;
 
 	public ExecutionReport execute(Date from, Date to, List<String> tags) {
+		log.info("Executing {} to {} ({})", from, to, tags);
 		ExecutionReport report = new ExecutionReport();
 		report.setFrom(from);
 		report.setTo(to);

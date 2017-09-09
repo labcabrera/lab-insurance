@@ -146,7 +146,8 @@ public class ContractCreationSteps extends BddSupport {
 	public void programo_la_accion_de_recepcion_de_pago_a_fecha_con_el_id_del_contrato(int year, int monthOfYear,
 			int dayOfMonth) {
 		Date execution = new DateTime(year, monthOfYear, dayOfMonth, 0, 0).toDate();
-		InitialPaymentReception action = new InitialPaymentReception();
+		InitialPaymentReception action = InitialPaymentReception.builder().paymentReception(execution)
+				.contractId(contract.getId()).build();
 		InsuranceTask task = InsuranceTask.builder().action(action).execution(execution).build();
 		scheduler.schedule(task);
 	}

@@ -26,9 +26,14 @@ public class GeneralSteps extends BddSupport {
 
 	@Then("^Simulo una ejecucion de (\\d+)/(\\d+)/(\\d+) a (\\d+)/(\\d+)/(\\d+)$")
 	public void simulo_una_ejecucion_de_a(int fromY, int fromM, int fromD, int toY, int toM, int toD) {
-		Date from = new DateTime(fromY, fromM, fromD, 0, 0).toDate();
-		Date to = new DateTime(toY, toM, toD, 0, 0).toDate();
-		executor.execute(from, to, null);
+		DateTime from = new DateTime(fromY, fromM, fromD, 0, 0);
+		DateTime to = new DateTime(toY, toM, toD, 0, 0);
+		DateTime tmp = from;
+		while (tmp.compareTo(to) <= 0) {
+			timeStampProvider.setFakeDate(tmp.toDate());
+			executor.execute(tmp.toDate(), tmp.toDate(), null);
+			tmp = tmp.plusDays(1);
+		}
 	}
 
 }

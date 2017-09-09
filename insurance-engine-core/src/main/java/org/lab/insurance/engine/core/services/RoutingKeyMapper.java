@@ -6,6 +6,7 @@ import java.util.Map;
 import org.lab.insurance.common.exception.InsuranceException;
 import org.lab.insurance.domain.action.contract.ContractApprobation;
 import org.lab.insurance.domain.action.contract.ContractCreation;
+import org.lab.insurance.domain.action.contract.InitialPaymentReception;
 import org.lab.insurance.domain.core.IntegrationConstants;
 import org.lab.insurance.engine.core.domain.InsuranceTask;
 import org.springframework.stereotype.Component;
@@ -21,9 +22,11 @@ public class RoutingKeyMapper {
 		mapping = new HashMap<>();
 		mapping.put(ContractCreation.class, IntegrationConstants.Queues.ContractCreation);
 		mapping.put(ContractApprobation.class, IntegrationConstants.Queues.ContractApprobation);
+		mapping.put(InitialPaymentReception.class, IntegrationConstants.Queues.InitialPaymentReception);
 		mappingSync = new HashMap<>();
-		mappingSync.put(ContractCreation.class, true);
-		mappingSync.put(ContractApprobation.class, true);
+		mappingSync.put(ContractCreation.class, false);
+		mappingSync.put(ContractApprobation.class, false);
+		mappingSync.put(InitialPaymentReception.class, false);
 	}
 
 	public String getRoutingKey(InsuranceTask task) {
@@ -33,7 +36,7 @@ public class RoutingKeyMapper {
 		}
 		return mapping.get(actionClass);
 	}
-	
+
 	public Boolean isSync(InsuranceTask task) {
 		Class actionClass = task.getAction().getClass();
 		if (!mapping.containsKey(actionClass)) {

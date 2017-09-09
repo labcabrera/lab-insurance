@@ -17,6 +17,8 @@ import org.lab.insurance.domain.core.legalentity.repository.LegalEntityRepositor
 import org.lab.insurance.domain.core.legalentity.repository.PersonRepository;
 import org.lab.insurance.domain.core.product.Agreement;
 import org.lab.insurance.domain.core.product.repository.AgreementRepository;
+import org.lab.insurance.engine.core.domain.InsuranceTask;
+import org.lab.insurance.engine.core.domain.repository.InsuranceTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,6 +42,8 @@ public class MongoTestOperations {
 	private LegalEntityRepository legalEntityRepository;
 	@Autowired
 	private OrderRepository orderRepository;
+	@Autowired
+	private InsuranceTaskRepository taskRepo;
 
 	public void resetDataBase() {
 		log.warn("=======================================================");
@@ -87,10 +91,12 @@ public class MongoTestOperations {
 		baseAssetRepository
 				.insert(Asset.builder().isin(TestConstants.Assets.CASH_EURO).name("Euro").type(AssetType.CASH).build());
 		contractRepository.deleteAll();
+		
 
 		policyEntityRelationRepository.deleteAll();
 		orderRepository.deleteAll();
 
+		taskRepo.deleteAll();
 	}
 
 }

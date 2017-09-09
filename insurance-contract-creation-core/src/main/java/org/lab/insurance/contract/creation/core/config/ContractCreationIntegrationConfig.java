@@ -3,6 +3,7 @@ package org.lab.insurance.contract.creation.core.config;
 import org.lab.insurance.contract.creation.core.integration.ReadContractTransformer;
 import org.lab.insurance.contract.creation.core.service.ContractApprobationProcessor;
 import org.lab.insurance.contract.creation.core.service.ContractCreationProcessor;
+import org.lab.insurance.domain.action.contract.ContractApprobation;
 import org.lab.insurance.domain.action.contract.ContractCreation;
 import org.lab.insurance.domain.core.IntegrationConstants;
 import org.lab.insurance.domain.core.IntegrationConstants.Queues;
@@ -109,10 +110,9 @@ public class ContractCreationIntegrationConfig {
 		return IntegrationFlows
 			.from(Amqp
 				.inboundGateway(connectionFactory, amqpTemplate, queueContractApprobation()))
-			.transform(Transformers.fromJson(Contract.class, mapper()))
+			.transform(Transformers.fromJson(ContractApprobation.class, mapper()))
 			.log(Level.INFO, "Received contract approbation request")
-			.transform(readContractTransformer())
-			.handle(Contract.class, (request, headers) -> approbationProcessor.process(request))
+			.handle(ContractApprobation.class, (request, headers) -> approbationProcessor.process(request))
 			.log(Level.INFO, "Contract approbed")
 			.publishSubscribeChannel(c -> c.applySequence(false)
 				.subscribe(f -> f

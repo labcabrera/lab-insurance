@@ -12,5 +12,5 @@ Feature: basic contract creation
     When Invoco al servicio de contratacion
     When Programo la aprobacion del contrato a fecha 2017/01/11 con el id del contrato
     When Programo la accion de recepcion de pago a fecha 2017/01/15 con el id del contrato
-    Then Simulo una ejecucion de 2017/01/11 a 2017/12/31
+    Then Simulo una ejecucion de 2017/01/11 a 2017/02/01
     And Verifico que el suscriptor es 11222333Z

@@ -13,17 +13,20 @@ public interface ContractCreationGateway {
 
 	@Gateway(requestChannel = Channels.ContractCreationRequest,
 			replyChannel = Channels.ContractCreationResponse,
-			replyTimeout = 600000)
+			replyTimeout = 600000,
+			requestTimeout = 600000)
 	Contract processCreation(ContractCreation request);
 
 	@Gateway(requestChannel = Channels.ContractApprobationRequest,
 			replyChannel = Channels.ContractApprobationResponse,
-			replyTimeout = 600000)
+			replyTimeout = 600000,
+			requestTimeout = 600000)
 	Contract processApprobation(Contract request);
 
 	@Gateway(requestChannel = Channels.InitialPaymentReceptionRequest,
 			replyChannel = Channels.InitialPaymentReceptionResponse,
-			replyTimeout = 600000)
+			replyTimeout = 600000,
+			requestTimeout = 600000)
 	Order processPaymentReception(InitialPaymentReception request);
 
 }
