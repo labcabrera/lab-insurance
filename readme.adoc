@@ -101,14 +101,15 @@ https://github.com/labcabrera/lab-insurance-cloud-config
 
 [options="header"]
 |===
-|Environment                | Port | Application                | Port 
-|cloud-config               | 8888 | contract-creation-gateway  | 8081
-|eureka                     | 8070 | legal-entity-gateway       | 8082
-|zuul-gateway               | 8080 | asset-gateway              | 8089
-|                           |      | accounting-gateway         | 8083 
-|                           |      | contract-common-gateway    | 8091
-|                           |      | portfolio-gateway          | 8095
-|                           |      | order-gateway              | 8096
+|Environment                | Port | Gateways                   | Port 
+|cloud-config               | 8888 | contract                   | 8090
+|eureka                     | 8070 | legal-entity               | 8091
+|zuul                       | 8080 | portfolio                  | 8092
+|                           |      | asset                      | 8093 
+|                           |      | order                      | 8094
+|                           |      | accounting                 | 8095
+|                           |      | contract-creation          | 8096
+|                           |      | agreement                  | 8097
 |===
 
 == References
