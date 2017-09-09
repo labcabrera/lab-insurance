@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: insurance-portfolio-gateway
-  cloud:
-    config:
-      uri: http://localhost:8888/
-      name: insurance-common,insurance-portfolio-gateway

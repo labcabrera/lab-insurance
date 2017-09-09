@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HOST="labinsurancecloudco-env.eu-west-1.elasticbeanstalk.com"
+HOST="lab-insurance-cloud-config.eu-west-1.elasticbeanstalk.com"
 CONFIG_NAME=$1
 PROFILE=$2
 

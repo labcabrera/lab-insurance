@@ -1,8 +1,8 @@
 package org.lab.insurance.asset.gateway.controller;
 
-import org.lab.insurance.asset.gateway.domain.AssetResource;
 import org.lab.insurance.domain.core.insurance.Asset;
 import org.lab.insurance.domain.core.insurance.repository.AssetRepository;
+import org.lab.insurance.domain.hateoas.insurance.AssetResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpStatus;
@@ -26,9 +26,11 @@ public class AssetResourceController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		AssetResource resource = new AssetResource();
+		
 		resource.add(ControllerLinkBuilder.linkTo(AssetResourceController.class).slash(entity.getId()).withSelfRel());
 		resource.setIsin(entity.getIsin());
 		resource.setName(entity.getName());
+		
 		return new ResponseEntity<>(resource, HttpStatus.OK);
 	}
 }

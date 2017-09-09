@@ -1,54 +1,51 @@
 package org.lab.insurance.contract.common.gateway.controller;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.lab.insurance.domain.core.contract.Contract;
 import org.lab.insurance.domain.core.contract.repository.ContractRepository;
+import org.lab.insurance.domain.core.insurance.Order;
+import org.lab.insurance.domain.hateoas.contract.ContractResource;
+import org.lab.insurance.domain.hateoas.insurance.OrderResource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/contracts")
+@RequestMapping("/search")
 public class ContractSearchService {
 
 	@Autowired
-	private ContractRepository repository;
-	@Autowired
-	private MongoTemplate mongoTemplate;
-
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public List<Contract> searchAlt(@RequestParam(value = "p", defaultValue = "0") Integer page,
-			@RequestParam(value = "s", defaultValue = "10") Integer size) {
-		final Pageable pageableRequest = new PageRequest(page, size);
-		Query query = new Query();
-		query.with(pageableRequest);
-		query.with(new Sort(Sort.Direction.ASC, "number"));
-		List<Contract> result = mongoTemplate.find(query, Contract.class);
-		return result;
-	}
+	private ContractRepository contractRepo;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Contract> findById(String id) {
-		Contract entity = repository.findOne(id);
-		HttpStatus status = entity != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-		return new ResponseEntity<Contract>(entity, status);
-	}
+	public ResponseEntity<ContractResource> findById(String id) {
+		Contract entity = contractRepo.findOne(id);
+		if (entity == null) {
+			new ResponseEntity<>(entity, HttpStatus.NOT_FOUND);
+		}
 
-	@RequestMapping(value = "/number/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Contract> findByNumber(String number) {
-		Contract entity = repository.findByNumber(number);
-		HttpStatus status = entity != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-		return new ResponseEntity<Contract>(entity, status);
+		ContractResource resource = new ContractResource();
+		resource.add(ControllerLinkBuilder.linkTo(ContractSearchService.class).slash(entity.getId()).withSelfRel());
+
+		resource.setContractId(entity.getId());
+
+		// TODO
+		resource.setOrders(new ArrayList<OrderResource>());
+		for (Order i : entity.getOrders()) {
+			OrderResource order = new OrderResource();
+			// TODO revisar como hacerlo para que pueda ir via zuul y via directa
+			order.add(new Link("/api/orders/search/" + i.getId()));
+			order.setOrderId(i.getId());
+			order.setType(i.getType());
+		}
+
+		return new ResponseEntity<>(resource, HttpStatus.OK);
 	}
 
 }

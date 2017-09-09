@@ -19,4 +19,4 @@ spring:
   profiles: aws
   cloud:
     config:
-      uri: http://labinsurancecloudco-env.eu-west-1.elasticbeanstalk.com
+      uri: http://lab-insurance-cloud-config.eu-west-1.elasticbeanstalk.com

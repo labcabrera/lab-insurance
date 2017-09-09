@@ -90,7 +90,6 @@ project(":insurance-domain-hateoas") {
 		compile project(":insurance-domain-core")
 		compile "org.springframework.boot:spring-boot-starter-hateoas"
 		compile "ma.glasnost.orika:orika-core:1.5.1"
-		
 	}
 	bootRepackage {
 		enabled = false
@@ -136,6 +135,7 @@ project(":insurance-asset-core") {
 project(":insurance-asset-gateway") {
 	dependencies {
 		compile project(":insurance-common")
+		compile project(":insurance-domain-hateoas")
 		compile gatewayLibs
 		compile "org.springframework.boot:spring-boot-starter-data-rest"
 		testCompile testLibs
@@ -153,6 +153,7 @@ project(":insurance-broker-core") {
 project(":insurance-contract-common-gateway") {
 	dependencies {
 		compile project(":insurance-common")
+		compile project(":insurance-domain-hateoas")
 		compile gatewayLibs
 	}
 }
@@ -167,6 +168,7 @@ project(":insurance-contract-creation-core") {
 
 project(":insurance-contract-creation-gateway") {
 	dependencies {
+		compile project(":insurance-domain-hateoas")
 		compile project(":insurance-contract-creation-core")
 		compile gatewayLibs
 	}
@@ -183,6 +185,7 @@ project(":insurance-legal-entity-core") {
 project(":insurance-legal-entity-gateway") {
 	dependencies {
 		compile project(":insurance-common")
+		compile project(":insurance-domain-hateoas")
 		compile gatewayLibs
 	}
 }
@@ -198,6 +201,7 @@ project(":insurance-order-core") {
 project(":insurance-order-gateway") {
 	dependencies {
 		compile project(":insurance-portfolio-core")
+		compile project(":insurance-domain-hateoas")
 		compile gatewayLibs
 		testCompile testLibs
 	}
@@ -214,6 +218,7 @@ project(":insurance-portfolio-core") {
 project(":insurance-portfolio-gateway") {
 	dependencies {
 		compile project(":insurance-portfolio-core")
+		compile project(":insurance-domain-hateoas")
 		compile gatewayLibs
 		testCompile testLibs
 	}
