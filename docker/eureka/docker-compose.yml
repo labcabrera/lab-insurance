@@ -8,4 +8,6 @@ services:
       - ../../insurance-eureka/build/libs:/app
     ports:
       - "8070:8070"
+    environment:
+      - spring.profiles.active=aws
     command: java -jar /app/insurance-eureka-${VERSION}.jar

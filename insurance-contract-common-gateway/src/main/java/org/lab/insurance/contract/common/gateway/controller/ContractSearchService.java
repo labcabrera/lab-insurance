@@ -34,6 +34,9 @@ public class ContractSearchService {
 		resource.add(ControllerLinkBuilder.linkTo(ContractSearchService.class).slash(entity.getId()).withSelfRel());
 
 		resource.setContractId(entity.getId());
+		resource.setDates(entity.getDates());
+		resource.setCurrentState(entity.getCurrentState());
+		resource.setOrders(new ArrayList<>());
 
 		// TODO
 		resource.setOrders(new ArrayList<OrderResource>());
@@ -43,6 +46,7 @@ public class ContractSearchService {
 			order.add(new Link("/api/orders/search/" + i.getId()));
 			order.setOrderId(i.getId());
 			order.setType(i.getType());
+			resource.getOrders().add(order);
 		}
 
 		return new ResponseEntity<>(resource, HttpStatus.OK);
