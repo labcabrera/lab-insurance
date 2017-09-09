@@ -116,6 +116,8 @@ public class InsuranceTaskExecutor {
 		Map<String, Object> headers = new HashMap<>();
 		headers.put("routingKey", routingKeyMapper.getRoutingKey(task));
 		Message message = new GenericMessage<>(task.getAction(), headers);
+		// TODO revisar recepcion de mensajes en procesamiento sincronos
+		sync = false;
 		if (sync) {
 			messageChannelSync.send(message);
 		}

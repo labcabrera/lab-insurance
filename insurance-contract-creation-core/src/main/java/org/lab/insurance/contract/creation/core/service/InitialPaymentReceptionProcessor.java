@@ -40,6 +40,8 @@ public class InitialPaymentReceptionProcessor {
 		}
 		stateMachineService.createTransition(payment, Order.States.INITIAL.name(), false);
 		orderRepo.save(payment);
+
+		stateMachineService.createTransition(contract, Contract.States.STARTED.name(), true);
 		return payment;
 	}
 

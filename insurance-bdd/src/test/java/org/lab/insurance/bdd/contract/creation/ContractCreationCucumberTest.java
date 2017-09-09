@@ -6,7 +6,7 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources/scheduled")
-public class ContractCreationCucumberScheduledTest {
+@CucumberOptions(features = "src/test/resources/creation")
+public class ContractCreationCucumberTest {
 
 }

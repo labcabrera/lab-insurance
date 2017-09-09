@@ -24,9 +24,9 @@ public class RoutingKeyMapper {
 		mapping.put(ContractApprobation.class, IntegrationConstants.Queues.ContractApprobation);
 		mapping.put(InitialPaymentReception.class, IntegrationConstants.Queues.InitialPaymentReception);
 		mappingSync = new HashMap<>();
-		mappingSync.put(ContractCreation.class, false);
-		mappingSync.put(ContractApprobation.class, false);
-		mappingSync.put(InitialPaymentReception.class, false);
+		mappingSync.put(ContractCreation.class, true);
+		mappingSync.put(ContractApprobation.class, true);
+		mappingSync.put(InitialPaymentReception.class, true);
 	}
 
 	public String getRoutingKey(InsuranceTask task) {
