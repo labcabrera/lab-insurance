@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.lab.insurance.domain.core.engine.State;
 import org.lab.insurance.domain.core.insurance.OrderDates;
-import org.lab.insurance.domain.core.insurance.OrderDistribution;
 import org.lab.insurance.domain.core.insurance.OrderType;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -20,8 +19,7 @@ public class OrderResource extends ResourceSupport {
 	String contractId;
 	OrderType type;
 	State state;
-	List<OrderDistribution> sellDistribution;
-	List<OrderDistribution> buyDistribution;
+	List<OrderDistributionItem> distribution;
 	OrderDates dates;
 	BigDecimal grossAmount;
 	BigDecimal netAmount;

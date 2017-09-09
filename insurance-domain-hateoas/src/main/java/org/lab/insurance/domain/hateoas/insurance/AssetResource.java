@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class AssetResource extends ResourceSupport {
 
+	String assetId;
 	String isin;
 	String name;
 

@@ -31,8 +31,8 @@ public class OrderGatewayApp {
 				.paths(PathSelectors.any())
 				.build()
 			.tags(
-				new Tag("asset-resource-controller", StringUtils.EMPTY),
-				new Tag("asset-search-controller", StringUtils.EMPTY)
+				new Tag("order-resource-controller", StringUtils.EMPTY),
+				new Tag("order-search-controller", StringUtils.EMPTY)
 			);
 		//@formatter:on
 	}
