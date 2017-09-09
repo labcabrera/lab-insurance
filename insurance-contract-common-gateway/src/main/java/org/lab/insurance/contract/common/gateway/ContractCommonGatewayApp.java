@@ -3,6 +3,7 @@ package org.lab.insurance.contract.common.gateway;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
@@ -15,7 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableMongoRepositories("org.lab.insurance.domain")
-// @EnableEurekaClient
+@EnableEurekaClient
 @EnableSwagger2
 public class ContractCommonGatewayApp {
 

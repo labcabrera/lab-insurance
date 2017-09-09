@@ -15,7 +15,6 @@ import org.lab.insurance.domain.core.insurance.MarketOrderType;
 import org.lab.insurance.domain.core.insurance.Order;
 import org.lab.insurance.domain.core.insurance.OrderDates;
 import org.lab.insurance.domain.core.insurance.OrderDistribution;
-import org.lab.insurance.domain.core.insurance.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,8 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MarketOrderGeneratorProcessor {
 
-	@Autowired
-	private OrderRepository orderRepo;
 	@Autowired
 	private TimestampProvider timestampProvider;
 	@Autowired

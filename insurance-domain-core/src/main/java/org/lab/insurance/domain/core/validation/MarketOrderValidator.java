@@ -8,6 +8,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintValidatorContext.ConstraintViolationBuilder;
 
+import org.lab.insurance.domain.core.Errors.MarketOrder.Validation;
 import org.lab.insurance.domain.core.insurance.MarketOrder;
 import org.lab.insurance.domain.core.insurance.MarketOrderSource;
 
@@ -41,12 +42,19 @@ public class MarketOrderValidator extends AbstractValidator
 			switch (state) {
 			case INITIAL:
 				addIfNotNull(errors, checkNullValue(entity.getDates().getProcessed(),
+						Validation.StateInitialWithProcessedDate, ctx));
+				addIfNotNull(errors, checkNullValue(entity.getDates().getValued(),
+						"marketOrder.validation.stateInitialWithValuedDate", ctx));
+				addIfNotNull(errors, checkNullValue(entity.getDates().getAccounted(),
+						"marketOrder.validation.stateInitialWithAcountedDate", ctx));
+				break;
+			case PROCESSED:
+				addIfNotNull(errors, checkNullValue(entity.getDates().getProcessed(),
 						"marketOrder.validation.stateInitialWithProcessedDate", ctx));
 				addIfNotNull(errors, checkNullValue(entity.getDates().getValued(),
 						"marketOrder.validation.stateInitialWithValuedDate", ctx));
 				addIfNotNull(errors, checkNullValue(entity.getDates().getAccounted(),
 						"marketOrder.validation.stateInitialWithAcountedDate", ctx));
-			case PROCESSED:
 				addIfNotNull(errors, checkNotNullValue(entity.getDates().getProcessed(),
 						"marketOrder.validation.stateProcessedWithoutProcessedDate", ctx));
 				addIfNotNull(errors, checkNotNullValue(entity.getDates().getValueDate(),
