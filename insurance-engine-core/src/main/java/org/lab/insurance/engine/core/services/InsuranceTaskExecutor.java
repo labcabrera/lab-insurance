@@ -63,14 +63,26 @@ public class InsuranceTaskExecutor {
 		report.setSuccess(false);
 		report = executionReportRepo.save(report);
 
+		// TODO quitar iff
 		//@formatter:off
-		Query query = new Query(
-				Criteria.where("executed").is(null)
-				.andOperator(Criteria.where("error").is(null)
-				.andOperator(Criteria.where("tags").in(tags))
-			)
-		);
+		Query query = null;
+		if(tags != null && tags.isEmpty()) {
+			query = new Query(
+					Criteria.where("executed").is(null)
+					.andOperator(Criteria.where("error").is(null)
+					.andOperator(Criteria.where("tags").in(tags))
+				)
+			);
+		} else {
+			query = new Query(
+					Criteria.where("executed").is(null)
+					.andOperator(Criteria.where("error").is(null)
+				)
+			);
+		}
+
 		//@formatter:on
+
 		query.with(new Sort(Sort.Direction.ASC, "execution"));
 
 		InsuranceTask task = mongoTemplate.findOne(query, InsuranceTask.class);
@@ -98,6 +110,7 @@ public class InsuranceTaskExecutor {
 		return detail;
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void internalExecute(InsuranceTask task) throws JsonProcessingException {
 		Map<String, Object> headers = new HashMap<>();
 		headers.put("routingKey", routingKeyMapper.getRoutingKey(task));

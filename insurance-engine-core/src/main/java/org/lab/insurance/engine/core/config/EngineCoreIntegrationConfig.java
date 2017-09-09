@@ -14,7 +14,7 @@ import org.springframework.integration.handler.LoggingHandler.Level;
 import org.springframework.messaging.MessageChannel;
 
 @Configuration
-public class IntegrationConfig {
+public class EngineCoreIntegrationConfig {
 
 	@Autowired
 	private AmqpTemplate amqpTemplate;

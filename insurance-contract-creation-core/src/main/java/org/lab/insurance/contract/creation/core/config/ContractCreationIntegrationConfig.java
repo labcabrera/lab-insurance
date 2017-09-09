@@ -26,7 +26,7 @@ import org.springframework.messaging.MessageChannel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
-public class IntegrationConfig {
+public class ContractCreationIntegrationConfig {
 
 	@Autowired
 	private ConnectionFactory connectionFactory;
