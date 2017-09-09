@@ -1,4 +1,4 @@
-Como este proyecto no deja de ser una frikada y una enorme paja mental, cualquier persona interesada en contribuir ser bienvenida.
+Como este proyecto no deja de ser una frikada y una enorme paja mental, cualquier persona interesada en contribuir será bienvenida.
 
 El problema es que el negocio es un tanto complicado y puede ser díficil de seguir, así que posiblemente la curva de aprendizaje sea dura si uno no está familiarizado con toda la verborrea del negocio.
 
