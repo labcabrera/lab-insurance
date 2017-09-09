@@ -224,6 +224,8 @@ dependencies {
 		compile "org.springframework.cloud:spring-cloud-config-client",
 		"io.springfox:springfox-swagger2:${springfoxSwaggerVersion}",
 		"io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
+		compile "de.codecentric:spring-boot-admin-server:${springBootAdmin}"
+		compile "de.codecentric:spring-boot-admin-server-ui:${springBootAdmin}"
 		compile "org.webjars:bootstrap:3.3.7"
 	}
 }
@@ -267,8 +269,6 @@ project(":insurance-ms-common") {
 		compile "org.springframework.cloud:spring-cloud-config-client"
 		compile "org.springframework.cloud:spring-cloud-starter-eureka"
 		compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
-		compile "de.codecentric:spring-boot-admin-server:${springBootAdmin}"
-		compile "de.codecentric:spring-boot-admin-server-ui:${springBootAdmin}"
 		
 		testCompile testLibs
 	}
