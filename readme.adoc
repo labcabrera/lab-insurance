@@ -1,6 +1,7 @@
 # lab-insurance
 
 image:https://travis-ci.org/labcabrera/lab-insurance.svg?branch=master["Build Status", link="https://travis-ci.org/labcabrera/lab-insurance"]
+image:https://api.codacy.com/project/badge/Grade/ba62bafd29c84abd802cf753c412e41c["Codacy code quality", link="https://www.codacy.com/app/lab.cabrera/lab-insurance-cloud-config?utm_source=github.com&utm_medium=referral&utm_content=labcabrera/lab-insurance-cloud-config&utm_campaign=Badge_Grade"]
 
 = Insurance Showcase Engine
 
@@ -121,3 +122,8 @@ https://github.com/labcabrera/lab-insurance-cloud-config
 * https://github.com/bijukunjummen/si-dsl-rabbit-sample
 * https://knallisworld.de/blog/2016/03/26/expose-a-java-method-with-amqp-and-spring-reloaded-with-java-dsl/
 * https://axxes.com/java/receive-and-send-multiple-jms-messages-in-one-transaction-with-spring-integration-java-dsl/
+
+=== Resources
+
+* https://github.com/codecentric/spring-boot-admin
+* https://www.codacy.com/app/lab.cabrera/lab-insurance/dashboard

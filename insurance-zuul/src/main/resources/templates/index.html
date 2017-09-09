@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head lang="en" th:replace="fragments/header :: header">
+</head>
+
+<body ng-app="rolemasterApp" ng-controller="mainCtrl">
+
+	<div class="container">
+
+		<nav th:replace="fragments/navbar :: navbar"></nav>
+
+		<div class="row col-sm-12">
+			<h1>Insurance engine showcase</h1>
+			<p>
+				Under development <small>be patient</small>
+			</p>
+		</div>
+	</div>
+
+	<!--
+	<script src="/webjars/angularjs/1.6.4/angular.min.js"></script>
+	<script src="/webjars/angularjs/1.6.4/angular-resource.min.js"></script>
+	<script src="/webjars/angularjs/1.6.4/angular-route.min.js"></script>
+	<script src="/webjars/angularjs/1.6.4/angular-cookies.min.js"></script>
+	<script>
+		var app = angular.module('insuranceApp', [ "ngResource", "ngRoute", "ngCookies" ]);
+		app.controller('mainCtrl',
+			function($scope, $resource, $http, $cookies) {
+		});
+	</script>
+	-->
+</body>
+</html>
