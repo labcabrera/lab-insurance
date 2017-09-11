@@ -11,6 +11,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
@@ -23,7 +24,8 @@ import org.springframework.integration.support.json.JsonObjectMapper;
 import org.springframework.messaging.MessageChannel;
 
 @Configuration
-public class OrderCoreIntegrationConfig {
+@ComponentScan("org.lab.insurance.order.core")
+public class OrderIntegrationConfig {
 
 	@Autowired
 	private ConnectionFactory connectionFactory;

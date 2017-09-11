@@ -7,7 +7,6 @@ import org.lab.insurance.domain.action.contract.ContractApprobation;
 import org.lab.insurance.domain.action.contract.ContractCreation;
 import org.lab.insurance.domain.core.IntegrationConstants;
 import org.lab.insurance.domain.core.IntegrationConstants.Queues;
-import org.lab.insurance.domain.core.contract.Contract;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;

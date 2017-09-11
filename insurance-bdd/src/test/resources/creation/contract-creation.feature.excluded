@@ -1,0 +1,29 @@
+
+
+leemos la informacion de contratación del fichero XYZ
+establecemos la fecha del sistema a 0000/00/00
+invocamos el servicio de contratacion y obtenemos la respuesta de forma sincrona
+programamos la aprobacion del contrato a fecha 0000/00/00
+programamos la recepcion del pago a fecha 0000/00/00
+leemos el contrato
+verificamos que el estado del contrato es INITIAL
+verificamos que el estado del pago inicial es INITIAL
+
+realizamos la simulacion de 0000/00/00 a 0000/00/00
+verificamos que el estado del contrato es APPROBED
+verificamos que el estado del pago inicial es INITIAL
+verificamos que se ha generado la documentacion
+verificamos que se han generado los portfolios del contrato
+
+realizamos la simulacion de 0000/00/00 a 0000/00/00
+verificamos que se ha procesado el pago inicial
+verificamos que el estado del contrato es STARTED
+verificamos que el estado del pago inicial es PROCESSED
+
+realizamos la simulacion de 0000/00/00 a 0000/00/00
+verificamos que se ha valorizado el pago inicial
+verificamos que el estado del pago inicial es VALUED
+
+revisar como controlar la ejecucion asincrona de los modulos
+revisar cuando se crea el portfolio: cuando se crea el contato / cuando se aprueba
+

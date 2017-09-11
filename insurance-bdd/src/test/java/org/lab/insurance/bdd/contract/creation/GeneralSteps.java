@@ -3,6 +3,7 @@ package org.lab.insurance.bdd.contract.creation;
 import java.util.Date;
 
 import org.joda.time.DateTime;
+import org.lab.insurance.bdd.common.MongoTestOperations;
 import org.lab.insurance.common.services.TimestampProvider;
 import org.lab.insurance.engine.core.services.InsuranceTaskExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,15 @@ public class GeneralSteps extends BddSupport {
 	private TimestampProvider timeStampProvider;
 
 	@Autowired
+	protected MongoTestOperations mongoTestOperations;
+
+	@Autowired
 	private InsuranceTaskExecutor executor;
+
+	@When("^Inicializo la base de datos$")
+	public void inicializo_la_base_de_datos() {
+		mongoTestOperations.resetDataBase();
+	}
 
 	@When("^establezco la fecha del sistema a (\\d+)/(\\d+)/(\\d+)$")
 	public void la_fecha_del_sistema_a(int year, int monthOfYear, int dayOfMonth) {

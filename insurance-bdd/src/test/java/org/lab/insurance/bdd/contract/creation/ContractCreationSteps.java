@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
 import org.junit.Assert;
-import org.lab.insurance.bdd.contract.MongoTestOperations;
 import org.lab.insurance.domain.action.contract.ContractApprobation;
 import org.lab.insurance.domain.action.contract.ContractCreation;
 import org.lab.insurance.domain.action.contract.InitialPaymentReception;
@@ -49,20 +48,12 @@ public class ContractCreationSteps extends BddSupport {
 	protected PersonRepository personRepository;
 
 	@Autowired
-	protected MongoTestOperations mongoTestOperations;
-
-	@Autowired
 	protected InsuranceTaskScheduler scheduler;
 
 	protected ContractCreation contractCreateAction;
 	protected Contract contract;
 	protected Order initialPayment;
 	protected String contractNumber;
-
-	@When("^Inicializo la base de datos$")
-	public void inicializo_la_base_de_datos() {
-		mongoTestOperations.resetDataBase();
-	}
 
 	@When("^Preparo contrato con acuerdo (\\w+)$")
 	public void preparo_contrato(String agreementCode) {

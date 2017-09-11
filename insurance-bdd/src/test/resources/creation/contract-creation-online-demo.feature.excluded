@@ -1,0 +1,21 @@
+# Esto no tiene nada que ver con 'insurance', solo es un ejemplo de como se
+# podria simplemente parametrizar la aplicacion para simular una aplicacion
+# de compra/venta de acciones.
+# Estaría interesante este sistema para tener una demo online para poder
+# jugar con dinero de mentira con las cotizaciones reales de los mercados. 
+
+Feature: contratacion en modo demo con compras directas online
+  Scenario: generacion de la cuenta
+    When leemos la informacion de contratación del fichero XYZ
+    When establecemos la fecha del sistema a 0000/00/00
+    When ingresamos 1000.00 EUR
+    When ingresamos 500.00 USD
+    When compramos 600.00 euros de STOCK01
+    When comprobamos que nuestro portfolio tiene 400 EUR
+    When comprobamos que nuestro portfolio tiene 500 USD
+    When comprobamos que nuestro portfolio tiene una orden de compra en espera
+    When realizamos la simulacion de 0000/00/00 a 0000/00/00
+    Then comprobamos que la orden de compra se ha procesado
+    And comprobamos que nuestro portfolio tiene XYZ UCs de STOCK01
+    And comprobamos que el valor de nuestro portfolio en EUR es 000.00
+    And comprobamos que el valor de nuestro portfolio en USD es 000.00

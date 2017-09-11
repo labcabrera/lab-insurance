@@ -127,6 +127,10 @@ https://github.com/labcabrera/lab-insurance-cloud-config
 * https://knallisworld.de/blog/2016/03/26/expose-a-java-method-with-amqp-and-spring-reloaded-with-java-dsl/
 * https://axxes.com/java/receive-and-send-multiple-jms-messages-in-one-transaction-with-spring-integration-java-dsl/
 
+=== Financial public APIs
+
+* https://bbvaopen4u.com/es/actualidad/algunas-api-financieras-para-crear-aplicaciones-dinamicas
+
 === Resources
 
 * https://github.com/codecentric/spring-boot-admin

@@ -42,6 +42,8 @@ def testLibs = [
 	"org.springframework.boot:spring-boot-starter-test"
 ]
 
+// All project definitions
+
 subprojects {
 	apply plugin: "java"
 	apply plugin: "org.springframework.boot"
@@ -72,6 +74,8 @@ subprojects {
 	}
 }
 
+// Domain model projects
+
 project(":insurance-domain-core") {
 	dependencies {
 		compile "org.springframework.boot:spring-boot-starter-data-mongodb"		
@@ -100,11 +104,14 @@ project(":insurance-domain-hateoas") {
 		compile project(":insurance-domain-core")
 		compile "org.springframework.boot:spring-boot-starter-hateoas"
 		compile "ma.glasnost.orika:orika-core:1.5.1"
+		testCompile testLibs
 	}
 	bootRepackage {
 		enabled = false
 	}
 }
+
+// Common projects
 
 project(":insurance-common") {
 	dependencies {
@@ -147,6 +154,18 @@ project(":insurance-eureka") {
 	}
 }
 
+// Microservices
+
+project(":insurance-agreement-core") {
+	dependencies {
+		compile project(":insurance-domain-core")
+		testCompile testLibs
+	}
+	bootRepackage {
+		enabled = false
+	}
+}
+
 project(":insurance-asset-core") {
 	dependencies {
 		compile project(":insurance-common")
@@ -154,6 +173,7 @@ project(":insurance-asset-core") {
 		testCompile testLibs
 	}
 }
+
 project(":insurance-asset-gateway") {
 	dependencies {
 		compile project(":insurance-common")
@@ -255,6 +275,8 @@ project(":insurance-stop-loss-core") {
 	}
 }
 
+// Proxy
+
 project(":insurance-zuul") {
 dependencies {
 		compile "org.springframework.boot:spring-boot-starter"
@@ -273,10 +295,14 @@ dependencies {
 	}
 }
 
+// Integration tests
+
 project(":insurance-bdd") {
 	dependencies {
 		compile project(":insurance-domain-action")
 		compile project(":insurance-engine-core")
+		compile project(":insurance-portfolio-core")
+		compile project(":insurance-order-core")
 		compile coreLibs
 		compile gatewayLibs
 		testCompile testLibs

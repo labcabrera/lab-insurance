@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class OrderDistributionItem {
 
+	BigDecimal grossAmount;
 	BigDecimal netAmount;
 	BigDecimal percent;
 	AssetResource asset;

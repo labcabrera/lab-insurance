@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @SpringBootApplication
 @EnableMongoRepositories({ "org.lab.insurance.domain" })
-@Import(InsuranceCommonConfig.class)
+@Import({ InsuranceCommonConfig.class })
 public class OrderCoreApp {
 
 	public static void main(String[] args) {
