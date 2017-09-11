@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class GeneralSteps extends BddSupport {
 
 	@Autowired
@@ -39,6 +41,9 @@ public class GeneralSteps extends BddSupport {
 		timeStampProvider.setFakeDate(date);
 	}
 
+	// TODO no funciona como espero. Si hay mensajes en las colas cuando se inicializa el contexto los mensajes se leen
+	// antes de que se ejecute esta sentencia, de modo que podrian afectar a la ejecucion. Esto no sucede por ejemplo en
+	// la compilacion de travis dado que la imagen de docker sobre la que se ejecuta no tiene informacion previa.
 	@When("^purgo las colas de contratacion$")
 	public void purgo_las_colas_de_contratacion() {
 		rabbitOperations.purgue(IntegrationConstants.Queues.ContractCreation);
@@ -47,6 +52,7 @@ public class GeneralSteps extends BddSupport {
 		rabbitOperations.purgue(IntegrationConstants.Queues.OrderCreationRequest);
 		rabbitOperations.purgue(IntegrationConstants.Queues.PortfolioInitialization);
 		rabbitOperations.purgue(IntegrationConstants.Queues.InitialPaymentReception);
+		log.info("Clean queues");
 	}
 
 	@Then("^espero que se vacie la cola \"([^\"]*)\"$")

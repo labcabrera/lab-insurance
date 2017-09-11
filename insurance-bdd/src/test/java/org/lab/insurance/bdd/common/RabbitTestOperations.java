@@ -19,11 +19,6 @@ public class RabbitTestOperations {
 		return new RabbitAdmin(connectionFactory);
 	}
 
-	// @Autowired
-	// Queue queuePortfolioCreateRequest() {
-	// return new Queue(IntegrationConstants.Queues.PortfolioInitialization);
-	// }
-
 	public void waitUntilQueueIsEmpty(String queueName) {
 		RabbitAdmin rabbitAdmin = rabbitAdmin();
 		Properties properties;

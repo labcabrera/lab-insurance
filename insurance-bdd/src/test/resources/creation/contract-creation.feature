@@ -16,4 +16,5 @@ Feature: basic contract creation
     Then simulo una ejecucion de 2017/01/11 a 2017/02/12
     Then espero que se vacie la cola "portfolio-create.request"
     Then simulo una ejecucion de 2017/01/11 a 2017/02/01
+    Then espero que se vacie la cola "initial-payment-reception.request"
     And verifico que el suscriptor es 11222333Z

@@ -27,10 +27,11 @@ public class InitialPaymentReceptionProcessor {
 	private StateMachineService stateMachineService;
 
 	public Order process(InitialPaymentReception request) {
+		log.info("Processing initial payment reception {}", request);
 		Assert.notNull(request, "Null request");
 		Assert.notNull(request.getContractId(), "Missing contract identifier");
 		Assert.isTrue(StringUtils.isNotBlank(request.getContractId()), "Missing contract identifier");
-		log.info("Processing initial payment reception {}", request);
+
 		Contract contract = contractRepo.findOne(request.getContractId());
 		Order payment = contract.filterOrders(OrderType.INITIAL_PAYMENT).iterator().next();
 		payment.setContract(contract);

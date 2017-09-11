@@ -66,7 +66,7 @@ public class OrderIntegrationConfig {
 		return IntegrationFlows //
 			.from(Amqp
 				.inboundGateway(connectionFactory, amqpTemplate, orderInitializationQueue()))
-			.log(Level.INFO, "Processing order initialization request")
+			.log(Level.INFO, "Processing order request")
 			.transform(Transformers.fromJson(Order.class))
 			.handle(Order.class, (request, headers) -> orderMongoAdapter.read(request.getId(), Order.class))
 			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.PROCESSING.name(), true))
