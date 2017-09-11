@@ -10,7 +10,7 @@ import org.springframework.integration.config.EnableIntegration;
 @Configuration
 @EnableAutoConfiguration
 @EnableIntegration
-@ComponentScan({ "org.lab.insurance.bdd.contract" })
+@ComponentScan({ "org.lab.insurance.bdd" })
 @EnableMongoRepositories("org.lab.insurance.domain")
 @IntegrationComponentScan("com.lab.insurance.contract.creation.gateway")
 public class BddConfig {

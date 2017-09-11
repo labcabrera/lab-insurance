@@ -1,4 +1,4 @@
-package org.lab.insurance.bdd.contract.creation;
+package org.lab.insurance.bdd.contract.creation.steps;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
 import org.junit.Assert;
+import org.lab.insurance.bdd.contract.creation.BddSupport;
 import org.lab.insurance.domain.action.contract.ContractApprobation;
 import org.lab.insurance.domain.action.contract.ContractCreation;
 import org.lab.insurance.domain.action.contract.InitialPaymentReception;
@@ -55,20 +56,20 @@ public class ContractCreationSteps extends BddSupport {
 	protected Order initialPayment;
 	protected String contractNumber;
 
-	@When("^Preparo contrato con acuerdo (\\w+)$")
+	@When("^preparo contrato con acuerdo (\\w+)$")
 	public void preparo_contrato(String agreementCode) {
 		contractCreateAction = new ContractCreation();
 		contractCreateAction.setAgreementCode(agreementCode);
 	}
 
-	@When("^Establezco como suscriptor del contrato a la persona identificada con (\\w+)$")
+	@When("^establezco como suscriptor del contrato a la persona identificada con (\\w+)$")
 	public void establezco_como_suscriptor_del_contrato_a_la_persona_identificada_con_(String idCardNumber) {
 		Person person = personRepository.findByIdCardNumber(idCardNumber);
 		Assert.assertNotNull(person);
 		addRelation(person, RelationType.SUSCRIPTOR);
 	}
 
-	@When("^Establezco como beneficiario del contrato a la persona identificada con (\\w+)$")
+	@When("^establezco como beneficiario del contrato a la persona identificada con (\\w+)$")
 	public void establezco_como_beneficiario_del_contrato_a_la_persona_identificada_con_W(String idCardNumber) {
 		Assert.assertNotNull(contractCreateAction);
 		Person person = personRepository.findByIdCardNumber(idCardNumber);
@@ -76,26 +77,14 @@ public class ContractCreationSteps extends BddSupport {
 		addRelation(person, RelationType.RECIPIENT);
 	}
 
-	private void addRelation(Person person, RelationType type) {
-		ContractPersonRelation relation = new ContractPersonRelation();
-		relation.setContract(contract);
-		relation.setPerson(person);
-		relation.setType(type);
-		if (contractCreateAction.getRelations() == null) {
-			contractCreateAction.setRelations(new ArrayList<>());
-		}
-		contractCreateAction.getRelations().add(relation);
-
-	}
-
-	@When("^Establezco un pago inicial bruto de ([\\d|\\.]+) euros$")
+	@When("^establezco un pago inicial bruto de ([\\d|\\.]+) euros$")
 	public void establezco_un_pago_inicial_neto_de_euros(BigDecimal amount) {
 		Order initialPayment = Order.builder().type(OrderType.INITIAL_PAYMENT).build();
 		initialPayment.setGrossAmount(amount);
 		contractCreateAction.setInitialPayment(initialPayment);
 	}
 
-	@When("^Establezco la distribucion del pago inicial en \\((.+)\\)$")
+	@When("^establezco la distribucion del pago inicial en \\((.+)\\)$")
 	public void establezco_la_distribucion_del_pago_inicial_en_ASSET_ASSET(String distribution) {
 		Order initialPayment = contractCreateAction.getInitialPayment();
 		initialPayment.setBuyDistribution(new ArrayList<>());
@@ -112,19 +101,19 @@ public class ContractCreationSteps extends BddSupport {
 		}
 	}
 
-	@When("^Establezco la fecha de contratacion a (\\d+)/(\\d+)/(\\d+)$")
+	@When("^establezco la fecha de contratacion a (\\d+)/(\\d+)/(\\d+)$")
 	public void establezco_la_fecha_de_contratacion_a(int arg1, int arg2, int arg3) {
 		// TODO
 	}
 
-	@When("^Muestro el JSON del contrato$")
+	@When("^muestro el JSON del contrato$")
 	public void muestro_el_JSON_del_contrato() throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		log.debug(mapper.writeValueAsString(contract));
 	}
 
-	@When("^Programo la aprobacion del contrato a fecha (\\d+)/(\\d+)/(\\d+) con el id del contrato$")
+	@When("^programo la aprobacion del contrato a fecha (\\d+)/(\\d+)/(\\d+) con el id del contrato$")
 	public void programo_la_aprobacion_del_contrato_a_fecha_con_el_id_del_contrato(int year, int monthOfYear,
 			int dayOfMonth) {
 		Date execution = new DateTime(year, monthOfYear, dayOfMonth, 0, 0).toDate();
@@ -133,7 +122,7 @@ public class ContractCreationSteps extends BddSupport {
 		scheduler.schedule(task);
 	}
 
-	@When("^Programo la accion de recepcion de pago a fecha (\\d+)/(\\d+)/(\\d+) con el id del contrato$")
+	@When("^programo la accion de recepcion de pago a fecha (\\d+)/(\\d+)/(\\d+) con el id del contrato$")
 	public void programo_la_accion_de_recepcion_de_pago_a_fecha_con_el_id_del_contrato(int year, int monthOfYear,
 			int dayOfMonth) {
 		Date execution = new DateTime(year, monthOfYear, dayOfMonth, 0, 0).toDate();
@@ -143,40 +132,40 @@ public class ContractCreationSteps extends BddSupport {
 		scheduler.schedule(task);
 	}
 
-	@When("^Invoco al servicio de contratacion$")
+	@When("^invoco al servicio de contratacion$")
 	public void invoco_al_servicio_de_contratacion() {
 		contract = contractCreationGateway.processCreation(contractCreateAction);
 		Assert.assertNotNull(contract.getId());
 	}
 
-	@Then("^Apruebo el contrato$")
-	public void apruebo_el_contrato() {
-		contract = contractCreationGateway.processApprobation(contract);
-	}
+	// @Then("^apruebo el contrato$")
+	// public void apruebo_el_contrato() {
+	// contract = contractCreationGateway.processApprobation(contract);
+	// }
 
-	@Then("^Establezco la recepcion del pago inicial a (\\d+)/(\\d+)/(\\d+)$")
-	public void establezco_la_recepcion_del_pago_inicial_a(int year, int monthOfYear, int dayOfMonth) {
-		Date date = new DateTime(year, monthOfYear, dayOfMonth, 0, 0).toDate();
-		InitialPaymentReception request = new InitialPaymentReception();
-		request.setContractId(contract.getId());
-		request.setExecution(date);
-		initialPayment = contractCreationGateway.processPaymentReception(request);
-	}
+	// @Then("^establezco la recepcion del pago inicial a (\\d+)/(\\d+)/(\\d+)$")
+	// public void establezco_la_recepcion_del_pago_inicial_a(int year, int monthOfYear, int dayOfMonth) {
+	// Date date = new DateTime(year, monthOfYear, dayOfMonth, 0, 0).toDate();
+	// InitialPaymentReception request = new InitialPaymentReception();
+	// request.setContractId(contract.getId());
+	// request.setExecution(date);
+	// initialPayment = contractCreationGateway.processPaymentReception(request);
+	// }
 
-	@Then("^Recupero el numero del contrato$")
+	@Then("^recupero el numero del contrato$")
 	public void recupero_el_numero_del_contrato() {
 		contractNumber = contract.getNumber();
 		Assert.assertNotNull(contractNumber);
 		log.debug("Contract number: {}", contract.getNumber());
 	}
 
-	@Then("^Recupero el contrato de base de datos a partir del numero$")
+	@Then("^recupero el contrato de base de datos a partir del numero$")
 	public void recupero_el_contrato_de_base_de_datos_a_partir_del_numero() {
 		contract = contractRepository.findByNumber(contractNumber);
 		Assert.assertNotNull(contract);
 	}
 
-	@Then("^Verifico que el suscriptor es (\\w+)$")
+	@Then("^verifico que el suscriptor es (\\w+)$")
 	public void verifico_que_el_suscriptor_es_Z(String idCardNumber) {
 		List<ContractPersonRelation> relations = contract.getRelations();
 		Assert.assertNotNull(relations);
@@ -186,6 +175,18 @@ public class ContractCreationSteps extends BddSupport {
 
 		Assert.assertTrue(filtered.size() == 1);
 		Assert.assertTrue(filtered.iterator().next().getPerson().getIdCard().getNumber().equals(idCardNumber));
+	}
+
+	private void addRelation(Person person, RelationType type) {
+		ContractPersonRelation relation = new ContractPersonRelation();
+		relation.setContract(contract);
+		relation.setPerson(person);
+		relation.setType(type);
+		if (contractCreateAction.getRelations() == null) {
+			contractCreateAction.setRelations(new ArrayList<>());
+		}
+		contractCreateAction.getRelations().add(relation);
+
 	}
 
 }

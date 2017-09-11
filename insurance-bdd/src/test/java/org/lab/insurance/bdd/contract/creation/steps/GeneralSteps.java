@@ -1,10 +1,13 @@
-package org.lab.insurance.bdd.contract.creation;
+package org.lab.insurance.bdd.contract.creation.steps;
 
 import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.lab.insurance.bdd.common.MongoTestOperations;
+import org.lab.insurance.bdd.common.RabbitTestOperations;
+import org.lab.insurance.bdd.contract.creation.BddSupport;
 import org.lab.insurance.common.services.TimestampProvider;
+import org.lab.insurance.domain.core.IntegrationConstants;
 import org.lab.insurance.engine.core.services.InsuranceTaskExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,9 +23,12 @@ public class GeneralSteps extends BddSupport {
 	protected MongoTestOperations mongoTestOperations;
 
 	@Autowired
+	protected RabbitTestOperations rabbitOperations;
+
+	@Autowired
 	private InsuranceTaskExecutor executor;
 
-	@When("^Inicializo la base de datos$")
+	@When("^inicializo la base de datos$")
 	public void inicializo_la_base_de_datos() {
 		mongoTestOperations.resetDataBase();
 	}
@@ -33,7 +39,22 @@ public class GeneralSteps extends BddSupport {
 		timeStampProvider.setFakeDate(date);
 	}
 
-	@Then("^Simulo una ejecucion de (\\d+)/(\\d+)/(\\d+) a (\\d+)/(\\d+)/(\\d+)$")
+	@When("^purgo las colas de contratacion$")
+	public void purgo_las_colas_de_contratacion() {
+		rabbitOperations.purgue(IntegrationConstants.Queues.ContractCreation);
+		rabbitOperations.purgue(IntegrationConstants.Queues.ContractApprobation);
+		rabbitOperations.purgue(IntegrationConstants.Queues.ContractInitialDocRequest);
+		rabbitOperations.purgue(IntegrationConstants.Queues.OrderCreationRequest);
+		rabbitOperations.purgue(IntegrationConstants.Queues.PortfolioInitialization);
+		rabbitOperations.purgue(IntegrationConstants.Queues.InitialPaymentReception);
+	}
+
+	@Then("^espero que se vacie la cola \"([^\"]*)\"$")
+	public void espero_que_se_vacie_la_cola(String queueName) throws Throwable {
+		rabbitOperations.waitUntilQueueIsEmpty(queueName);
+	}
+
+	@Then("^simulo una ejecucion de (\\d+)/(\\d+)/(\\d+) a (\\d+)/(\\d+)/(\\d+)$")
 	public void simulo_una_ejecucion_de_a(int fromY, int fromM, int fromD, int toY, int toM, int toD) {
 		DateTime from = new DateTime(fromY, fromM, fromD, 0, 0);
 		DateTime to = new DateTime(toY, toM, toD, 0, 0);
