@@ -1,1 +1,0 @@
-Respetando a todo el mundo lo del ćodigo de conducta me parece una chorrada. Si quieres aportar algo, guay, si no, bueno, hay muchos otros sitios donde poder dar por culo donde seguro que sale mejor en el ratio de accin/beneficio.
