@@ -15,7 +15,7 @@ public class StateMachineProcesor<T extends HasState> {
 	private StateMachineService stateMachineService;
 
 	public T process(T entity, String newState, boolean persist) {
-		log.debug("Processing state transition: {} -> {} ()", entity, newState, persist);
+		log.info("Processing state transition: {} -> {} ()", entity, newState, persist);
 		stateMachineService.createTransition(entity, newState, persist);
 		return entity;
 	}

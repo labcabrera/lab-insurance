@@ -71,5 +71,4 @@ public class GeneralSteps extends BddSupport {
 			tmp = tmp.plusDays(1);
 		}
 	}
-
 }

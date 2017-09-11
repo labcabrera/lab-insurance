@@ -138,20 +138,6 @@ public class ContractCreationSteps extends BddSupport {
 		Assert.assertNotNull(contract.getId());
 	}
 
-	// @Then("^apruebo el contrato$")
-	// public void apruebo_el_contrato() {
-	// contract = contractCreationGateway.processApprobation(contract);
-	// }
-
-	// @Then("^establezco la recepcion del pago inicial a (\\d+)/(\\d+)/(\\d+)$")
-	// public void establezco_la_recepcion_del_pago_inicial_a(int year, int monthOfYear, int dayOfMonth) {
-	// Date date = new DateTime(year, monthOfYear, dayOfMonth, 0, 0).toDate();
-	// InitialPaymentReception request = new InitialPaymentReception();
-	// request.setContractId(contract.getId());
-	// request.setExecution(date);
-	// initialPayment = contractCreationGateway.processPaymentReception(request);
-	// }
-
 	@Then("^recupero el numero del contrato$")
 	public void recupero_el_numero_del_contrato() {
 		contractNumber = contract.getNumber();
@@ -177,6 +163,19 @@ public class ContractCreationSteps extends BddSupport {
 		Assert.assertTrue(filtered.iterator().next().getPerson().getIdCard().getNumber().equals(idCardNumber));
 	}
 
+	@Then("^verifico que el estado del contrato es \"([^\"]*)\"$")
+	public void verifico_que_el_estado_del_contrato_es(String state) {
+		contract = contractRepository.findOne(contract.getId());
+		Assert.assertEquals(state, contract.getCurrentState().getCode());
+	}
+
+	@Then("^verifico que el estado del pago inicial es \"([^\"]*)\"$")
+	public void verifico_que_el_estado_del_pago_inicial_es(String state) {
+		contract = contractRepository.findOne(contract.getId());
+		Order order = contract.filterOrders(OrderType.INITIAL_PAYMENT).iterator().next();
+		Assert.assertEquals(state, order.getCurrentState().getCode());
+	}
+
 	private void addRelation(Person person, RelationType type) {
 		ContractPersonRelation relation = new ContractPersonRelation();
 		relation.setContract(contract);
@@ -186,7 +185,6 @@ public class ContractCreationSteps extends BddSupport {
 			contractCreateAction.setRelations(new ArrayList<>());
 		}
 		contractCreateAction.getRelations().add(relation);
-
 	}
 
 }

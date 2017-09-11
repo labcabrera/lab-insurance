@@ -13,8 +13,15 @@ Feature: basic contract creation
     When invoco al servicio de contratacion
     When programo la aprobacion del contrato a fecha 2017/01/11 con el id del contrato
     When programo la accion de recepcion de pago a fecha 2017/01/20 con el id del contrato
+    
+    Then verifico que el estado del contrato es "INITIAL"
+    
     Then simulo una ejecucion de 2017/01/11 a 2017/02/12
     Then espero que se vacie la cola "portfolio-create.request"
-    Then simulo una ejecucion de 2017/01/11 a 2017/02/01
+    
+    Then simulo una ejecucion de 2017/01/11 a 2017/02/25
     Then espero que se vacie la cola "initial-payment-reception.request"
-    And verifico que el suscriptor es 11222333Z
+	#Then verifico que el estado del pago inicial es "PROCESSED"
+    
+    Then verifico que el estado del contrato es "STARTED"
+    Then verifico que el suscriptor es 11222333Z

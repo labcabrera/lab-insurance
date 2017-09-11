@@ -17,14 +17,14 @@ public class PayloadMongoAdapter<T> {
 	private MongoTemplate template;
 
 	public T read(Serializable id, Class<T> entityClass) {
-		log.debug("Reading entity {}: {}", entityClass, id);
+		log.info("Reading entity {}: {}", entityClass, id);
 		T result = template.findById(id, entityClass);
 		Assert.notNull(result, String.format("Missing %s:%s", entityClass.getName(), id));
 		return result;
 	}
 
 	public T save(T entity) {
-		log.debug("Saving entity {}", entity);
+		log.info("Saving entity {}", entity);
 		template.save(entity);
 		return entity;
 	}

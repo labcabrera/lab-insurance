@@ -9,6 +9,8 @@ public interface IntegrationConstants {
 		String PortfolioInitializationResponse = "portfolio-create.response";
 		String PortfolioInitializationError = "portfolio-create.error";
 		String OrderCreationRequest = "order-create.request";
+		String OrderProcessRequest = "order-process.request";
+		String OrderValorizationRequest = "order-valorization.request";
 		String ContractInitialDocRequest = "contract-create-doc.request";
 		String InitialPaymentReception = "initial-payment-reception.request";
 	}

@@ -1,9 +1,13 @@
 package org.lab.insurance.contract.creation.core.config.modules;
 
+import org.lab.insurance.common.integration.PayloadMongoAdapter;
+import org.lab.insurance.common.integration.StateMachineProcesor;
 import org.lab.insurance.contract.creation.core.service.InitialPaymentReceptionProcessor;
 import org.lab.insurance.domain.action.contract.InitialPaymentReception;
 import org.lab.insurance.domain.core.IntegrationConstants;
 import org.lab.insurance.domain.core.IntegrationConstants.Queues;
+import org.lab.insurance.domain.core.contract.Contract;
+import org.lab.insurance.domain.core.insurance.Order;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -34,6 +38,18 @@ public class InitialPaymentReceptionConfig {
 	@Autowired
 	private JsonObjectMapper<?, ?> mapper;
 
+	@Autowired
+	private PayloadMongoAdapter<Contract> contractMongoAdapter;
+
+	@Autowired
+	private PayloadMongoAdapter<Order> orderMongoAdapter;
+
+	@Autowired
+	private StateMachineProcesor<Contract> stateMachineProcessor;
+
+	@Autowired
+	private StateMachineProcesor<Order> orderStateMachineProcessor;
+
 	@Bean
 	Queue queueInitialPaymentReception() {
 		return new Queue(Queues.InitialPaymentReception, true, false, false);
@@ -52,7 +68,15 @@ public class InitialPaymentReceptionConfig {
 				.inboundGateway(connectionFactory, amqpTemplate, queueInitialPaymentReception()))
 			.transform(Transformers.fromJson(InitialPaymentReception.class, mapper))
 			.log(Level.INFO, "Received payment reception request")
+			// Contract
 			.handle(InitialPaymentReception.class, (request, headers) -> initialPaymentReceptionProcessor.process(request))
+			.handle(Contract.class, (request, headers) -> stateMachineProcessor.process(request, Contract.States.STARTED.name(), true))
+			.handle(Contract.class, (request, headers) -> contractMongoAdapter.save(request))
+			// Order
+			.handle(Contract.class, (request,headers) -> request.getOrders().iterator().next())
+			.handle(Order.class, (request, headers) -> orderStateMachineProcessor.process(request, Order.States.INITIAL.name(), true))
+			.handle(Order.class, (request, headers) -> orderMongoAdapter.save(request))
+			
 			.log(Level.INFO, "Processed initial payment")
 			.publishSubscribeChannel(c -> c.applySequence(false)
 				.subscribe(f -> f
