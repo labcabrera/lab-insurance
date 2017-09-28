@@ -247,6 +247,7 @@ project(":insurance-legal-entity-gateway") {
 project(":insurance-order-core") {
 	dependencies {
 		compile project(":insurance-common")
+		compile project(":insurance-engine-core")
 		compile coreLibs
 		testCompile testLibs
 	}

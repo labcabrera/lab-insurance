@@ -5,6 +5,8 @@ import org.lab.insurance.common.integration.StateMachineProcesor;
 import org.lab.insurance.domain.core.insurance.Order;
 import org.lab.insurance.order.core.service.MarketOrderGeneratorProcessor;
 import org.lab.insurance.order.core.service.OrderFeesProcessor;
+import org.lab.insurance.order.core.service.OrderValorizationScheduler;
+import org.lab.insurance.order.core.service.ValueDateProcessor;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -48,6 +50,12 @@ public class OrderIntegrationConfig {
 	@Autowired
 	private StateMachineProcesor<Order> stateMachineProcessor;
 
+	@Autowired
+	private OrderValorizationScheduler valorizationScheduler;
+
+	@Autowired
+	private ValueDateProcessor valueDateProcessor;
+
 	@Bean
 	JsonObjectMapper<?, ?> mapper() {
 		return new Jackson2JsonObjectMapper();
@@ -74,7 +82,9 @@ public class OrderIntegrationConfig {
 			.handle(Order.class, (request, headers) -> orderMongoAdapter.read(request.getId(), Order.class))
 			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.PROCESSING.name(), true))
 			.handle(Order.class, (request, headers) -> orderFeesProcessor.process(request))
+			.handle(Order.class, (request, headers) -> valueDateProcessor.process(request))
 			.handle(Order.class, (request, headers) -> marketOrderGeneratorProcessor.process(request))
+			.handle(Order.class, (request, headers) -> valorizationScheduler.process(request))
 			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.PROCESSED.name(), true))
 			.handle(Order.class, (request, headers) -> orderMongoAdapter.save(request))
 			.transform(Transformers.toJson(mapper()))
