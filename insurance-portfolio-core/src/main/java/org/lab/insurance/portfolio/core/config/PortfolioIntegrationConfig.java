@@ -1,6 +1,5 @@
 package org.lab.insurance.portfolio.core.config;
 
-import org.lab.insurance.domain.core.IntegrationConstants.Queues;
 import org.lab.insurance.domain.core.contract.Contract;
 import org.lab.insurance.portfolio.core.service.PortfolioInitializacionService;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.amqp.Amqp;
@@ -23,9 +23,14 @@ import org.springframework.integration.support.json.JsonObjectMapper;
 public class PortfolioIntegrationConfig {
 
 	@Autowired
+	private Environment env;
+
+	@Autowired
 	private ConnectionFactory connectionFactory;
+
 	@Autowired
 	private PortfolioInitializacionService initializationService;
+
 	@Autowired
 	private AmqpTemplate amqpTemplate;
 
@@ -36,7 +41,7 @@ public class PortfolioIntegrationConfig {
 
 	@Bean
 	public Queue portfolioInitializationRequest() {
-		return new Queue(Queues.PortfolioInitialization, true, false, false);
+		return new Queue(env.getProperty("queues.portfolio.creation"), true, false, false);
 	}
 
 	//@formatter:off

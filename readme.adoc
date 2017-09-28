@@ -65,16 +65,14 @@ comportamiento de ningún componente.
 === Ejecutando el proyecto
 
 Una vez montado el proyecto deberemos arrancar mongodb y rabbitmq. Para ello en la carpeta
-_/docker/environment_ hay un docker-compose.
+`/docker/environment` hay un docker-compose para arrancarlos en local.
 
-También deberemos arrancar también el servidor de _cloud-configuration. Podemos hacerlo también desde el docker-compose
-específico o arrancándolo desde nuestro IDE.
+También deberemos arrancar también el servidor de configuration. Podemos hacerlo también desde el docker-compose
+específico, arrancándolo desde nuestro IDE o utilizar el desplegado actualmente en AWS (en fase de desarrollo está aún
+como público para no tener que estar levantándolo cada dos por tres).
 
-Después tenemos el proyecto BDD donde tenemos stories de diferentes operativas. Para poder ejecutar los stories será
-necesario tener levantados los diversos módulos que hacen falta.
-
-Por ejemplo para el story básico de contratación necesitaremos primero ejecutar la aplicación `ContractCreationCoreApp`
-y posteriormente ejecutaremos el test `ContractCreationCucumberTest`.
+Después tenemos el proyecto `insurance-bdd` donde tenemos stories de diferentes operativas. Los test se encargan de arrancar
+los diferentes módulos utilizados.
 
 === RabbitMQ
 
@@ -82,25 +80,29 @@ Se puede acceder a la consola de administración desde:
 
 http://localhost:15672/
 
-Las credenciales son las del management por defecto: guest:guest.
+Las credenciales son las del usuario por defecto de la imagen docker: `guest:guest`.
 
 === RabbitMQ vs Eureka
 
 En la comunicación entre los microservicios generalmente utilizaremos RabbitMQ para aquellas operativas que implican
 procesos de escritura (por ejemplo la generación de una orden), mientras que para las operaciones de escritura
-accederemos a través del service-discovery de Eureka (por ejemplo la consulta de la posición de una cartera).
+utilizaremos descubrimiento de servicios a través de Eureka (por ejemplo la consulta de la posición de una cartera).
 
 === Nomenclatura de los módulos:
 
-Los módulos _${name}-core_ hacen referencia a proyectos de integración sin interface web que sólo se comunican vía RabbitMQ.
-Los módulos _${name}-gateway_ hacen referencia a los módulos web que generalmente explotan los servicios core utilizando 
-AMQP y exponen servicios REST.
+* Los módulos `${name}-core` hacen referencia a proyectos de integración sin interface web.
+* Los módulos `${name}-gateway` hacen referencia a los módulos web que generalmente explotan los servicios core utilizando 
+AMQP y exponen una API REST.
 
 === Git cloud config
 
 El repositorio utilizado para la configuración es:
 
 https://github.com/labcabrera/lab-insurance-cloud-config
+
+*Temporalmente* podremos utilizar la instancia desplegada en Amazón:
+
+http://lab-insurance-cloud-config.eu-west-1.elasticbeanstalk.com/
 
 === Local port mapping
 
@@ -126,6 +128,7 @@ https://github.com/labcabrera/lab-insurance-cloud-config
 * https://github.com/bijukunjummen/si-dsl-rabbit-sample
 * https://knallisworld.de/blog/2016/03/26/expose-a-java-method-with-amqp-and-spring-reloaded-with-java-dsl/
 * https://axxes.com/java/receive-and-send-multiple-jms-messages-in-one-transaction-with-spring-integration-java-dsl/
+* https://www.draw.io/
 
 === Financial public APIs
 

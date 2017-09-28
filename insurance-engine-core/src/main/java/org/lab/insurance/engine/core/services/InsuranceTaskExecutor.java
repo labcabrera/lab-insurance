@@ -43,6 +43,7 @@ public class InsuranceTaskExecutor {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
+
 	@Autowired
 	private RoutingKeyMapper routingKeyMapper;
 

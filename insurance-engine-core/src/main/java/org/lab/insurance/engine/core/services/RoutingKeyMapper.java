@@ -3,26 +3,33 @@ package org.lab.insurance.engine.core.services;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.lab.insurance.common.exception.InsuranceException;
 import org.lab.insurance.domain.action.contract.ContractApprobation;
 import org.lab.insurance.domain.action.contract.ContractCreation;
 import org.lab.insurance.domain.action.contract.InitialPaymentReception;
-import org.lab.insurance.domain.core.IntegrationConstants;
 import org.lab.insurance.engine.core.domain.InsuranceTask;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 @Component
 @SuppressWarnings("rawtypes")
 public class RoutingKeyMapper {
 
+	@Autowired
+	private Environment env;
+
 	private Map<Class, String> mapping;
 	private Map<Class, Boolean> mappingSync;
 
-	public RoutingKeyMapper() {
+	@PostConstruct
+	public void initalize() {
 		mapping = new HashMap<>();
-		mapping.put(ContractCreation.class, IntegrationConstants.Queues.ContractCreation);
-		mapping.put(ContractApprobation.class, IntegrationConstants.Queues.ContractApprobation);
-		mapping.put(InitialPaymentReception.class, IntegrationConstants.Queues.InitialPaymentReception);
+		mapping.put(ContractCreation.class, env.getProperty("queues.contract.creation"));
+		mapping.put(ContractApprobation.class, env.getProperty("queues.contract.approbation"));
+		mapping.put(InitialPaymentReception.class, env.getProperty("queues.payment.initial-payment-reception"));
 		mappingSync = new HashMap<>();
 		mappingSync.put(ContractCreation.class, true);
 		mappingSync.put(ContractApprobation.class, true);

@@ -17,10 +17,10 @@ Feature: basic contract creation
     Then verifico que el estado del contrato es "INITIAL"
     
     Then simulo una ejecucion de 2017/01/11 a 2017/02/12
-    Then espero que se vacie la cola "portfolio-create.request"
+    Then espero que se vacie la cola "portfolio-create"
     
     Then simulo una ejecucion de 2017/01/11 a 2017/02/25
-    Then espero que se vacie la cola "initial-payment-reception.request"
+    Then espero que se vacie la cola "initial-payment-reception"
 	#Then verifico que el estado del pago inicial es "PROCESSED"
     
     Then verifico que el estado del contrato es "STARTED"

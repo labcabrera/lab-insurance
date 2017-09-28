@@ -7,9 +7,9 @@ import org.lab.insurance.bdd.common.MongoTestOperations;
 import org.lab.insurance.bdd.common.RabbitTestOperations;
 import org.lab.insurance.bdd.contract.creation.BddSupport;
 import org.lab.insurance.common.services.TimestampProvider;
-import org.lab.insurance.domain.core.IntegrationConstants;
 import org.lab.insurance.engine.core.services.InsuranceTaskExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -17,6 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class GeneralSteps extends BddSupport {
+
+	@Autowired
+	private Environment env;
 
 	@Autowired
 	private TimestampProvider timeStampProvider;
@@ -46,12 +49,12 @@ public class GeneralSteps extends BddSupport {
 	// la compilacion de travis dado que la imagen de docker sobre la que se ejecuta no tiene informacion previa.
 	@When("^purgo las colas de contratacion$")
 	public void purgo_las_colas_de_contratacion() {
-		rabbitOperations.purgue(IntegrationConstants.Queues.ContractCreation);
-		rabbitOperations.purgue(IntegrationConstants.Queues.ContractApprobation);
-		rabbitOperations.purgue(IntegrationConstants.Queues.ContractInitialDocRequest);
-		rabbitOperations.purgue(IntegrationConstants.Queues.OrderCreationRequest);
-		rabbitOperations.purgue(IntegrationConstants.Queues.PortfolioInitialization);
-		rabbitOperations.purgue(IntegrationConstants.Queues.InitialPaymentReception);
+		rabbitOperations.purgue(env.getProperty("queues.contract.creation"));
+		rabbitOperations.purgue(env.getProperty("queues.contract.approbation"));
+		rabbitOperations.purgue(env.getProperty("queues.contract.doc-creation"));
+		rabbitOperations.purgue(env.getProperty("queues.order.creation"));
+		rabbitOperations.purgue(env.getProperty("queues.portfolio.creation"));
+		rabbitOperations.purgue(env.getProperty("queues.payment.initial-payment-reception"));
 		log.info("Clean queues");
 	}
 

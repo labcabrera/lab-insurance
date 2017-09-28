@@ -5,14 +5,13 @@ import org.lab.insurance.contract.creation.core.service.ContractApprobationProce
 import org.lab.insurance.contract.creation.core.service.ContractCreationProcessor;
 import org.lab.insurance.domain.action.contract.ContractApprobation;
 import org.lab.insurance.domain.action.contract.ContractCreation;
-import org.lab.insurance.domain.core.IntegrationConstants;
-import org.lab.insurance.domain.core.IntegrationConstants.Queues;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.amqp.Amqp;
@@ -27,6 +26,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 public class ContractCreationIntegrationConfig {
+
+	@Autowired
+	private Environment env;
 
 	@Autowired
 	private ConnectionFactory connectionFactory;
@@ -50,27 +52,27 @@ public class ContractCreationIntegrationConfig {
 
 	@Bean
 	Queue queueContractCreateRequest() {
-		return new Queue(Queues.ContractCreation, true, false, false);
+		return new Queue(env.getProperty("queues.contract.creation"), true, false, false);
 	}
 
 	@Bean
 	Queue queuePortfolioInitializacionRequest() {
-		return new Queue(Queues.PortfolioInitialization, true, false, false);
+		return new Queue(env.getProperty("queues.portfolio.creation"), true, false, false);
 	}
 
 	@Bean
 	Queue queueOrderInitializacionRequest() {
-		return new Queue(Queues.OrderCreationRequest, true, false, false);
+		return new Queue(env.getProperty("queues.order.creation"), true, false, false);
 	}
 
 	@Bean
 	Queue queueContractCreateInitialDoc() {
-		return new Queue(Queues.ContractInitialDocRequest, true, false, false);
+		return new Queue(env.getProperty("queues.contract.doc-creation"), true, false, false);
 	}
 
 	@Bean
 	Queue queueContractApprobation() {
-		return new Queue(Queues.ContractApprobation, true, false, false);
+		return new Queue(env.getProperty("queues.contract.approbation"), true, false, false);
 	}
 
 	@Bean
@@ -127,13 +129,14 @@ public class ContractCreationIntegrationConfig {
 	//@formatter:off
 	@Bean
 	IntegrationFlow portfolioInitFlow() {
+		String to = env.getProperty("queues.portfolio.creation");
 		return IntegrationFlows
 			.from(portfolioInitChannel())
 			.transform(Transformers.toJson(mapper()))
 			.log("Sending portfolio initialization message")
 			.handle(Amqp
 				.outboundAdapter(amqpTemplate)
-				.routingKey(IntegrationConstants.Queues.PortfolioInitialization)
+				.routingKey(to)
 			)
 			.get();	
 	}
@@ -142,13 +145,14 @@ public class ContractCreationIntegrationConfig {
 	//@formatter:off
 	@Bean
 	IntegrationFlow createContractDocumentationFlow() {
+		String to = env.getProperty("queues.contract.doc-creation");
 		return IntegrationFlows
 			.from(createContractDocumentation())
 			.log("Sending contract doc message")
 			.transform(Transformers.toJson(mapper()))
 			.handle(Amqp
 				.outboundAdapter(amqpTemplate)
-				.routingKey(IntegrationConstants.Queues.ContractInitialDocRequest)
+				.routingKey(to)
 			)
 			.get();
 	}

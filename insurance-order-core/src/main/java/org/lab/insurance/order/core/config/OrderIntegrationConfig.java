@@ -2,7 +2,6 @@ package org.lab.insurance.order.core.config;
 
 import org.lab.insurance.common.integration.PayloadMongoAdapter;
 import org.lab.insurance.common.integration.StateMachineProcesor;
-import org.lab.insurance.domain.core.IntegrationConstants.Queues;
 import org.lab.insurance.domain.core.insurance.Order;
 import org.lab.insurance.order.core.service.MarketOrderGeneratorProcessor;
 import org.lab.insurance.order.core.service.OrderFeesProcessor;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.amqp.Amqp;
@@ -26,6 +26,9 @@ import org.springframework.messaging.MessageChannel;
 @Configuration
 @ComponentScan("org.lab.insurance.order.core")
 public class OrderIntegrationConfig {
+
+	@Autowired
+	private Environment env;
 
 	@Autowired
 	private ConnectionFactory connectionFactory;
@@ -52,7 +55,7 @@ public class OrderIntegrationConfig {
 
 	@Bean
 	Queue orderInitializationQueue() {
-		return new Queue(Queues.OrderCreationRequest, true, false, false);
+		return new Queue(env.getProperty("queues.order.creation"), true, false, false);
 	}
 
 	@Bean

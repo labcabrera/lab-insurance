@@ -3,7 +3,7 @@ spring:
     active: aws
   cloud:
     config:
-      name: insurance-common,insurance-engine-core
+      name: insurance-common,insurance-engine-core,insurance-amqp
 
 ---
 

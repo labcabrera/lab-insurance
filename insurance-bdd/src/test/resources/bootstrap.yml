@@ -1,20 +1,22 @@
 spring:
   profiles:
-    active: test
+    active: aws
+  cloud:
+    config:
+      name: insurance-common,insurance-contract-creation-core,insurance-amqp
 
 ---
 
 spring:
-  profiles: cloud
+  profiles: local
   cloud:
     config:
-      uri: http://localhost:8888/
-      name: insurance-contract-creation-core,insurance-common
+      uri: http://${CLOUD_CONFIG_HOST:localhost}:${CLOUD_CONFIG_PORT:8888}/
 
 ---
 
 spring:
-  profiles: test
+  profiles: aws
   cloud:
     config:
-      enabled: false
+      uri: http://lab-insurance-cloud-config.eu-west-1.elasticbeanstalk.com

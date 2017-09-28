@@ -4,16 +4,16 @@ import org.lab.insurance.common.integration.PayloadMongoAdapter;
 import org.lab.insurance.common.integration.StateMachineProcesor;
 import org.lab.insurance.contract.creation.core.service.InitialPaymentReceptionProcessor;
 import org.lab.insurance.domain.action.contract.InitialPaymentReception;
-import org.lab.insurance.domain.core.IntegrationConstants;
-import org.lab.insurance.domain.core.IntegrationConstants.Queues;
 import org.lab.insurance.domain.core.contract.Contract;
 import org.lab.insurance.domain.core.insurance.Order;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.amqp.Amqp;
@@ -25,6 +25,9 @@ import org.springframework.messaging.MessageChannel;
 
 @Configuration
 public class InitialPaymentReceptionConfig {
+
+	@Autowired
+	private Environment env;
 
 	@Autowired
 	private ConnectionFactory connectionFactory;
@@ -50,9 +53,12 @@ public class InitialPaymentReceptionConfig {
 	@Autowired
 	private StateMachineProcesor<Order> orderStateMachineProcessor;
 
+	@Value("${queues.payment.initial-payment-reception}")
+	private String queueNamePaymentReception;
+
 	@Bean
 	Queue queueInitialPaymentReception() {
-		return new Queue(Queues.InitialPaymentReception, true, false, false);
+		return new Queue(queueNamePaymentReception, true, false, false);
 	}
 
 	@Bean
@@ -90,13 +96,14 @@ public class InitialPaymentReceptionConfig {
 	//@formatter:off
 	@Bean
 	IntegrationFlow orderInitChannelFlow() {
+		String to  = env.getProperty("queues.order.creation");
 		return IntegrationFlows
 			.from(orderInitChannel())
 			.log("Sending order initialization message")
 			.transform(Transformers.toJson(mapper))
 			.handle(Amqp
 				.outboundAdapter(amqpTemplate)
-				.routingKey(IntegrationConstants.Queues.OrderCreationRequest)
+				.routingKey(to)
 			)
 			.get();
 	}
