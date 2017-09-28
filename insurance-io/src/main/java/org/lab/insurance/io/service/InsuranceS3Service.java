@@ -5,6 +5,8 @@ import java.io.InputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.lab.insurance.io.domain.InsuranceS3Resource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
@@ -16,12 +18,18 @@ import com.amazonaws.services.s3.model.S3Object;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Component
 @Slf4j
 public class InsuranceS3Service {
 
-	private String profile = "labcabrera";
-	private String region = "eu-west-1";
-	private String bucketName = "lab-insurance-s3-01";
+	@Value("${insurance.aws.s3.profile}")
+	private String profile;
+
+	@Value("${insurance.aws.s3.region}")
+	private String region;
+
+	@Value("${insurance.aws.s3.bucket-name}")
+	private String bucketName;
 
 	public void upload(InsuranceS3Resource resource, InputStream in) {
 		log.debug("Uploading {}", resource);
