@@ -1,10 +1,10 @@
-package org.lab.insurance.documentation.service;
+package org.lab.insurance.io.service;
 
 import java.io.InputStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
-import org.lab.insurance.documentation.domain.InsuranceS3Resource;
+import org.lab.insurance.io.domain.InsuranceS3Resource;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;

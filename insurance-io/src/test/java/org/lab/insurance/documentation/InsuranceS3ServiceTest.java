@@ -5,33 +5,26 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
-import org.apache.commons.codec.Charsets;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.lab.insurance.documentation.domain.InsuranceS3Resource;
-import org.lab.insurance.documentation.service.InsuranceS3Service;
+import org.lab.insurance.io.domain.InsuranceS3Resource;
+import org.lab.insurance.io.service.InsuranceS3Service;
 
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.util.IOUtils;
 
 public class InsuranceS3ServiceTest {
 
+	@Ignore("aws-credentials. Just for local testing")
 	@Test
 	public void test() throws Exception {
-
-		boolean useProxy = true;
-		if (useProxy) {
-			System.setProperty("http.proxyHost", "proxytal");
-			System.setProperty("http.proxyPort", "80");
-			System.setProperty("https.proxyHost", "proxytal");
-			System.setProperty("https.proxyPort", "80");
-		}
-
 		Integer rand = new Random().nextInt(1000);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, Charsets.UTF_8));
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
 		writer.write("test-" + rand + "\n");
 		writer.write("this is just a example file\n");
 		writer.write("not ascii chars: ñáéíóú\n");

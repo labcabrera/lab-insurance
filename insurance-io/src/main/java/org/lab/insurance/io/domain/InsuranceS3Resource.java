@@ -1,4 +1,4 @@
-package org.lab.insurance.documentation.domain;
+package org.lab.insurance.io.domain;
 
 import java.util.Date;
 

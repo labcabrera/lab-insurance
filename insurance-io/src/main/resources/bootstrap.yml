@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: aws
+  cloud:
+    config:
+      name: insurance-common,insurance-aws,insurance-amqp
+
+---
+
+spring:
+  profiles: local
+  cloud:
+    config:
+      uri: http://${CLOUD_CONFIG_HOST:localhost}:${CLOUD_CONFIG_PORT:8888}/
+
+---
+
+spring:
+  profiles: aws
+  cloud:
+    config:
+      uri: http://lab-insurance-cloud-config.eu-west-1.elasticbeanstalk.com
