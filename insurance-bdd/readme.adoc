@@ -6,7 +6,4 @@ Módulo utilizado para realizar pruebas de integración utilizando link:https://
 
 === Contratación
 
-Este escenario ejecuta el alta de un contrato. Necesita que estén levantados los siguientes módulos:
-
-* insurance-contract-creation-core
-
+Este escenario ejecuta ciclo de vida basico desde la contratacion a la valorizacion del pago inicial.
