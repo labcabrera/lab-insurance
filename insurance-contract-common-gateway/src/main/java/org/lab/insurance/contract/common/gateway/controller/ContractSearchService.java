@@ -1,6 +1,7 @@
 package org.lab.insurance.contract.common.gateway.controller;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.lab.insurance.domain.core.contract.Contract;
 import org.lab.insurance.domain.core.contract.repository.ContractRepository;
@@ -25,11 +26,12 @@ public class ContractSearchService {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ContractResource> findById(String id) {
-		Contract entity = contractRepo.findOne(id);
-		if (entity == null) {
-			new ResponseEntity<>(entity, HttpStatus.NOT_FOUND);
+		Optional<Contract> optional = contractRepo.findById(id);
+		if (!optional.isPresent()) {
+			new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
+		Contract entity = optional.get();
 		ContractResource resource = new ContractResource();
 		resource.add(ControllerLinkBuilder.linkTo(ContractSearchService.class).slash(entity.getId()).withSelfRel());
 

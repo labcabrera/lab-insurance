@@ -26,7 +26,8 @@ public class OrderResourceController {
 	// TODO configure zuul paths
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<OrderResource> searchById(@PathVariable(value = "id") String id) {
-		Order entity = repository.findOne(id);
+		// TODO handle optional
+		Order entity = repository.findById(id).get();
 		if (entity == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

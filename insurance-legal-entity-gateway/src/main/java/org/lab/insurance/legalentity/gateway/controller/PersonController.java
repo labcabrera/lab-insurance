@@ -1,6 +1,7 @@
 package org.lab.insurance.legalentity.gateway.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.lab.insurance.domain.core.legalentity.Person;
 import org.lab.insurance.domain.core.legalentity.repository.PersonRepository;
@@ -25,7 +26,9 @@ public class PersonController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Person> searchById(@PathVariable(value = "id") String id) {
-		Person entity = repository.findOne(id);
+		Optional<Person> optional = repository.findById(id);
+		// TODO
+		Person entity = optional.get();
 		HttpStatus status = entity != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
 		return new ResponseEntity<>(entity, status);
 	}

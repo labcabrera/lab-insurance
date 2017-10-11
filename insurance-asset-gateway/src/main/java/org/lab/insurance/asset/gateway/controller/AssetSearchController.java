@@ -1,5 +1,7 @@
 package org.lab.insurance.asset.gateway.controller;
 
+import java.util.Optional;
+
 import org.lab.insurance.domain.core.insurance.Asset;
 import org.lab.insurance.domain.core.insurance.repository.AssetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,13 @@ public class AssetSearchController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Asset> searchById(@PathVariable(value = "id") String id) {
-		Asset entity = repository.findOne(id);
-		HttpStatus status = entity != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-		return new ResponseEntity<>(entity, status);
+		Optional<Asset> optional = repository.findById(id);
+		if (!optional.isPresent()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(optional.get(), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/isin/{isin}", method = RequestMethod.GET)
 	public ResponseEntity<Asset> searchByIsin(@PathVariable(value = "isin") String isin) {
 		Asset entity = repository.findByIsin(isin);

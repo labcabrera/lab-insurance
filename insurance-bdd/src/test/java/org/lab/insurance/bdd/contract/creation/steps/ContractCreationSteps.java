@@ -165,13 +165,13 @@ public class ContractCreationSteps extends BddSupport {
 
 	@Then("^verifico que el estado del contrato es \"([^\"]*)\"$")
 	public void verifico_que_el_estado_del_contrato_es(String state) {
-		contract = contractRepository.findOne(contract.getId());
+		contract = contractRepository.findById(contract.getId()).get();
 		Assert.assertEquals(state, contract.getCurrentState().getCode());
 	}
 
 	@Then("^verifico que el estado del pago inicial es \"([^\"]*)\"$")
 	public void verifico_que_el_estado_del_pago_inicial_es(String state) {
-		contract = contractRepository.findOne(contract.getId());
+		contract = contractRepository.findById(contract.getId()).get();
 		Order order = contract.filterOrders(OrderType.INITIAL_PAYMENT).iterator().next();
 		Assert.assertEquals(state, order.getCurrentState().getCode());
 	}

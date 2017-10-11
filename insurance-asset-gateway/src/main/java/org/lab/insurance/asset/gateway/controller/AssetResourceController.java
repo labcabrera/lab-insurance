@@ -1,5 +1,7 @@
 package org.lab.insurance.asset.gateway.controller;
 
+import java.util.Optional;
+
 import org.lab.insurance.domain.core.insurance.Asset;
 import org.lab.insurance.domain.core.insurance.repository.AssetRepository;
 import org.lab.insurance.domain.hateoas.insurance.AssetResource;
@@ -21,16 +23,17 @@ public class AssetResourceController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<AssetResource> searchById(@PathVariable(value = "id") String id) {
-		Asset entity = repository.findOne(id);
-		if (entity == null) {
+		Optional<Asset> optional = repository.findById(id);
+		if (!optional.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		Asset entity = optional.get();
 		AssetResource resource = new AssetResource();
-		
+
 		resource.add(ControllerLinkBuilder.linkTo(AssetResourceController.class).slash(entity.getId()).withSelfRel());
 		resource.setIsin(entity.getIsin());
 		resource.setName(entity.getName());
-		
+
 		return new ResponseEntity<>(resource, HttpStatus.OK);
 	}
 }
