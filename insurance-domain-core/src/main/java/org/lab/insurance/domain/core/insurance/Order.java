@@ -51,7 +51,7 @@ public class Order implements HasContract, HasState, HasIdentifier<String> {
 	BigDecimal netAmount;
 
 	public enum States {
-		INITIAL, PROCESSING, PROCESSED, VALUED, ACCOUNTED;
+		INITIAL, TO_PROCESS, PROCESSING, PROCESSED, VALUED, ACCOUNTED;
 	}
 
 }

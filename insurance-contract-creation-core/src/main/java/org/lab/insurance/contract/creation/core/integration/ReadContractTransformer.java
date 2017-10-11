@@ -1,5 +1,6 @@
 package org.lab.insurance.contract.creation.core.integration;
 
+import org.lab.insurance.common.exception.InsuranceException;
 import org.lab.insurance.domain.core.contract.Contract;
 import org.lab.insurance.domain.core.contract.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ public class ReadContractTransformer implements GenericTransformer<Contract, Con
 		log.debug("Reading contract {}", source);
 		Assert.notNull(source, "Missing contract");
 		Assert.notNull(source.getId(), "Missing contract id");
-		Contract result = contractRepo.findOne(source.getId());
-		Assert.notNull(result, "Unknow contract " + source.getId());
+		Contract result = contractRepo.findById(source.getId())
+				.orElseThrow(() -> new InsuranceException("Unknow contract " + source.getId()));
 		return result;
 	}
 }

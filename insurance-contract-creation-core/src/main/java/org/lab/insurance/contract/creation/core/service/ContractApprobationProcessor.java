@@ -1,5 +1,6 @@
 package org.lab.insurance.contract.creation.core.service;
 
+import org.lab.insurance.common.exception.InsuranceException;
 import org.lab.insurance.common.services.StateMachineService;
 import org.lab.insurance.common.services.TimestampProvider;
 import org.lab.insurance.domain.action.contract.ContractApprobation;
@@ -27,9 +28,10 @@ public class ContractApprobationProcessor {
 		log.debug("Processing contract approbation {}", request);
 		Assert.notNull(request, "Missing request");
 		Assert.notNull(request.getContractId(), "Missing contractId");
+		String contractId = request.getContractId();
 
-		Contract contract = contractRepo.findOne(request.getContractId());
-		Assert.notNull(contract, "Missing contract " + request.getContractId());
+		Contract contract = contractRepo.findById(contractId)
+				.orElseThrow(() -> new InsuranceException("Unknow contract " + contractId));
 
 		if (contract.getDates() == null) {
 			contract.setDates(new ContractDates());

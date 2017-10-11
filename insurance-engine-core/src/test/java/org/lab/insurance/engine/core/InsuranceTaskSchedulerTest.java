@@ -40,7 +40,7 @@ public class InsuranceTaskSchedulerTest {
 		Assert.assertNotNull(scheduled);
 		Assert.assertNotNull(scheduled.getId());
 
-		InsuranceTask readed = taskRepo.findOne(scheduled.getId());
+		InsuranceTask readed = taskRepo.findById(scheduled.getId()).get();
 
 		Assert.assertNotNull(readed);
 

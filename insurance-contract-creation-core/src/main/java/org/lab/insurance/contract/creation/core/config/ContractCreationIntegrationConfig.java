@@ -118,6 +118,7 @@ public class ContractCreationIntegrationConfig {
 			.publishSubscribeChannel(c -> c.applySequence(false)
 				.subscribe(f -> f
 					.channel(portfolioInitChannel()))
+				//TODO mover a logica del AM
 				.subscribe(f -> f
 					.channel(createContractDocumentation()))
 			)

@@ -1,6 +1,7 @@
 package org.lab.insurance.contract.creation.core.service;
 
 import org.apache.commons.lang3.StringUtils;
+import org.lab.insurance.common.exception.InsuranceException;
 import org.lab.insurance.domain.action.contract.InitialPaymentReception;
 import org.lab.insurance.domain.core.contract.Contract;
 import org.lab.insurance.domain.core.contract.repository.ContractRepository;
@@ -25,8 +26,10 @@ public class InitialPaymentReceptionProcessor {
 		Assert.notNull(request, "Null request");
 		Assert.notNull(request.getContractId(), "Missing contract identifier");
 		Assert.isTrue(StringUtils.isNotBlank(request.getContractId()), "Missing contract identifier");
+		String contractId = request.getContractId();
 
-		Contract contract = contractRepo.findOne(request.getContractId());
+		Contract contract = contractRepo.findById(contractId)
+				.orElseThrow(() -> new InsuranceException("Unknow contract " + contractId));
 		Order payment = contract.filterOrders(OrderType.INITIAL_PAYMENT).iterator().next();
 		payment.setContract(contract);
 		if (payment.getDates() == null) {

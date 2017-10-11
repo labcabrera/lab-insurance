@@ -3,6 +3,7 @@ package org.lab.insurance.portfolio.core.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lab.insurance.common.exception.InsuranceException;
 import org.lab.insurance.domain.core.contract.Contract;
 import org.lab.insurance.domain.core.contract.repository.ContractRepository;
 import org.lab.insurance.domain.core.portfolio.ContractPortfolioRelation;
@@ -29,7 +30,9 @@ public class PortfolioInitializacionService {
 	public ContractPortfolioRelation initialize(Contract request) {
 		log.info("Intializing contract {} portfolios", request.getId());
 
-		Contract contract = contractRepo.findOne(request.getId());
+		Contract contract = contractRepo.findById(request.getId())
+				.orElseThrow(() -> new InsuranceException("Unknow contract " + request.getId()));
+
 		String cn = contract.getNumber();
 		// TODO validate contract status (filtering)
 
@@ -39,7 +42,7 @@ public class PortfolioInitializacionService {
 		portfolios.add(Portfolio.builder().type(PortfolioType.FEES).name(cn + "/fees").build());
 		portfolios.add(Portfolio.builder().type(PortfolioType.FISCALITY).name(cn + "/fiscality").build());
 
-		portfolioRepo.save(portfolios);
+		portfolios.stream().forEach(i -> portfolioRepo.save(i));
 
 		ContractPortfolioRelation entity = new ContractPortfolioRelation();
 		entity.setContract(contract);
