@@ -49,9 +49,6 @@ subprojects {
 	apply plugin: "eclipse"
 	apply plugin: "idea"
 	
-	//TODO quitarlo de los proyectos que no se despliegan como microservicios
-	//apply plugin: "org.springframework.boot"
-
 	version = version
 	group = "org.lab.insurance"
 
@@ -297,7 +294,8 @@ project(":insurance-stop-loss-core") {
 // Proxy
 
 project(":insurance-zuul") {
-dependencies {
+	apply plugin: "org.springframework.boot"
+	dependencies {
 		compile "org.springframework.boot:spring-boot-starter"
 		compile "org.springframework.boot:spring-boot-starter-web"
 		compile "org.springframework.boot:spring-boot-starter-thymeleaf"

@@ -3,7 +3,7 @@ spring:
     active: aws
   cloud:
     config:
-      name: insurance-common,insurance-zuul
+      name: insurance-zuul
 
 ---
 

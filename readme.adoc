@@ -14,6 +14,7 @@ arquitectura de microservicios basada en:
 * Spring Cloud Netflix
 * MongoDB
 
+
 == Domain model
 
 Actualmente la aplicación cuenta con un modelo de dominio común para todos los módulos. La idea es desacoplar el modelo
@@ -104,20 +105,9 @@ https://github.com/labcabrera/lab-insurance-cloud-config
 
 http://lab-insurance-cloud-config.eu-west-1.elasticbeanstalk.com/
 
-=== Local port mapping
+== Wiki
 
-[options="header"]
-|===
-|Environment                | Port | Gateways                   | Port 
-|cloud-config               | 8888 | contract                   | 8090
-|eureka                     | 8070 | legal-entity               | 8091
-|zuul                       | 8080 | portfolio                  | 8092
-|                           |      | asset                      | 8093 
-|                           |      | order                      | 8094
-|                           |      | accounting                 | 8095
-|                           |      | contract-creation          | 8096
-|                           |      | agreement                  | 8097
-|===
+https://github.com/labcabrera/lab-insurance/wiki
 
 == References
 
@@ -139,3 +129,7 @@ http://lab-insurance-cloud-config.eu-west-1.elasticbeanstalk.com/
 * https://docs.mongodb.com/manual/tutorial/perform-two-phase-commits/
 * https://github.com/codecentric/spring-boot-admin
 * https://www.codacy.com/app/lab.cabrera/lab-insurance/dashboard
+
+=== AWS
+
+* http://docs.aws.amazon.com/quickstart/latest/mongodb/deployment.html(MongoDB)
