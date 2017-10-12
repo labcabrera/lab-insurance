@@ -1,8 +1,6 @@
 buildscript {
 	ext {
-		springCloudVersion = "2.0.0.M2"		
-		springDslVersion = "1.2.3.RELEASE"
-		
+		springCloudVersion = "2.0.0.M2"				
 		awsSdkVersion = "1.11.198"
 		lombokVersion = "1.16.18"
 		springfoxSwaggerVersion = "2.7.0"
@@ -116,7 +114,6 @@ project(":insurance-engine-core") {
 	dependencies {
 		compile project(":insurance-domain-action")
 		compile project(":insurance-common")
-		compile "org.springframework.integration:spring-integration-java-dsl:${springDslVersion}"
 		compile coreLibs
 		testCompile testLibs
 	}
@@ -201,7 +198,6 @@ project(":insurance-contract-creation-core") {
 	dependencies {
 		compile project(":insurance-common")
 		compile project(":insurance-domain-action")
-		compile "org.springframework.integration:spring-integration-java-dsl:${springDslVersion}"
 		compile coreLibs
 		testCompile testLibs
 	}
@@ -223,7 +219,6 @@ project(":insurance-io") {
 		compile project(":insurance-common")
 		compile project(":insurance-domain-action")
 		compile "com.amazonaws:aws-java-sdk:${awsSdkVersion}"
-		compile "org.springframework.integration:spring-integration-java-dsl:${springDslVersion}"
 		compile coreLibs
 		testCompile testLibs
 	}
@@ -267,7 +262,6 @@ project(":insurance-portfolio-core") {
 	
 	dependencies {
 		compile project(":insurance-common")
-		compile "org.springframework.integration:spring-integration-java-dsl:${springDslVersion}"
 		compile coreLibs
 		testCompile testLibs
 	}
@@ -277,7 +271,6 @@ project(":insurance-portfolio-gateway") {
 	dependencies {
 		compile project(":insurance-portfolio-core")
 		compile project(":insurance-domain-hateoas")
-		compile "org.springframework.integration:spring-integration-java-dsl:${springDslVersion}"
 		compile gatewayLibs
 		testCompile testLibs
 	}

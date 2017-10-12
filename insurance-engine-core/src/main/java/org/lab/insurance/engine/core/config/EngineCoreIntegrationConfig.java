@@ -5,11 +5,11 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.amqp.dsl.Amqp;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
-import org.springframework.integration.dsl.amqp.Amqp;
+import org.springframework.integration.dsl.Transformers;
 import org.springframework.integration.dsl.channel.MessageChannels;
-import org.springframework.integration.dsl.support.Transformers;
 import org.springframework.integration.handler.LoggingHandler.Level;
 import org.springframework.messaging.MessageChannel;
 
@@ -29,9 +29,9 @@ public class EngineCoreIntegrationConfig {
 		return MessageChannels.direct().get();
 	}
 
-//	MessageChannel channelExecutionSyncResponse() {
-//		return MessageChannels.direct().get();
-//	}
+	// MessageChannel channelExecutionSyncResponse() {
+	// return MessageChannels.direct().get();
+	// }
 
 	//@formatter:off
 	@Bean
@@ -55,7 +55,7 @@ public class EngineCoreIntegrationConfig {
 			.from(channelExecutionSyncRequest())
 			.transform(Transformers.toJson())
 			.log(Level.INFO, "Processing execution request")
-			.handle(Amqp
+			.handle(org.springframework.integration.amqp.dsl.Amqp
 				.outboundGateway(amqpTemplate)
 				.routingKeyExpression("headers.routingKey")
 			)
