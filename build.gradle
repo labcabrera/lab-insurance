@@ -11,7 +11,7 @@ buildscript {
 		maven { url "https://repo.spring.io/milestone" }
 	}
 	dependencies {
-		classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.0.M3"
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.0.M4"
 		classpath "io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE"
 	}
 }
@@ -39,7 +39,7 @@ def testLibs = [
 	"org.springframework.boot:spring-boot-starter-test"
 ]
 
-// All project definitions
+// All project definitions ----------------------------------------------------
 
 subprojects {
 	apply plugin: "java"
@@ -69,7 +69,7 @@ subprojects {
 	}
 }
 
-// Domain model projects
+// Domain model projects ------------------------------------------------------
 
 project(":insurance-domain-core") {
 	dependencies {
@@ -97,7 +97,7 @@ project(":insurance-domain-hateoas") {
 	}
 }
 
-// Common projects
+// Common projects ------------------------------------------------------------
 
 project(":insurance-common") {
 	dependencies {
@@ -136,7 +136,7 @@ project(":insurance-eureka") {
 	}
 }
 
-// Microservices
+// Microservices ---------------------------------------------------------------
 
 project(":insurance-agreement-core") {
 	apply plugin: "org.springframework.boot"
@@ -195,6 +195,9 @@ project(":insurance-contract-common-gateway") {
 		compile project(":insurance-domain-hateoas")
 		compile gatewayLibs
 	}
+	jar {
+		enabled = true
+	}
 }
 
 project(":insurance-contract-creation-core") {
@@ -216,6 +219,9 @@ project(":insurance-contract-creation-gateway") {
 		compile project(":insurance-domain-hateoas")
 		compile project(":insurance-contract-creation-core")
 		compile gatewayLibs
+	}
+	jar {
+		enabled = true
 	}
 }
 
@@ -256,6 +262,9 @@ project(":insurance-order-core") {
 		compile coreLibs
 		testCompile testLibs
 	}
+	jar {
+		enabled = true
+	}
 }
 
 project(":insurance-order-gateway") {
@@ -274,6 +283,9 @@ project(":insurance-portfolio-core") {
 		compile project(":insurance-common")
 		compile coreLibs
 		testCompile testLibs
+	}
+	jar {
+		enabled = true
 	}
 }
 
@@ -296,8 +308,6 @@ project(":insurance-stop-loss-core") {
 	}
 }
 
-// Proxy gateway
-
 project(":insurance-zuul") {
 	apply plugin: "org.springframework.boot"
 	dependencies {
@@ -316,7 +326,7 @@ project(":insurance-zuul") {
 	}
 }
 
-// Integration tests
+// Integration tests ----------------------------------------------------------
 
 project(":insurance-bdd") {
 	dependencies {
