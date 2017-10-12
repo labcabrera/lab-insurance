@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.lab.insurance.domain.core.contract.Contract;
 import org.lab.insurance.domain.core.contract.repository.ContractRepository;
+import org.lab.insurance.portfolio.core.processor.PortfolioInitializacionProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,7 +20,7 @@ public class PortfolioInitializacionServiceTest {
 	@Autowired
 	private ContractRepository contractRepo;
 	@Autowired
-	private PortfolioInitializacionService service;
+	private PortfolioInitializacionProcessor service;
 
 	@Test
 	public void test() {

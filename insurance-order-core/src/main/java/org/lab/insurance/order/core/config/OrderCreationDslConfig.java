@@ -1,10 +1,10 @@
 package org.lab.insurance.order.core.config;
 
 import org.lab.insurance.domain.core.insurance.Order;
-import org.lab.insurance.order.core.service.MarketOrderGeneratorProcessor;
-import org.lab.insurance.order.core.service.OrderFeesProcessor;
-import org.lab.insurance.order.core.service.OrderValorizationScheduler;
-import org.lab.insurance.order.core.service.ValueDateProcessor;
+import org.lab.insurance.order.core.processor.MarketOrderGeneratorProcessor;
+import org.lab.insurance.order.core.processor.OrderFeesProcessor;
+import org.lab.insurance.order.core.processor.OrderValorizationScheduler;
+import org.lab.insurance.order.core.processor.ValueDateProcessor;
 import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

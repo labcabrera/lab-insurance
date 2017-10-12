@@ -1,7 +1,7 @@
 package org.lab.insurance.portfolio.core.config;
 
 import org.lab.insurance.domain.core.contract.Contract;
-import org.lab.insurance.portfolio.core.service.PortfolioInitializacionService;
+import org.lab.insurance.portfolio.core.processor.PortfolioInitializacionProcessor;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -29,7 +29,7 @@ public class PortfolioIntegrationConfig {
 	private ConnectionFactory connectionFactory;
 
 	@Autowired
-	private PortfolioInitializacionService initializationService;
+	private PortfolioInitializacionProcessor initializationService;
 
 	@Autowired
 	private AmqpTemplate amqpTemplate;

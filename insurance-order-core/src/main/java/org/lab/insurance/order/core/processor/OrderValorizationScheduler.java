@@ -1,4 +1,4 @@
-package org.lab.insurance.order.core.service;
+package org.lab.insurance.order.core.processor;
 
 import java.util.Date;
 

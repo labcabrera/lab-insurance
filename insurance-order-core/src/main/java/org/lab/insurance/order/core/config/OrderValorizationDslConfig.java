@@ -2,7 +2,7 @@ package org.lab.insurance.order.core.config;
 
 import org.lab.insurance.domain.action.contract.OrderValorization;
 import org.lab.insurance.domain.core.insurance.Order;
-import org.lab.insurance.order.core.service.OrderValorizationProcessor;
+import org.lab.insurance.order.core.processor.OrderValorizationProcessor;
 import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -47,10 +47,10 @@ public class OrderValorizationDslConfig extends AbstractOrderDslConfig {
 			.log(Level.INFO, "Received order valorization request")
 			.transform(Transformers.fromJson(OrderValorization.class))
 			.handle(OrderValorization.class, (request, headers) -> orderMongoAdapter.read(request.getOrderId(), Order.class))
-			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.VALUING.name(), true))
+			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.VALUING.name(), false))
 			.handle(Order.class, (request, headers) -> valorizationProcessor.process(request))
 			//TODO
-			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.VALUED.name(), true))
+			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.VALUED.name(), false))
 			.handle(Order.class, (request, headers) -> orderMongoAdapter.save(request))
 			.transform(Transformers.toJson(mapper()))
 			//TODO

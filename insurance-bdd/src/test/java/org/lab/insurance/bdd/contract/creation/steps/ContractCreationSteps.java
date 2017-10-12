@@ -21,6 +21,7 @@ import org.lab.insurance.domain.core.insurance.Asset;
 import org.lab.insurance.domain.core.insurance.Order;
 import org.lab.insurance.domain.core.insurance.OrderDistribution;
 import org.lab.insurance.domain.core.insurance.OrderType;
+import org.lab.insurance.domain.core.insurance.repository.OrderRepository;
 import org.lab.insurance.domain.core.legalentity.Person;
 import org.lab.insurance.domain.core.legalentity.repository.PersonRepository;
 import org.lab.insurance.engine.core.domain.InsuranceTask;
@@ -47,6 +48,9 @@ public class ContractCreationSteps extends BddSupport {
 
 	@Autowired
 	protected PersonRepository personRepository;
+
+	@Autowired
+	protected OrderRepository orderRepository;
 
 	@Autowired
 	protected InsuranceTaskScheduler scheduler;
@@ -174,6 +178,26 @@ public class ContractCreationSteps extends BddSupport {
 		contract = contractRepository.findById(contract.getId()).get();
 		Order order = contract.filterOrders(OrderType.INITIAL_PAYMENT).iterator().next();
 		Assert.assertEquals(state, order.getCurrentState().getCode());
+	}
+
+	@Then("^espero (\\d+) segundos hasta que el estado del pago inicial sea \"([^\"]*)\"$")
+	public void espero_segundos_hasta_que_el_estado_del_pago_inicial_sea(int sg, String status) {
+		long timeout = System.currentTimeMillis() + 1000 * sg;
+		Contract checkContract;
+		Order checkOrder;
+		while (System.currentTimeMillis() < timeout) {
+			checkContract = contractRepository.findById(contract.getId()).get();
+			checkOrder = checkContract.filterOrders(OrderType.INITIAL_PAYMENT).iterator().next();
+			// checkOrder = orderRepository.findById(initialPayment.getId()).get();
+			if (status.equals(checkOrder.getCurrentState().getCode())) {
+				break;
+			}
+			try {
+				Thread.sleep(1000);
+			}
+			catch (Exception ignore) {
+			}
+		}
 	}
 
 	private void addRelation(Person person, RelationType type) {

@@ -1,4 +1,4 @@
-package org.lab.insurance.portfolio.core.service;
+package org.lab.insurance.portfolio.core.processor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +12,13 @@ import org.lab.insurance.domain.core.portfolio.PortfolioType;
 import org.lab.insurance.domain.core.portfolio.repository.ContractPortfolioRelationRepository;
 import org.lab.insurance.domain.core.portfolio.repository.PortfolioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Service
+@Component
 @Slf4j
-public class PortfolioInitializacionService {
+public class PortfolioInitializacionProcessor {
 
 	@Autowired
 	private ContractRepository contractRepo;
