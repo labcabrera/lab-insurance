@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
+import org.lab.insurance.common.exception.InsuranceException;
 import org.lab.insurance.common.services.StateMachineService;
 import org.lab.insurance.domain.core.contract.Contract;
 import org.lab.insurance.domain.core.insurance.Asset;
@@ -21,7 +24,10 @@ import org.lab.insurance.portfolio.core.service.PorfolioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class OrderAccountProcessor {
 
 	@Autowired
@@ -34,30 +40,42 @@ public class OrderAccountProcessor {
 	private ContractPortfolioRelationRepository contractPortfolioRelationRepository;
 
 	public Order process(Order order) {
-		List<PortfolioOperation> operations = account(order);
-		// TODO persist
-		return order;
+		try {
+			log.info("Accounting order");
+			List<PortfolioOperation> operations = account(order);
+			// TODO persist
+			return order;
+		}
+		catch (RuntimeException ex) {
+			log.error("Accounting error", ex);
+			throw ex;
+		}
 	}
 
 	public List<PortfolioOperation> account(Order order) {
 		List<PortfolioOperation> list = new ArrayList<PortfolioOperation>();
 
 		Contract contract = order.getContract();
-		Portfolio orderPassive = order.getProcessInfo().getPortfolioPassive();
-		Portfolio orderActive = order.getProcessInfo().getPortfolioActive();
+		Portfolio orderPassive = null;
+		Portfolio orderActive = null;
 
+		if (order.getProcessInfo() != null) {
+			orderPassive = order.getProcessInfo().getPortfolioPassive();
+			orderActive = order.getProcessInfo().getPortfolioActive();
+		}
 		if (orderPassive == null || orderActive == null) {
 			ContractPortfolioRelation relations = contractPortfolioRelationRepository.findByContract(contract);
-
+			Stream<Portfolio> stream = relations.getPortfolios().stream();
 			if (orderPassive == null) {
-				orderPassive = relations.getPortfolios().stream().filter(x -> x.getType() == PortfolioType.PASSIVE)
-						.findFirst().get();
+				Optional<Portfolio> optional = stream.filter(x -> PortfolioType.PASSIVE == x.getType()).findFirst();
+				orderPassive = optional.orElseThrow(() -> new InsuranceException("Missing passive portfolio"));
 			}
 			if (orderActive == null) {
-				orderPassive = relations.getPortfolios().stream().filter(x -> x.getType() == PortfolioType.ACTIVE)
-						.findFirst().get();
+				Optional<Portfolio> optional = stream.filter(x -> PortfolioType.ACTIVE == x.getType()).findFirst();
+				orderPassive = optional.orElseThrow(() -> new InsuranceException("Missing active portfolio"));
 			}
 		}
+
 		for (MarketOrder marketOrder : order.getMarketOrders()) {
 			Asset asset = marketOrder.getAsset();
 			Date valueDate = order.getDates().getValueDate();

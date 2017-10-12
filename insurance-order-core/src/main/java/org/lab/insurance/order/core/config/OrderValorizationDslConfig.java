@@ -43,6 +43,8 @@ public class OrderValorizationDslConfig extends AbstractOrderDslConfig {
 			.from(Amqp
 				.inboundGateway(connectionFactory, amqpTemplate, valorizationQueue())
 				.errorChannel(valorizationErrorChannel())
+				//TODO config
+				.replyTimeout(600000)
 			)
 			.log(Level.INFO, "Received order valorization request")
 			.transform(Transformers.fromJson(OrderValorization.class))

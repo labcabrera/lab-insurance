@@ -15,9 +15,11 @@ import org.springframework.integration.amqp.dsl.Amqp;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.Transformers;
+import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.handler.LoggingHandler.Level;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.integration.support.json.JsonObjectMapper;
+import org.springframework.messaging.MessageChannel;
 
 @Configuration
 @ComponentScan("org.lab.insurance.portfolio.core")
@@ -39,13 +41,23 @@ public class PorfolioOrderAccountDslConfig {
 	protected PayloadMongoAdapter<Order> orderMongoAdapter;
 
 	@Bean
-	public JsonObjectMapper<?, ?> mapper() {
+	JsonObjectMapper<?, ?> mapper() {
 		return new Jackson2JsonObjectMapper();
 	}
 
 	@Bean
-	public Queue porfolioOrderAccountQueue() {
+	Queue porfolioOrderAccountQueue() {
 		return new Queue(env.getProperty("queues.portfolio.order-account"), true, false, false);
+	}
+
+	@Bean
+	Queue porfolioOrderAccountErrorQueue() {
+		return new Queue(env.getProperty("queues.portfolio.order-account.error"), true, false, false);
+	}
+
+	@Bean
+	MessageChannel portfolioOrderErrorChannel() {
+		return MessageChannels.direct().get();
 	}
 
 	//@formatter:off
@@ -53,12 +65,29 @@ public class PorfolioOrderAccountDslConfig {
 	public IntegrationFlow orderAccountFlow() {
 		return IntegrationFlows
 			.from(Amqp
-				.inboundGateway(connectionFactory, amqpTemplate, porfolioOrderAccountQueue()))
+				.inboundGateway(connectionFactory, amqpTemplate, porfolioOrderAccountQueue())
+				.errorChannel(portfolioOrderErrorChannel())
+			)
 			.log(Level.INFO, "Processing order accounting request")
 			.transform(Transformers.fromJson(Order.class))
 			.handle(Order.class, (request, headers) -> orderMongoAdapter.read(request.getId(), Order.class))
 			.handle(Order.class, (request, headers) -> orderAccountProcessor.process(request))
 			.transform(Transformers.toJson(mapper()))
+			.get();
+	}
+	//@formatter:on
+
+	//@formatter:off
+	@Bean
+	IntegrationFlow orderAccountFlowError() {
+		return IntegrationFlows
+			.from(portfolioOrderErrorChannel())
+			.log(Level.ERROR, "Received portfolio oerder accounting error")
+			.transform(Transformers.toJson(mapper()))
+			.handle(Amqp
+				.outboundAdapter(amqpTemplate)
+				.routingKey(env.getProperty("queues.portfolio.order-account.error"))
+			)
 			.get();
 	}
 	//@formatter:on

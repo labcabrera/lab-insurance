@@ -10,6 +10,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Document
@@ -26,8 +28,12 @@ public class Investment implements HasState {
 	private Date startDate;
 	private Date endDate;
 
+	@DBRef
+	@JsonIgnore
 	private List<PortfolioOperation> inputOperations;
 
+	@DBRef
+	@JsonIgnore
 	private List<PortfolioOperation> outputOperations;
 
 }
