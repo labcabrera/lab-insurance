@@ -9,6 +9,7 @@ include ":insurance-eureka"
 include ":insurance-engine-core"
 
 include ":insurance-agreement-core"
+include ":insurance-agreement-gateway"
 include ":insurance-asset-core"
 include ":insurance-asset-gateway"
 include ":insurance-broker-core"

@@ -1,6 +1,5 @@
-package org.lab.insurance.asset.gateway;
+package org.lab.insurance.agreement.gateway;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -9,7 +8,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -17,11 +15,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @EnableEurekaClient
-@EnableMongoRepositories("org.lab.insurance.domain.core.insurance")
-public class AssetGatewayApp {
+@EnableMongoRepositories("org.lab.insurance.domain.core")
+public class AgreementGatewayApp {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AssetGatewayApp.class, args);
+		SpringApplication.run(AgreementGatewayApp.class, args);
 	}
 
 	@Bean
@@ -32,10 +30,7 @@ public class AssetGatewayApp {
 				.apis(RequestHandlerSelectors.basePackage("org.lab.insurance"))
 				.paths(PathSelectors.any())
 				.build()
-			.tags(
-				new Tag("asset-resource-controller", StringUtils.EMPTY),
-				new Tag("asset-search-controller", StringUtils.EMPTY)
-			);
+			;
 		//@formatter:on
 	}
 }

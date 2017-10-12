@@ -126,6 +126,7 @@ project(":insurance-engine-core") {
 }
 
 project(":insurance-cloud-config") {
+	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile "org.springframework.cloud:spring-cloud-config-server"
 		compile "org.springframework.boot:spring-boot-starter-web"
@@ -134,6 +135,7 @@ project(":insurance-cloud-config") {
 }
 
 project(":insurance-eureka") {
+	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile "org.springframework.cloud:spring-cloud-starter-eureka-server"
 		compile "org.springframework.cloud:spring-cloud-config-client"
@@ -149,6 +151,18 @@ project(":insurance-agreement-core") {
 	}
 }
 
+project(":insurance-agreement-gateway") {
+	apply plugin: "org.springframework.boot"
+	dependencies {
+		compile project(":insurance-common")
+		compile project(":insurance-domain-hateoas")
+		compile "org.springframework.boot:spring-boot-starter-data-rest"
+		compile "org.springframework.data:spring-data-rest-hal-browser"
+		compile gatewayLibs
+		testCompile testLibs
+	}
+}
+
 project(":insurance-asset-core") {
 	dependencies {
 		compile project(":insurance-common")
@@ -158,11 +172,13 @@ project(":insurance-asset-core") {
 }
 
 project(":insurance-asset-gateway") {
+	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile project(":insurance-common")
 		compile project(":insurance-domain-hateoas")
-		compile gatewayLibs
 		compile "org.springframework.boot:spring-boot-starter-data-rest"
+		compile "org.springframework.data:spring-data-rest-hal-browser"
+		compile gatewayLibs
 		testCompile testLibs
 	}
 }
