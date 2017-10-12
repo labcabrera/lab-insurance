@@ -5,6 +5,9 @@ spring:
     config:
       name: insurance-common,insurance-contract-creation-core,insurance-amqp
 
+loggin:
+  level.org.mongodb.driver.connection: WARN
+
 ---
 
 spring:

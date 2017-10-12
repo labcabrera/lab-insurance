@@ -1,5 +1,6 @@
 package org.lab.insurance.order.core.config;
 
+import org.lab.insurance.domain.action.contract.OrderValorization;
 import org.lab.insurance.domain.core.insurance.Order;
 import org.lab.insurance.order.core.service.OrderValorizationProcessor;
 import org.springframework.amqp.core.Queue;
@@ -10,7 +11,9 @@ import org.springframework.integration.amqp.dsl.Amqp;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.Transformers;
+import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.handler.LoggingHandler.Level;
+import org.springframework.messaging.MessageChannel;
 
 @Configuration
 public class OrderValorizationDslConfig extends AbstractOrderDslConfig {
@@ -19,28 +22,54 @@ public class OrderValorizationDslConfig extends AbstractOrderDslConfig {
 	private OrderValorizationProcessor valorizationProcessor;
 
 	@Bean
-	Queue orderValorizationQueue() {
+	Queue valorizationQueue() {
 		return new Queue(env.getProperty("queues.order.valorization"), true, false, false);
+	}
+
+	@Bean
+	Queue valorizationErrorQueue() {
+		return new Queue(env.getProperty("queues.order.valorization-error"), true, false, false);
+	}
+
+	@Bean
+	MessageChannel valorizationErrorChannel() {
+		return MessageChannels.direct().get();
 	}
 
 	//@formatter:off
 	@Bean
-	IntegrationFlow orderCreationFlow() {
-		return IntegrationFlows //
+	IntegrationFlow orderValorizationFlow() {
+		return IntegrationFlows
 			.from(Amqp
-				.inboundGateway(connectionFactory, amqpTemplate, orderValorizationQueue()))
-			.log(Level.INFO, "Processing order request")
-			.transform(Transformers.fromJson(Order.class))
-			.handle(Order.class, (request, headers) -> orderMongoAdapter.read(request.getId(), Order.class))
+				.inboundGateway(connectionFactory, amqpTemplate, valorizationQueue())
+				.errorChannel(valorizationErrorChannel())
+			)
+			.log(Level.INFO, "Received order valorization request")
+			.transform(Transformers.fromJson(OrderValorization.class))
+			.handle(OrderValorization.class, (request, headers) -> orderMongoAdapter.read(request.getOrderId(), Order.class))
 			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.VALUING.name(), true))
 			.handle(Order.class, (request, headers) -> valorizationProcessor.process(request))
-			.handle(Order.class, (request, headers) -> valorizationProcessor.process(request))
 			//TODO
-			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.PROCESSED.name(), true))
+			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.VALUED.name(), true))
 			.handle(Order.class, (request, headers) -> orderMongoAdapter.save(request))
 			.transform(Transformers.toJson(mapper()))
 			//TODO
 			.bridge(null)
+			.get();
+	}
+	//@formatter:on
+
+	//@formatter:off
+	@Bean
+	IntegrationFlow valorizationErrorFlow() {
+		return IntegrationFlows
+			.from(valorizationErrorChannel())
+			.log(Level.ERROR, "Received order valorization error")
+			.transform(Transformers.toJson(mapper()))
+			.handle(Amqp
+				.outboundAdapter(amqpTemplate)
+				.routingKey(env.getProperty("queues.order.valorization-error"))
+			)
 			.get();
 	}
 	//@formatter:on

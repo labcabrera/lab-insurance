@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.lab.insurance.common.services.TimestampProvider;
 import org.lab.insurance.engine.core.EngineConstants;
 import org.lab.insurance.engine.core.domain.ExecutionReport;
@@ -56,7 +57,7 @@ public class InsuranceTaskExecutor {
 	private MessageChannel messageChannelAsync;
 
 	public ExecutionReport execute(Date from, Date to, List<String> tags) {
-		log.info("Executing {} to {} ({})", from, to, tags);
+		log.info("Executing {} to {} (tags: {})", new DateTime(from), new DateTime(to), tags);
 		ExecutionReport report = new ExecutionReport();
 		report.setFrom(from);
 		report.setTo(to);
@@ -81,13 +82,13 @@ public class InsuranceTaskExecutor {
 				)
 			);
 		}
-
 		//@formatter:on
 
 		query.with(new Sort(Sort.Direction.ASC, "execution"));
 
 		InsuranceTask task = mongoTemplate.findOne(query, InsuranceTask.class);
 		while (task != null) {
+			log.info("Processing task {} ({})", task.getClass().getName(), task);
 			execute(task);
 			task = mongoTemplate.findOne(query, InsuranceTask.class);
 		}

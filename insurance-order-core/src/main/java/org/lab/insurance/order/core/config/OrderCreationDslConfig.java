@@ -18,7 +18,7 @@ import org.springframework.integration.handler.LoggingHandler.Level;
 import org.springframework.messaging.MessageChannel;
 
 @Configuration
-public class OrderIntegrationConfig extends AbstractOrderDslConfig {
+public class OrderCreationDslConfig extends AbstractOrderDslConfig {
 
 	@Autowired
 	private MarketOrderGeneratorProcessor marketOrderGeneratorProcessor;
@@ -33,7 +33,7 @@ public class OrderIntegrationConfig extends AbstractOrderDslConfig {
 	private ValueDateProcessor valueDateProcessor;
 
 	@Bean
-	Queue orderInitializationQueue() {
+	Queue orderCreationQueue() {
 		return new Queue(env.getProperty("queues.order.creation"), true, false, false);
 	}
 
@@ -42,13 +42,25 @@ public class OrderIntegrationConfig extends AbstractOrderDslConfig {
 		return MessageChannels.direct().get();
 	}
 
+	@Bean
+	Queue orderCreationErrorQueue() {
+		return new Queue(env.getProperty("queues.order.creation-error"), true, false, false);
+	}
+
+	@Bean
+	MessageChannel orderCreationErrorChannel() {
+		return MessageChannels.direct().get();
+	}
+
 	//@formatter:off
 	@Bean
 	IntegrationFlow orderCreationFlow() {
-		return IntegrationFlows //
+		return IntegrationFlows
 			.from(Amqp
-				.inboundGateway(connectionFactory, amqpTemplate, orderInitializationQueue()))
-			.log(Level.INFO, "Processing order request")
+				.inboundGateway(connectionFactory, amqpTemplate, orderCreationQueue())
+				.errorChannel(orderCreationErrorChannel())
+			)
+			.log(Level.INFO, "Reveived order creation request")
 			.transform(Transformers.fromJson(Order.class))
 			.handle(Order.class, (request, headers) -> orderMongoAdapter.read(request.getId(), Order.class))
 			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.PROCESSING.name(), true))
@@ -61,6 +73,21 @@ public class OrderIntegrationConfig extends AbstractOrderDslConfig {
 			.transform(Transformers.toJson(mapper()))
 			//TODO
 			.bridge(null)
+			.get();
+	}
+	//@formatter:on
+
+	//@formatter:off
+	@Bean
+	IntegrationFlow orderCreationErrorFlow() {
+		return IntegrationFlows
+			.from(orderCreationErrorChannel())
+			.log(Level.ERROR, "Received order creation error")
+			.transform(Transformers.toJson(mapper()))
+			.handle(Amqp
+				.outboundAdapter(amqpTemplate)
+				.routingKey(env.getProperty("queues.order.creation-error"))
+			)
 			.get();
 	}
 	//@formatter:on

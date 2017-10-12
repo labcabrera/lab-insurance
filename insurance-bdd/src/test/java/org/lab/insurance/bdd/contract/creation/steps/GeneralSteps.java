@@ -84,6 +84,6 @@ public class GeneralSteps extends BddSupport {
 			executor.execute(tmp.toDate(), tmp.toDate(), null);
 			tmp = tmp.plusDays(1);
 		}
-		log.debug("Finalized range action execution");
+		log.info("Finalized range action execution");
 	}
 }

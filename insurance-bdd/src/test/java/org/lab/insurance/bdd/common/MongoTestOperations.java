@@ -45,9 +45,9 @@ public class MongoTestOperations {
 	private InsuranceTaskRepository taskRepo;
 
 	public void resetDataBase() {
-		log.warn("/****************************************************************** /");
-		log.warn("/Cleaning mongo contract data");
-		log.warn("/****************************************************************** /");
+		log.warn("###############################################################");
+		log.warn("# Cleaning mongo test contract data                           #");
+		log.warn("###############################################################");
 
 		Agreement agreement = Agreement.builder().code(TestConstants.Agreements.DEFAULT)
 				.name("Test integration agreement").build();
