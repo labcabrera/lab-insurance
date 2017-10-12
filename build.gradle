@@ -319,6 +319,10 @@ project(":insurance-bdd") {
 		testCompile "info.cukes:cucumber-junit:${cucumberVersion}"
 		testCompile "info.cukes:cucumber-java:${cucumberVersion}"
 		testCompile "info.cukes:cucumber-spring:${cucumberVersion}"
+		
+		// todo
+		testCompile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0"
+		
 		compile(project(":insurance-contract-creation-gateway")) {
 			exclude group: "org.springframework.cloud"
 		}
