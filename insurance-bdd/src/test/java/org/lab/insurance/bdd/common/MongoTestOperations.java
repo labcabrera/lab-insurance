@@ -16,6 +16,7 @@ import org.lab.insurance.domain.core.legalentity.Person;
 import org.lab.insurance.domain.core.legalentity.repository.LegalEntityRepository;
 import org.lab.insurance.domain.core.legalentity.repository.PersonRepository;
 import org.lab.insurance.domain.core.portfolio.repository.ContractPortfolioRelationRepository;
+import org.lab.insurance.domain.core.portfolio.repository.PortfolioOperationRepository;
 import org.lab.insurance.domain.core.portfolio.repository.PortfolioRepository;
 import org.lab.insurance.domain.core.product.Agreement;
 import org.lab.insurance.domain.core.product.repository.AgreementRepository;
@@ -55,6 +56,9 @@ public class MongoTestOperations {
 
 	@Autowired
 	private PortfolioRepository portfolioRepository;
+
+	@Autowired
+	private PortfolioOperationRepository portfolioOperationRepository;
 
 	@Autowired
 	private ContractPortfolioRelationRepository contractPortfolioRelationRepository;
@@ -107,6 +111,7 @@ public class MongoTestOperations {
 		contractRepository.deleteAll();
 
 		policyEntityRelationRepository.deleteAll();
+		portfolioOperationRepository.deleteAll();
 		orderRepository.deleteAll();
 		contractPortfolioRelationRepository.deleteAll();
 		portfolioRepository.deleteAll();

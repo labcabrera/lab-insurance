@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import org.lab.insurance.common.exception.InsuranceException;
 import org.lab.insurance.common.services.StateMachineService;
@@ -20,6 +19,7 @@ import org.lab.insurance.domain.core.portfolio.Portfolio;
 import org.lab.insurance.domain.core.portfolio.PortfolioOperation;
 import org.lab.insurance.domain.core.portfolio.PortfolioType;
 import org.lab.insurance.domain.core.portfolio.repository.ContractPortfolioRelationRepository;
+import org.lab.insurance.domain.core.portfolio.repository.PortfolioOperationRepository;
 import org.lab.insurance.portfolio.core.service.PorfolioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,6 +29,9 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class OrderAccountProcessor {
+
+	@Autowired
+	private PortfolioOperationRepository portfolioOperationRepository;
 
 	@Autowired
 	private PorfolioService portfolioService;
@@ -43,7 +46,7 @@ public class OrderAccountProcessor {
 		try {
 			log.info("Accounting order");
 			List<PortfolioOperation> operations = account(order);
-			// TODO persist
+			portfolioOperationRepository.saveAll(operations);
 			return order;
 		}
 		catch (RuntimeException ex) {
@@ -65,14 +68,15 @@ public class OrderAccountProcessor {
 		}
 		if (orderPassive == null || orderActive == null) {
 			ContractPortfolioRelation relations = contractPortfolioRelationRepository.findByContract(contract);
-			Stream<Portfolio> stream = relations.getPortfolios().stream();
 			if (orderPassive == null) {
-				Optional<Portfolio> optional = stream.filter(x -> PortfolioType.PASSIVE == x.getType()).findFirst();
+				Optional<Portfolio> optional = relations.getPortfolios().stream()
+						.filter(x -> PortfolioType.PASSIVE == x.getType()).findFirst();
 				orderPassive = optional.orElseThrow(() -> new InsuranceException("Missing passive portfolio"));
 			}
 			if (orderActive == null) {
-				Optional<Portfolio> optional = stream.filter(x -> PortfolioType.ACTIVE == x.getType()).findFirst();
-				orderPassive = optional.orElseThrow(() -> new InsuranceException("Missing active portfolio"));
+				Optional<Portfolio> optional = relations.getPortfolios().stream()
+						.filter(x -> PortfolioType.ACTIVE == x.getType()).findFirst();
+				orderActive = optional.orElseThrow(() -> new InsuranceException("Missing active portfolio"));
 			}
 		}
 

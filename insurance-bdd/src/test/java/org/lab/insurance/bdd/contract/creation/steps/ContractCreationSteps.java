@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.lab.insurance.bdd.contract.creation.BddSupport;
+import org.lab.insurance.common.exception.InsuranceException;
 import org.lab.insurance.domain.action.contract.ContractApprobation;
 import org.lab.insurance.domain.action.contract.ContractCreation;
 import org.lab.insurance.domain.action.contract.InitialPaymentReception;
@@ -184,14 +185,15 @@ public class ContractCreationSteps extends BddSupport {
 	public void espero_segundos_hasta_que_el_estado_del_pago_inicial_sea(int sg, String status) {
 		log.info("Waiting until initial payment status is {}", status);
 		long timeout = System.currentTimeMillis() + 1000 * sg;
-		Contract checkContract;
-		Order checkOrder;
+		Contract checkContract = null;
+		Order checkOrder = null;
 		while (System.currentTimeMillis() < timeout) {
 			checkContract = contractRepository.findById(contract.getId()).get();
 			checkOrder = checkContract.filterOrders(OrderType.INITIAL_PAYMENT).iterator().next();
 			// checkOrder = orderRepository.findById(initialPayment.getId()).get();
 			if (status.equals(checkOrder.getCurrentState().getCode())) {
-				break;
+				log.info("Initial payment status is {}", status);
+				return;
 			}
 			try {
 				Thread.sleep(1000);
@@ -199,6 +201,7 @@ public class ContractCreationSteps extends BddSupport {
 			catch (Exception ignore) {
 			}
 		}
+		throw new InsuranceException("Invalid status: " + checkOrder.getCurrentState().getCode());
 	}
 
 	private void addRelation(Person person, RelationType type) {

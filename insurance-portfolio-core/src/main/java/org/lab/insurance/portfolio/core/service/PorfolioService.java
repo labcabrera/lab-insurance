@@ -1,5 +1,6 @@
 package org.lab.insurance.portfolio.core.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,10 +9,15 @@ import org.lab.insurance.common.exception.InsuranceException;
 import org.lab.insurance.domain.core.insurance.Asset;
 import org.lab.insurance.domain.core.portfolio.Investment;
 import org.lab.insurance.domain.core.portfolio.Portfolio;
+import org.lab.insurance.domain.core.portfolio.repository.PortfolioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PorfolioService {
+
+	@Autowired
+	private PortfolioRepository portfolioRepository;
 
 	/**
 	 * Busca o crea el Investment de un asset asociado a un portfolio. Como el investment tiene fechas de inicio/fin
@@ -23,6 +29,11 @@ public class PorfolioService {
 	 * @return
 	 */
 	public Investment findOrCreateActiveInvestment(Portfolio portfolio, Asset asset, Date date) {
+		Investment result;
+		if (portfolio.getInvestments() == null) {
+			portfolio.setInvestments(new ArrayList<>());
+		}
+
 		//@formatter:off
 		List<Investment> list = portfolio.getInvestments().stream().filter(x ->
 				x.getAsset().getId().equals(asset.getId()) &&
@@ -31,14 +42,13 @@ public class PorfolioService {
 				.collect(Collectors.toList());
 		//@formatter:on
 
-		Investment result;
-
 		switch (list.size()) {
 		case 0:
 			result = new Investment();
 			result.setAsset(asset);
 			result.setStartDate(date);
 			portfolio.getInvestments().add(result);
+			portfolioRepository.save(portfolio);
 			break;
 		case 1:
 			result = list.iterator().next();
