@@ -21,6 +21,10 @@ Feature: basic contract creation
     
     Then simulo una ejecucion de 2017/01/11 a 2017/02/25
     Then espero que se vacie la cola "initial-payment-reception"
+    
+	# TODO pendiente de ajustar con api de acciones para la sincronizacion
+	Then espero 10 segundos
+	
 	#Then verifico que el estado del pago inicial es "PROCESSED"
     
     Then verifico que el estado del contrato es "STARTED"

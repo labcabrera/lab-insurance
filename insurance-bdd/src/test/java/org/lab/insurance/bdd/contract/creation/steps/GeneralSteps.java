@@ -6,6 +6,7 @@ import org.joda.time.DateTime;
 import org.lab.insurance.bdd.common.MongoTestOperations;
 import org.lab.insurance.bdd.common.RabbitTestOperations;
 import org.lab.insurance.bdd.contract.creation.BddSupport;
+import org.lab.insurance.common.exception.InsuranceException;
 import org.lab.insurance.common.services.TimestampProvider;
 import org.lab.insurance.engine.core.services.InsuranceTaskExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,16 @@ public class GeneralSteps extends BddSupport {
 		rabbitOperations.waitUntilQueueIsEmpty(queueName);
 	}
 
+	@Then("^espero (\\d+) segundos$")
+	public void espero_segundos(int sg) {
+		try {
+			Thread.sleep(sg * 1000);
+		}
+		catch (Exception ex) {
+			throw new InsuranceException(ex);
+		}
+	}
+
 	@Then("^simulo una ejecucion de (\\d+)/(\\d+)/(\\d+) a (\\d+)/(\\d+)/(\\d+)$")
 	public void simulo_una_ejecucion_de_a(int fromY, int fromM, int fromD, int toY, int toM, int toD) {
 		DateTime from = new DateTime(fromY, fromM, fromD, 0, 0);
@@ -73,5 +84,6 @@ public class GeneralSteps extends BddSupport {
 			executor.execute(tmp.toDate(), tmp.toDate(), null);
 			tmp = tmp.plusDays(1);
 		}
+		log.debug("Finalized range action execution");
 	}
 }

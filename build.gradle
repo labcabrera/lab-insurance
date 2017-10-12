@@ -139,6 +139,7 @@ project(":insurance-eureka") {
 // Microservices
 
 project(":insurance-agreement-core") {
+	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile project(":insurance-domain-core")
 		testCompile testLibs
@@ -158,6 +159,7 @@ project(":insurance-agreement-gateway") {
 }
 
 project(":insurance-asset-core") {
+	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile project(":insurance-common")
 		compile coreLibs
@@ -178,6 +180,7 @@ project(":insurance-asset-gateway") {
 }
 
 project(":insurance-broker-core") {
+	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile project(":insurance-common")
 		compile coreLibs
@@ -186,6 +189,7 @@ project(":insurance-broker-core") {
 }
 
 project(":insurance-contract-common-gateway") {
+	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile project(":insurance-common")
 		compile project(":insurance-domain-hateoas")
@@ -207,6 +211,7 @@ project(":insurance-contract-creation-core") {
 }
 
 project(":insurance-contract-creation-gateway") {
+	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile project(":insurance-domain-hateoas")
 		compile project(":insurance-contract-creation-core")
@@ -215,6 +220,7 @@ project(":insurance-contract-creation-gateway") {
 }
 
 project(":insurance-io") {
+	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile project(":insurance-common")
 		compile project(":insurance-domain-action")
@@ -225,6 +231,7 @@ project(":insurance-io") {
 }
 
 project(":insurance-legal-entity-core") {
+	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile project(":insurance-common")
 		compile coreLibs
@@ -233,6 +240,7 @@ project(":insurance-legal-entity-core") {
 }
 
 project(":insurance-legal-entity-gateway") {
+	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile project(":insurance-common")
 		compile project(":insurance-domain-hateoas")
@@ -241,6 +249,7 @@ project(":insurance-legal-entity-gateway") {
 }
 
 project(":insurance-order-core") {
+	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile project(":insurance-common")
 		compile project(":insurance-engine-core")
@@ -250,6 +259,7 @@ project(":insurance-order-core") {
 }
 
 project(":insurance-order-gateway") {
+	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile project(":insurance-portfolio-core")
 		compile project(":insurance-domain-hateoas")
@@ -259,7 +269,7 @@ project(":insurance-order-gateway") {
 }
 
 project(":insurance-portfolio-core") {
-	
+	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile project(":insurance-common")
 		compile coreLibs
@@ -268,6 +278,7 @@ project(":insurance-portfolio-core") {
 }
 
 project(":insurance-portfolio-gateway") {
+	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile project(":insurance-portfolio-core")
 		compile project(":insurance-domain-hateoas")
@@ -277,6 +288,7 @@ project(":insurance-portfolio-gateway") {
 }
 
 project(":insurance-stop-loss-core") {
+	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile project(":insurance-common")
 		compile coreLibs
@@ -284,7 +296,7 @@ project(":insurance-stop-loss-core") {
 	}
 }
 
-// Proxy
+// Proxy gateway
 
 project(":insurance-zuul") {
 	apply plugin: "org.springframework.boot"
@@ -319,10 +331,7 @@ project(":insurance-bdd") {
 		testCompile "info.cukes:cucumber-junit:${cucumberVersion}"
 		testCompile "info.cukes:cucumber-java:${cucumberVersion}"
 		testCompile "info.cukes:cucumber-spring:${cucumberVersion}"
-		
-		// todo
-		testCompile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0"
-		
+		testCompile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0"		
 		compile(project(":insurance-contract-creation-gateway")) {
 			exclude group: "org.springframework.cloud"
 		}
