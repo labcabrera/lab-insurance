@@ -182,6 +182,7 @@ public class ContractCreationSteps extends BddSupport {
 
 	@Then("^espero (\\d+) segundos hasta que el estado del pago inicial sea \"([^\"]*)\"$")
 	public void espero_segundos_hasta_que_el_estado_del_pago_inicial_sea(int sg, String status) {
+		log.info("Waiting until initial payment status is {}", status);
 		long timeout = System.currentTimeMillis() + 1000 * sg;
 		Contract checkContract;
 		Order checkOrder;

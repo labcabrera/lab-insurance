@@ -15,6 +15,8 @@ import org.lab.insurance.domain.core.legalentity.LegalEntity;
 import org.lab.insurance.domain.core.legalentity.Person;
 import org.lab.insurance.domain.core.legalentity.repository.LegalEntityRepository;
 import org.lab.insurance.domain.core.legalentity.repository.PersonRepository;
+import org.lab.insurance.domain.core.portfolio.repository.ContractPortfolioRelationRepository;
+import org.lab.insurance.domain.core.portfolio.repository.PortfolioRepository;
 import org.lab.insurance.domain.core.product.Agreement;
 import org.lab.insurance.domain.core.product.repository.AgreementRepository;
 import org.lab.insurance.engine.core.domain.repository.InsuranceTaskRepository;
@@ -29,20 +31,33 @@ public class MongoTestOperations {
 
 	@Autowired
 	private AgreementRepository agreementRepository;
+
 	@Autowired
 	private AssetRepository baseAssetRepository;
+
 	@Autowired
 	private ContractRepository contractRepository;
+
 	@Autowired
 	private ContractPersonRelationRepository policyEntityRelationRepository;
+
 	@Autowired
 	private PersonRepository personRepository;
+
 	@Autowired
 	private LegalEntityRepository legalEntityRepository;
+
 	@Autowired
 	private OrderRepository orderRepository;
+
 	@Autowired
-	private InsuranceTaskRepository taskRepo;
+	private InsuranceTaskRepository taskRepository;
+
+	@Autowired
+	private PortfolioRepository portfolioRepository;
+
+	@Autowired
+	private ContractPortfolioRelationRepository contractPortfolioRelationRepository;
 
 	public void resetDataBase() {
 		log.warn("###############################################################");
@@ -93,8 +108,10 @@ public class MongoTestOperations {
 
 		policyEntityRelationRepository.deleteAll();
 		orderRepository.deleteAll();
+		contractPortfolioRelationRepository.deleteAll();
+		portfolioRepository.deleteAll();
 
-		taskRepo.deleteAll();
+		taskRepository.deleteAll();
 	}
 
 }

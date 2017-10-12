@@ -18,11 +18,12 @@ Feature: basic contract creation
     
     Then simulo una ejecucion de 2017/01/11 a 2017/02/12
     Then espero que se vacie la cola "portfolio-create"
+    Then espero 600 segundos hasta que el estado del pago inicial sea "PROCESSED"
     
     Then simulo una ejecucion de 2017/01/11 a 2017/02/25
     Then espero que se vacie la cola "initial-payment-reception"
     
-	Then espero 600 segundos hasta que el estado del pago inicial sea "VALUED"
+	Then espero 600 segundos hasta que el estado del pago inicial sea "ACCOUNTED"
 	
 	#Then verifico que el estado del pago inicial es "PROCESSED"
     

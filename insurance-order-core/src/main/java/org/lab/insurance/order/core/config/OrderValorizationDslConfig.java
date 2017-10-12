@@ -49,8 +49,20 @@ public class OrderValorizationDslConfig extends AbstractOrderDslConfig {
 			.handle(OrderValorization.class, (request, headers) -> orderMongoAdapter.read(request.getOrderId(), Order.class))
 			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.VALUING.name(), false))
 			.handle(Order.class, (request, headers) -> valorizationProcessor.process(request))
-			//TODO
 			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.VALUED.name(), false))
+			.handle(Order.class, (request, headers) -> orderMongoAdapter.save(request))
+			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.ACCOUNTING.name(), false))
+			
+			//TODO gateway a la cola de portfolio-account-order y esperar al resultado
+			.transform(Transformers.toJson(mapper()))
+			.handle(Amqp
+				.outboundGateway(amqpTemplate)
+				.routingKey(env.getProperty("queues.portfolio.order-account"))
+			)
+			
+			.transform(Transformers.fromJson(OrderValorization.class))
+			.handle(OrderValorization.class, (request, headers) -> orderMongoAdapter.read(request.getOrderId(), Order.class))
+			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.ACCOUNTED.name(), false))
 			.handle(Order.class, (request, headers) -> orderMongoAdapter.save(request))
 			.transform(Transformers.toJson(mapper()))
 			//TODO

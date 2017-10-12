@@ -1,7 +1,8 @@
 package org.lab.insurance.portfolio.core.config;
 
-import org.lab.insurance.domain.core.contract.Contract;
-import org.lab.insurance.portfolio.core.processor.PortfolioInitializacionProcessor;
+import org.lab.insurance.common.integration.PayloadMongoAdapter;
+import org.lab.insurance.domain.core.insurance.Order;
+import org.lab.insurance.portfolio.core.processor.OrderAccountProcessor;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -20,7 +21,7 @@ import org.springframework.integration.support.json.JsonObjectMapper;
 
 @Configuration
 @ComponentScan("org.lab.insurance.portfolio.core")
-public class PortfolioIntegrationConfig {
+public class PorfolioOrderAccountDslConfig {
 
 	@Autowired
 	private Environment env;
@@ -29,10 +30,13 @@ public class PortfolioIntegrationConfig {
 	private ConnectionFactory connectionFactory;
 
 	@Autowired
-	private PortfolioInitializacionProcessor initializationService;
+	private OrderAccountProcessor orderAccountProcessor;
 
 	@Autowired
 	private AmqpTemplate amqpTemplate;
+
+	@Autowired
+	protected PayloadMongoAdapter<Order> orderMongoAdapter;
 
 	@Bean
 	public JsonObjectMapper<?, ?> mapper() {
@@ -40,19 +44,20 @@ public class PortfolioIntegrationConfig {
 	}
 
 	@Bean
-	public Queue portfolioInitializationRequest() {
-		return new Queue(env.getProperty("queues.portfolio.creation"), true, false, false);
+	public Queue porfolioOrderAccountQueue() {
+		return new Queue(env.getProperty("queues.portfolio.order-account"), true, false, false);
 	}
 
 	//@formatter:off
 	@Bean
-	public IntegrationFlow portfolioInitializacionFlow() {
-		return IntegrationFlows //
+	public IntegrationFlow orderAccountFlow() {
+		return IntegrationFlows
 			.from(Amqp
-				.inboundGateway(connectionFactory, amqpTemplate, portfolioInitializationRequest()))
-			.log(Level.INFO, "Processing portfolio initialization request")
-			.transform(Transformers.fromJson(Contract.class))
-			.handle(Contract.class, (request, headers) -> initializationService.initialize(request))
+				.inboundGateway(connectionFactory, amqpTemplate, porfolioOrderAccountQueue()))
+			.log(Level.INFO, "Processing order accounting request")
+			.transform(Transformers.fromJson(Order.class))
+			.handle(Order.class, (request, headers) -> orderMongoAdapter.read(request.getId(), Order.class))
+			.handle(Order.class, (request, headers) -> orderAccountProcessor.process(request))
 			.transform(Transformers.toJson(mapper()))
 			.get();
 	}

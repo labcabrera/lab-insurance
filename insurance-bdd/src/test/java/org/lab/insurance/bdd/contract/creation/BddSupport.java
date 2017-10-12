@@ -6,7 +6,8 @@ import org.lab.insurance.contract.creation.core.config.ContractCreationCoreConfi
 import org.lab.insurance.engine.core.config.InsuranceEngineCoreConfig;
 import org.lab.insurance.order.core.config.OrderCreationDslConfig;
 import org.lab.insurance.order.core.config.OrderValorizationDslConfig;
-import org.lab.insurance.portfolio.core.config.PortfolioIntegrationConfig;
+import org.lab.insurance.portfolio.core.config.PorfolioInitializationDslConfig;
+import org.lab.insurance.portfolio.core.config.PorfolioOrderAccountDslConfig;
 import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -21,7 +22,8 @@ import com.lab.insurance.contract.creation.gateway.config.IntegrationConfig;
 		InsuranceCommonConfig.class,
 		InsuranceEngineCoreConfig.class,
 		InsuranceEngineCoreConfig.class,
-		PortfolioIntegrationConfig.class,
+		PorfolioInitializationDslConfig.class,
+		PorfolioOrderAccountDslConfig.class,
 		OrderCreationDslConfig.class,
 		OrderValorizationDslConfig.class,
 		ContractCreationCoreConfig.class

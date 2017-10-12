@@ -73,7 +73,7 @@ public class InitialPaymentReceptionConfig {
 			.from(Amqp
 				.inboundGateway(connectionFactory, amqpTemplate, queueInitialPaymentReception()))
 			.transform(Transformers.fromJson(InitialPaymentReception.class, mapper))
-			.log(Level.INFO, "Received payment reception request")
+			.log(Level.INFO, "Received payment reception")
 			// Contract
 			.handle(InitialPaymentReception.class, (request, headers) -> initialPaymentReceptionProcessor.process(request))
 			.handle(Contract.class, (request, headers) -> stateMachineProcessor.process(request, Contract.States.STARTED.name(), true))
@@ -96,14 +96,13 @@ public class InitialPaymentReceptionConfig {
 	//@formatter:off
 	@Bean
 	IntegrationFlow orderInitChannelFlow() {
-		String to  = env.getProperty("queues.order.creation");
 		return IntegrationFlows
 			.from(orderInitChannel())
 			.log("Sending order initialization message")
 			.transform(Transformers.toJson(mapper))
 			.handle(Amqp
 				.outboundAdapter(amqpTemplate)
-				.routingKey(to)
+				.routingKey(env.getProperty("queues.order.creation"))
 			)
 			.get();
 	}
