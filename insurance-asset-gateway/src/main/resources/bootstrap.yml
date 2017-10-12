@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: insurance-asset-gateway
   profiles:
     active: aws
   cloud:

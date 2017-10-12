@@ -300,9 +300,11 @@ project(":insurance-zuul") {
 		compile "org.springframework.boot:spring-boot-starter-web"
 		compile "org.springframework.boot:spring-boot-starter-thymeleaf"
 		compile "org.springframework.boot:spring-boot-starter-actuator"
-		compile "org.springframework.cloud:spring-cloud-netflix-core"
+
+		compile "org.springframework.cloud:spring-cloud-starter-eureka"
 		compile "org.springframework.cloud:spring-cloud-starter-zuul"
 		compile "org.springframework.cloud:spring-cloud-config-client"
+
 		compile "io.springfox:springfox-swagger2:${springfoxSwaggerVersion}"
 		compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
 		compile "org.webjars:bootstrap:3.3.7"
