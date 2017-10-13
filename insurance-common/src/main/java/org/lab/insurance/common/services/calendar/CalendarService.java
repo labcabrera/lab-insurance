@@ -3,7 +3,7 @@ package org.lab.insurance.common.services.calendar;
 import java.util.Date;
 
 import org.joda.time.DateTime;
-import org.lab.insurance.domain.core.common.HolidayCalendar;
+import org.lab.insurance.domain.core.common.calendar.HolidayCalendar;
 import org.springframework.stereotype.Component;
 
 @Component

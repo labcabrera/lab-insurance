@@ -1,19 +1,17 @@
-# lab-insurance
+# Open Asset Management System (beta)
 
 image:https://travis-ci.org/labcabrera/lab-insurance.svg?branch=master["Build Status", link="https://travis-ci.org/labcabrera/lab-insurance"]
 image:https://api.codacy.com/project/badge/Grade/a30d53d005584beb81b5a24aaa6bc7bc["Codacy code quality", link="https://www.codacy.com/app/lab.cabrera/lab-insurance?utm_source=github.com&utm_medium=referral&utm_content=labcabrera/lab-insurance&utm_campaign=Badge_Grade"]
 
-= Insurance Showcase Engine (beta)
+= Arquitecture overview
 
-Motor de gestión de productos de ahorro (o de cualquier otra cosa cuando esté bien parametrizado) con una
-arquitectura de microservicios basada en:
+Microservices oriented application over:
 
+* Spring Cloud
 * Spring Boot
 * Spring Integration & DSL
 * RabbitMQ
-* Spring Cloud Netflix
 * MongoDB
-
 
 == Domain model
 

@@ -2,7 +2,7 @@ spring:
   application:
     name: insurance-cloud-config
   profiles:
-    active: github
+    active: local-git
  
 server:
   port: ${PORT:8888}
@@ -36,4 +36,4 @@ spring:
     config:
       server:
         git:
-          uri: file:///home/lab/repositories/training/lab-insurance-cloud-config
+          uri: file:///home/lab/repositories/lab-insurance-cloud-config

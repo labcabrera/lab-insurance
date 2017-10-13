@@ -6,7 +6,6 @@ import java.util.Date;
 import org.lab.insurance.domain.core.insurance.Asset;
 import org.lab.insurance.domain.core.insurance.MarketOrder;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,15 +19,15 @@ public class PortfolioOperation {
 	private String id;
 
 	@DBRef
-	private Investment debe;
+	private Investment source;
 
 	@DBRef
-	private Investment haber;
+	private Investment target;
 
 	@DBRef
 	private Asset asset;
 
-	@Transient
+	@DBRef
 	private MarketOrder marketOrder;
 
 	private Date valueDate;

@@ -1,6 +1,6 @@
 package org.lab.insurance.portfolio.gateway.controller;
 
-import org.lab.insurance.domain.core.messaging.ContractRefMessage;
+import org.lab.insurance.domain.core.messaging.EntityReference;
 import org.lab.insurance.domain.core.portfolio.ContractPortfolioRelation;
 import org.lab.insurance.portfolio.gateway.integration.ContractCreationGateway;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class PortfolioInitializationController {
 
 	@RequestMapping(value = "/{contractId}", method = RequestMethod.POST)
 	public ContractPortfolioRelation initialize(@PathVariable(value = "contractId") String contractId) {
-		return gateway.process(new ContractRefMessage(contractId));
+		return gateway.process(new EntityReference(contractId));
 	}
 
 }

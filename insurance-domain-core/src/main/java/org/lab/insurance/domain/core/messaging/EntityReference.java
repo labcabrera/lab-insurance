@@ -1,14 +1,22 @@
 package org.lab.insurance.domain.core.messaging;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+//TODO remove
+//@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ContractRefMessage {
+public class EntityReference {
 
 	private String contractId;
+
+	public String getId() {
+		return contractId;
+	}
+
+	public void setContractId(String contractId) {
+		this.contractId = contractId;
+	}
 
 }

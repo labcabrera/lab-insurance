@@ -1,6 +1,7 @@
-package org.lab.insurance.domain.core.common;
+package org.lab.insurance.domain.core.common.calendar;
 
-import org.lab.insurance.domain.core.geo.Country;
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,11 +9,13 @@ import lombok.Data;
 
 @Document
 @Data
-public class HolidayCalendar {
+public class Holiday {
 
 	@Id
 	private String id;
+
+	private Date holidayDate;
 	private String name;
-	private Country country;
+	private HolidayCalendar calendar;
 
 }

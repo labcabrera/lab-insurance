@@ -66,6 +66,7 @@ public class OrderAccountProcessor {
 			orderPassive = order.getProcessInfo().getPortfolioPassive();
 			orderActive = order.getProcessInfo().getPortfolioActive();
 		}
+
 		if (orderPassive == null || orderActive == null) {
 			ContractPortfolioRelation relations = contractPortfolioRelationRepository.findByContract(contract);
 			if (orderPassive == null) {
@@ -98,8 +99,8 @@ public class OrderAccountProcessor {
 	public PortfolioOperation accountUnits(Investment from, Investment to, Asset asset, BigDecimal units,
 			Date valueDate, MarketOrder marketOrder) {
 		PortfolioOperation operation = new PortfolioOperation();
-		operation.setDebe(from);
-		operation.setHaber(to);
+		operation.setSource(from);
+		operation.setTarget(to);
 		operation.setAsset(asset);
 		operation.setUnits(units);
 		operation.setAmount(BigDecimal.ZERO);

@@ -11,7 +11,7 @@ public class Account {
 
 	public enum AccountType {
 
-		RIB, IBAN, CCC_ES, IBAN_FR, IBAN_IT;
+		RIB, IBAN, CCC_ES, IBAN_ES, IBAN_FR, IBAN_IT;
 	}
 
 	@Id

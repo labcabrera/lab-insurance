@@ -1,6 +1,6 @@
 package org.lab.insurance.domain.action.contract;
 
-import org.lab.insurance.domain.core.common.HolidayCalendar;
+import org.lab.insurance.domain.core.common.calendar.HolidayCalendar;
 
 import lombok.Data;
 
