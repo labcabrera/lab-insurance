@@ -37,7 +37,7 @@ public class ContractApprobationProcessor {
 			contract.setDates(new ContractDates());
 		}
 		contract.getDates().setStartDate(timestampProvider.getCurrentDate());
-		stateMachineService.createTransition(contract, Contract.States.APPROBED.name(), false);
+		stateMachineService.createTransition(contract, Contract.States.APPROVED.name(), false);
 		contractRepo.save(contract);
 		// TODO
 		return contract;

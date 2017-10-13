@@ -68,7 +68,7 @@ public class PorfolioOrderAccountDslConfig {
 				.inboundGateway(connectionFactory, amqpTemplate, porfolioOrderAccountQueue())
 				.errorChannel(portfolioOrderErrorChannel())
 			)
-			.log(Level.INFO, "Processing order accounting request")
+			.log(Level.INFO, "Received order accounting request")
 			.transform(Transformers.fromJson(Order.class))
 			.handle(Order.class, (request, headers) -> orderMongoAdapter.read(request.getId(), Order.class))
 			.handle(Order.class, (request, headers) -> orderAccountProcessor.process(request))
@@ -82,7 +82,7 @@ public class PorfolioOrderAccountDslConfig {
 	IntegrationFlow orderAccountFlowError() {
 		return IntegrationFlows
 			.from(portfolioOrderErrorChannel())
-			.log(Level.ERROR, "Received portfolio oerder accounting error")
+			.log(Level.ERROR, "Received order accounting error")
 			.transform(Transformers.toJson(mapper()))
 			.handle(Amqp
 				.outboundAdapter(amqpTemplate)

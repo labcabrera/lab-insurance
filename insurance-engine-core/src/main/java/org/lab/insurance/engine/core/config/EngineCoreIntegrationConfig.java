@@ -29,17 +29,13 @@ public class EngineCoreIntegrationConfig {
 		return MessageChannels.direct().get();
 	}
 
-	// MessageChannel channelExecutionSyncResponse() {
-	// return MessageChannels.direct().get();
-	// }
-
 	//@formatter:off
 	@Bean
 	IntegrationFlow executionFlowAsync() {
 		return IntegrationFlows
 			.from(channelExecutionAsyncRequest())
 			.transform(Transformers.toJson())
-			.log(Level.INFO, "Processing execution reuqest")
+			.log(Level.INFO, "Processing task execution request")
 			.handle(Amqp
 				.outboundAdapter(amqpTemplate)
 				.routingKeyExpression("headers.routingKey")

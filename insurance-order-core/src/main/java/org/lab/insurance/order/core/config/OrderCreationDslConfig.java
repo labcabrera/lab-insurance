@@ -54,13 +54,13 @@ public class OrderCreationDslConfig extends AbstractOrderDslConfig {
 
 	//@formatter:off
 	@Bean
-	IntegrationFlow orderCreationFlow() {
+	IntegrationFlow orderInitializationFlow() {
 		return IntegrationFlows
 			.from(Amqp
 				.inboundGateway(connectionFactory, amqpTemplate, orderCreationQueue())
 				.errorChannel(orderCreationErrorChannel())
 			)
-			.log(Level.INFO, "Reveived order creation request")
+			.log(Level.INFO, "Reveived order initialization request")
 			.transform(Transformers.fromJson(Order.class))
 			.handle(Order.class, (request, headers) -> orderMongoAdapter.read(request.getId(), Order.class))
 			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.PROCESSING.name(), false))
@@ -79,10 +79,10 @@ public class OrderCreationDslConfig extends AbstractOrderDslConfig {
 
 	//@formatter:off
 	@Bean
-	IntegrationFlow orderCreationErrorFlow() {
+	IntegrationFlow orderInitializationErrorFlow() {
 		return IntegrationFlows
 			.from(orderCreationErrorChannel())
-			.log(Level.ERROR, "Received order creation error")
+			.log(Level.ERROR, "Reveived order initialization request")
 			.transform(Transformers.toJson(mapper()))
 			.handle(Amqp
 				.outboundAdapter(amqpTemplate)

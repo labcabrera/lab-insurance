@@ -1,5 +1,6 @@
 package org.lab.insurance.domain.action.contract;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -29,5 +30,7 @@ public class ContractCreation extends AbstractInsuranceAction {
 	@NotNull
 	@ApiModelProperty("Initial payment")
 	Order initialPayment;
+
+	Date effective;
 
 }

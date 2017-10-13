@@ -59,6 +59,11 @@ public class GeneralSteps extends BddSupport {
 		log.info("Clean queues");
 	}
 
+	@Then("^echo \"([^\"]*)\"$")
+	public void echo(String msg) throws Throwable {
+		log.info(msg);
+	}
+
 	@Then("^espero que se vacie la cola \"([^\"]*)\"$")
 	public void espero_que_se_vacie_la_cola(String queueName) throws Throwable {
 		rabbitOperations.waitUntilQueueIsEmpty(queueName);

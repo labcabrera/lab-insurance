@@ -14,9 +14,11 @@ import org.springframework.integration.amqp.dsl.Amqp;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.Transformers;
+import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.handler.LoggingHandler.Level;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.integration.support.json.JsonObjectMapper;
+import org.springframework.messaging.MessageChannel;
 
 @Configuration
 @ComponentScan("org.lab.insurance.portfolio.core")
@@ -40,8 +42,18 @@ public class PorfolioInitializationDslConfig {
 	}
 
 	@Bean
-	public Queue portfolioInitializationQue() {
+	public Queue portfolioInitializationQueue() {
 		return new Queue(env.getProperty("queues.portfolio.creation"), true, false, false);
+	}
+
+	@Bean
+	public Queue portfolioInitializationErrorQueue() {
+		return new Queue(env.getProperty("queues.portfolio.creation-error"), true, false, false);
+	}
+
+	@Bean
+	MessageChannel portfolioInitializationChannel() {
+		return MessageChannels.direct().get();
 	}
 
 	//@formatter:off
@@ -49,13 +61,28 @@ public class PorfolioInitializationDslConfig {
 	public IntegrationFlow initializacionFlow() {
 		return IntegrationFlows
 			.from(Amqp
-				.inboundGateway(connectionFactory, amqpTemplate, portfolioInitializationQue())
-				//TODO error channel
+				.inboundGateway(connectionFactory, amqpTemplate, portfolioInitializationQueue())
+				.errorChannel(portfolioInitializationChannel())
 			)
-			.log(Level.INFO, "Processing portfolio initialization request")
+			.log(Level.INFO, "Received portfolio initialization request")
 			.transform(Transformers.fromJson(Contract.class))
 			.handle(Contract.class, (request, headers) -> initializationService.initialize(request))
 			.transform(Transformers.toJson(mapper()))
+			.get();
+	}
+	//@formatter:on
+
+	//@formatter:off
+	@Bean
+	IntegrationFlow initializacionErrorFlow() {
+		return IntegrationFlows
+			.from(portfolioInitializationChannel())
+			.log(Level.ERROR, "Received portfolio initialization error")
+			.transform(Transformers.toJson(mapper()))
+			.handle(Amqp
+				.outboundAdapter(amqpTemplate)
+				.routingKey(env.getProperty("queues.portfolio.creation-error"))
+			)
 			.get();
 	}
 	//@formatter:on

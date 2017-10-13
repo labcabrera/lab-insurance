@@ -70,15 +70,17 @@ public class InsuranceTaskExecutor {
 		Query query = null;
 		if(tags != null && tags.isEmpty()) {
 			query = new Query(
-					Criteria.where("executed").is(null)
+				Criteria.where("executed").is(null)
 					.andOperator(Criteria.where("error").is(null)
 					.andOperator(Criteria.where("tags").in(tags))
+					.andOperator(Criteria.where("execution").gte(from).lte(to))
 				)
 			);
 		} else {
 			query = new Query(
-					Criteria.where("executed").is(null)
+				Criteria.where("executed").is(null)
 					.andOperator(Criteria.where("error").is(null)
+					.andOperator(Criteria.where("execution").gte(from).lte(to))
 				)
 			);
 		}

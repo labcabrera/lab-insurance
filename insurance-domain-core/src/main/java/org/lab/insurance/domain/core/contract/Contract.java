@@ -75,7 +75,7 @@ public class Contract implements HasState {
 	}
 
 	public enum States {
-		INITIAL, VALIDATED, APPROBED, PAID, STARTED, CANCELLED;
+		INITIAL, VALIDATED, APPROVED, PAID, STARTED, CANCELLED;
 	}
 
 	public static class ValidationContext {

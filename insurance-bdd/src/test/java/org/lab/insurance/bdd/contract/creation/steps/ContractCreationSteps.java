@@ -107,8 +107,9 @@ public class ContractCreationSteps extends BddSupport {
 	}
 
 	@When("^establezco la fecha de contratacion a (\\d+)/(\\d+)/(\\d+)$")
-	public void establezco_la_fecha_de_contratacion_a(int arg1, int arg2, int arg3) {
-		// TODO
+	public void establezco_la_fecha_de_contratacion_a(int yyyy, int mm, int dd) throws Throwable {
+		DateTime date = new DateTime(yyyy, mm, dd, 0, 0, 0);
+		contractCreateAction.setEffective(date.toDate());
 	}
 
 	@When("^muestro el JSON del contrato$")
@@ -141,6 +142,48 @@ public class ContractCreationSteps extends BddSupport {
 	public void invoco_al_servicio_de_contratacion() {
 		contract = contractCreationGateway.processCreation(contractCreateAction);
 		Assert.assertNotNull(contract.getId());
+	}
+
+	@Then("^espero hasta que el estado de contrato sea \"([^\"]*)\" \\(timeout: (\\d+)sg\\)$")
+	public void espero_hasta_que_el_estado_de_contrato_sea_timeout_sg(String status, int timeoutInSg) {
+		log.info("Waiting until contract status is {}", status);
+		long timeout = System.currentTimeMillis() + 1000 * timeoutInSg;
+		Contract checkContract = null;
+		while (System.currentTimeMillis() < timeout) {
+			checkContract = contractRepository.findById(contract.getId()).get();
+			if (status.equals(checkContract.getCurrentState().getCode())) {
+				log.info("Contract status is {}", status);
+				return;
+			}
+			try {
+				Thread.sleep(1000);
+			}
+			catch (Exception ignore) {
+			}
+		}
+		throw new InsuranceException("Invalid contract status: " + checkContract.getCurrentState().getCode());
+	}
+
+	@Then("^espero hasta que el estado del pago inicial sea \"([^\"]*)\" \\(timeout: (\\d+)sg\\)$")
+	public void espero_segundos_hasta_que_el_estado_del_pago_inicial_sea(String status, int timeoutInSg) {
+		log.info("Waiting until initial payment status is {}", status);
+		long timeout = System.currentTimeMillis() + 1000 * timeoutInSg;
+		Contract checkContract = null;
+		Order checkOrder = null;
+		while (System.currentTimeMillis() < timeout) {
+			checkContract = contractRepository.findById(contract.getId()).get();
+			checkOrder = checkContract.filterOrders(OrderType.INITIAL_PAYMENT).iterator().next();
+			if (status.equals(checkOrder.getCurrentState().getCode())) {
+				log.info("Initial payment status is {}", status);
+				return;
+			}
+			try {
+				Thread.sleep(1000);
+			}
+			catch (Exception ignore) {
+			}
+		}
+		throw new InsuranceException("Invalid inital payment status: " + checkOrder.getCurrentState().getCode());
 	}
 
 	@Then("^recupero el numero del contrato$")
@@ -179,29 +222,6 @@ public class ContractCreationSteps extends BddSupport {
 		contract = contractRepository.findById(contract.getId()).get();
 		Order order = contract.filterOrders(OrderType.INITIAL_PAYMENT).iterator().next();
 		Assert.assertEquals(state, order.getCurrentState().getCode());
-	}
-
-	@Then("^espero (\\d+) segundos hasta que el estado del pago inicial sea \"([^\"]*)\"$")
-	public void espero_segundos_hasta_que_el_estado_del_pago_inicial_sea(int sg, String status) {
-		log.info("Waiting until initial payment status is {}", status);
-		long timeout = System.currentTimeMillis() + 1000 * sg;
-		Contract checkContract = null;
-		Order checkOrder = null;
-		while (System.currentTimeMillis() < timeout) {
-			checkContract = contractRepository.findById(contract.getId()).get();
-			checkOrder = checkContract.filterOrders(OrderType.INITIAL_PAYMENT).iterator().next();
-			// checkOrder = orderRepository.findById(initialPayment.getId()).get();
-			if (status.equals(checkOrder.getCurrentState().getCode())) {
-				log.info("Initial payment status is {}", status);
-				return;
-			}
-			try {
-				Thread.sleep(1000);
-			}
-			catch (Exception ignore) {
-			}
-		}
-		throw new InsuranceException("Invalid status: " + checkOrder.getCurrentState().getCode());
 	}
 
 	private void addRelation(Person person, RelationType type) {
