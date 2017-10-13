@@ -45,6 +45,7 @@ public class InitialPaymentReceptionDslConfig extends AbstractDslConfig {
 			.log(Level.INFO, "Received intial payment reception request")
 			// Contract
 			.handle(InitialPaymentReception.class, (request, headers) -> initialPaymentReceptionProcessor.process(request))
+			//TODO la transicion es a PAID, no a STARTED, que deberia ser cuando el pago inicial esta valorizado
 			.handle(Contract.class, (request, headers) -> stateMachineProcessor.process(request, Contract.States.STARTED.name(), true))
 			.handle(Contract.class, (request, headers) -> contractMongoAdapter.save(request))
 			// Order

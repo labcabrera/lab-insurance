@@ -27,6 +27,10 @@ import lombok.Data;
 @Document
 public class Contract implements HasState {
 
+	public enum States {
+		INITIAL, VALIDATED, APPROVED, PAID, STARTED, CANCELLED;
+	}
+
 	@Id
 	@Null(message = "ID_MUST_BE_EMPTY", groups = ValidationContext.Insert.class)
 	@NotNull(message = "ID_MANDATORY", groups = ValidationContext.Default.class)
@@ -72,10 +76,6 @@ public class Contract implements HasState {
 
 	public List<Order> filterOrders(OrderType type) {
 		return orders.stream().filter(x -> type.equals(x.getType())).collect(Collectors.toList());
-	}
-
-	public enum States {
-		INITIAL, VALIDATED, APPROVED, PAID, STARTED, CANCELLED;
 	}
 
 	public static class ValidationContext {

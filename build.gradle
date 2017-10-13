@@ -225,6 +225,17 @@ project(":insurance-contract-creation-gateway") {
 	}
 }
 
+project(":insurance-fee-core") {
+	apply plugin: "org.springframework.boot"
+	dependencies {
+		compile project(":insurance-common")
+		compile project(":insurance-domain-action")
+		compile "com.amazonaws:aws-java-sdk:${awsSdkVersion}"
+		compile coreLibs
+		testCompile testLibs
+	}
+}
+
 project(":insurance-io") {
 	apply plugin: "org.springframework.boot"
 	dependencies {
