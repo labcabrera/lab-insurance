@@ -1,7 +1,7 @@
 spring:
   profiles:
-    #active: aws
-    active: local
+    active: aws
+    #active: local
   cloud:
     config:
       name: insurance-common,insurance-contract-creation-core,insurance-amqp
