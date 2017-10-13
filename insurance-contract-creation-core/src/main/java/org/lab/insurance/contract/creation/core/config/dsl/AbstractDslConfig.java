@@ -1,4 +1,4 @@
-package org.lab.insurance.contract.creation.core.config;
+package org.lab.insurance.contract.creation.core.config.dsl;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;

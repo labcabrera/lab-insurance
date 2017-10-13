@@ -28,6 +28,7 @@ import org.lab.insurance.domain.core.legalentity.repository.PersonRepository;
 import org.lab.insurance.engine.core.domain.InsuranceTask;
 import org.lab.insurance.engine.core.services.InsuranceTaskScheduler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +41,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ContractCreationSteps extends BddSupport {
+
+	@Autowired
+	protected Environment env;
 
 	@Autowired
 	protected ContractCreationGateway contractCreationGateway;
@@ -124,7 +128,10 @@ public class ContractCreationSteps extends BddSupport {
 			int dayOfMonth) {
 		Date execution = new DateTime(year, monthOfYear, dayOfMonth, 0, 0).toDate();
 		ContractApprobation action = ContractApprobation.builder().contractId(contract.getId()).build();
-		InsuranceTask task = InsuranceTask.builder().action(action).execution(execution).build();
+
+		InsuranceTask task = InsuranceTask.builder().data(action).execution(execution)
+				.destinationQueue(env.getProperty("queues.contract.approbation")).build();
+
 		scheduler.schedule(task);
 	}
 
@@ -134,7 +141,10 @@ public class ContractCreationSteps extends BddSupport {
 		Date execution = new DateTime(year, monthOfYear, dayOfMonth, 0, 0).toDate();
 		InitialPaymentReception action = InitialPaymentReception.builder().paymentReception(execution)
 				.contractId(contract.getId()).build();
-		InsuranceTask task = InsuranceTask.builder().action(action).execution(execution).build();
+
+		InsuranceTask task = InsuranceTask.builder().data(action).execution(execution)
+				.destinationQueue(env.getProperty("queues.payment.initial-payment-reception")).build();
+
 		scheduler.schedule(task);
 	}
 

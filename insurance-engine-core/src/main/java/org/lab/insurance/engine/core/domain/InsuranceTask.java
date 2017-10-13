@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import org.lab.insurance.domain.action.InsuranceAction;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,7 +18,6 @@ import lombok.NoArgsConstructor;
 /**
  * Represents an action planned to be executed on a certain date.
  */
-// TODO considerar hacerla generica
 @Document
 @Data
 @NoArgsConstructor
@@ -31,7 +29,10 @@ public class InsuranceTask {
 	String id;
 
 	@NotNull
-	InsuranceAction action;
+	String destinationQueue;
+
+	@NotNull
+	Object data;
 
 	@NotNull
 	Date execution;
@@ -47,10 +48,5 @@ public class InsuranceTask {
 
 	@DBRef
 	InsuranceTask parent;
-
-	@SuppressWarnings("unchecked")
-	public <T> T getAction(Class<T> actionClass) {
-		return (T) action;
-	}
 
 }

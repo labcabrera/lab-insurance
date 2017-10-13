@@ -1,4 +1,4 @@
-package org.lab.insurance.contract.creation.core.config;
+package org.lab.insurance.contract.creation.core.config.dsl;
 
 import org.lab.insurance.common.integration.PayloadMongoAdapter;
 import org.lab.insurance.common.integration.StateMachineProcesor;

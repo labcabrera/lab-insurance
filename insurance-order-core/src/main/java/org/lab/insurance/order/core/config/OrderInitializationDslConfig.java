@@ -5,7 +5,6 @@ import org.lab.insurance.order.core.processor.MarketOrderGeneratorProcessor;
 import org.lab.insurance.order.core.processor.OrderFeesProcessor;
 import org.lab.insurance.order.core.processor.OrderValorizationScheduler;
 import org.lab.insurance.order.core.processor.ValueDateProcessor;
-import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,12 +12,10 @@ import org.springframework.integration.amqp.dsl.Amqp;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.Transformers;
-import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.handler.LoggingHandler.Level;
-import org.springframework.messaging.MessageChannel;
 
 @Configuration
-public class OrderCreationDslConfig extends AbstractOrderDslConfig {
+public class OrderInitializationDslConfig extends AbstractOrderDslConfig {
 
 	@Autowired
 	private MarketOrderGeneratorProcessor marketOrderGeneratorProcessor;
@@ -31,26 +28,6 @@ public class OrderCreationDslConfig extends AbstractOrderDslConfig {
 
 	@Autowired
 	private ValueDateProcessor valueDateProcessor;
-
-	@Bean
-	Queue orderCreationQueue() {
-		return new Queue(env.getProperty("queues.order.creation"), true, false, false);
-	}
-
-	@Bean
-	MessageChannel paymentCreationChannel() {
-		return MessageChannels.direct().get();
-	}
-
-	@Bean
-	Queue orderCreationErrorQueue() {
-		return new Queue(env.getProperty("queues.order.creation-error"), true, false, false);
-	}
-
-	@Bean
-	MessageChannel orderCreationErrorChannel() {
-		return MessageChannels.direct().get();
-	}
 
 	//@formatter:off
 	@Bean

@@ -31,6 +31,10 @@ import lombok.ToString;
 @ToString(of = { "id", "type" })
 public class Order implements HasContract, HasState, HasIdentifier<String> {
 
+	public enum States {
+		INITIAL, TO_PROCESS, PROCESSING, PROCESSED, VALUING, VALUED, ACCOUNTING, ACCOUNTED;
+	}
+
 	@Id
 	String id;
 
@@ -50,8 +54,8 @@ public class Order implements HasContract, HasState, HasIdentifier<String> {
 	BigDecimal grossAmount;
 	BigDecimal netAmount;
 
-	public enum States {
-		INITIAL, TO_PROCESS, PROCESSING, PROCESSED, VALUING, VALUED, ACCOUNTING, ACCOUNTED;
+	public Order(String id) {
+		this.id = id;
 	}
 
 }

@@ -1,9 +1,7 @@
-package org.lab.insurance.contract.creation.core.config;
+package org.lab.insurance.contract.creation.core.config.dsl;
 
 import org.lab.insurance.contract.creation.core.integration.ReadContractTransformer;
-import org.lab.insurance.contract.creation.core.service.ContractApprobationProcessor;
 import org.lab.insurance.contract.creation.core.service.ContractCreationProcessor;
-import org.lab.insurance.domain.action.contract.ContractApprobation;
 import org.lab.insurance.domain.action.contract.ContractCreation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,9 +17,6 @@ public class ContractCreationDslConfig extends AbstractDslConfig {
 
 	@Autowired
 	private ContractCreationProcessor creationProcessor;
-
-	@Autowired
-	private ContractApprobationProcessor approbationProcessor;
 
 	@Bean
 	ReadContractTransformer readContractTransformer() {
@@ -60,57 +55,6 @@ public class ContractCreationDslConfig extends AbstractDslConfig {
 			.handle(Amqp
 				.outboundAdapter(amqpTemplate)
 				.routingKey(env.getProperty("queues.contract.creation-error"))
-			)
-			.get();
-	}
-	//@formatter:on
-
-	//@formatter:off
-	@Bean
-	IntegrationFlow approbationFlow() {
-		return IntegrationFlows
-			.from(Amqp
-				.inboundGateway(connectionFactory, amqpTemplate, contractApprobationQueue())
-			)
-			.transform(Transformers.fromJson(ContractApprobation.class, mapper()))
-			.log(Level.INFO, "Received contract approbation request")
-			.handle(ContractApprobation.class, (request, headers) -> approbationProcessor.process(request))
-			.publishSubscribeChannel(c -> c.applySequence(false)
-				.subscribe(f -> f
-					.channel(portfolioInitializationChannel()))
-				.subscribe(f -> f
-					.channel(createContractDocumentationChannel()))
-			)
-			.transform(Transformers.toJson(mapper()))
-			.get();
-	}
-	//@formatter:on
-
-	//@formatter:off
-	@Bean
-	IntegrationFlow portfolioInitFlow() {
-		return IntegrationFlows
-			.from(portfolioInitializationChannel())
-			.transform(Transformers.toJson(mapper()))
-			.log("Sending portfolio initialization message")
-			.handle(Amqp
-				.outboundAdapter(amqpTemplate)
-				.routingKey(env.getProperty("queues.portfolio.creation"))
-			)
-			.get();	
-	}
-	//@formatter:on
-
-	//@formatter:off
-	@Bean
-	IntegrationFlow createContractDocumentationFlow() {
-		return IntegrationFlows
-			.from(createContractDocumentationChannel())
-			.log("Sending contract doc message")
-			.transform(Transformers.toJson(mapper()))
-			.handle(Amqp
-				.outboundAdapter(amqpTemplate)
-				.routingKey(env.getProperty("queues.contract.doc-creation"))
 			)
 			.get();
 	}

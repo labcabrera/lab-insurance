@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class OrderAccountProcessor {
+public class PortfolioOrderProcessor {
 
 	@Autowired
 	private PortfolioOperationRepository portfolioOperationRepository;
@@ -44,7 +44,7 @@ public class OrderAccountProcessor {
 
 	public Order process(Order order) {
 		try {
-			log.info("Accounting order");
+			log.info("Accounting order {}", order);
 			List<PortfolioOperation> operations = account(order);
 			portfolioOperationRepository.saveAll(operations);
 			return order;

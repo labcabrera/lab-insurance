@@ -4,7 +4,7 @@ import org.lab.insurance.bdd.contract.config.BddConfig;
 import org.lab.insurance.common.InsuranceCommonConfig;
 import org.lab.insurance.contract.creation.core.config.ContractCreationCoreConfig;
 import org.lab.insurance.engine.core.config.InsuranceEngineCoreConfig;
-import org.lab.insurance.order.core.config.OrderCreationDslConfig;
+import org.lab.insurance.order.core.config.OrderInitializationDslConfig;
 import org.lab.insurance.order.core.config.OrderValorizationDslConfig;
 import org.lab.insurance.portfolio.core.config.PorfolioInitializationDslConfig;
 import org.lab.insurance.portfolio.core.config.PorfolioOrderAccountDslConfig;
@@ -24,7 +24,7 @@ import com.lab.insurance.contract.creation.gateway.config.IntegrationConfig;
 		InsuranceEngineCoreConfig.class,
 		PorfolioInitializationDslConfig.class,
 		PorfolioOrderAccountDslConfig.class,
-		OrderCreationDslConfig.class,
+		OrderInitializationDslConfig.class,
 		OrderValorizationDslConfig.class,
 		ContractCreationCoreConfig.class
 	})

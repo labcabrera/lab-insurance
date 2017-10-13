@@ -2,7 +2,7 @@ package org.lab.insurance.portfolio.core.config;
 
 import org.lab.insurance.common.integration.PayloadMongoAdapter;
 import org.lab.insurance.domain.core.insurance.Order;
-import org.lab.insurance.portfolio.core.processor.OrderAccountProcessor;
+import org.lab.insurance.portfolio.core.processor.PortfolioOrderProcessor;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -32,7 +32,7 @@ public class PorfolioOrderAccountDslConfig {
 	private ConnectionFactory connectionFactory;
 
 	@Autowired
-	private OrderAccountProcessor orderAccountProcessor;
+	private PortfolioOrderProcessor orderAccountProcessor;
 
 	@Autowired
 	private AmqpTemplate amqpTemplate;

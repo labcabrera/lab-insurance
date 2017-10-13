@@ -1,6 +1,5 @@
 package org.lab.insurance.order.core.config;
 
-import org.lab.insurance.domain.action.contract.OrderValorization;
 import org.lab.insurance.domain.core.insurance.Order;
 import org.lab.insurance.order.core.processor.OrderValorizationProcessor;
 import org.springframework.amqp.core.Queue;
@@ -13,6 +12,7 @@ import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.Transformers;
 import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.handler.LoggingHandler.Level;
+import org.springframework.integration.transformer.GenericTransformer;
 import org.springframework.messaging.MessageChannel;
 
 @Configuration
@@ -43,17 +43,25 @@ public class OrderValorizationDslConfig extends AbstractOrderDslConfig {
 			.from(Amqp
 				.inboundGateway(connectionFactory, amqpTemplate, valorizationQueue())
 				.errorChannel(valorizationErrorChannel())
-				//TODO config
-				.replyTimeout(600000)
 			)
 			.log(Level.INFO, "Received order valorization request")
-			.transform(Transformers.fromJson(OrderValorization.class))
-			.handle(OrderValorization.class, (request, headers) -> orderMongoAdapter.read(request.getOrderId(), Order.class))
+			
+			.transform(Transformers.fromJson(Order.class))
+			.handle(Order.class, (request, headers) -> orderMongoAdapter.read(request.getId(), Order.class))
 			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.VALUING.name(), false))
 			.handle(Order.class, (request, headers) -> valorizationProcessor.process(request))
 			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.VALUED.name(), false))
 			.handle(Order.class, (request, headers) -> orderMongoAdapter.save(request))
 			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.ACCOUNTING.name(), false))
+			
+			//TODO hacerlo bonito
+			.transform(new GenericTransformer<Order, Order>() {
+
+				@Override
+				public Order transform(Order source) {
+					return new Order(source.getId());
+				}
+			})
 			
 			//TODO gateway a la cola de portfolio-account-order y esperar al resultado
 			.transform(Transformers.toJson(mapper()))
@@ -62,8 +70,8 @@ public class OrderValorizationDslConfig extends AbstractOrderDslConfig {
 				.routingKey(env.getProperty("queues.portfolio.order-account"))
 			)
 			
-			.transform(Transformers.fromJson(OrderValorization.class))
-			.handle(OrderValorization.class, (request, headers) -> orderMongoAdapter.read(request.getOrderId(), Order.class))
+			.transform(Transformers.fromJson(Order.class))
+			.handle(Order.class, (request, headers) -> orderMongoAdapter.read(request.getId(), Order.class))
 			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.ACCOUNTED.name(), false))
 			.handle(Order.class, (request, headers) -> orderMongoAdapter.save(request))
 			.transform(Transformers.toJson(mapper()))

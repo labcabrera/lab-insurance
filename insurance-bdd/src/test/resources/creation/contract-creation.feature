@@ -31,6 +31,7 @@ Feature: basic contract creation
 
     Then simulo una ejecucion de 2017/01/12 a 2017/02/25
     Then espero hasta que el estado de contrato sea "STARTED" (timeout: 10sg)
+    Then espero hasta que el estado del pago inicial sea "ACCOUNTED" (timeout: 120sg)
 	
 	
 	

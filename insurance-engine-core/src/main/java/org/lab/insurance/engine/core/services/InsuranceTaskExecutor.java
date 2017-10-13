@@ -1,31 +1,28 @@
 package org.lab.insurance.engine.core.services;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.joda.time.DateTime;
+import org.lab.insurance.common.exception.InsuranceException;
 import org.lab.insurance.common.services.TimestampProvider;
-import org.lab.insurance.engine.core.EngineConstants;
 import org.lab.insurance.engine.core.domain.ExecutionReport;
 import org.lab.insurance.engine.core.domain.ExecutionReportDetail;
 import org.lab.insurance.engine.core.domain.InsuranceTask;
 import org.lab.insurance.engine.core.domain.InsuranceTaskError;
 import org.lab.insurance.engine.core.domain.repository.ExecutionReportRepository;
 import org.lab.insurance.engine.core.domain.repository.InsuranceTaskRepository;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,15 +43,13 @@ public class InsuranceTaskExecutor {
 	private MongoTemplate mongoTemplate;
 
 	@Autowired
-	private RoutingKeyMapper routingKeyMapper;
+	private AmqpTemplate amqpTemplate;
 
-	@Qualifier(EngineConstants.Channels.ExecutionRequestSync)
 	@Autowired
-	private MessageChannel messageChannelSync;
+	private RabbitTemplate rabbitTemplate;
 
-	@Qualifier(EngineConstants.Channels.ExecutionRequestAsync)
 	@Autowired
-	private MessageChannel messageChannelAsync;
+	private ObjectMapper mapper;
 
 	public ExecutionReport execute(Date from, Date to, List<String> tags) {
 		log.info("Executing {} to {} (tags: {})", new DateTime(from), new DateTime(to), tags);
@@ -90,7 +85,7 @@ public class InsuranceTaskExecutor {
 
 		InsuranceTask task = mongoTemplate.findOne(query, InsuranceTask.class);
 		while (task != null) {
-			log.info("Processing task {} ({})", task.getClass().getName(), task);
+			log.info("Executing scheduled task {} ({})", task.getClass().getName(), task);
 			execute(task);
 			task = mongoTemplate.findOne(query, InsuranceTask.class);
 		}
@@ -99,7 +94,6 @@ public class InsuranceTaskExecutor {
 	}
 
 	private ExecutionReportDetail execute(InsuranceTask task) {
-		log.info("Executing task {}", task);
 		ExecutionReportDetail detail = new ExecutionReportDetail();
 		try {
 			internalExecute(task);
@@ -114,21 +108,29 @@ public class InsuranceTaskExecutor {
 		return detail;
 	}
 
-	@SuppressWarnings("rawtypes")
+	// TODO
 	private void internalExecute(InsuranceTask task) throws JsonProcessingException {
-		Boolean sync = routingKeyMapper.isSync(task);
-		Map<String, Object> headers = new HashMap<>();
-		headers.put("routingKey", routingKeyMapper.getRoutingKey(task));
-		Message message = new GenericMessage<>(task.getAction(), headers);
-		// TODO revisar recepcion de mensajes en procesamiento sincronos
-		sync = false;
-		if (sync) {
-			messageChannelSync.send(message);
-		}
-		else {
-			messageChannelAsync.send(message);
-		}
+		try {
+			String routingKey = task.getDestinationQueue();
+			Object data = task.getData();
+			String json = mapper.writeValueAsString(data);
 
+			// rabbitTemplate.convertAndSend(routingKey, json);
+			rabbitTemplate.convertAndSend(routingKey, json);
+
+			// TODO controlar cuando termina de procesarse la accion. No vale con el
+			// convertSendAndReceive(...)
+			try {
+				Thread.sleep(5000);
+			}
+			catch (InterruptedException e) {
+			}
+
+		}
+		catch (RuntimeException ex) {
+			log.error("Task execution error");
+			throw new InsuranceException("Task execution error", ex);
+		}
 	}
 
 }
