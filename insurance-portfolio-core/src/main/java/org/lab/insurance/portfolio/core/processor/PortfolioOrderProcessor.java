@@ -19,7 +19,6 @@ import org.lab.insurance.domain.core.portfolio.Portfolio;
 import org.lab.insurance.domain.core.portfolio.PortfolioOperation;
 import org.lab.insurance.domain.core.portfolio.PortfolioType;
 import org.lab.insurance.domain.core.portfolio.repository.ContractPortfolioRelationRepository;
-import org.lab.insurance.domain.core.portfolio.repository.PortfolioOperationRepository;
 import org.lab.insurance.portfolio.core.service.PorfolioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,8 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PortfolioOrderProcessor {
 
-	@Autowired
-	private PortfolioOperationRepository portfolioOperationRepository;
+	// @Autowired
+	// private PortfolioOperationRepository portfolioOperationRepository;
 
 	@Autowired
 	private PorfolioService portfolioService;
@@ -46,7 +45,10 @@ public class PortfolioOrderProcessor {
 		try {
 			log.info("Accounting order {}", order);
 			List<PortfolioOperation> operations = account(order);
-			portfolioOperationRepository.saveAll(operations);
+			log.debug("Created {} portfolio operations", operations.size());
+
+			// TODO pediente de definir el modelo de datos. Ahora esta inconsistente
+			// portfolioOperationRepository.saveAll(operations);
 			return order;
 		}
 		catch (RuntimeException ex) {

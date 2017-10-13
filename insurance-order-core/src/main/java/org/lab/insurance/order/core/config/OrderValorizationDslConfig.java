@@ -12,7 +12,6 @@ import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.Transformers;
 import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.handler.LoggingHandler.Level;
-import org.springframework.integration.transformer.GenericTransformer;
 import org.springframework.messaging.MessageChannel;
 
 @Configuration
@@ -36,6 +35,11 @@ public class OrderValorizationDslConfig extends AbstractOrderDslConfig {
 		return MessageChannels.direct().get();
 	}
 
+	@Bean
+	MessageChannel portfolioAccountChannel() {
+		return MessageChannels.direct().get();
+	}
+
 	//@formatter:off
 	@Bean
 	IntegrationFlow orderValorizationFlow() {
@@ -52,31 +56,11 @@ public class OrderValorizationDslConfig extends AbstractOrderDslConfig {
 			.handle(Order.class, (request, headers) -> valorizationProcessor.process(request))
 			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.VALUED.name(), false))
 			.handle(Order.class, (request, headers) -> orderMongoAdapter.save(request))
-			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.ACCOUNTING.name(), false))
-			
-			//TODO hacerlo bonito
-			.transform(new GenericTransformer<Order, Order>() {
-
-				@Override
-				public Order transform(Order source) {
-					return new Order(source.getId());
-				}
-			})
-			
-			//TODO gateway a la cola de portfolio-account-order y esperar al resultado
-			.transform(Transformers.toJson(mapper()))
-			.handle(Amqp
-				.outboundGateway(amqpTemplate)
-				.routingKey(env.getProperty("queues.portfolio.order-account"))
+			.publishSubscribeChannel(c -> c.applySequence(false)
+			.subscribe(f -> f
+					.channel(portfolioAccountChannel()))
 			)
-			
-			.transform(Transformers.fromJson(Order.class))
-			.handle(Order.class, (request, headers) -> orderMongoAdapter.read(request.getId(), Order.class))
-			.handle(Order.class, (request, headers) -> stateMachineProcessor.process(request, Order.States.ACCOUNTED.name(), false))
-			.handle(Order.class, (request, headers) -> orderMongoAdapter.save(request))
 			.transform(Transformers.toJson(mapper()))
-			//TODO
-			.bridge(null)
 			.get();
 	}
 	//@formatter:on
@@ -93,6 +77,21 @@ public class OrderValorizationDslConfig extends AbstractOrderDslConfig {
 				.routingKey(env.getProperty("queues.order.valorization-error"))
 			)
 			.get();
+	}
+	//@formatter:on
+
+	@Bean
+	IntegrationFlow portfolioAccountingtFlow() {
+	//@formatter:off
+		return IntegrationFlows
+			.from(portfolioAccountChannel())
+			.transform(Transformers.toJson(mapper()))
+			.log(Level.INFO, "Sending portfolio accounting msg")
+			.handle(Amqp
+				.outboundAdapter(amqpTemplate)
+				.routingKey(env.getProperty("queues.portfolio.order-account"))
+			)
+			.get();	
 	}
 	//@formatter:on
 

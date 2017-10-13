@@ -6,8 +6,8 @@ import org.lab.insurance.contract.creation.core.config.ContractCreationCoreConfi
 import org.lab.insurance.engine.core.config.InsuranceEngineCoreConfig;
 import org.lab.insurance.order.core.config.OrderInitializationDslConfig;
 import org.lab.insurance.order.core.config.OrderValorizationDslConfig;
-import org.lab.insurance.portfolio.core.config.PorfolioInitializationDslConfig;
-import org.lab.insurance.portfolio.core.config.PorfolioOrderAccountDslConfig;
+import org.lab.insurance.portfolio.core.config.dsl.PorfolioInitializationDslConfig;
+import org.lab.insurance.portfolio.core.config.dsl.PorfolioOrderAccountDslConfig;
 import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.test.context.ContextConfiguration;
 
