@@ -119,12 +119,32 @@ public class InsuranceTaskExecutor {
 		Object data = task.getData();
 		String json = mapper.writeValueAsString(data);
 		try {
+
 			// TODO revisar esta parte
+			boolean sync = false;
+			log.info("------------------------------------------------------------");
 			log.info("Sending message to {}", routingKey, data.getClass().getName());
-			RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-			rabbitTemplate.setReceiveTimeout(5000);
-			Object response = rabbitTemplate.convertSendAndReceive(routingKey, json);
-			log.info("Recevied message: {}", response);
+			log.info("------------------------------------------------------------");
+
+			if (sync) {
+				RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+				rabbitTemplate.setReplyTimeout(5000);
+				rabbitTemplate.setReceiveTimeout(5000);
+				Object response = rabbitTemplate.convertSendAndReceive(routingKey, json);
+				log.debug("Received response {}", response);
+			}
+			else {
+				log.info("Sending message to {}", routingKey, data.getClass().getName());
+				RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+				rabbitTemplate.setReplyTimeout(5000);
+				rabbitTemplate.setReceiveTimeout(5000);
+				rabbitTemplate.convertAndSend(routingKey, json);
+				try {
+					Thread.sleep(5000);
+				}
+				catch (InterruptedException e) {
+				}
+			}
 		}
 		catch (RuntimeException ex) {
 			log.error("Task execution error using routingKey {}", routingKey);
