@@ -14,7 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @EnableMongoRepositories({ "org.lab.insurance.domain", "org.lab.insurance.portfolio.core.domain" })
 @EnableAutoConfiguration
-@ComponentScan({ "org.lab.insurance.portfolio.core.service", "org.lab.insurance.portfolio.core.processor" })
+@ComponentScan({ "org.lab.insurance.portfolio.core.service", "org.lab.insurance.portfolio.core.processor",
+		"org.lab.insurance.common.services" })
 public class PortfolioInitializacionServiceTest {
 
 	@Autowired
