@@ -112,33 +112,28 @@ public class InsuranceTaskExecutor {
 		return detail;
 	}
 
-	// TODO
 	private void internalExecute(InsuranceTask task) throws JsonProcessingException {
 		Assert.notNull(task.getData(), "Missing task data");
 		String routingKey = task.getDestinationQueue();
 		Object data = task.getData();
-		String json = mapper.writeValueAsString(data);
+		String message = mapper.writeValueAsString(data);
 		try {
 
-			// TODO revisar esta parte
+			log.info("Sending message to {}", routingKey);
+			RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+			rabbitTemplate.setReplyTimeout(5000);
+			rabbitTemplate.setReceiveTimeout(5000);
+			rabbitTemplate.setQueue(routingKey);
+
+			// TODO
 			boolean sync = false;
-			log.info("------------------------------------------------------------");
-			log.info("Sending message to {}", routingKey, data.getClass().getName());
-			log.info("------------------------------------------------------------");
 
 			if (sync) {
-				RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-				rabbitTemplate.setReplyTimeout(5000);
-				rabbitTemplate.setReceiveTimeout(5000);
-				Object response = rabbitTemplate.convertSendAndReceive(routingKey, json);
-				log.debug("Received response {}", response);
+				Object response = rabbitTemplate.convertSendAndReceive(routingKey, message);
+				log.info("Received message from {}: {}", routingKey, response);
 			}
 			else {
-				log.info("Sending message to {}", routingKey, data.getClass().getName());
-				RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-				rabbitTemplate.setReplyTimeout(5000);
-				rabbitTemplate.setReceiveTimeout(5000);
-				rabbitTemplate.convertAndSend(routingKey, json);
+				rabbitTemplate.convertAndSend(routingKey, message);
 				try {
 					Thread.sleep(5000);
 				}
