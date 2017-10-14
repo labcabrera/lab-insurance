@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 import org.lab.insurance.domain.core.HasState;
-import org.lab.insurance.domain.core.common.audit.AuditData;
+import org.lab.insurance.domain.core.common.audit.InsuranceAuditData;
 import org.lab.insurance.domain.core.engine.State;
 import org.lab.insurance.domain.core.insurance.Order;
 import org.lab.insurance.domain.core.insurance.OrderType;
@@ -62,7 +62,7 @@ public class Contract implements HasState {
 	@Transient // TODO
 	private List<FinancialService> financialServices;
 
-	private AuditData auditData;
+	private InsuranceAuditData auditData;
 
 	@Reference
 	@JsonIgnore

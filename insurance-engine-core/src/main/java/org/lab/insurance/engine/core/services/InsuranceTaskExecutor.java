@@ -12,7 +12,7 @@ import org.lab.insurance.engine.core.domain.InsuranceTask;
 import org.lab.insurance.engine.core.domain.InsuranceTaskError;
 import org.lab.insurance.engine.core.domain.repository.ExecutionReportRepository;
 import org.lab.insurance.engine.core.domain.repository.InsuranceTaskRepository;
-import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -20,6 +20,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +30,9 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class InsuranceTaskExecutor {
+
+	@Autowired
+	private ConnectionFactory connectionFactory;
 
 	@Autowired
 	private InsuranceTaskRepository taskRepo;
@@ -42,11 +46,11 @@ public class InsuranceTaskExecutor {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
-	@Autowired
-	private AmqpTemplate amqpTemplate;
-
-	@Autowired
-	private RabbitTemplate rabbitTemplate;
+	// @Autowired
+	// private AmqpTemplate amqpTemplate;
+	//
+	// @Autowired
+	// private RabbitTemplate rabbitTemplate;
 
 	@Autowired
 	private ObjectMapper mapper;
@@ -110,25 +114,20 @@ public class InsuranceTaskExecutor {
 
 	// TODO
 	private void internalExecute(InsuranceTask task) throws JsonProcessingException {
+		Assert.notNull(task.getData(), "Missing task data");
+		String routingKey = task.getDestinationQueue();
+		Object data = task.getData();
+		String json = mapper.writeValueAsString(data);
 		try {
-			String routingKey = task.getDestinationQueue();
-			Object data = task.getData();
-			String json = mapper.writeValueAsString(data);
-
-			// rabbitTemplate.convertAndSend(routingKey, json);
-			rabbitTemplate.convertAndSend(routingKey, json);
-
-			// TODO controlar cuando termina de procesarse la accion. No vale con el
-			// convertSendAndReceive(...)
-			try {
-				Thread.sleep(5000);
-			}
-			catch (InterruptedException e) {
-			}
-
+			// TODO revisar esta parte
+			log.info("Sending message to {}", routingKey, data.getClass().getName());
+			RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+			rabbitTemplate.setReceiveTimeout(5000);
+			Object response = rabbitTemplate.convertSendAndReceive(routingKey, json);
+			log.info("Recevied message: {}", response);
 		}
 		catch (RuntimeException ex) {
-			log.error("Task execution error");
+			log.error("Task execution error using routingKey {}", routingKey);
 			throw new InsuranceException("Task execution error", ex);
 		}
 	}

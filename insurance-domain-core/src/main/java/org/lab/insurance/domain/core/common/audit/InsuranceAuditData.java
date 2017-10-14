@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AuditData {
+public class InsuranceAuditData {
 
 	@Id
 	String id;

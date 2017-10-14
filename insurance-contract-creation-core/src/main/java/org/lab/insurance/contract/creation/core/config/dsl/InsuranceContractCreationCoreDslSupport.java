@@ -1,38 +1,14 @@
 package org.lab.insurance.contract.creation.core.config.dsl;
 
-import org.springframework.amqp.core.AmqpTemplate;
+import org.lab.insurance.common.integration.dsl.InsuranceDslConfig;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.integration.dsl.channel.MessageChannels;
-import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
-import org.springframework.integration.support.json.JsonObjectMapper;
 import org.springframework.messaging.MessageChannel;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @Configuration
-abstract class AbstractDslConfig {
-
-	@Autowired
-	protected Environment env;
-
-	@Autowired
-	protected ConnectionFactory connectionFactory;
-
-	@Autowired
-	protected AmqpTemplate amqpTemplate;
-
-	@Autowired
-	protected ObjectMapper objectMapper;
-
-	@Bean
-	JsonObjectMapper<?, ?> mapper() {
-		return new Jackson2JsonObjectMapper(objectMapper);
-	}
+abstract class InsuranceContractCreationCoreDslSupport extends InsuranceDslConfig {
 
 	@Bean
 	Queue contractCreateQueue() {

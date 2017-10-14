@@ -13,7 +13,7 @@ import org.springframework.integration.dsl.Transformers;
 import org.springframework.integration.handler.LoggingHandler.Level;
 
 @Configuration
-public class ContractCreationDslConfig extends AbstractDslConfig {
+public class ContractCreationDslConfig extends InsuranceContractCreationCoreDslSupport {
 
 	@Autowired
 	private ContractCreationProcessor creationProcessor;

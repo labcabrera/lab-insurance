@@ -12,7 +12,7 @@ import org.springframework.integration.dsl.Transformers;
 import org.springframework.integration.handler.LoggingHandler.Level;
 
 @Configuration
-public class ApprobationDslConfig extends AbstractDslConfig {
+public class ApprobationDslConfig extends InsuranceContractCreationCoreDslSupport {
 
 	@Autowired
 	private ContractApprobationProcessor approbationProcessor;

@@ -16,7 +16,7 @@ import org.springframework.integration.dsl.Transformers;
 import org.springframework.integration.handler.LoggingHandler.Level;
 
 @Configuration
-public class InitialPaymentReceptionDslConfig extends AbstractDslConfig {
+public class InitialPaymentReceptionDslConfig extends InsuranceContractCreationCoreDslSupport {
 
 	@Autowired
 	private InitialPaymentReceptionProcessor initialPaymentReceptionProcessor;
@@ -28,14 +28,14 @@ public class InitialPaymentReceptionDslConfig extends AbstractDslConfig {
 	private PayloadMongoAdapter<Order> orderMongoAdapter;
 
 	@Autowired
-	private StateMachineProcesor<Contract> stateMachineProcessor;
+	private StateMachineProcesor<Contract> contractStateProcessor;
 
 	@Autowired
-	private StateMachineProcesor<Order> orderStateMachineProcessor;
+	private StateMachineProcesor<Order> orderStateProcessor;
 
-	//@formatter:off
 	@Bean
 	IntegrationFlow initialPaymentReceptionFlow() {
+		//@formatter:off
 		return IntegrationFlows
 			.from(Amqp
 				.inboundGateway(connectionFactory, amqpTemplate, initialPaymentReceptionQueue())
@@ -46,11 +46,11 @@ public class InitialPaymentReceptionDslConfig extends AbstractDslConfig {
 			// Contract
 			.handle(InitialPaymentReception.class, (request, headers) -> initialPaymentReceptionProcessor.process(request))
 			//TODO la transicion es a PAID, no a STARTED, que deberia ser cuando el pago inicial esta valorizado
-			.handle(Contract.class, (request, headers) -> stateMachineProcessor.process(request, Contract.States.STARTED.name(), true))
+			.handle(Contract.class, (request, headers) -> contractStateProcessor.process(request, Contract.States.STARTED.name(), true))
 			.handle(Contract.class, (request, headers) -> contractMongoAdapter.save(request))
 			// Order
 			.handle(Contract.class, (request,headers) -> request.getOrders().iterator().next())
-			.handle(Order.class, (request, headers) -> orderStateMachineProcessor.process(request, Order.States.INITIAL.name(), true))
+			.handle(Order.class, (request, headers) -> orderStateProcessor.process(request, Order.States.INITIAL.name(), true))
 			.handle(Order.class, (request, headers) -> orderMongoAdapter.save(request))
 			
 			.log(Level.INFO, "Processed initial payment")
@@ -59,6 +59,7 @@ public class InitialPaymentReceptionDslConfig extends AbstractDslConfig {
 					.channel(orderInitializationChannel()))
 			)
 			.transform(Transformers.toJson(mapper()))
+			.bridge(null)
 			.get();
 	}
 	//@formatter:on

@@ -3,7 +3,7 @@ package org.lab.insurance.domain.core.legalentity;
 import java.util.List;
 
 import org.lab.insurance.domain.core.common.Account;
-import org.lab.insurance.domain.core.common.audit.AuditData;
+import org.lab.insurance.domain.core.common.audit.InsuranceAuditData;
 import org.lab.insurance.domain.core.geo.Address;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -36,7 +36,7 @@ public abstract class AbstractLegalEntity {
 
 	protected String externalCode;
 
-	protected AuditData auditData;
+	protected InsuranceAuditData auditData;
 
 	@SuppressWarnings("unchecked")
 	public <T> T as(Class<? extends AbstractLegalEntity> entityClass) {
