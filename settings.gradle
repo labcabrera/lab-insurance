@@ -5,6 +5,7 @@ include ":insurance-common"
 
 include ":insurance-cloud-config"
 include ":insurance-eureka"
+include ":insurance-oauth2-server"
 
 include ":insurance-engine-core"
 

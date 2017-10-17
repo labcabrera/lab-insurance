@@ -120,6 +120,7 @@ https://github.com/labcabrera/lab-insurance/wiki
 
 === Financial public APIs
 
+* https://eu.iqoption.com/es
 * https://bbvaopen4u.com/es/actualidad/algunas-api-financieras-para-crear-aplicaciones-dinamicas
 
 === Resources
@@ -127,6 +128,7 @@ https://github.com/labcabrera/lab-insurance/wiki
 * https://docs.mongodb.com/manual/tutorial/perform-two-phase-commits/
 * https://github.com/codecentric/spring-boot-admin
 * https://www.codacy.com/app/lab.cabrera/lab-insurance/dashboard
+* https://github.com/caelwinner/spring-security-mongo.git
 
 === AWS
 

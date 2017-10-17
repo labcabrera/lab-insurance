@@ -69,11 +69,41 @@ subprojects {
 	}
 }
 
+// General --------------------------------------------------------------------
+
+project(":insurance-cloud-config") {
+	apply plugin: "org.springframework.boot"
+	dependencies {
+		compile "org.springframework.cloud:spring-cloud-config-server"
+		compile "org.springframework.boot:spring-boot-starter-web"
+		testCompile testLibs
+	}
+}
+
+project(":insurance-eureka") {
+	apply plugin: "org.springframework.boot"
+	dependencies {
+		compile "org.springframework.cloud:spring-cloud-starter-eureka-server"
+		compile "org.springframework.cloud:spring-cloud-config-client"
+	}
+}
+
+project(":insurance-oauth2-server") {
+	apply plugin: "org.springframework.boot"
+	dependencies {
+		compile "org.springframework.security.oauth:spring-security-oauth2"
+		compile "org.springframework.boot:spring-boot-starter-web"
+		compile "org.springframework.boot:spring-boot-starter-data-mongodb"
+		compile "org.springframework.cloud:spring-cloud-config-client"
+		testCompile "org.springframework.security:spring-security-test"
+	}
+}
+
 // Domain model projects ------------------------------------------------------
 
 project(":insurance-domain-core") {
 	dependencies {
-		compile "org.springframework.boot:spring-boot-starter-data-mongodb"		
+		compile "org.springframework.boot:spring-boot-starter-data-mongodb"
 		compile "io.swagger:swagger-annotations:1.5.16"
 		compile "com.fasterxml.jackson.core:jackson-annotations:2.9.0"
 		compile "org.hibernate:hibernate-validator"
@@ -116,23 +146,6 @@ project(":insurance-engine-core") {
 		compile project(":insurance-common")
 		compile coreLibs
 		testCompile testLibs
-	}
-}
-
-project(":insurance-cloud-config") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile "org.springframework.cloud:spring-cloud-config-server"
-		compile "org.springframework.boot:spring-boot-starter-web"
-		testCompile testLibs
-	}
-}
-
-project(":insurance-eureka") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile "org.springframework.cloud:spring-cloud-starter-eureka-server"
-		compile "org.springframework.cloud:spring-cloud-config-client"
 	}
 }
 
