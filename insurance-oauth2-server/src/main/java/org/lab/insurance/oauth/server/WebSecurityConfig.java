@@ -1,6 +1,5 @@
-package org.lab.oauth.server;
+package org.lab.insurance.oauth.server;
 
-import org.lab.oauth.server.service.MongoUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
@@ -15,13 +14,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Order(SecurityProperties.DEFAULT_FILTER_ORDER)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+	// TODO mongodb
 	@Autowired
-	private MongoUserDetailsService userDetailsService;
-
-	@Autowired
-	public void globalUserDetails(final AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService);
-	}
+	public void globalUserDetails(final AuthenticationManagerBuilder auth) throws Exception { // @formatter:off
+		auth.inMemoryAuthentication()
+		  .withUser("user1").password("user1").roles("USER").and()
+		  .withUser("user2").password("user2").roles("USER").and()
+		  .withUser("admin1").password("admin1").roles("ADMIN").and()
+		  .withUser("admin2").password("admin2").roles("ADMIN");
+    } // @formatter:on
 
 	@Override
 	@Bean
@@ -30,11 +31,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
-	protected void configure(final HttpSecurity http) throws Exception {
-		http.authorizeRequests() //
-				.antMatchers("/login").permitAll().anyRequest().authenticated() //
-				.and() //
-				.formLogin().permitAll();
-	}
+	protected void configure(final HttpSecurity http) throws Exception { // @formatter:off
+		http.authorizeRequests()
+			.antMatchers("/login")
+				.permitAll()
+				.anyRequest()
+				.authenticated()
+			.and()
+				.formLogin()
+				.permitAll();
+	} //@formatter:on
 
 }

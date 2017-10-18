@@ -92,10 +92,14 @@ project(":insurance-oauth2-server") {
 	apply plugin: "org.springframework.boot"
 	dependencies {
 		compile "org.springframework.security.oauth:spring-security-oauth2"
+		compile "org.springframework.security:spring-security-jwt"
 		compile "org.springframework.boot:spring-boot-starter-web"
-		compile "org.springframework.boot:spring-boot-starter-data-mongodb"
-		compile "org.springframework.cloud:spring-cloud-config-client"
+		
+		//compile "org.springframework.boot:spring-boot-starter-data-mongodb"
+		//compile "org.springframework.cloud:spring-cloud-config-client"
+		
 		testCompile "org.springframework.security:spring-security-test"
+		testCompile "com.jayway.restassured:rest-assured:2.4.0"		
 	}
 }
 
