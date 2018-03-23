@@ -1,377 +1,375 @@
 buildscript {
-	ext {
-		springCloudVersion = "2.0.0.M2"				
-		awsSdkVersion = "1.11.198"
-		lombokVersion = "1.16.18"
-		springfoxSwaggerVersion = "2.7.0"
-		cucumberVersion = "1.2.5"
-	}
-	repositories {
-		mavenCentral()
-		maven { url "https://repo.spring.io/milestone" }
-	}
-	dependencies {
-		classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.0.M4"
-		classpath "io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE"
-	}
+  ext {
+    springCloudVersion = "1.4.3.RELEASE"				
+    awsSdkVersion = "1.11.298"
+    lombokVersion = "1.16.20"
+    springfoxSwaggerVersion = "2.8.0"
+    cucumberVersion = "1.2.5"
+  }
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.0.RELEASE"
+    classpath "io.spring.gradle:dependency-management-plugin:1.0.4.RELEASE"
+  }
 }
 
 def coreLibs = [
-	"org.springframework.boot:spring-boot-starter-integration",
-	"org.springframework.boot:spring-boot-starter-amqp",
-	"org.springframework.boot:spring-boot-starter-integration",
-	"org.springframework.cloud:spring-cloud-config-client"
+  "org.springframework.boot:spring-boot-starter-integration",
+  "org.springframework.boot:spring-boot-starter-amqp",
+  "org.springframework.boot:spring-boot-starter-integration",
+  "org.springframework.cloud:spring-cloud-config-client"
 ]
 def gatewayLibs = [
-	"org.springframework.boot:spring-boot-starter-web",
-	"org.springframework.boot:spring-boot-starter-integration",
-	"org.springframework.boot:spring-boot-starter-amqp",
-	"org.springframework.boot:spring-boot-starter-actuator",
-	"org.springframework.boot:spring-boot-starter-hateoas",
-	"org.springframework.integration:spring-integration-amqp",
-	"org.springframework.cloud:spring-cloud-config-client",
-	"org.springframework.cloud:spring-cloud-starter-eureka",
-	"org.springframework.cloud:spring-cloud-starter-feign",
-	"io.springfox:springfox-swagger2:${springfoxSwaggerVersion}",
-	"io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
+  "org.springframework.boot:spring-boot-starter-web",
+  "org.springframework.boot:spring-boot-starter-integration",
+  "org.springframework.boot:spring-boot-starter-amqp",
+  "org.springframework.boot:spring-boot-starter-actuator",
+  "org.springframework.boot:spring-boot-starter-hateoas",
+  "org.springframework.integration:spring-integration-amqp",
+  "org.springframework.cloud:spring-cloud-config-client",
+  "org.springframework.cloud:spring-cloud-starter-eureka",
+  "org.springframework.cloud:spring-cloud-starter-feign",
+  "io.springfox:springfox-swagger2:${springfoxSwaggerVersion}",
+  "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
 ]
 def testLibs = [
-	"org.springframework.boot:spring-boot-starter-test"
+  "org.springframework.boot:spring-boot-starter-test"
 ]
 
 // All project definitions ----------------------------------------------------
 
 subprojects {
-	apply plugin: "java"
-	apply plugin: "io.spring.dependency-management"
-	apply plugin: "eclipse"
-	apply plugin: "idea"
-	
-	version = version
-	group = "org.lab.insurance"
+  apply plugin: "java"
+  apply plugin: "io.spring.dependency-management"
+  apply plugin: "eclipse"
+  apply plugin: "idea"
+  
+  version = version
+  group = "org.lab.insurance"
 
-	compileJava {
-			sourceCompatibility = 1.8
-			targetCompatibility = 1.8
-			options.encoding = "UTF-8"
-	}
-	repositories {
-		mavenCentral()
-		maven { url "https://repo.spring.io/milestone" }
-	}
-	dependencyManagement {
-		imports {
-			mavenBom "org.springframework.cloud:spring-cloud-netflix:${springCloudVersion}"
-		}
-	}
-	dependencies {
-		compile "org.projectlombok:lombok:${lombokVersion}"
-	}
+  compileJava {
+      sourceCompatibility = 1.8
+      targetCompatibility = 1.8
+      options.encoding = "UTF-8"
+  }
+  repositories {
+    mavenCentral()
+  }
+  dependencyManagement {
+    imports {
+      mavenBom "org.springframework.cloud:spring-cloud-netflix:${springCloudVersion}"
+    }
+  }
+  dependencies {
+    compile "org.projectlombok:lombok:${lombokVersion}"
+  }
 }
 
 // General --------------------------------------------------------------------
 
 project(":insurance-cloud-config") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile "org.springframework.cloud:spring-cloud-config-server"
-		compile "org.springframework.boot:spring-boot-starter-web"
-		testCompile testLibs
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile "org.springframework.cloud:spring-cloud-config-server"
+    compile "org.springframework.boot:spring-boot-starter-web"
+    testCompile testLibs
+  }
 }
 
 project(":insurance-eureka") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile "org.springframework.cloud:spring-cloud-starter-eureka-server"
-		compile "org.springframework.cloud:spring-cloud-config-client"
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile "org.springframework.cloud:spring-cloud-starter-eureka-server"
+    compile "org.springframework.cloud:spring-cloud-config-client"
+  }
 }
 
 project(":insurance-oauth2-server") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile "org.springframework.security.oauth:spring-security-oauth2"
-		compile "org.springframework.security:spring-security-jwt"
-		compile "org.springframework.boot:spring-boot-starter-web"
-		compile "org.springframework.cloud:spring-cloud-config-client"
-		
-		//compile "org.springframework.boot:spring-boot-starter-data-mongodb"
-		
-		testCompile "org.springframework.security:spring-security-test"
-		testCompile "com.jayway.restassured:rest-assured:2.4.0"		
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile "org.springframework.security.oauth:spring-security-oauth2"
+    compile "org.springframework.security:spring-security-jwt"
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework.cloud:spring-cloud-config-client"
+    
+    //compile "org.springframework.boot:spring-boot-starter-data-mongodb"
+    
+    testCompile "org.springframework.security:spring-security-test"
+    testCompile "com.jayway.restassured:rest-assured:2.4.0"		
+  }
 }
 
 // Domain model projects ------------------------------------------------------
 
 project(":insurance-domain-core") {
-	dependencies {
-		compile "org.springframework.boot:spring-boot-starter-data-mongodb"
-		compile "io.swagger:swagger-annotations:1.5.16"
-		compile "com.fasterxml.jackson.core:jackson-annotations:2.9.0"
-		compile "org.hibernate:hibernate-validator"
-		testCompile testLibs
-	}
+  dependencies {
+    compile "org.springframework.boot:spring-boot-starter-data-mongodb"
+    compile "io.swagger:swagger-annotations:1.5.16"
+    compile "com.fasterxml.jackson.core:jackson-annotations:2.9.0"
+    compile "org.hibernate:hibernate-validator"
+    testCompile testLibs
+  }
 }
 
 project(":insurance-domain-action") {
-	dependencies {
-		compile project(":insurance-domain-core")
-		testCompile testLibs
-	}
+  dependencies {
+    compile project(":insurance-domain-core")
+    testCompile testLibs
+  }
 }
 
 project(":insurance-domain-hateoas") {
-	dependencies {
-		compile project(":insurance-domain-core")
-		compile "org.springframework.boot:spring-boot-starter-hateoas"
-		compile "ma.glasnost.orika:orika-core:1.5.1"
-		testCompile testLibs
-	}
+  dependencies {
+    compile project(":insurance-domain-core")
+    compile "org.springframework.boot:spring-boot-starter-hateoas"
+    compile "ma.glasnost.orika:orika-core:1.5.1"
+    testCompile testLibs
+  }
 }
 
 // Common projects ------------------------------------------------------------
 
 project(":insurance-common") {
-	dependencies {
-		compile project(":insurance-domain-core")
-		compile "joda-time:joda-time:2.9.9"
-		compile "commons-io:commons-io:2.5"
-		compile "org.apache.commons:commons-lang3:3.6"
-		compile "org.springframework.integration:spring-integration-amqp"
-		testCompile testLibs
-	}
+  dependencies {
+    compile project(":insurance-domain-core")
+    compile "joda-time:joda-time:2.9.9"
+    compile "commons-io:commons-io:2.5"
+    compile "org.apache.commons:commons-lang3:3.6"
+    compile "org.springframework.integration:spring-integration-amqp"
+    testCompile testLibs
+  }
 }
 
 project(":insurance-engine-core") {
-	dependencies {
-		compile project(":insurance-domain-action")
-		compile project(":insurance-common")
-		compile coreLibs
-		testCompile testLibs
-	}
+  dependencies {
+    compile project(":insurance-domain-action")
+    compile project(":insurance-common")
+    compile coreLibs
+    testCompile testLibs
+  }
 }
 
 // Microservices ---------------------------------------------------------------
 
 project(":insurance-agreement-core") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-domain-core")
-		testCompile testLibs
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-domain-core")
+    testCompile testLibs
+  }
 }
 
 project(":insurance-agreement-gateway") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-common")
-		compile project(":insurance-domain-hateoas")
-		compile "org.springframework.boot:spring-boot-starter-data-rest"
-		compile "org.springframework.data:spring-data-rest-hal-browser"
-		compile gatewayLibs
-		testCompile testLibs
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-common")
+    compile project(":insurance-domain-hateoas")
+    compile "org.springframework.boot:spring-boot-starter-data-rest"
+    compile "org.springframework.data:spring-data-rest-hal-browser"
+    compile gatewayLibs
+    testCompile testLibs
+  }
 }
 
 project(":insurance-asset-core") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-common")
-		compile coreLibs
-		testCompile testLibs
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-common")
+    compile coreLibs
+    testCompile testLibs
+  }
 }
 
 project(":insurance-asset-gateway") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-common")
-		compile project(":insurance-domain-hateoas")
-		compile "org.springframework.boot:spring-boot-starter-data-rest"
-		compile "org.springframework.data:spring-data-rest-hal-browser"
-		compile gatewayLibs
-		testCompile testLibs
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-common")
+    compile project(":insurance-domain-hateoas")
+    compile "org.springframework.boot:spring-boot-starter-data-rest"
+    compile "org.springframework.data:spring-data-rest-hal-browser"
+    compile gatewayLibs
+    testCompile testLibs
+  }
 }
 
 project(":insurance-broker-core") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-common")
-		compile coreLibs
-		testCompile testLibs
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-common")
+    compile coreLibs
+    testCompile testLibs
+  }
 }
 
 project(":insurance-contract-common-gateway") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-common")
-		compile project(":insurance-domain-hateoas")
-		compile gatewayLibs
-	}
-	jar {
-		enabled = true
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-common")
+    compile project(":insurance-domain-hateoas")
+    compile gatewayLibs
+  }
+  jar {
+    enabled = true
+  }
 }
 
 project(":insurance-contract-creation-core") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-common")
-		compile project(":insurance-domain-action")
-		compile coreLibs
-		testCompile testLibs
-	}
-	jar {
-		enabled = true
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-common")
+    compile project(":insurance-domain-action")
+    compile coreLibs
+    testCompile testLibs
+  }
+  jar {
+    enabled = true
+  }
 }
 
 project(":insurance-contract-creation-gateway") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-domain-hateoas")
-		compile project(":insurance-contract-creation-core")
-		compile gatewayLibs
-	}
-	jar {
-		enabled = true
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-domain-hateoas")
+    compile project(":insurance-contract-creation-core")
+    compile gatewayLibs
+  }
+  jar {
+    enabled = true
+  }
 }
 
 project(":insurance-fee-core") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-common")
-		compile project(":insurance-domain-action")
-		compile "com.amazonaws:aws-java-sdk:${awsSdkVersion}"
-		compile coreLibs
-		testCompile testLibs
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-common")
+    compile project(":insurance-domain-action")
+    compile "com.amazonaws:aws-java-sdk:${awsSdkVersion}"
+    compile coreLibs
+    testCompile testLibs
+  }
 }
 
 project(":insurance-io") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-common")
-		compile project(":insurance-domain-action")
-		compile "com.amazonaws:aws-java-sdk:${awsSdkVersion}"
-		compile coreLibs
-		testCompile testLibs
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-common")
+    compile project(":insurance-domain-action")
+    compile "com.amazonaws:aws-java-sdk:${awsSdkVersion}"
+    compile coreLibs
+    testCompile testLibs
+  }
 }
 
 project(":insurance-legal-entity-core") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-common")
-		compile coreLibs
-		testCompile testLibs
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-common")
+    compile coreLibs
+    testCompile testLibs
+  }
 }
 
 project(":insurance-legal-entity-gateway") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-common")
-		compile project(":insurance-domain-hateoas")
-		compile gatewayLibs
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-common")
+    compile project(":insurance-domain-hateoas")
+    compile gatewayLibs
+  }
 }
 
 project(":insurance-order-core") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-common")
-		compile project(":insurance-engine-core")
-		compile coreLibs
-		testCompile testLibs
-	}
-	jar {
-		enabled = true
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-common")
+    compile project(":insurance-engine-core")
+    compile coreLibs
+    testCompile testLibs
+  }
+  jar {
+    enabled = true
+  }
 }
 
 project(":insurance-order-gateway") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-portfolio-core")
-		compile project(":insurance-domain-hateoas")
-		compile gatewayLibs
-		testCompile testLibs
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-portfolio-core")
+    compile project(":insurance-domain-hateoas")
+    compile gatewayLibs
+    testCompile testLibs
+  }
 }
 
 project(":insurance-portfolio-core") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-common")
-		compile coreLibs
-		testCompile testLibs
-	}
-	jar {
-		enabled = true
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-common")
+    compile coreLibs
+    testCompile testLibs
+  }
+  jar {
+    enabled = true
+  }
 }
 
 project(":insurance-portfolio-gateway") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-portfolio-core")
-		compile project(":insurance-domain-hateoas")
-		compile gatewayLibs
-		testCompile testLibs
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-portfolio-core")
+    compile project(":insurance-domain-hateoas")
+    compile gatewayLibs
+    testCompile testLibs
+  }
 }
 
 project(":insurance-stop-loss-core") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile project(":insurance-common")
-		compile coreLibs
-		testCompile testLibs
-	}
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile project(":insurance-common")
+    compile coreLibs
+    testCompile testLibs
+  }
 }
 
 project(":insurance-zuul") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile "org.springframework.boot:spring-boot-starter"
-		compile "org.springframework.boot:spring-boot-starter-web"
-		compile "org.springframework.boot:spring-boot-starter-thymeleaf"
-		compile "org.springframework.boot:spring-boot-starter-actuator"
+  apply plugin: "org.springframework.boot"
+  dependencies {
+    compile "org.springframework.boot:spring-boot-starter"
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework.boot:spring-boot-starter-thymeleaf"
+    compile "org.springframework.boot:spring-boot-starter-actuator"
 
-		compile "org.springframework.cloud:spring-cloud-starter-eureka"
-		compile "org.springframework.cloud:spring-cloud-starter-zuul"
-		compile "org.springframework.cloud:spring-cloud-config-client"
+    compile "org.springframework.cloud:spring-cloud-starter-eureka"
+    compile "org.springframework.cloud:spring-cloud-starter-zuul"
+    compile "org.springframework.cloud:spring-cloud-config-client"
 
-		compile "io.springfox:springfox-swagger2:${springfoxSwaggerVersion}"
-		compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
-		compile "org.webjars:bootstrap:3.3.7"
-	}
+    compile "io.springfox:springfox-swagger2:${springfoxSwaggerVersion}"
+    compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
+    compile "org.webjars:bootstrap:3.3.7"
+  }
 }
 
 // Integration tests ----------------------------------------------------------
 
 project(":insurance-bdd") {
-	dependencies {
-		compile project(":insurance-domain-action")
-		compile project(":insurance-engine-core")
-		compile project(":insurance-contract-creation-core")
-		compile project(":insurance-portfolio-core")
-		compile project(":insurance-order-core")
-		compile coreLibs
-		compile gatewayLibs
-		testCompile testLibs
-		testCompile "info.cukes:cucumber-junit:${cucumberVersion}"
-		testCompile "info.cukes:cucumber-java:${cucumberVersion}"
-		testCompile "info.cukes:cucumber-spring:${cucumberVersion}"
-		testCompile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0"		
-		compile(project(":insurance-contract-creation-gateway")) {
-			exclude group: "org.springframework.cloud"
-		}
-	}
+  dependencies {
+    compile project(":insurance-domain-action")
+    compile project(":insurance-engine-core")
+    compile project(":insurance-contract-creation-core")
+    compile project(":insurance-portfolio-core")
+    compile project(":insurance-order-core")
+    compile coreLibs
+    compile gatewayLibs
+    testCompile testLibs
+    testCompile "info.cukes:cucumber-junit:${cucumberVersion}"
+    testCompile "info.cukes:cucumber-java:${cucumberVersion}"
+    testCompile "info.cukes:cucumber-spring:${cucumberVersion}"
+    testCompile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0"		
+    compile(project(":insurance-contract-creation-gateway")) {
+      exclude group: "org.springframework.cloud"
+    }
+  }
 }
