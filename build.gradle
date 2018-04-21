@@ -67,16 +67,6 @@ subprojects {
 	}
 }
 
-// General --------------------------------------------------------------------
-
-project(":insurance-eureka") {
-	apply plugin: "org.springframework.boot"
-	dependencies {
-		compile "org.springframework.cloud:spring-cloud-starter-eureka-server"
-		compile "org.springframework.cloud:spring-cloud-config-client"
-	}
-}
-
 // Domain model projects ------------------------------------------------------
 
 project(":insurance-domain-core") {

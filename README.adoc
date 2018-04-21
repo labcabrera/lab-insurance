@@ -13,6 +13,13 @@ Microservices oriented application over:
 * RabbitMQ
 * MongoDB
 
+Esta aplicación incluye los siguientes proyectos:
+
+* https://github.com/labcabrera/lab-insurance-cloud-config
+* https://github.com/labcabrera/lab-insurance-cloud-config-server
+* https://github.com/labcabrera/lab-insurance-eureka
+* https://github.com/labcabrera/lab-insurance-sso
+
 == Domain model
 
 Actualmente la aplicación cuenta con un modelo de dominio común para todos los módulos. La idea es desacoplar el modelo

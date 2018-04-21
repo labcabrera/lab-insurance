@@ -3,8 +3,6 @@ include ":insurance-domain-action"
 include ":insurance-domain-hateoas"
 include ":insurance-common"
 
-include ":insurance-eureka"
-
 include ":insurance-engine-core"
 
 include ":insurance-agreement-core"
