@@ -361,41 +361,40 @@ project(":insurance-zuul") {
   }
 }
 
-/*
 // Integration tests
 
+/*
 project(":insurance-bdd") {
+  apply plugin: "org.springframework.boot"
   dependencies {
-    compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+    compile "org.springframework.boot:spring-boot-starter"
+    compile "org.projectlombok:lombok:${lombokVersion}"
+
     compile project(":insurance-domain-action")
     compile project(":insurance-engine-core")
     compile project(":insurance-contract-creation-core")
     compile project(":insurance-portfolio-core")
     compile project(":insurance-order-core")
-    compile('org.springframework.boot:spring-boot-starter-integration')
-    compile('org.springframework.boot:spring-boot-starter-amqp')
-    compile('org.springframework.boot:spring-boot-starter-integration')
-    compile('org.springframework.cloud:spring-cloud-config-client')
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.boot:spring-boot-starter-integration"
-    compile "org.springframework.boot:spring-boot-starter-amqp"
-    compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.boot:spring-boot-starter-hateoas"
-    compile "org.springframework.integration:spring-integration-amqp"
-    compile "org.springframework.cloud:spring-cloud-config-client"
-    compile "org.springframework.cloud:spring-cloud-starter-eureka"
-    compile "org.springframework.cloud:spring-cloud-starter-feign"
-    compile "io.springfox:springfox-swagger2:${springfoxSwaggerVersion}"
-    compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile(project(":insurance-contract-creation-gateway")) {
+      exclude group: "org.springframework.cloud"
+      exclude group: "org.springframework.boot"
+    }
     testCompile "info.cukes:cucumber-junit:${cucumberVersion}"
     testCompile "info.cukes:cucumber-java:${cucumberVersion}"
     testCompile "info.cukes:cucumber-spring:${cucumberVersion}"
+    compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+    compile('org.springframework.boot:spring-boot-starter-integration')
+    compile('org.springframework.boot:spring-boot-starter-amqp')
+    compile('org.springframework.cloud:spring-cloud-config-client')
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework.boot:spring-boot-starter-amqp"
+    compile "org.springframework.boot:spring-boot-starter-hateoas"
+    compile "org.springframework.integration:spring-integration-amqp"
+    compile "org.springframework.cloud:spring-cloud-config-client"
+    compile "io.springfox:springfox-swagger2:${springfoxSwaggerVersion}"
+    compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
+    testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0"    
-    compile(project(":insurance-contract-creation-gateway")) {
-      exclude group: "org.springframework.cloud"
-    }
   }
 }
-
 */
