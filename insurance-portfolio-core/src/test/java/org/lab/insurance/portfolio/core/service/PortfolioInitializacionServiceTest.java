@@ -1,5 +1,6 @@
 package org.lab.insurance.portfolio.core.service;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.lab.insurance.domain.core.contract.Contract;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.test.context.junit4.SpringRunner;
 
+@Ignore("Required mongo")
 @RunWith(SpringRunner.class)
 @EnableMongoRepositories({ "org.lab.insurance.domain", "org.lab.insurance.portfolio.core.domain" })
 @EnableAutoConfiguration
