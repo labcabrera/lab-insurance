@@ -14,8 +14,6 @@ include ":insurance-contract-creation-gateway"
 
 include ":insurance-fee-core"
 include ":insurance-io"
-include ":insurance-legal-entity-core"
-include ":insurance-legal-entity-gateway"
 include ":insurance-order-core"
 include ":insurance-order-gateway"
 include ":insurance-stop-loss-core"
