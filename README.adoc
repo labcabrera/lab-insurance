@@ -21,6 +21,7 @@ Esta aplicación incluye los siguientes proyectos:
 |===
 | https://github.com/labcabrera/lab-insurance-asset[lab-insurance-asset]                             | Microservicios de gestión de activos.
 | https://github.com/labcabrera/lab-insurance-portfolio[lab-insurance-portfolio]                     | Microservicios de gestión de carteras.
+| https://github.com/labcabrera/lab-insurance-legal-entity[lab-insurance-legal-entity]               | Microservicios de gestión de entidades legales.
 | https://github.com/labcabrera/lab-insurance-cloud-config[lab-insurance-cloud-config]               | Repositorio de configuración.
 | https://github.com/labcabrera/lab-insurance-cloud-config-server[lab-insurance-cloud-config-server] | Servidor de configuración.
 | https://github.com/labcabrera/lab-insurance-eureka[lab-insurance-eureka]                           | Eureka.
