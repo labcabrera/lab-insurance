@@ -1,7 +1,7 @@
 buildscript {
   ext {
     springBootVersion = '2.0.1.RELEASE'
-    springCloudVersion = 'Finchley.M9'
+    springCloudVersion = 'Finchley.RELEASE'
     springVersion = '5.0.5.RELEASE'
     springIntegrationVersion = '5.0.4.RELEASE'
 
@@ -123,17 +123,6 @@ project(":insurance-agreement-gateway") {
   }
 }
 
-project(":insurance-broker-core") {
-  apply plugin: "org.springframework.boot"
-  dependencies {
-    compile project(":insurance-common")
-    compile('org.springframework.boot:spring-boot-starter-integration')
-    compile('org.springframework.boot:spring-boot-starter-amqp')
-    compile('org.springframework.boot:spring-boot-starter-integration')
-    compile('org.springframework.cloud:spring-cloud-config-client')
-  }
-}
-
 project(":insurance-contract-common-gateway") {
   apply plugin: "org.springframework.boot"
   dependencies {
@@ -208,18 +197,6 @@ project(":insurance-io") {
     compile('org.springframework.boot:spring-boot-starter-amqp')
     compile('org.springframework.boot:spring-boot-starter-integration')
     compile('org.springframework.cloud:spring-cloud-config-client')
-  }
-}
-
-project(":insurance-stop-loss-core") {
-  apply plugin: "org.springframework.boot"
-  dependencies {
-    compile project(":insurance-common")
-    compile('org.springframework.boot:spring-boot-starter-integration')
-    compile('org.springframework.boot:spring-boot-starter-amqp')
-    compile('org.springframework.boot:spring-boot-starter-integration')
-    compile('org.springframework.cloud:spring-cloud-config-client')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
   }
 }
 

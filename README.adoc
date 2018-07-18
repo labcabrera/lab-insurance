@@ -33,6 +33,7 @@ Esta aplicación incluye los siguientes proyectos:
 |{linkLabInsurance}-broker[lab-insurance-broker]                           | Microservicios de integración con brokers.      |
 |{linkLabInsurance}-contract[lab-insurance-contract]                       | Microservicios de contratación.                 |
 |{linkLabInsurance}-agreement[lab-insurance-agreement]                     | Microservicios de acuerdos marco.               |
+|{linkLabInsurance}-fees[lab-insurance-fees]                               | Microservicios de gastos y comisiones.          |
 |{linkLabInsurance}-scheduler[lab-insurance-scheduler]                     | Programador de tareas.                          |
 |{linkLabInsurance}-zuul[lab-insurance-zuul]                               | Proxy.                                          |
 |{linkLabInsurance}-bdd[lab-insurance-bdd]                                 | Pruebas de integración                          | _n/a_
