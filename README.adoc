@@ -3,22 +3,27 @@
 image:https://travis-ci.org/labcabrera/lab-insurance.svg?branch=master["Build Status", link="https://travis-ci.org/labcabrera/lab-insurance"]
 image:https://api.codacy.com/project/badge/Grade/a30d53d005584beb81b5a24aaa6bc7bc["Codacy code quality", link="https://www.codacy.com/app/lab.cabrera/lab-insurance?utm_source=github.com&utm_medium=referral&utm_content=labcabrera/lab-insurance&utm_campaign=Badge_Grade"]
 
-= Arquitecture overview
+= Introducción
 
-Microservices oriented application over:
+Este proyecto está constituido por un conjunto de módulos para gestionar productos de ahorro e
+inversión.
+
+Tecnológicamente está basado en:
 
 * Spring Cloud
 * Spring Boot
-* Spring Integration & DSL
-* RabbitMQ
+* Spring Integration
 * MongoDB
+* RabbitMQ
 
 Esta aplicación incluye los siguientes proyectos:
 
-* https://github.com/labcabrera/lab-insurance-cloud-config
-* https://github.com/labcabrera/lab-insurance-cloud-config-server
-* https://github.com/labcabrera/lab-insurance-eureka
-* https://github.com/labcabrera/lab-insurance-sso
+* https://github.com/labcabrera/lab-insurance-asset[lab-insurance-asset]
+* https://github.com/labcabrera/lab-insurance-portfolio[lab-insurance-portfolio]
+* https://github.com/labcabrera/lab-insurance-cloud-config[lab-insurance-cloud-config]
+* https://github.com/labcabrera/lab-insurance-cloud-config-server[lab-insurance-cloud-config-server]
+* https://github.com/labcabrera/lab-insurance-eureka[lab-insurance-eureka]
+* https://github.com/labcabrera/lab-insurance-sso[lab-insurance-sso]
 
 == Domain model
 
