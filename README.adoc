@@ -35,7 +35,7 @@ Esta aplicación incluye los siguientes proyectos:
 |{linkLabInsurance}-agreement[lab-insurance-agreement]                     | Microservicios de acuerdos marco.               |
 |{linkLabInsurance}-scheduler[lab-insurance-scheduler]                     | Programador de tareas.                          |
 |{linkLabInsurance}-zuul[lab-insurance-zuul]                               | Proxy.                                          |
-|{linkLabInsurance}-zuul[lab-insurance-bdd]                                | Pruebas de integración                          | _n/a_
+|{linkLabInsurance}-bdd[lab-insurance-bdd]                                 | Pruebas de integración                          | _n/a_
 |{linkLabInsurance}-cloud-config-server[lab-insurance-cloud-config-server] | Servidor de configuración.                      | https://hub.docker.com/r/labcabrera/lab-insurance-cloud-config-server/[lab-insurance-cloud-config-server]
 |{linkLabInsurance}-ng[lab-insurance-ng]                                   | Frontend.                                       |
 |{linkLabInsurance}-eureka[lab-insurance-eureka]                           | Eureka.                                         | https://hub.docker.com/r/labcabrera/lab-insurance-eureka/[labcabrera/lab-insurance-eureka]
