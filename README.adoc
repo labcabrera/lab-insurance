@@ -1,5 +1,7 @@
 # Open Asset Management System (beta)
 
+:linkLabInsurance: https://github.com/labcabrera/lab-insurance
+
 image:https://travis-ci.org/labcabrera/lab-insurance.svg?branch=master["Build Status", link="https://travis-ci.org/labcabrera/lab-insurance"]
 image:https://api.codacy.com/project/badge/Grade/a30d53d005584beb81b5a24aaa6bc7bc["Codacy code quality", link="https://www.codacy.com/app/lab.cabrera/lab-insurance?utm_source=github.com&utm_medium=referral&utm_content=labcabrera/lab-insurance&utm_campaign=Badge_Grade"]
 
@@ -19,13 +21,13 @@ Tecnológicamente está basado en:
 Esta aplicación incluye los siguientes proyectos:
 
 |===
-| https://github.com/labcabrera/lab-insurance-asset[lab-insurance-asset]                             | Microservicios de gestión de activos.
-| https://github.com/labcabrera/lab-insurance-portfolio[lab-insurance-portfolio]                     | Microservicios de gestión de carteras.
-| https://github.com/labcabrera/lab-insurance-legal-entity[lab-insurance-legal-entity]               | Microservicios de gestión de entidades legales.
-| https://github.com/labcabrera/lab-insurance-cloud-config[lab-insurance-cloud-config]               | Repositorio de configuración.
-| https://github.com/labcabrera/lab-insurance-cloud-config-server[lab-insurance-cloud-config-server] | Servidor de configuración.
-| https://github.com/labcabrera/lab-insurance-eureka[lab-insurance-eureka]                           | Eureka.
-| https://github.com/labcabrera/lab-insurance-sso[lab-insurance-sso]                                 | Servidor de autenticación.
+| {linkLabInsurance}-asset[lab-insurance-asset]                             | Microservicios de gestión de activos.
+| {linkLabInsurance}-portfolio[lab-insurance-portfolio]                     | Microservicios de gestión de carteras.
+| {linkLabInsurance}-legal-entity[lab-insurance-legal-entity]               | Microservicios de gestión de entidades legales.
+| {linkLabInsurance}-cloud-config[lab-insurance-cloud-config]               | Repositorio de configuración.
+| {linkLabInsurance}-cloud-config-server[lab-insurance-cloud-config-server] | Servidor de configuración.
+| {linkLabInsurance}-eureka[lab-insurance-eureka]                           | Eureka.
+| {linkLabInsurance}-sso[lab-insurance-sso]                                 | Servidor de autenticación.
 |===
 
 == Domain model
