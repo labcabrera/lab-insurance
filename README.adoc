@@ -28,10 +28,12 @@ Esta aplicación incluye los siguientes proyectos:
 |{linkLabInsurance}-portfolio[lab-insurance-portfolio]                     | Microservicios de gestión de carteras.          | https://hub.docker.com/r/labcabrera/lab-insurance-portfolio-api/[lab-insurance-portfolio-api] +
                                                                                                                                https://hub.docker.com/r/labcabrera/lab-insurance-portfolio-core/[lab-insurance-portfolio-core]
 |{linkLabInsurance}-legal-entity[lab-insurance-legal-entity]               | Microservicios de gestión de entidades legales. |
+|{linkLabInsurance}-scheduler[lab-insurance-scheduler]                     | Programador de tareas.                          |
+|{linkLabInsurance}-ng[lab-insurance-ng]                                   | Frontend.                                       |
 |{linkLabInsurance}-order[lab-insurance-order]                             | Microservicios de gestión de órdenes.           |
-|{linkLabInsurance}-cloud-config[lab-insurance-cloud-config]               | Repositorio de configuración.                   |
 |{linkLabInsurance}-cloud-config-server[lab-insurance-cloud-config-server] | Servidor de configuración.                      | https://hub.docker.com/r/labcabrera/lab-insurance-cloud-config-server/[lab-insurance-cloud-config-server]
 |{linkLabInsurance}-eureka[lab-insurance-eureka]                           | Eureka.                                         | https://hub.docker.com/r/labcabrera/lab-insurance-eureka/[labcabrera/lab-insurance-eureka]
+|{linkLabInsurance}-cloud-config[lab-insurance-cloud-config]               | Repositorio de configuración.                   |
 |{linkLabInsurance}-sso[lab-insurance-sso]                                 | Servidor de autenticación.                      |
 |===
 
