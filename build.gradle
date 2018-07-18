@@ -211,35 +211,6 @@ project(":insurance-io") {
   }
 }
 
-project(":insurance-order-core") {
-  apply plugin: "org.springframework.boot"
-  dependencies {
-    compile project(":insurance-common")
-    compile project(":insurance-engine-core")
-    compile('org.springframework.boot:spring-boot-starter-integration')
-    compile('org.springframework.boot:spring-boot-starter-amqp')
-    compile('org.springframework.boot:spring-boot-starter-integration')
-    compile('org.springframework.cloud:spring-cloud-config-client')
-  }
-}
-
-project(":insurance-order-gateway") {
-  apply plugin: "org.springframework.boot"
-  dependencies {
-    compile project(":insurance-domain-hateoas")
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.boot:spring-boot-starter-integration"
-    compile "org.springframework.boot:spring-boot-starter-amqp"
-    compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.boot:spring-boot-starter-hateoas"
-    compile "org.springframework.integration:spring-integration-amqp"
-    compile "org.springframework.cloud:spring-cloud-config-client"
-    compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
-    compile "io.springfox:springfox-swagger2:${springfoxSwaggerVersion}"
-    compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
-  }
-}
-
 project(":insurance-stop-loss-core") {
   apply plugin: "org.springframework.boot"
   dependencies {
