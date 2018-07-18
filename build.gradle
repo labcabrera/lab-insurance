@@ -223,24 +223,6 @@ project(":insurance-stop-loss-core") {
   }
 }
 
-project(":insurance-zuul") {
-  apply plugin: "org.springframework.boot"
-  dependencies {
-    compile "org.springframework.boot:spring-boot-starter"
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.boot:spring-boot-starter-thymeleaf"
-    compile "org.springframework.boot:spring-boot-starter-actuator"
-
-    compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
-    compile "org.springframework.cloud:spring-cloud-starter-netflix-zuul"
-    compile "org.springframework.cloud:spring-cloud-config-client"
-
-    compile "io.springfox:springfox-swagger2:${springfoxSwaggerVersion}"
-    compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
-    compile "org.webjars:bootstrap:3.3.7"
-  }
-}
-
 // Integration tests
 
 /*

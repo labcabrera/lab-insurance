@@ -16,6 +16,4 @@ include ":insurance-fee-core"
 include ":insurance-io"
 include ":insurance-stop-loss-core"
 
-include ":insurance-zuul"
-
 //include ":insurance-bdd"
