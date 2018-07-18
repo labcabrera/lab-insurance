@@ -28,6 +28,9 @@ Esta aplicación incluye los siguientes proyectos:
 |{linkLabInsurance}-portfolio[lab-insurance-portfolio]                     | Microservicios de gestión de carteras.          | https://hub.docker.com/r/labcabrera/lab-insurance-portfolio-api/[lab-insurance-portfolio-api] +
                                                                                                                                https://hub.docker.com/r/labcabrera/lab-insurance-portfolio-core/[lab-insurance-portfolio-core]
 |{linkLabInsurance}-legal-entity[lab-insurance-legal-entity]               | Microservicios de gestión de entidades legales. |
+|{linkLabInsurance}-financial-services[lab-insurance-financial-services]   | Microservicios de servicios financieros.        |
+|{linkLabInsurance}-contract[lab-insurance-contract]                       | Microservicios de contratación.                 |
+|{linkLabInsurance}-agreement[lab-insurance-agreement]                     | Microservicios de acuerdos marco.               |
 |{linkLabInsurance}-scheduler[lab-insurance-scheduler]                     | Programador de tareas.                          |
 |{linkLabInsurance}-ng[lab-insurance-ng]                                   | Frontend.                                       |
 |{linkLabInsurance}-order[lab-insurance-order]                             | Microservicios de gestión de órdenes.           |
