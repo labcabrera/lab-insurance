@@ -23,7 +23,7 @@ Esta aplicación incluye los siguientes proyectos:
 [width="15%",options="header"]
 |===
 |Proyecto                                                                  | Información                                     | Imágenes
-|{linkLabInsurance}-asset[lab-insurance-asset]                             | Microservicios de gestión de activos.           | https://hub.docker.com/r/labcabrera/lab-insurance-asset-api/[lab-insurance-asset-api]+ 
+|{linkLabInsurance}-asset[lab-insurance-asset]                             | Microservicios de gestión de activos.           | https://hub.docker.com/r/labcabrera/lab-insurance-asset-api/[lab-insurance-asset-api] +
                                                                                                                                https://hub.docker.com/r/labcabrera/lab-insurance-asset-core/[lab-insurance-asset-core]
 |{linkLabInsurance}-portfolio[lab-insurance-portfolio]                     | Microservicios de gestión de carteras.          |
 |{linkLabInsurance}-legal-entity[lab-insurance-legal-entity]               | Microservicios de gestión de entidades legales. |
