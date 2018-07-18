@@ -25,12 +25,13 @@ Esta aplicación incluye los siguientes proyectos:
 |Proyecto                                                                  | Información                                     | Imágenes
 |{linkLabInsurance}-asset[lab-insurance-asset]                             | Microservicios de gestión de activos.           | https://hub.docker.com/r/labcabrera/lab-insurance-asset-api/[lab-insurance-asset-api] +
                                                                                                                                https://hub.docker.com/r/labcabrera/lab-insurance-asset-core/[lab-insurance-asset-core]
-|{linkLabInsurance}-portfolio[lab-insurance-portfolio]                     | Microservicios de gestión de carteras.          |
+|{linkLabInsurance}-portfolio[lab-insurance-portfolio]                     | Microservicios de gestión de carteras.          | https://hub.docker.com/r/labcabrera/lab-insurance-portfolio-api/[lab-insurance-portfolio-api] +
+                                                                                                                               https://hub.docker.com/r/labcabrera/lab-insurance-portfolio-core/
 |{linkLabInsurance}-legal-entity[lab-insurance-legal-entity]               | Microservicios de gestión de entidades legales. |
 |{linkLabInsurance}-order[lab-insurance-order]                             | Microservicios de gestión de órdenes.           |
 |{linkLabInsurance}-cloud-config[lab-insurance-cloud-config]               | Repositorio de configuración.                   |
-|{linkLabInsurance}-cloud-config-server[lab-insurance-cloud-config-server] | Servidor de configuración.                      |
-|{linkLabInsurance}-eureka[lab-insurance-eureka]                           | Eureka.                                         |
+|{linkLabInsurance}-cloud-config-server[lab-insurance-cloud-config-server] | Servidor de configuración.                      | https://hub.docker.com/r/labcabrera/lab-insurance-cloud-config-server/[lab-insurance-cloud-config-server]
+|{linkLabInsurance}-eureka[lab-insurance-eureka]                           | Eureka.                                         | https://hub.docker.com/r/labcabrera/lab-insurance-eureka/[labcabrera/lab-insurance-eureka]
 |{linkLabInsurance}-sso[lab-insurance-sso]                                 | Servidor de autenticación.                      |
 |===
 
