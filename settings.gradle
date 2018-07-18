@@ -6,8 +6,6 @@ include ":insurance-engine-core"
 
 include ":insurance-agreement-core"
 include ":insurance-agreement-gateway"
-include ":insurance-asset-core"
-include ":insurance-asset-gateway"
 
 include ":insurance-broker-core"
 include ":insurance-contract-common-gateway"
@@ -20,8 +18,6 @@ include ":insurance-legal-entity-core"
 include ":insurance-legal-entity-gateway"
 include ":insurance-order-core"
 include ":insurance-order-gateway"
-include ":insurance-portfolio-core"
-include ":insurance-portfolio-gateway"
 include ":insurance-stop-loss-core"
 
 include ":insurance-zuul"
